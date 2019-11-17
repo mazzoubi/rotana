@@ -478,10 +478,6 @@ public class Emppage extends AppCompatActivity
 
                                         }
                                     });
-
-
-
-
                                 }
                             }
                         }).setNegativeButton("كاش", new DialogInterface.OnClickListener() {
