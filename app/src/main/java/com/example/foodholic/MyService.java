@@ -54,7 +54,8 @@ public class MyService extends Service {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     str = "";
                                     str = document.get("msg").toString(); }
-                                showNotification();
+                                if(!str.equals(""))
+                                    showNotification();
                             }catch (Exception e){}
                         }
                     } });

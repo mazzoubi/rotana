@@ -34,9 +34,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -85,7 +87,8 @@ public class Tabel_res_new extends AppCompatActivity {
             holder.os_text =(TextView) rowView.findViewById(R.id.os_texts);
             holder.os_text.setText(result[position]);
 
-            if(tabels.get(position).equals("1996")){
+            if(!tabels.get(position).contains("Table Number : ") && checkDateRes(tabels.get(position))){
+
                 if (shared.getInt("pos", 0) == position)
                     rowView.setBackgroundColor(getResources().getColor(R.color.colorPick));
                 else
@@ -202,6 +205,7 @@ public class Tabel_res_new extends AppCompatActivity {
     FirebaseFirestore db;
     SharedPreferences shared, shared2;
 
+     String da, ta;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -216,8 +220,9 @@ public class Tabel_res_new extends AppCompatActivity {
         shared = getSharedPreferences("order", MODE_PRIVATE);
         shared2 = getSharedPreferences("color", MODE_PRIVATE);
 
+        getDateTime();
+
         db = FirebaseFirestore.getInstance();
-        CheckTabels();
 
         tabels.add("Table Number : 1"); tabels.add("Table Number : 2"); tabels.add("Table Number : 3");
         tabels.add("Table Number : 4"); tabels.add("Table Number : 5"); tabels.add("Table Number : 6");
@@ -226,6 +231,66 @@ public class Tabel_res_new extends AppCompatActivity {
         tabels.add("Table Number : 13"); tabels.add("Table Number : 14"); tabels.add("Table Number : 15");
 
         gridview = (GridView) findViewById(R.id.customgrid); }
+
+        public boolean checkDateRes(String str) {
+
+        String str2 = str.substring(0, str.indexOf("@"));
+        str = str.substring(str.indexOf("@")+1);
+
+        String form = "dd/MM/yy HH";
+        SimpleDateFormat sdf = new SimpleDateFormat(form, Locale.US);
+
+            Date d1 = null;
+            Date d2 = null;
+            try {
+                d1 = sdf.parse(str+" "+str2);
+                d2 = sdf.parse(da+" "+ta); }
+            catch (ParseException e) {}
+
+            if(d2.compareTo(d1) == 0)
+                return true;
+            else
+                return false; }
+
+    public void getDateTime() {
+
+        final Calendar cal = Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener lsnr = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                cal.set(Calendar.YEAR, year);
+                cal.set(Calendar.MONTH, monthOfYear);
+                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                String myFormat = "dd/MM/yy"; //In which you need put here
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+                da = sdf.format(cal.getTime()); CheckTabels(); } };
+
+        new DatePickerDialog(Tabel_res_new.this, lsnr, cal
+                .get(Calendar.YEAR), cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)).show();
+
+        final Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+
+        TimePickerDialog lsn = new TimePickerDialog(Tabel_res_new.this,
+                new TimePickerDialog.OnTimeSetListener() {
+
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+                        ta = hourOfDay + ":" + minute;
+
+                    }
+                }, hour, minute, false);
+        lsn.show();
+
+
+
+    }
 
     private void ReserveClick(final int p, final View vie, String name, String mobile, String people,
                               String date, String time){
@@ -269,7 +334,7 @@ public class Tabel_res_new extends AppCompatActivity {
                     if (task.isSuccessful()) {
 
                         for (QueryDocumentSnapshot document : task.getResult())
-                            tabels.set(Integer.parseInt(document.getId())-1, "1996");
+                            tabels.set(Integer.parseInt(document.getId())-1, document.get("time").toString()+"@"+document.get("date"));
 
                         gridview.setAdapter(new CustomAdapter(Tabel_res_new.this, sites)); }
 
