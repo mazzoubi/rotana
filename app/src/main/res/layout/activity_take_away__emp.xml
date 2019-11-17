@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TakeAway">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        app:title="Go Back"
+        android:id="@+id/tool"
+        app:titleTextColor="@color/colorPrimaryDark"
+        android:layout_height="40dp"/>
+
+    <Button
+        android:layout_width="150dp"
+        android:id="@+id/btn"
+        android:text="عرض الكل"
+        android:layout_below="@+id/tool"
+        android:layout_height="50dp"/>
+
+    <android.support.v7.widget.AppCompatSpinner
+        android:layout_width="wrap_content"
+        android:entries="@array/custom"
+        android:id="@+id/type"
+        android:spinnerMode="dropdown"
+        android:layout_margin="5dp"
+        android:layout_alignParentRight="true"
+        android:textSize="24sp"
+        android:layout_below="@+id/tool"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
+        android:layout_height="wrap_content" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:id="@+id/list"
+        android:layout_below="@+id/btn"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>

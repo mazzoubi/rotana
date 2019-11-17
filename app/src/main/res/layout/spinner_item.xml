@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:background="@drawable/fui_idp_button_background_anonymous"
+    android:textColor="#ffffff"
+    android:text="زنجر"
+    android:textSize="18sp"
+    android:textAlignment="gravity"
+    android:gravity="center"
+    />

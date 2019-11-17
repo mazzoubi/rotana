@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".About">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        app:title="Go Back"
+        android:id="@+id/tool"
+        app:titleTextColor="@color/colorPrimaryDark"
+        android:layout_height="40dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_above="@+id/call"
+        android:layout_below="@+id/tool"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:text="Delivery Form To"
+            android:id="@+id/title"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/colorPrimary"
+            android:layout_height="wrap_content" />
+
+    </ScrollView>
+
+    <Button
+        android:layout_width="150dp"
+        android:text="Call Us"
+        android:id="@+id/call"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="15dp"
+        android:textSize="24dp"
+        android:background="@drawable/shape"
+        android:backgroundTint="@color/colorPrimary"
+        android:textStyle="bold"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:padding="15dp"
+        android:layout_marginBottom="15dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_height="100dp" />
+
+    <Button
+        android:layout_width="150dp"
+        android:text="Email Us"
+        android:gravity="center"
+        android:id="@+id/email"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="15dp"
+        android:textSize="24dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/shape"
+        android:backgroundTint="@color/colorPrimary"
+        android:textStyle="bold"
+        android:layout_marginTop="15dp"
+        android:layout_alignParentBottom="true"
+        android:padding="15dp"
+        android:layout_marginBottom="15dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_height="100dp" />
+
+</RelativeLayout>

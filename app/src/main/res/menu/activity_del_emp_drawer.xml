@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_menu"
+            android:icon="@mipmap/ic_menu"
+            android:title="Food Menu" />
+        <item
+            android:id="@+id/nav_table"
+            android:icon="@mipmap/ic_table"
+            android:title="Table Reservation" />
+        <item
+            android:id="@+id/nav_online"
+            android:icon="@mipmap/ic_online"
+            android:title="Online Reservation" />
+        <item
+            android:id="@+id/nav_take"
+            android:icon="@mipmap/ic_take"
+            android:title="Take Away" />
+        <item
+            android:id="@+id/nav_delivery"
+            android:icon="@mipmap/ic_delivery"
+            android:title="Delivery" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_pay"
+
+                android:icon="@android:drawable/ic_input_add"
+                android:title="payments" />
+            <item
+                android:id="@+id/nav_contact"
+                android:icon="@mipmap/ic_contact"
+                android:title="Contact Us" />
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@mipmap/ic_about"
+                android:title="About The Application" />
+        </menu>
+    </item>
+
+</menu>

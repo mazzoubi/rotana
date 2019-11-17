@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/shape3"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="مجموع الفاتورة"
+            android:id="@+id/title"
+            android:layout_centerHorizontal="true"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/colorPrimary"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="الباقي : "
+            android:id="@+id/change"
+            android:layout_centerHorizontal="true"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            android:layout_below="@+id/pay"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/colorPrimary"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:hint="المدفوع "
+            android:id="@+id/pay"
+            android:textColorHint="@color/colorPrimary"
+            android:background="@drawable/shape2"
+            android:singleLine="true"
+            android:layout_below="@+id/title"
+            android:layout_centerHorizontal="true"
+            android:textSize="24dp"
+            android:inputType="number"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:padding="10dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/colorPrimary"
+            android:layout_height="50dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:text="دفع"
+            android:id="@+id/deliv"
+            android:layout_marginLeft="15dp"
+            android:textSize="24dp"
+            android:background="@drawable/shape"
+            android:backgroundTint="@color/colorPrimary"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_below="@+id/change"
+            android:padding="15dp"
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</ScrollView>

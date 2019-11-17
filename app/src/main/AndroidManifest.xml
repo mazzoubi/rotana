@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.foodholic">
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/lol"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/lol"
+        android:supportsRtl="false"
+        android:theme="@style/AppTheme"
+        tools:replace="android:supportsRtl">
+        <activity android:name=".Zreport"></activity>
+        <activity android:name=".Main2Activity" />
+        <activity android:name=".cashAddItem" />
+        <activity android:name=".Tabel_Res_Emp" />
+        <activity android:name=".casher" />
+        <activity android:name=".employeeSalaryDiscount" />
+        <activity android:name=".employeeLoans" />
+        <activity android:name=".statisticsByItem" />
+        <activity android:name=".statisticsByEmp" />
+        <activity android:name=".statisticsByDay" />
+        <activity android:name=".statisticsMainActivity" />
+        <activity android:name=".Add_Emp" />
+        <activity android:name=".statistics_chart" />
+        <activity android:name=".empPermission" />
+        <activity
+            android:name=".Tabel_res_new"
+            android:parentActivityName=".Main2Activity" />
+        <activity android:name=".aa2" />
+        <activity android:name=".aa1" />
+        <activity android:name=".warehouse" />
+        <activity android:name=".onWork" />
+        <activity android:name=".exitInformation" />
+        <activity android:name=".exit" />
+        <activity android:name=".adminEmpAccess" />
+        <activity android:name=".foodType" />
+        <activity android:name=".UserRegister" />
+        <activity android:name=".UserLogin" />
+        <activity android:name=".Profile" />
+        <activity android:name=".Payment" />
+        <activity android:name=".employeeAdd" />
+        <activity android:name=".employeeCreatInformation" />
+        <activity android:name=".statistics" />
+        <activity
+            android:name=".Online"
+            android:parentActivityName=".Emppage" />
+        <activity
+            android:name=".Delivery_Emp"
+            android:parentActivityName=".Emppage" />
+        <activity
+            android:name=".TakeAway_Emp"
+            android:parentActivityName=".Emppage" />
+        <activity
+            android:name=".Emppage"
+            android:label="@string/title_activity_del_emp"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TakeAway"
+            android:parentActivityName=".Guest" />
+        <activity
+            android:name=".About"
+            android:parentActivityName=".Guest" />
+        <activity
+            android:name=".Contact"
+            android:parentActivityName=".Guest" />
+        <activity
+            android:name=".Loc"
+            android:parentActivityName=".Guest" />
+        <activity
+            android:name=".Delivery"
+            android:parentActivityName=".Guest" />
+        <activity
+            android:name=".Tabel_Res"
+            android:parentActivityName=".Guest" />
+        <activity
+            android:name=".Guest"
+            android:parentActivityName=".Guest" />
+        <activity android:name=".Drive" />
+        <activity android:name=".Adminpage" />
+        <activity android:name=".Login" />
+        <activity
+            android:name=".SplashAct"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".splashscreen" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".HomeAct" />
+
+        <service android:name=".MyService" />
+    </application>
+
+</manifest>

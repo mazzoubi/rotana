@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Emppage">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="صنف"
+        android:textSize="18dp"
+        android:layout_alignParentRight="true"
+        android:id="@+id/tit"
+        android:layout_marginRight="15dp"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="5dp"
+        android:textColor="#000000"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="مادة"
+        android:layout_centerHorizontal="true"
+        android:textSize="18dp"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="5dp"
+        android:textColor="#000000"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="فاتورة"
+        android:layout_alignParentLeft="true"
+        android:textSize="18dp"
+        android:layout_below="@id/toolbar"
+        android:textColor="#000000"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="مجموع الفاتورة : "
+        android:layout_centerHorizontal="true"
+        android:textSize="24sp"
+        android:padding="4dp"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/tot"
+        android:background="@color/colorPrimary"
+        android:layout_above="@+id/bt"
+        android:textColor="#ffffff"
+        android:layout_height="wrap_content" />
+
+    <include layout="@layout/activity_casher"
+        android:layout_height="match_parent"
+        android:id="@+id/lalala"
+        android:layout_width="match_parent"
+        android:layout_above="@+id/tot"
+        android:layout_below="@+id/tit"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginBottom="15dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/bt"
+        android:layout_alignParentBottom="true"
+        android:weightSum="8"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/shape"
+            android:layout_margin="2dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn9"
+            android:text="إغلاق كاش"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/shape"
+            android:layout_margin="2dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn7"
+            android:text="مصروفات"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:background="@drawable/shape"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn6"
+            android:text="إضافة صنف"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:id="@+id/btn4"
+            android:text="الصالة"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/shape"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:id="@+id/btn3"
+            android:text="طلبات توصيل"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/shape"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_margin="2dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn2"
+            android:text="طلبات سفري تطبيق"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:background="@drawable/shape"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
+            android:id="@+id/btn5"
+            android:text="دفع"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_margin="2dp"
+            android:background="@drawable/shape"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn"
+            android:text="كاش"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

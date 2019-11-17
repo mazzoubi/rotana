@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu"
+        android:orderInCategory="100"
+        android:title="قائمة الطعام ؟"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/table"
+        android:orderInCategory="100"
+        android:title="حجز طاولة ؟"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/take"
+        android:orderInCategory="100"
+        android:title="طلب سفري ؟"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/delivery"
+        android:orderInCategory="100"
+        android:title="طلب توصيل ؟"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/location"
+        android:orderInCategory="100"
+        android:title="موقعنا ؟"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/contact"
+        android:orderInCategory="100"
+        android:title="تواصل معنا ؟"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/about"
+        android:orderInCategory="100"
+        android:title="عن البرنامج ؟"
+        app:showAsAction="never" />
+</menu>

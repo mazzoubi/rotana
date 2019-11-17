@@ -1,0 +1,118 @@
+<resources>
+    <string name="app_name">FoodHolic</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+    <string name="title_activity_guest">Guest</string>
+    <string name="title_activity_del_emp">DelEmp</string>
+
+
+    <string-array name="employee_type">
+        <item>employee type</item>
+        <item>Manager</item>
+        <item>Employee</item>
+        <item>Driver</item>
+    </string-array>
+
+    <string-array name="custom">
+        <item>أختيار</item>
+        <item>ايهاب</item>
+        <item>محمود</item>
+        <item>خالد</item>
+        <item>هيفاء</item>
+    </string-array>
+
+    <string-array name="jop_type">
+        <item>jop type</item>
+        <item>Manager</item>
+        <item>Casher</item>
+        <item>Chef</item>
+        <item>Chef assistant</item>
+        <item>Driver</item>
+        <item>Floor worker</item>
+        <item>Worker</item>
+
+
+    </string-array>
+
+    <string-array name="hours">
+        <item>select</item>
+        <item>1 hour</item>
+        <item>2 hours</item>
+        <item>3 hours</item>
+        <item>day off</item>
+    </string-array>
+
+    <string-array name="year">
+        <item>choose year</item>
+        <item>2019</item>
+        <item>2020</item>
+        <item>2021</item>
+        <item>2022</item>
+        <item>2023</item>
+        <item>2024</item>
+        <item>2025</item>
+        <item>2026</item>
+        <item>2027</item>
+        <item>2028</item>
+        <item>2029</item>
+        <item>2030</item>
+        <item>2031</item>
+        <item>2032</item>
+        <item>2033</item>
+        <item>2034</item>
+        <item>2035</item>
+        <item>2036</item>
+        <item>2037</item>
+        <item>2038</item>
+        <item>2039</item>
+        <item>2040</item>
+        <item>2041</item>
+        <item>2042</item>
+        <item>2043</item>
+        <item>2044</item>
+        <item>2045</item>
+        <item>2046</item>
+        <item>2047</item>
+        <item>2048</item>
+        <item>2049</item>
+        <item>2050</item>
+        <item>2051</item>
+        <item>2052</item>
+        <item>2053</item>
+        <item>2054</item>
+        <item>2055</item>
+        <item>2056</item>
+        <item>2057</item>
+        <item>2058</item>
+        <item>2059</item>
+        <item>2060</item>
+    </string-array>
+
+    <string-array name="month">
+        <item>choose month</item>
+        <item>01</item>
+        <item>02</item>
+        <item>03</item>
+        <item>04</item>
+        <item>05</item>
+        <item>06</item>
+        <item>07</item>
+        <item>08</item>
+        <item>09</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+
+</resources>

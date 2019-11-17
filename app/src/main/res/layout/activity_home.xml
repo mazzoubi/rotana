@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context=".HomeAct"
+    android:backgroundTint="#ffffff">
+
+    <ImageView
+        android:id="@+id/ivIlls"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/dakhel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+
+        android:id="@+id/ivItemOne"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivIlls">
+
+        <Button
+            android:id="@+id/guest1"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:background="@drawable/shape"
+            android:text="Guest"
+            android:fontFamily="serif"
+            android:backgroundTint="@color/colorPrimary"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:textColor="#ffffff" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ivItemTwo"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivItemOne">
+
+        <Button
+            android:id="@+id/login1"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:background="@drawable/shape"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="Login"
+            android:fontFamily="serif"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:textColor="#ffffff" />
+
+    </LinearLayout>
+
+
+
+</android.support.constraint.ConstraintLayout>
