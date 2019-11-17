@@ -1,6 +1,7 @@
 package com.example.foodholic;
 
 import android.Manifest;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,20 +34,26 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -200,6 +207,34 @@ public class Main2Activity extends AppCompatActivity
                             dialog.show();
                             dialog.getWindow().setAttributes(lp);
 
+                            final TextView time = dialog.findViewById(R.id.time);
+                            time.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    final Calendar c = Calendar.getInstance();
+                                    int hour = c.get(Calendar.HOUR_OF_DAY);
+                                    int minute = c.get(Calendar.MINUTE);
+
+                                    TimePickerDialog timePickerDialog = new TimePickerDialog(Main2Activity.this,
+                                            new TimePickerDialog.OnTimeSetListener() {
+
+                                                @Override
+                                                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+                                                    time.setText(hourOfDay + ":" + minute);
+                                                }
+                                            }, hour, minute, false);
+                                    timePickerDialog.show();
+
+                                }
+                            });
+
+                            EditText a = dialog.findViewById(R.id.name);
+                            EditText b = dialog.findViewById(R.id.mobile);
+                            a.setText(getSharedPreferences("stay", MODE_PRIVATE).getString("n", ""));
+                            b.setText(getSharedPreferences("stay", MODE_PRIVATE).getString("m", ""));
+
                             Button deliv = dialog.findViewById(R.id.deliv);
                             deliv.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -210,7 +245,7 @@ public class Main2Activity extends AppCompatActivity
                                     EditText c = dialog.findViewById(R.id.desc);
 
                                     uploadDelivery(a.getText().toString(), b.getText().toString(), c.getText().toString(), lat, lng);
-                                    dialogInterface.dismiss();
+                                    dialog.dismiss();
                                 }
                             });
 
@@ -224,11 +259,11 @@ public class Main2Activity extends AppCompatActivity
                                     EditText c = dialog.findViewById(R.id.desc);
 
                                     uploadTakeAway(a.getText().toString(), b.getText().toString(), c.getText().toString());
-                                    dialogInterface.dismiss();
+                                    dialog.dismiss();
                                 }
                             });
 
-                            Toast.makeText(Main2Activity.this, "تم الطلب", Toast.LENGTH_SHORT).show();
+
                         }
                     }).setNegativeButton("الغاء الطلب", new DialogInterface.OnClickListener() {
                         @Override

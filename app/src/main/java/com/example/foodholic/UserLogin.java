@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class UserLogin extends AppCompatActivity {
 
@@ -25,6 +27,8 @@ public class UserLogin extends AppCompatActivity {
 
     SharedPreferences shared;
     SharedPreferences shared2;
+
+    String n, m;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,17 +66,43 @@ public class UserLogin extends AppCompatActivity {
                                     if(task.isSuccessful()){
 
                                         if(ch.isChecked()){
-                                            SharedPreferences.Editor editor = shared2.edit();
-                                            editor.putBoolean("log?", true);
-                                            editor.putBoolean("in?", true);
-                                            editor.apply();
+
+                                            FirebaseAuth auth = FirebaseAuth.getInstance();
+                                            String uid="";
+                                            try{ uid = auth.getCurrentUser().getUid(); }
+                                            catch(Exception ex){}
+
+                                            if(!uid.equals("")){
+
+                                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                                db.collection("Res_1_Customer_Acc").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                        m = task.getResult().get("mobile").toString();
+                                                        n = task.getResult().get("name").toString();
+                                                    }
+                                                }).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                        SharedPreferences.Editor editor = shared2.edit();
+                                                        editor.putBoolean("log?", true);
+                                                        editor.putString("n", n);
+                                                        editor.putString("m", m);
+                                                        editor.putBoolean("in?", true);
+                                                        editor.apply();
+
+                                                        Toast.makeText(UserLogin.this, "Account created, please login !", Toast.LENGTH_SHORT).show();
+
+                                                        Intent intent = new Intent(UserLogin.this, Profile.class);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    }
+                                                }); }
+
+
                                         }
 
-                                        Toast.makeText(UserLogin.this, "Account created, please login !", Toast.LENGTH_SHORT).show();
 
-                                        Intent intent = new Intent(UserLogin.this, Profile.class);
-                                        startActivity(intent);
-                                        finish();
 
                                     }
                                 }
@@ -86,4 +116,5 @@ public class UserLogin extends AppCompatActivity {
         });
 
     }
+
 }

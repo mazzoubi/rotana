@@ -137,7 +137,7 @@
             android:layout_margin="2dp"
             android:layout_height="wrap_content"
             android:id="@+id/btn2"
-            android:text="طلبات سفري تطبيق"/>
+            android:text="طلبات سفري"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_weight="1"

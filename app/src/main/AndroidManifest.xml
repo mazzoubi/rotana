@@ -45,7 +45,8 @@
         <activity android:name=".foodType" />
         <activity android:name=".UserRegister" />
         <activity android:name=".UserLogin" />
-        <activity android:name=".Profile" />
+        <activity android:name=".Profile"
+            android:parentActivityName=".Main2Activity"/>
         <activity android:name=".Payment" />
         <activity android:name=".employeeAdd" />
         <activity android:name=".employeeCreatInformation" />

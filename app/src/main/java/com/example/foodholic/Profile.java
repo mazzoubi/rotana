@@ -92,17 +92,14 @@ public class Profile extends AppCompatActivity {
                 FirebaseAuth auth = FirebaseAuth.getInstance();
                 auth.signOut();
 
+                onBackPressed();
+
             }
         });
 
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(Profile.this, Guest.class);
-        startActivity(intent);
-        finish();
-    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -195,9 +192,7 @@ public class Profile extends AppCompatActivity {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String uid="";
-        try{
-            uid = auth.getCurrentUser().getUid();
-        }
+        try{ uid = auth.getCurrentUser().getUid(); }
         catch(Exception ex){}
 
         if(!uid.equals("")){
@@ -217,9 +212,7 @@ public class Profile extends AppCompatActivity {
                     points.setText("نقاط : "+task.getResult().get("points").toString());
                     Glide.with(Profile.this).load(shared3.getString("path", "")).into(im);
                 }
-            });
-
-        }
+            }); }
 
 
 
