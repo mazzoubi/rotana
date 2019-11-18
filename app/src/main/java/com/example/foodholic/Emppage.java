@@ -483,7 +483,127 @@ public class Emppage extends AppCompatActivity
                         }).setNegativeButton("كاش", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(Emppage.this, "cash", Toast.LENGTH_SHORT).show();
+                        if (saleList.isEmpty())
+                            startActivity(new Intent(Emppage.this, Delivery_Emp.class));
+                        else{
+                            final AlertDialog.Builder builder = new AlertDialog.Builder(Emppage.this);
+                            LayoutInflater inflater = Emppage.this.getLayoutInflater();
+                            builder.setView(inflater.inflate(R.layout.addcustom2, null));
+                            final AlertDialog dialog = builder.create();
+                            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                            lp.copyFrom(dialog.getWindow().getAttributes());
+                            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                            dialog.show();
+                            dialog.getWindow().setAttributes(lp);
+
+                            getDriver();
+
+                            final Spinner sp = dialog.findViewById(R.id.type);
+
+                            adapterSpin = new ArrayAdapter<String>
+                                    (Emppage.this, android.R.layout.simple_spinner_item, dname);
+                            sp.setAdapter(adapterSpin);
+
+                            final EditText name2 = dialog.findViewById(R.id.name);
+                            final EditText mobile2 = dialog.findViewById(R.id.mobile);
+                            final EditText desc2 = dialog.findViewById(R.id.desc);
+
+                            Button d = dialog.findViewById(R.id.deliv);
+                            d.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    final EditText name, mobile, desc;
+                                    name = dialog.findViewById(R.id.name);
+                                    mobile = dialog.findViewById(R.id.mobile);
+                                    desc = dialog.findViewById(R.id.desc);
+
+                                    if(!cname.contains(name.getText().toString())) {
+                                        if (HomeAct.lang==1){
+                                            new AlertDialog.Builder(Emppage.this)
+                                                    .setMessage("هل ترغب بتسجيل العميل ؟")
+                                                    .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                                            AddClient(name.getText().toString(),
+                                                                    mobile.getText().toString(),
+                                                                    desc.getText().toString());
+
+                                                            dialog.dismiss();
+                                                        }
+                                                    }).setNegativeButton("لا", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    dialog.dismiss();
+                                                }
+                                            }).show();
+
+                                            Map<String, Object> order = new HashMap<>();
+                                            order.put("address", desc.getText().toString());
+                                            order.put("mobile", mobile.getText().toString());
+                                            order.put("name", name.getText().toString());
+                                            order.put("sum", sum+"");
+
+                                            db.collection("Res_1_Delivery")
+                                                    .document(sp.getSelectedItem().toString())
+                                                    .collection("1")
+                                                    .document(name.getText().toString()).set(order)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if(task.isSuccessful())
+                                                                Toast.makeText(Emppage.this, "تم اضافة طلبك", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+
+                                        }
+                                        else {
+                                            new AlertDialog.Builder(Emppage.this)
+                                                    .setMessage("Do you want to register the client?")
+                                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                                            AddClient(name.getText().toString(),
+                                                                    mobile.getText().toString(),
+                                                                    desc.getText().toString());
+
+                                                            dialog.dismiss();
+                                                        }
+                                                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    dialog.dismiss();
+                                                }
+                                            }).show();
+
+                                            Map<String, Object> order = new HashMap<>();
+                                            order.put("address", desc.getText().toString());
+                                            order.put("mobile", mobile.getText().toString());
+                                            order.put("name", name.getText().toString());
+                                            order.put("sum", sum+"");
+
+                                            db.collection("Res_1_Delivery")
+                                                    .document(sp.getSelectedItem().toString())
+                                                    .collection("1")
+                                                    .document(name.getText().toString()).set(order)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if(task.isSuccessful())
+                                                                Toast.makeText(Emppage.this, "Your request is added", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+
+                                        }
+                                    }
+
+
+
+                                }
+                            });
+                        }
                     }
                 }).show();
 
@@ -628,8 +748,128 @@ public class Emppage extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        Toast.makeText(Emppage.this, "cash", Toast.LENGTH_SHORT).show();
+                        if (saleList.isEmpty()){
+                            Intent ax = new Intent(Emppage.this, TakeAway_Emp.class);
+                            ax.putExtra("empemail",getIntent().getStringExtra("empemail"));
+                            startActivity(ax);
+                        }
 
+                        else{
+                            final AlertDialog.Builder builder = new AlertDialog.Builder(Emppage.this);
+                            LayoutInflater inflater = Emppage.this.getLayoutInflater();
+                            builder.setView(inflater.inflate(R.layout.addcustom, null));
+                            final AlertDialog dialog = builder.create();
+                            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                            lp.copyFrom(dialog.getWindow().getAttributes());
+                            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                            dialog.show();
+                            dialog.getWindow().setAttributes(lp);
+
+                            getClient();
+
+                            Spinner sp = dialog.findViewById(R.id.type);
+                            adapterSpin = new ArrayAdapter<String>
+                                    (Emppage.this, android.R.layout.simple_spinner_item, cname);
+                            sp.setAdapter(adapterSpin);
+
+                            final EditText name2 = dialog.findViewById(R.id.name);
+                            final EditText mobile2 = dialog.findViewById(R.id.mobile);
+                            final EditText desc2 = dialog.findViewById(R.id.desc);
+                            sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    name2.setText(cname.get(position));
+                                    mobile2.setText(cmobile.get(position));
+                                    desc2.setText(caddress.get(position));
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
+                            Button d = dialog.findViewById(R.id.deliv);
+                            d.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    final EditText name, mobile, desc;
+                                    name = dialog.findViewById(R.id.name);
+                                    mobile = dialog.findViewById(R.id.mobile);
+                                    desc = dialog.findViewById(R.id.desc);
+
+                                    if (HomeAct.lang==1){
+
+                                        new AlertDialog.Builder(Emppage.this)
+                                                .setMessage("هل ترغب بتسجيل العميل ؟")
+                                                .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        AddClient(name.getText().toString(),
+                                                                mobile.getText().toString(),
+                                                                desc.getText().toString());
+                                                        recreate();
+                                                        dialog.dismiss();
+                                                    }
+                                                }).setNegativeButton("لا", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                recreate();
+                                                dialog.dismiss();
+                                            }
+                                        }).show();
+                                    }
+                                    else {
+
+                                        new AlertDialog.Builder(Emppage.this)
+                                                .setMessage("Do you want to register the client?")
+                                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        AddClient(name.getText().toString(),
+                                                                mobile.getText().toString(),
+                                                                desc.getText().toString());
+                                                        recreate();
+                                                        dialog.dismiss();
+                                                    }
+                                                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                recreate();
+                                                dialog.dismiss();
+                                            }
+                                        }).show();
+                                    }
+
+                                    String temp = "";
+                                    double s = 0;
+
+                                    for(int i=0; i<saleList.size(); i++){
+                                        temp+=saleList.get(i).subItemName+" = "+saleList.get(i).count+" : "+saleList.get(i).sumPrice+" , ";
+                                        s+=saleList.get(i).sumPrice;
+
+                                        Map<String, Object> order = new HashMap<>();
+                                        order.put("user_name", name.getText().toString());
+                                        order.put("user_mobile", mobile.getText().toString());
+                                        order.put("user_loc", desc.getText().toString());
+                                        order.put("item_list", temp);
+                                        order.put("item_sum_price", s+"");
+
+                                        db.collection("Res_1_TakeAway").document(new Date().toString()).set(order)
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if(task.isSuccessful())
+                                                            Toast.makeText(Emppage.this, "Your request is added", Toast.LENGTH_SHORT).show();
+
+                                                    }
+                                                });
+                                    }
+                                }
+                            });
+                        }
                     }
                 }).show();
 
