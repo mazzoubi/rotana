@@ -52,6 +52,14 @@ public class Adminpage extends AppCompatActivity {
         textView=findViewById(R.id.textView6);
         zreport=findViewById(R.id.warehouse2);
         openClose=findViewById(R.id.warehouse3);
+
+        openClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent n=new Intent(getApplicationContext(),statisticsMainActivity.class);
+                startActivity(n);
+            }
+        });
         zreport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
