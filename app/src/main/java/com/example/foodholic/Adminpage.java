@@ -29,7 +29,7 @@ public class Adminpage extends AppCompatActivity {
     public static ArrayList<classSales> cSale=new ArrayList<>();
     public static ArrayList<classPayment> cPyment=new ArrayList<>();
 
-    Button emp,stati,addPayment,warehouse ,zreport;
+    Button emp,stati,addPayment,warehouse ,zreport,openClose;
     boolean a=false,b=false;
     ArrayAdapter<String> adapter;
 
@@ -51,7 +51,7 @@ public class Adminpage extends AppCompatActivity {
         warehouse=findViewById(R.id.warehouse);
         textView=findViewById(R.id.textView6);
         zreport=findViewById(R.id.warehouse2);
-
+        openClose=findViewById(R.id.warehouse3);
         zreport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,6 +66,7 @@ public class Adminpage extends AppCompatActivity {
             stati.setText("التقارير");
             addPayment.setText("اضافة التكاليف");
             warehouse.setText("المستودع");
+            openClose.setText("فتح واغلاق الكاش");
             textView.setText("صفحة المدير");
         }
 

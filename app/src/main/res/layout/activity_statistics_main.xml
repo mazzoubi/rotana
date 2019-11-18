@@ -7,9 +7,38 @@
     tools:context=".statisticsMainActivity">
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/a2spinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="-4dp"
-        tools:layout_editor_absoluteY="67dp" />
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="116dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/a2list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/a2spinner" />
+
+    <Button
+        android:id="@+id/a2print"
+        android:layout_width="74dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="28dp"
+        android:background="@drawable/printerlogo"
+        app:layout_constraintBottom_toTopOf="@+id/a2spinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.514" />
 </android.support.constraint.ConstraintLayout>

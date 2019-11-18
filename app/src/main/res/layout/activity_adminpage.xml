@@ -118,6 +118,21 @@
                 android:layout_marginTop="16dp"/>
 
             <Button
+                android:id="@+id/warehouse3"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/people"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/shape"
+                android:backgroundTint="@color/colorPrimary"
+                android:fontFamily="serif"
+                android:text="open_close cash"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <Button
                 android:id="@+id/warehouse2"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -131,6 +146,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18dp"
                 android:textStyle="bold" />
+
         </LinearLayout>
     </ScrollView>
 
