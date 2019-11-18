@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -23,12 +25,15 @@ public class statisticsByItem extends AppCompatActivity {
 
     TextView result ;
     Spinner month,year,item,subitem;
+    Button button;
     String m="",y="",it="",s="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics_by_item);
+        item=findViewById(R.id.a1itemspinner);
         init();
+
 
         month.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -67,12 +72,32 @@ public class statisticsByItem extends AppCompatActivity {
         item.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                ArrayList<String> ss =new ArrayList<>();
+                ss.add("choose sub item");
+                ArrayAdapter<String>adapter;
                 if (i==0){
-
+                    subitem.setEnabled(false);
+                    year.setEnabled(false);
+                    month.setEnabled(false);
+                    result.setText("\n\n\n\n\n\t\t\t\t\tplease choose item");
                 }
                 else {
                     it=adapterView.getItemAtPosition(i).toString();
+
+
+                    for(classSubItem d: listSubItem){
+                        if (d.item.equals(it)){
+                            ss.add(d.subItem);
+                        }
+                    }
+                    year.setEnabled(true);
+                    month.setEnabled(true);
+                    subitem.setEnabled(true);
+                    result.setText("\n\n\n\n\n\t\t\t\t\t");
+
                 }
+                adapter=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_list_item_1,ss);
+                subitem.setAdapter(adapter);
             }
 
             @Override
@@ -98,6 +123,72 @@ public class statisticsByItem extends AppCompatActivity {
             }
         });
 
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                double cost=0,sale=0;
+                ArrayList<classSales> ss=new ArrayList<>();
+                if (m.isEmpty()&&s.isEmpty()){
+                    for (classSales d : list){
+                        if (d.item.equals(it)&&d.date.contains(y)){
+                            cost+=d.cost;
+                            sale+=d.sale;
+                            ss.add(d);
+                        }
+                    }
+                result.setText("\n\n\n\n Item : "+it+"\n" +
+                        "Sub Item : "+s+"\n\n" +
+                        "Costs = "+cost+"\n" +
+                        "profit = "+(sale-cost)+"\n" +
+                        "Total = "+sale);
+                }
+                else if (!m.isEmpty()&&s.isEmpty()){
+                    for (classSales d : list){
+                        if (d.item.equals(it)&&d.date.contains(m+"-"+y)){
+                            cost+=d.cost;
+                            sale+=d.sale;
+                            ss.add(d);
+                        }
+                    }
+                    result.setText("\n\n\n\n Item : "+it+"\n" +
+                            "Sub Item : "+s+"\n\n" +
+                            "Costs = "+cost+"\n" +
+                            "profit = "+(sale-cost)+"\n" +
+                            "Total = "+sale);
+                }
+                else if (m.isEmpty()&&!s.isEmpty()){
+                    for (classSales d : list){
+                        if (d.subItem.equals(s)&&d.date.contains(y)){
+                            cost+=d.cost;
+                            sale+=d.sale;
+                            ss.add(d);
+                        }
+                    }
+                    result.setText("\n\n\n\n Item : "+it+"\n" +
+                            "Sub Item : "+s+"\n\n" +
+                            "Costs = "+cost+"\n" +
+                            "profit = "+(sale-cost)+"\n" +
+                            "Total = "+sale);
+                }
+                else if (!m.isEmpty()&&!s.isEmpty()){
+                    for (classSales d : list){
+                        if (d.subItem.equals(s)&&d.date.contains(m+"-"+y)){
+                            cost+=d.cost;
+                            sale+=d.sale;
+                            ss.add(d);
+                        }
+                    }
+                    result.setText("\n\n\n\n Item : "+it+"\n" +
+                            "Sub Item : "+s+"\n\n" +
+                            "Costs = "+cost+"\n" +
+                            "profit = "+(sale-cost)+"\n" +
+                            "Total = "+sale);
+                }
+            }
+        });
+
+
     }
 
     void init(){
@@ -107,8 +198,8 @@ public class statisticsByItem extends AppCompatActivity {
         result=findViewById(R.id.a1textresult);
         month=findViewById(R.id.a1monthspinner);
         year=findViewById(R.id.a1yearspinner);
-        item=findViewById(R.id.a1itemspinner);
         subitem=findViewById(R.id.a1sunitemspinner);
+        button=findViewById(R.id.a1button);
     }
     void listItem(){
         FirebaseFirestore db=FirebaseFirestore.getInstance();
@@ -117,16 +208,22 @@ public class statisticsByItem extends AppCompatActivity {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
             listItem=new ArrayList<>();
+                ArrayAdapter<String> itemAdapter;
+                ArrayList<String> zz=new ArrayList<>();
+                zz.add("choose item");
             List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
                 for(DocumentSnapshot d : list){
                     listItem.add(d.toObject(classItem.class));
+                    zz.add(d.toObject(classItem.class).itemName);
                 }
+                itemAdapter=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_list_item_1,zz);
+                item.setAdapter(itemAdapter);
             }
         });
     }
     void listSubItem(){
         FirebaseFirestore db=FirebaseFirestore.getInstance();
-        db.collection("Res_1_subItems").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        db.collection("Res_1_subItem").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 listSubItem=new ArrayList<>();

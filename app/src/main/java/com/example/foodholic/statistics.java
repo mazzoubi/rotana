@@ -56,8 +56,8 @@ public class statistics extends AppCompatActivity {
         listpay=(ListView)findViewById(R.id.listpay);
         listsale=(ListView)findViewById(R.id.listsale);
 
-        String []n={"search type","search py year","search py month","search day","search py emp"};
-        String []m={"طريقة البحث","حسب السنه","حسب الشهر","حسب اليوم","حسب الموظف"};
+        String []n={"search type","search by year","search by month","search by day","search by emp","search by item"};
+        String []m={"طريقة البحث","حسب السنه","حسب الشهر","حسب اليوم","حسب الموظف","حسب العنصر"};
 
         ArrayAdapter<String> adda=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item,n);
         spinner.setAdapter(adda);
@@ -95,6 +95,10 @@ public class statistics extends AppCompatActivity {
                     case 4:
                         Intent n=new Intent(getApplicationContext(),statisticsByEmp.class);
                         startActivity(n);
+                        break;
+                    case 5:
+                        Intent r=new Intent(getApplicationContext(),statisticsByItem.class);
+                        startActivity(r);
                         break;
                 }
             }
