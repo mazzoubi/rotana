@@ -89,6 +89,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="month" />
+
+        <RadioButton
+            android:id="@+id/a2dayRadio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="day" />
     </RadioGroup>
 
 </android.support.constraint.ConstraintLayout>
