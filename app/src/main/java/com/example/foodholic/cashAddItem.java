@@ -32,7 +32,7 @@ import java.util.Map;
 public class cashAddItem extends AppCompatActivity {
 
     FirebaseFirestore db;
-    EditText itemName,itemPrice,itemPoint,newItemName,kitchen;
+    EditText itemName,itemPrice,itemCost,itemPoint,newItemName,kitchen;
     CheckBox checkBox;
     ImageView imageView;
     Button add;
@@ -55,6 +55,7 @@ public class cashAddItem extends AppCompatActivity {
         shared2 = getSharedPreferences("lang", MODE_PRIVATE);
         itemName=findViewById(R.id.itemSubItem);
         itemPrice=findViewById(R.id.itemPrice);
+        itemCost=findViewById(R.id.itemCost);
         itemPoint=findViewById(R.id.itemPoint);
         newItemName=findViewById(R.id.itemNewItem);
 
@@ -72,6 +73,7 @@ public class cashAddItem extends AppCompatActivity {
         if (HomeAct.lang==1){
             itemName.setText("اسم الماده");
             itemPrice.setText("سعر الماده");
+            itemCost.setText("سعر التكلفه");
             itemPoint.setText("النقاط");
             newItemName.setText("اسم التصنيف");
             checkBox.setText("تصنيف جديد؟");
@@ -156,12 +158,20 @@ public class cashAddItem extends AppCompatActivity {
                    }
                 }
                 else if (itemPrice.getText().toString().isEmpty()){
-                   if (HomeAct.lang==1){
-                       Toast.makeText(getApplicationContext(),"الرجاء ادخال سعر العنصر",Toast.LENGTH_LONG).show();
-                   }
-                   else {
-                       Toast.makeText(getApplicationContext(),"please enter item price",Toast.LENGTH_LONG).show();
-                   }
+                    if (HomeAct.lang==1){
+                        Toast.makeText(getApplicationContext(),"الرجاء ادخال سعر العنصر",Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(),"please enter item price",Toast.LENGTH_LONG).show();
+                    }
+                }
+                else if (itemCost.getText().toString().isEmpty()){
+                    if (HomeAct.lang==1){
+                        Toast.makeText(getApplicationContext(),"الرجاء ادخال سعر النكلفه للعنصر",Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(),"please enter item cost",Toast.LENGTH_LONG).show();
+                    }
                 }
                 else if (itemPoint.getText().toString().isEmpty()){
                     if (HomeAct.lang==1){
@@ -231,6 +241,7 @@ public class cashAddItem extends AppCompatActivity {
                                              reservation.put("point", itemPoint.getText().toString());
                                              reservation.put("kitchen", kitchen.getText().toString());
                                              reservation.put("price",  Double.parseDouble(itemPrice.getText().toString()));
+                                             reservation.put("cost",  Double.parseDouble(itemCost.getText().toString()));
                                              reservation.put("itemId", id);
 
 

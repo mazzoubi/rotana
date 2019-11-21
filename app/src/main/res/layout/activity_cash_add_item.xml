@@ -40,6 +40,15 @@
                 android:inputType="textPersonName" />
 
             <EditText
+                android:id="@+id/itemCost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:hint="Item cost"
+                android:inputType="textPersonName" />
+
+            <EditText
                 android:id="@+id/itemPoint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
