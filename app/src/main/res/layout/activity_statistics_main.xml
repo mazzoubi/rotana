@@ -23,7 +23,8 @@
         <Spinner
             android:id="@+id/a2spinner"
             android:layout_width="130dp"
-            android:layout_height="35dp" />
+            android:layout_height="35dp"
+            android:background="@drawable/fui_idp_button_background_anonymous" />
 
         <TextView
             android:id="@+id/a2date"

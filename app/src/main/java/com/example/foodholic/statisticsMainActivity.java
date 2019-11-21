@@ -75,7 +75,7 @@ public class statisticsMainActivity extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
                 String []y=sdf.format(myCalendar.getTime()).split("/");
-                myDatefrom=y[1]+"-"+y[0]+"-"+y[2];
+                myDatefrom=y[1]+"-"+y[0]+"-"+(Integer.parseInt(y[2])-2000);
                 textView.setText(myDatefrom);
 
              /*   String []y=myDate.split("/");
@@ -120,149 +120,303 @@ public class statisticsMainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try{
-                    closeOpenAtDate=new ArrayList<>();
-                    ArrayList<String> arrayList=new ArrayList<>();
-                    double floor=0;
-                    double sale =0 ;
-                    double total=0;
-                    String we="";
-                    if (myDatefrom.equals(" / / ")){
-                        Toast.makeText(statisticsMainActivity.this, "please enter the date", Toast.LENGTH_SHORT).show();
-                    }
-                    else if (year.isChecked()){
-                        toPrint="";
-                        String []s =myDatefrom.split("-");
-                        String ss=s[2];
-                        arrayList.add("emp name: "+empName+"" +
-                                "\nemp email: "+allCloseOpen.get(0).empEmail+"\n" +
-                                "date of this opreation: "+new Date()+"" +
-                                "\n-------------------------------");
-                        toPrint+="\nemp name: "+empName+"" +
-                                "\nemp email: "+allCloseOpen.get(0).empEmail+"\n" +
-                                "date of this opreation: "+new Date()+"" +
-                                "\n-------------------------------";
-                        for (int i=0 ; i< allCloseOpen.size();i++){
-                            if (allCloseOpen.get(i).dateOpen.contains(ss)){
-                                floor+=allCloseOpen.get(i).floor;
-                                sale+=allCloseOpen.get(i).total-allCloseOpen.get(i).floor;
-                                total+=allCloseOpen.get(i).total;
-                                closeOpenAtDate.add(allCloseOpen.get(i));
-                                arrayList.add("\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
-                                        "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
-                                        "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
-                                        "floor   = "+allCloseOpen.get(i).floor+"\n" +
-                                        "sale    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
-                                        "total   = "+allCloseOpen.get(i).total);
-                                toPrint+="\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
-                                        "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
-                                        "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
-                                        "floor   = "+allCloseOpen.get(i).floor+"\n" +
-                                        "sale    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
-                                        "total   = "+allCloseOpen.get(i).total;
-                            }
-                        }
-                        arrayList.add("\n-------------------------------\n" +
-                                "floor   = "+floor+"\n" +
-                                "sale    = "+sale+"\n" +
-                                "total   = "+total);
-                        toPrint+="\n-------------------------------\n" +
-                                "floor   = "+floor+"\n" +
-                                "sale    = "+sale+"\n" +
-                                "total   = "+total;
-                        ArrayAdapter<String> adapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
-                        listView.setAdapter(adapter);
-                    }
-                    else if (month.isChecked()){
-                        toPrint="";
-                        String []s =myDatefrom.split("-");
-                        String ss=s[1]+"-"+s[2];
-                        arrayList.add("emp name: "+empName+"" +
-                                "\nemp email: "+allCloseOpen.get(0).empEmail+"\n" +
-                                "date of this opreation: "+new Date()+"" +
-                                "\n-------------------------------");
-                        toPrint+="\nemp name: "+empName+"" +
-                                "\nemp email: "+allCloseOpen.get(0).empEmail+"\n" +
-                                "date of this opreation: "+new Date()+"" +
-                                "\n-------------------------------";
-                        for (int i=0 ; i< allCloseOpen.size();i++){
-                            if (allCloseOpen.get(i).dateOpen.contains(ss)){
-                                floor+=allCloseOpen.get(i).floor;
-                                sale+=allCloseOpen.get(i).total-allCloseOpen.get(i).floor;
-                                total+=allCloseOpen.get(i).total;
-                                closeOpenAtDate.add(allCloseOpen.get(i));
-                                arrayList.add(
-                                        "\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
-                                        "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
-                                        "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
-                                        "floor   = "+allCloseOpen.get(i).floor+"\n" +
-                                        "sale    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
-                                        "total   = "+allCloseOpen.get(i).total);
-                                toPrint+="\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
-                                        "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
-                                        "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
-                                        "floor   = "+allCloseOpen.get(i).floor+"\n" +
-                                        "sale    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
-                                        "total   = "+allCloseOpen.get(i).total;
-                            }
-                        }
-                        arrayList.add("\n-------------------------------\n" +
-                                "floor   = "+floor+"\n" +
-                                "sale    = "+sale+"\n" +
-                                "total   = "+total);
-                        toPrint+="\n-------------------------------\n" +
-                                "floor   = "+floor+"\n" +
-                                "sale    = "+sale+"\n" +
-                                "total   = "+total;
-                        ArrayAdapter<String> adapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
-                        listView.setAdapter(adapter);
-                    }
-                    else if (day.isChecked()){
-                        toPrint="";
-                        arrayList.add("emp name: "+empName+"" +
-                                "\nemp email: "+allCloseOpen.get(0).empEmail+"\n" +
-                                "date of this opreation: "+new Date()+"" +
-                                "\n-------------------------------");
-                        toPrint+="\nemp name: "+empName+"" +
-                                "\nemp email: "+allCloseOpen.get(0).empEmail+"\n" +
-                                "date of this opreation: "+new Date()+"" +
-                                "\n-------------------------------";
-                        for (int i=0 ; i< allCloseOpen.size();i++){
-                            if (allCloseOpen.get(i).dateOpen.contains(myDatefrom)){
-                                floor+=allCloseOpen.get(i).floor;
-                                sale+=allCloseOpen.get(i).total-allCloseOpen.get(i).floor;
-                                total+=allCloseOpen.get(i).total;
-                                closeOpenAtDate.add(allCloseOpen.get(i));
-                                arrayList.add(
-                                        "\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
-                                        "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
-                                        "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
-                                        "floor   = "+allCloseOpen.get(i).floor+"\n" +
-                                        "sale    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
-                                        "total   = "+allCloseOpen.get(i).total);
-                                toPrint+="\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
-                                        "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
-                                        "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
-                                        "floor   = "+allCloseOpen.get(i).floor+"\n" +
-                                        "sale    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
-                                        "total   = "+allCloseOpen.get(i).total;
+              if (HomeAct.lang==1){
+                  try{
+                      closeOpenAtDate=new ArrayList<>();
+                      ArrayList<String> arrayList=new ArrayList<>();
+                      double floor=0;
+                      double sale =0 ;
+                      double total=0;
+                      String we="";
+                      if (myDatefrom.equals(" / / ")){
+                          Toast.makeText(statisticsMainActivity.this, "الرجاء ادخال التاريخ", Toast.LENGTH_SHORT).show();
+                      }
+                      else if (year.isChecked()){
+                          toPrint="";
+                          String []s =myDatefrom.split("-");
+                          String ss=s[2];
+                          arrayList.add("اسم الموظف: "+empName+"" +
+                                  "\nالبريد الالكتروني: "+allCloseOpen.get(0).empEmail+"\n" +
+                                  "تاريخ هذه العمليه: "+new Date()+"" +
+                                  "\n-------------------------------");
+                          toPrint+="\nاسم الموظف: "+empName+"" +
+                                  "\nالبريد الالكتروني: "+allCloseOpen.get(0).empEmail+"\n" +
+                                  "تاريخ هذه العمليه: "+new Date()+"" +
+                                  "\n-------------------------------";
+                          for (int i=0 ; i< allCloseOpen.size();i++){
+                              if (allCloseOpen.get(i).dateOpen.contains(ss)){
+                                  floor+=allCloseOpen.get(i).floor;
+                                  sale+=allCloseOpen.get(i).total-allCloseOpen.get(i).floor;
+                                  total+=allCloseOpen.get(i).total;
+                                  closeOpenAtDate.add(allCloseOpen.get(i));
+                                  arrayList.add("\n\n التاريخ: "+allCloseOpen.get(i).dateOpen+"\n" +
+                                          "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                                          "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                                          "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
+                                          "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                                          "المجموع الكلي   = "+allCloseOpen.get(i).total);
+                                  toPrint+="\n\n التارخ: "+allCloseOpen.get(i).dateOpen+"\n" +
+                                          "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                                          "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                                          "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
+                                          "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                                          "المجموع الكلي   = "+allCloseOpen.get(i).total;
+                              }
+                          }
+                          arrayList.add("\n-------------------------------\n" +
+                                  "مجموع فتح صندوق   = "+floor+"\n" +
+                                  "مجموع المبيعات    = "+sale+"\n" +
+                                  "المجموع الكلي   = "+total);
+                          toPrint+="\n-------------------------------\n" +
+                                  "مجموع فتح صندوق   = "+floor+"\n" +
+                                  "مجموع المبيعات    = "+sale+"\n" +
+                                  "المجموع الكلي   = "+total;
+                          ArrayAdapter<String> adapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
+                          listView.setAdapter(adapter);
+                      }
+                      else if (month.isChecked()){
+                          toPrint="";
+                          String []s =myDatefrom.split("-");
+                          String ss=s[1]+"-"+s[2];
+                          arrayList.add("اسم الموظف: "+empName+"" +
+                                  "\nالبريد الالكتروني: "+allCloseOpen.get(0).empEmail+"\n" +
+                                  "تاريخ هذه العمليه: "+new Date()+"" +
+                                  "\n-------------------------------");
+                          toPrint+="\nاسم الموظف: "+empName+"" +
+                                  "\nالبريد الالكتروني: "+allCloseOpen.get(0).empEmail+"\n" +
+                                  "تاريخ هذه العمليه: "+new Date()+"" +
+                                  "\n-------------------------------";
+                          for (int i=0 ; i< allCloseOpen.size();i++){
+                              if (allCloseOpen.get(i).dateOpen.contains(ss)){
+                                  floor+=allCloseOpen.get(i).floor;
+                                  sale+=allCloseOpen.get(i).total-allCloseOpen.get(i).floor;
+                                  total+=allCloseOpen.get(i).total;
+                                  closeOpenAtDate.add(allCloseOpen.get(i));
+                                  arrayList.add("\n\n التاريخ: "+allCloseOpen.get(i).dateOpen+"\n" +
+                                          "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                                          "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                                          "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
+                                          "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                                          "المجموع الكلي   = "+allCloseOpen.get(i).total);
+                                  toPrint+="\n\n التارخ: "+allCloseOpen.get(i).dateOpen+"\n" +
+                                          "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                                          "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                                          "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
+                                          "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                                          "المجموع الكلي   = "+allCloseOpen.get(i).total;
+                              }
+                          }
+                          arrayList.add("\n-------------------------------\n" +
+                                  "مجموع فتح صندوق   = "+floor+"\n" +
+                                  "مجموع المبيعات    = "+sale+"\n" +
+                                  "المجموع الكلي   = "+total);
+                          toPrint+="\n-------------------------------\n" +
+                                  "مجموع فتح صندوق   = "+floor+"\n" +
+                                  "مجموع المبيعات    = "+sale+"\n" +
+                                  "المجموع الكلي   = "+total;
+                          ArrayAdapter<String> adapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
+                          listView.setAdapter(adapter);
+                      }
+                      else if (day.isChecked()){
+                          toPrint="";
+                          arrayList.add("اسم الموظف: "+empName+"" +
+                                  "\nالبريد الالكتروني: "+allCloseOpen.get(0).empEmail+"\n" +
+                                  "تاريخ هذه العمليه: "+new Date()+"" +
+                                  "\n-------------------------------");
+                          toPrint+="\nاسم الموظف: "+empName+"" +
+                                  "\nالبريد الالكتروني: "+allCloseOpen.get(0).empEmail+"\n" +
+                                  "تاريخ هذه العمليه: "+new Date()+"" +
+                                  "\n-------------------------------";
+                          for (int i=0 ; i< allCloseOpen.size();i++){
+                              if (allCloseOpen.get(i).dateOpen.contains(myDatefrom)){
+                                  floor+=allCloseOpen.get(i).floor;
+                                  sale+=allCloseOpen.get(i).total-allCloseOpen.get(i).floor;
+                                  total+=allCloseOpen.get(i).total;
+                                  closeOpenAtDate.add(allCloseOpen.get(i));
+                                  arrayList.add("\n\n التاريخ: "+allCloseOpen.get(i).dateOpen+"\n" +
+                                          "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                                          "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                                          "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
+                                          "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                                          "المجموع الكلي   = "+allCloseOpen.get(i).total);
 
-                            }
-                        }
-                        arrayList.add("\n-------------------------------\n" +
-                                "floor   = "+floor+"\n" +
-                                "sale    = "+sale+"\n" +
-                                "total   = "+total);
-                        toPrint+="\n-------------------------------\n" +
-                                "floor   = "+floor+"\n" +
-                                "sale    = "+sale+"\n" +
-                                "total   = "+total;
-                        ArrayAdapter<String> adapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
-                        listView.setAdapter(adapter);
-                    }
-                }catch (Exception e){
-                    Toast.makeText(statisticsMainActivity.this, "please choose the employee", Toast.LENGTH_SHORT).show();
-                }
+                                  toPrint+="\n\n التارخ: "+allCloseOpen.get(i).dateOpen+"\n" +
+                                          "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                                          "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                                          "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
+                                          "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                                          "المجموع الكلي   = "+allCloseOpen.get(i).total;
+
+                              }
+                          }
+                          arrayList.add("\n-------------------------------\n" +
+                                  "مجموع فتح صندوق   = "+floor+"\n" +
+                                  "مجموع المبيعات    = "+sale+"\n" +
+                                  "المجموع الكلي   = "+total);
+                          toPrint+="\n-------------------------------\n" +
+                                  "مجموع فتح صندوق   = "+floor+"\n" +
+                                  "مجموع المبيعات    = "+sale+"\n" +
+                                  "المجموع الكلي   = "+total;
+                          ArrayAdapter<String> adapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
+                          listView.setAdapter(adapter);
+                      }
+                  }catch (IndexOutOfBoundsException e){
+                      Toast.makeText(statisticsMainActivity.this, "هذا الموظف لايمتلك مبيعات حالياً", Toast.LENGTH_SHORT).show();
+                  }
+                  catch (Exception e ){
+                      Toast.makeText(statisticsMainActivity.this, "الرجاء اختيار موظف", Toast.LENGTH_LONG).show();
+                  }
+              }
+              ////////////////////////
+              ///////////////////////
+              else{
+                  try{
+                      closeOpenAtDate=new ArrayList<>();
+                      ArrayList<String> arrayList=new ArrayList<>();
+                      double floor=0;
+                      double sale =0 ;
+                      double total=0;
+                      String we="";
+                      if (myDatefrom.equals(" / / ")){
+                          Toast.makeText(statisticsMainActivity.this, "please enter the date", Toast.LENGTH_SHORT).show();
+                      }
+                      else if (year.isChecked()){
+                          toPrint="";
+                          String []s =myDatefrom.split("-");
+                          String ss=s[2];
+                          arrayList.add("emp name: "+empName+"" +
+                                  "\nemp email: "+allCloseOpen.get(0).empEmail+"\n" +
+                                  "date of this opreation: "+new Date()+"" +
+                                  "\n-------------------------------");
+                          toPrint+="\nemp name: "+empName+"" +
+                                  "\nemp email: "+allCloseOpen.get(0).empEmail+"\n" +
+                                  "date of this opreation: "+new Date()+"" +
+                                  "\n-------------------------------";
+                          for (int i=0 ; i< allCloseOpen.size();i++){
+                              if (allCloseOpen.get(i).dateOpen.contains(ss)){
+                                  floor+=allCloseOpen.get(i).floor;
+                                  sale+=allCloseOpen.get(i).total-allCloseOpen.get(i).floor;
+                                  total+=allCloseOpen.get(i).total;
+                                  closeOpenAtDate.add(allCloseOpen.get(i));
+                                  arrayList.add("\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
+                                          "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                                          "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                                          "floor   = "+allCloseOpen.get(i).floor+"\n" +
+                                          "sale    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                                          "total   = "+allCloseOpen.get(i).total);
+                                  toPrint+="\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
+                                          "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                                          "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                                          "floor   = "+allCloseOpen.get(i).floor+"\n" +
+                                          "sale    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                                          "total   = "+allCloseOpen.get(i).total;
+                              }
+                          }
+                          arrayList.add("\n-------------------------------\n" +
+                                  "floor   = "+floor+"\n" +
+                                  "sale    = "+sale+"\n" +
+                                  "total   = "+total);
+                          toPrint+="\n-------------------------------\n" +
+                                  "floor   = "+floor+"\n" +
+                                  "sale    = "+sale+"\n" +
+                                  "total   = "+total;
+                          ArrayAdapter<String> adapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
+                          listView.setAdapter(adapter);
+                      }
+                      else if (month.isChecked()){
+                          toPrint="";
+                          String []s =myDatefrom.split("-");
+                          String ss=s[1]+"-"+s[2];
+                          arrayList.add("emp name: "+empName+"" +
+                                  "\nemp email: "+allCloseOpen.get(0).empEmail+"\n" +
+                                  "date of this opreation: "+new Date()+"" +
+                                  "\n-------------------------------");
+                          toPrint+="\nemp name: "+empName+"" +
+                                  "\nemp email: "+allCloseOpen.get(0).empEmail+"\n" +
+                                  "date of this opreation: "+new Date()+"" +
+                                  "\n-------------------------------";
+                          for (int i=0 ; i< allCloseOpen.size();i++){
+                              if (allCloseOpen.get(i).dateOpen.contains(ss)){
+                                  floor+=allCloseOpen.get(i).floor;
+                                  sale+=allCloseOpen.get(i).total-allCloseOpen.get(i).floor;
+                                  total+=allCloseOpen.get(i).total;
+                                  closeOpenAtDate.add(allCloseOpen.get(i));
+                                  arrayList.add(
+                                          "\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
+                                                  "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                                                  "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                                                  "floor   = "+allCloseOpen.get(i).floor+"\n" +
+                                                  "sale    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                                                  "total   = "+allCloseOpen.get(i).total);
+                                  toPrint+="\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
+                                          "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                                          "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                                          "floor   = "+allCloseOpen.get(i).floor+"\n" +
+                                          "sale    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                                          "total   = "+allCloseOpen.get(i).total;
+                              }
+                          }
+                          arrayList.add("\n-------------------------------\n" +
+                                  "floor   = "+floor+"\n" +
+                                  "sale    = "+sale+"\n" +
+                                  "total   = "+total);
+                          toPrint+="\n-------------------------------\n" +
+                                  "floor   = "+floor+"\n" +
+                                  "sale    = "+sale+"\n" +
+                                  "total   = "+total;
+                          ArrayAdapter<String> adapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
+                          listView.setAdapter(adapter);
+                      }
+                      else if (day.isChecked()){
+                          toPrint="";
+                          arrayList.add("emp name: "+empName+"" +
+                                  "\nemp email: "+allCloseOpen.get(0).empEmail+"\n" +
+                                  "date of this opreation: "+new Date()+"" +
+                                  "\n-------------------------------");
+                          toPrint+="\nemp name: "+empName+"" +
+                                  "\nemp email: "+allCloseOpen.get(0).empEmail+"\n" +
+                                  "date of this opreation: "+new Date()+"" +
+                                  "\n-------------------------------";
+                          for (int i=0 ; i< allCloseOpen.size();i++){
+                              if (allCloseOpen.get(i).dateOpen.contains(myDatefrom)){
+                                  floor+=allCloseOpen.get(i).floor;
+                                  sale+=allCloseOpen.get(i).total-allCloseOpen.get(i).floor;
+                                  total+=allCloseOpen.get(i).total;
+                                  closeOpenAtDate.add(allCloseOpen.get(i));
+                                  arrayList.add(
+                                          "\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
+                                                  "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                                                  "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                                                  "floor   = "+allCloseOpen.get(i).floor+"\n" +
+                                                  "sale    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                                                  "total   = "+allCloseOpen.get(i).total);
+                                  toPrint+="\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
+                                          "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                                          "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                                          "floor   = "+allCloseOpen.get(i).floor+"\n" +
+                                          "sale    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                                          "total   = "+allCloseOpen.get(i).total;
+
+                              }
+                          }
+                          arrayList.add("\n-------------------------------\n" +
+                                  "floor   = "+floor+"\n" +
+                                  "sale    = "+sale+"\n" +
+                                  "total   = "+total);
+                          toPrint+="\n-------------------------------\n" +
+                                  "floor   = "+floor+"\n" +
+                                  "sale    = "+sale+"\n" +
+                                  "total   = "+total;
+                          ArrayAdapter<String> adapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
+                          listView.setAdapter(adapter);
+                      }
+                  }catch (IndexOutOfBoundsException e){
+                      Toast.makeText(statisticsMainActivity.this, "this employee has no sales", Toast.LENGTH_SHORT).show();
+                  }
+                  catch (Exception e ){
+                      Toast.makeText(statisticsMainActivity.this, "please choose the employee", Toast.LENGTH_LONG).show();
+                  }
+              }
             }
         });
 
@@ -279,6 +433,16 @@ public class statisticsMainActivity extends AppCompatActivity {
         month=findViewById(R.id.a2monthRadio);
         day=findViewById(R.id.a2dayRadio);
         year.setChecked(true);
+        if(HomeAct.lang==1){
+            year.setText("تقرير سنوي");
+            month.setText("تقرير شهري");
+            day.setText("تقرير يومي");
+            button.setText("بحث");
+            textView.setText("ادخل التاريخ");
+        }
+        else {
+            button.setText("search");
+        }
         loadEmp();
         loadCloseOpen();
     }
@@ -293,7 +457,13 @@ public class statisticsMainActivity extends AppCompatActivity {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
                 List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
-                empnames.add("select employee");
+                if(HomeAct.lang==1){
+                    empnames.add("اختر موظف");
+                }
+                else {
+                    empnames.add("select employee");
+                }
+
                 for (DocumentSnapshot d : list) {
                     classEmployee a = d.toObject(classEmployee.class);
                     if (a.cashWork || a.delevery) {
@@ -321,6 +491,6 @@ public class statisticsMainActivity extends AppCompatActivity {
     }
 
     void print(String p){
-        Toast.makeText(this, p, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, p, Toast.LENGTH_LONG).show();
     }
 }

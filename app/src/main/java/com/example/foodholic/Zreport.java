@@ -88,7 +88,13 @@ public class Zreport extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (year.isEmpty()){
-                    Toast.makeText(Zreport.this, "Please choose year", Toast.LENGTH_SHORT).show();
+                    if(HomeAct.lang==1){
+                        Toast.makeText(Zreport.this, "الرجاء اختيار السنه", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(Zreport.this, "Please choose year", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
                 else {
                     y=1;
@@ -105,7 +111,7 @@ public class Zreport extends AppCompatActivity {
                            list.add(cSale.get(i));
                         }
                     }
-                    syear.add("\n\n\n\n\t\t\t\tmonthly reprt " +
+                    syear.add("\n\n\n\n\t\t\t\tyearly report " +
                             "\nRes : "+HomeAct.resName+"\n" +
                             "pill dat : "+new Date()+"\n" +
                             "\t-----------------------\n" +
@@ -122,7 +128,7 @@ public class Zreport extends AppCompatActivity {
                                    y=1;
                                 }
                             }else{
-                                if (list.get(a).date.contains(i+"-"+year)){
+                                if (list.get(a).date.contains(""+i+"-"+year)){
                                     z+=list.get(a).sale;
                                     list.remove(a);
                                     y=1;
@@ -151,17 +157,28 @@ public class Zreport extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (year.isEmpty()){
-                    Toast.makeText(Zreport.this, "Please choose year", Toast.LENGTH_SHORT).show();
+                    if(HomeAct.lang==1){
+                        Toast.makeText(Zreport.this, "الرجاء اختيار السنه", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(Zreport.this, "Please choose year", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else if (month.isEmpty()){
-                    Toast.makeText(Zreport.this, "Please choose month", Toast.LENGTH_SHORT).show();
+                    if(HomeAct.lang==1){
+                        Toast.makeText(Zreport.this, "الرجاء اختيار الشهر", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(Zreport.this, "Please choose month", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
                 else {
                     m=1;
                     y=0;
                     double bb=0;
                     smonth=new ArrayList<>();
-                    smonth.add("\n\n\n\n\t\t\t\tmonthly reprt " +
+                    smonth.add("\n\n\n\n\t\t\t\tmonthly report " +
                             "\nRes : "+HomeAct.resName+"\n" +
                             "pill dat : "+new Date()+"\n" +
                             "\t-----------------------\n" +
@@ -187,21 +204,27 @@ public class Zreport extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (m==0&&y==0){
-                    Toast.makeText(Zreport.this, "please choose the type of report", Toast.LENGTH_SHORT).show();
+                    if(HomeAct.lang==1){
+                        Toast.makeText(Zreport.this, "الرجاء اختيار نوع التقرير", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(Zreport.this, "please choose the type of report", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
                 else if (y==1&&m==0){
                     String s="";
                     for (int i=0; i< syear.size();i++){
                         s+=syear.get(i)+"\n";
                     }
-                    printYear(s);
+                    print(s);
                 }
                 else if (y==0&& m==1){
                     String s="";
                     for (int i=0; i< smonth.size();i++){
                         s+=smonth.get(i)+"\n";
                     }
-                    printMonth(s);
+                    print(s);
                 }
             }
         });
@@ -217,6 +240,14 @@ public class Zreport extends AppCompatActivity {
         print=findViewById(R.id.button_printReport);
         listView=findViewById(R.id.reportList);
 
+        if (HomeAct.lang==1){
+            yearReport.setText("تقرير سنوي");
+            monthreport.setText("تقرير شهري");
+        }
+        else {
+
+        }
+
         db.collection("Res_1_sales").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -230,12 +261,9 @@ public class Zreport extends AppCompatActivity {
         });
     }
 
-    void printMonth(String s){
-
-
+    void print(String s){
+        Toast.makeText(Zreport.this, s, Toast.LENGTH_SHORT).show();
     }
-    void printYear(String s){
-        Toast.makeText(this, "year report", Toast.LENGTH_SHORT).show();
-    }
+
 
 }
