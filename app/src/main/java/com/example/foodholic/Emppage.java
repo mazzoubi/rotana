@@ -40,9 +40,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.Closeable;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -83,6 +86,8 @@ public class Emppage extends AppCompatActivity
     ArrayList<String>dname;
     ArrayList<String>cmobile;
     ArrayList<String>caddress;
+
+    static classCloseOpenCash closeOpenCash = new classCloseOpenCash();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,24 +181,40 @@ public class Emppage extends AppCompatActivity
 
                         if(!ee.getText().toString().equals("")){
 
+                            SharedPreferences.Editor editor = shared2.edit();
+                            editor.putString("cash", ee.getText().toString());
+                            editor.apply();
+
                             cash.put("cash", ee.getText().toString());
+                            closeOpenCash.floor = Double.parseDouble(ee.getText().toString());
 
-                            db.collection("Res_1_cash")
-                                    .document(""+new Date()).set(cash).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
 
-                                        SharedPreferences.Editor editor = shared2.edit();
-                                        editor.putString("cash", ee.getText().toString());
-                                        editor.apply();
 
-                                        dialog.dismiss();
+                            String form = "dd-MM-yy";
+                            String form2 = "HH:mm dd-MM-yy";
+                            SimpleDateFormat sdf = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+                            SimpleDateFormat sdf2 = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
 
-                                    }
+                            try {
 
-                                }
-                            });
+
+                                Date parsedDate = sdf.parse(new Date().toString());
+                                Date parsedDate2 = sdf2.parse(new Date().toString());
+
+                                SimpleDateFormat print = new SimpleDateFormat(form);
+                                SimpleDateFormat print2 = new SimpleDateFormat(form2);
+
+                                closeOpenCash.dateOpen = print.format(parsedDate);
+                                closeOpenCash.dateAndTimeOpen = print2.format(parsedDate2);
+
+                                 }
+                            catch (ParseException e) {
+                                new AlertDialog.Builder(Emppage.this).setMessage(e+"").show();
+                            }
+
+                            closeOpenCash.empEmail = getIntent().getStringExtra("empemail");
+
+
 
                         }
                         else{
@@ -281,6 +302,9 @@ public class Emppage extends AppCompatActivity
                     t.setText("مجموع الفاتورة : "+s.substring(s.indexOf("."), s.indexOf(".")+3)+" دينار ");
                 else
                     t.setText("مجموع الفاتورة : "+sum+" دينار ");
+
+                closeOpenCash.total+=sum;
+
                 final TextView t2 = dialog2.findViewById(R.id.change);
 
                 final EditText e = dialog2.findViewById(R.id.pay);
@@ -914,53 +938,82 @@ public class Emppage extends AppCompatActivity
                 ee.setText("");
 
                 if (HomeAct.lang==1){
-                    new AlertDialog.Builder(Emppage.this)
-                            .setTitle("الرجاء إغلاق الكاش")
-                            .setView(ee).setCancelable(false)
-                            .setNegativeButton("الغاء", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Emppage.this.finish(); }})
-                            .setPositiveButton("ادخال", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(final DialogInterface dialog, int which) {
 
-                                    if(!ee.getText().toString().equals("")){
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(Emppage.this);
+                    LayoutInflater inflater = Emppage.this.getLayoutInflater();
+                    builder.setView(inflater.inflate(R.layout.dialog_close, null));
+                    final AlertDialog dialog = builder.create();
+                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                    lp.copyFrom(dialog.getWindow().getAttributes());
+                    lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-                                        cash.put("cash", ee.getText().toString());
+                    dialog.show();
+                    dialog.getWindow().setAttributes(lp);
 
-                                        db.collection("Res_1_cash")
-                                                .document(""+new Date()).set(cash).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if(task.isSuccessful()){
+                    final EditText et1, et2, et3, et4, et5;
+                    final Button b1, b2;
 
-                                                    int prev = Integer.parseInt(shared2.getString("cash", "0"));
-                                                    int curr = Integer.parseInt(ee.getText().toString());
+                    et1 = dialog.findViewById(R.id.name);
+                    et2 = dialog.findViewById(R.id.mobile);
+                    et3 = dialog.findViewById(R.id.pric);
+                    et4 = dialog.findViewById(R.id.desc);
+                    et5 = dialog.findViewById(R.id.tot);
 
-                                                    if(curr >= prev){
+                    b1 = dialog.findViewById(R.id.takeaway);
+                    b2 = dialog.findViewById(R.id.deliv);
 
-                                                        FirebaseAuth auth = FirebaseAuth.getInstance();
-                                                        auth.signOut();
+                    b1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
 
-                                                        Toast.makeText(Emppage.this, "تسجيل خروج بنجاح", Toast.LENGTH_SHORT).show();
+                            et1.setText(closeOpenCash.empEmail);
+                            et2.setText(closeOpenCash.dateAndTimeOpen);
+                            et5.setText("مبيعات : "+closeOpenCash.total+"   ارضية : "+closeOpenCash.floor+"   مجموع : "+(closeOpenCash.total+closeOpenCash.floor));
+                            String form = "HH:mm dd-MM-yy";
+                            SimpleDateFormat sdf = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
 
-                                                        SharedPreferences.Editor editor = shared2.edit();
-                                                        editor.putString("cash", "");
-                                                        editor.apply();
+                            try {
+                                Date parsedDate = sdf.parse(new Date().toString());
+                                SimpleDateFormat print = new SimpleDateFormat(form);
+                                closeOpenCash.dateAndTimeClose = print.format(parsedDate);
+                            et3.setText(closeOpenCash.dateAndTimeClose); }
+                            catch (Exception e){}
+                        }
+                    });
 
-                                                        dialog.dismiss();
-                                                        Emppage.this.finish();
+                    b2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
 
-                                                    }
-                                                    else{
-                                                        Toast.makeText(Emppage.this, "القيم الموجودة غير مطابقة للمبيعات, الرجاء التأكد من الكاش مرة أخرى", Toast.LENGTH_SHORT).show();
-                                                        dialog.dismiss(); }
-                                                } } }); }
-                                    else
-                                        dialog.dismiss();
+                            db.collection("closeOpenCash").document().set(closeOpenCash)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
 
-                                } }).show();
+                                            if(task.isSuccessful()){
+                                                FirebaseAuth auth = FirebaseAuth.getInstance();
+                                                auth.signOut();
+
+                                                Toast.makeText(Emppage.this, "تسجيل خروج بنجاح", Toast.LENGTH_SHORT).show();
+
+                                                SharedPreferences.Editor editor = shared2.edit();
+                                                editor.putString("cash", "");
+                                                editor.apply();
+
+                                                closeOpenCash = new classCloseOpenCash();
+
+                                                dialog.dismiss();
+                                                Emppage.this.finish();
+                                            }
+                                            else
+                                                Toast.makeText(Emppage.this, "تعذر التخزين !", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    });
+
+                        }
+                    });
                 }
                 else {
                     new AlertDialog.Builder(Emppage.this)
@@ -994,9 +1047,6 @@ public class Emppage extends AppCompatActivity
 
                                                         Toast.makeText(Emppage.this, "Your logout is successful", Toast.LENGTH_SHORT).show();
 
-                                                        SharedPreferences.Editor editor = shared2.edit();
-                                                        editor.putString("cash", "");
-                                                        editor.apply();
 
                                                         dialog.dismiss();
                                                         Emppage.this.finish();

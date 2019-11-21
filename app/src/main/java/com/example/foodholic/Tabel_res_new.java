@@ -307,6 +307,9 @@ public class Tabel_res_new extends AppCompatActivity {
             order.put("people", people);
             order.put("date", date);
             order.put("time", time);
+            order.put("order", "");
+            order.put("sum", "");
+
 
             db.collection("Res_1_Table_Res_").document(""+(p+1)).set(order)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {

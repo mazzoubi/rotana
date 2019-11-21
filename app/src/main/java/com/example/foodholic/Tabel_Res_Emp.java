@@ -33,9 +33,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -84,7 +86,7 @@ public class Tabel_Res_Emp extends AppCompatActivity {
             holder.os_text =(TextView) rowView.findViewById(R.id.os_texts);
             holder.os_text.setText(result[position]);
 
-            if(tabels.get(position).length()>30)
+            if(!tabels.get(position).contains("Table Number : "))
                     rowView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
 
 
@@ -223,7 +225,8 @@ public class Tabel_Res_Emp extends AppCompatActivity {
     GridView gridview;
     FirebaseFirestore db;
     SharedPreferences shared, shared2;
-
+    String da, ta;
+    String temp = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -239,7 +242,8 @@ public class Tabel_Res_Emp extends AppCompatActivity {
         shared2 = getSharedPreferences("color", MODE_PRIVATE);
 
         db = FirebaseFirestore.getInstance();
-        CheckTabels();
+
+        getDateTime();
 
         tabels.add("Table Number : 1"); tabels.add("Table Number : 2"); tabels.add("Table Number : 3");
         tabels.add("Table Number : 4"); tabels.add("Table Number : 5"); tabels.add("Table Number : 6");
@@ -247,7 +251,48 @@ public class Tabel_Res_Emp extends AppCompatActivity {
         tabels.add("Table Number : 10"); tabels.add("Table Number : 11"); tabels.add("Table Number : 12");
         tabels.add("Table Number : 13"); tabels.add("Table Number : 14"); tabels.add("Table Number : 15");
 
-        gridview = (GridView) findViewById(R.id.customgrid); }
+        gridview = (GridView) findViewById(R.id.customgrid);
+         }
+
+
+    public void getDateTime() {
+
+        final Calendar cal = Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener lsnr = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                cal.set(Calendar.YEAR, year);
+                cal.set(Calendar.MONTH, monthOfYear);
+                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                String myFormat = "dd/MM/yy"; //In which you need put here
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+                da = sdf.format(cal.getTime()); CheckTabels(); } };
+
+        new DatePickerDialog(Tabel_Res_Emp.this, lsnr, cal
+                .get(Calendar.YEAR), cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)).show();
+
+        final Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+
+        TimePickerDialog lsn = new TimePickerDialog(Tabel_Res_Emp.this,
+                new TimePickerDialog.OnTimeSetListener() {
+
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+                        ta = hourOfDay + ":" + minute;
+
+                    }
+                }, hour, minute, false);
+        lsn.show();
+
+
+    }
 
     private void ReserveClick(final int p, final View vie, String name, String mobile, String people,
                               String date, String time){
