@@ -203,16 +203,19 @@ public class Profile extends AppCompatActivity {
             final TextView mobile = findViewById(R.id.mobile);
             final TextView points = findViewById(R.id.points);
 
-            db.collection("Res_1_Customer_Acc").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    name.setText("الاسم : "+task.getResult().get("name").toString());
-                    email.setText("الايميل : "+task.getResult().get("email").toString());
-                    mobile.setText("هاتف : "+task.getResult().get("mobile").toString());
-                    points.setText("نقاط : "+task.getResult().get("points").toString());
-                    Glide.with(Profile.this).load(shared3.getString("path", "")).into(im);
-                }
-            }); }
+            try{
+
+                db.collection("Res_1_Customer_Acc").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        name.setText("الاسم : "+task.getResult().get("name").toString());
+                        email.setText("الايميل : "+task.getResult().get("email").toString());
+                        mobile.setText("هاتف : "+task.getResult().get("mobile").toString());
+                        points.setText("نقاط : "+task.getResult().get("points").toString());
+                        Glide.with(Profile.this).load(shared3.getString("path", "")).into(im);
+                    }
+                });
+            } catch (Exception ex) {}}
 
 
 
