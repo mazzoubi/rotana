@@ -124,13 +124,11 @@ public class Zreport extends AppCompatActivity {
                             if (i+"".length()==1){
                                 if (list.get(a).date.contains("0"+i+"-"+year)){
                                    z+=list.get(a).sale;
-                                   list.remove(a);
                                    y=1;
                                 }
                             }else{
                                 if (list.get(a).date.contains(""+i+"-"+year)){
                                     z+=list.get(a).sale;
-                                    list.remove(a);
                                     y=1;
                                 }
                             }
