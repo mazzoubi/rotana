@@ -18,25 +18,25 @@
         android:id="@+id/ivLogo"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/ivSubtitle"
+        android:layout_above="@+id/ivSubtitle2"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:background="@drawable/lol"
+        android:backgroundTint="@color/colorPrimary"
         android:fontFamily="serif"
         android:textColor="@color/colorPrimary"
         android:textSize="44sp"
         android:textStyle="bold" />
 
-
     <TextView
-        android:id="@+id/ivSubtitle"
+        android:id="@+id/ivSubtitle2"
         android:lineSpacingExtra="8dp"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="36dp"
-        android:layout_margin="25dp"
-        android:text="Try a new experience of food services today"
+        android:layout_margin="5dp"
+        android:text="عش تجربة جديدة و فريدة من خدمات المطاعم اليوم"
         android:textColor="@color/colorPrimary"
         android:textSize="22sp"
         android:fontFamily="serif"
@@ -46,6 +46,22 @@
         android:layout_centerVertical="true"/>
 
     <TextView
+        android:id="@+id/ivSubtitle"
+        android:lineSpacingExtra="8dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_margin="5dp"
+        android:text="Try a new experience of food services today"
+        android:textColor="@color/colorPrimary"
+        android:textSize="22sp"
+        android:fontFamily="serif"
+        android:layout_below="@+id/ivSubtitle2"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
         android:id="@+id/ivBtn2"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
@@ -53,6 +69,7 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:layout_marginBottom="5dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/shape"
         android:padding="15dp"
         android:text="عربي"
@@ -78,5 +95,13 @@
         android:textStyle="bold"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="22sp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:src="@drawable/back1"
+        android:tint="#61000000"
+        android:scaleType="fitXY"
+        android:elevation="-5dp"
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>

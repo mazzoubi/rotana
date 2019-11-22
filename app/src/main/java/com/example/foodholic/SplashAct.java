@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 public class SplashAct extends AppCompatActivity {
 
-    TextView ivLogo, ivSubtitle, ivBtn, ivBtn2;
+    TextView ivLogo, ivSubtitle, ivSubtitle2, ivBtn, ivBtn2;
     ImageView ivSplash;
     Animation smalltobig, fleft, fhelper;
 
@@ -79,6 +79,7 @@ public class SplashAct extends AppCompatActivity {
 
         ivLogo =  findViewById(R.id.ivLogo);
         ivSubtitle =  findViewById(R.id.ivSubtitle);
+        ivSubtitle2 =  findViewById(R.id.ivSubtitle2);
         ivBtn =  findViewById(R.id.ivBtn);
         ivBtn2 =  findViewById(R.id.ivBtn2);
 
@@ -89,16 +90,19 @@ public class SplashAct extends AppCompatActivity {
 
         ivLogo.setTranslationX(400);
         ivSubtitle.setTranslationX(400);
+        ivSubtitle2.setTranslationX(400);
         ivBtn.setTranslationX(400);
         ivBtn2.setTranslationX(400);
 
         ivLogo.setAlpha(0);
         ivSubtitle.setAlpha(0);
+        ivSubtitle2.setAlpha(0);
         ivBtn.setAlpha(0);
         ivBtn2.setAlpha(0);
 
         ivLogo.animate().translationX(0).alpha(1).setDuration(800).setStartDelay(500).start();
         ivSubtitle.animate().translationX(0).alpha(1).setDuration(800).setStartDelay(700).start();
+        ivSubtitle2.animate().translationX(0).alpha(1).setDuration(800).setStartDelay(700).start();
         ivBtn.animate().translationX(0).alpha(1).setDuration(800).setStartDelay(900).start();
         ivBtn2.animate().translationX(0).alpha(1).setDuration(800).setStartDelay(900).start();
 

@@ -49,9 +49,8 @@ public class HomeAct extends AppCompatActivity {
 
         ivItemOne.setAlpha(0);
         ivItemTwo.setAlpha(0);
-        ivIlls.setAlpha(0);
 
-        ivIlls.animate().translationX(0).alpha(1).setDuration(800).setStartDelay(200).start();
+        ivIlls.animate().translationX(0).alpha(1).setDuration(1000).setStartDelay(200).start();
         ivItemOne.animate().translationX(0).alpha(1).setDuration(800).setStartDelay(300).start();
         ivItemTwo.animate().translationX(0).alpha(1).setDuration(800).setStartDelay(400).start();
 
