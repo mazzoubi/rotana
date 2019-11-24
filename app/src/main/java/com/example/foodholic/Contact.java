@@ -18,10 +18,14 @@ public class Contact extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(shared.getString("language", "").equals("arabic"))
+        try{
+            if(shared.getString("language", "").equals("arabic"))
+                setContentView(R.layout.activity_contact2);
+            else
+                setContentView(R.layout.activity_contact);
+        }catch (Exception e){
             setContentView(R.layout.activity_contact2);
-        else
-            setContentView(R.layout.activity_contact);
+        }
 
         shared = getSharedPreferences("lang", MODE_PRIVATE);
 

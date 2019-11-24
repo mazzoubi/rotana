@@ -1,7 +1,9 @@
 package com.example.foodholic;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +12,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -45,6 +48,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.luseen.spacenavigation.SpaceItem;
+import com.luseen.spacenavigation.SpaceNavigationView;
+import com.luseen.spacenavigation.SpaceOnClickListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -100,13 +106,14 @@ public class Main2Activity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest2);
+        Space(savedInstanceState);
 
         Intent intent = new Intent(this, MyService.class);
         startService(intent);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (HomeAct.lang==1){
-            toolbar.setTitle("أهلا و سهلا بك");
+            toolbar.setTitle("مؤسسة الدخيل");
         }
         else {
             toolbar.setTitle("welcome");
@@ -178,10 +185,19 @@ public class Main2Activity extends AppCompatActivity
             }
         });
 
-        Button rec = findViewById(R.id.cart);
-        rec.setOnClickListener(new View.OnClickListener() {
+    }
+
+    private void Space(Bundle savedInstanceState){
+
+        SpaceNavigationView spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
+        spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
+        spaceNavigationView.addSpaceItem(new SpaceItem("", R.drawable.ic_menu));
+        spaceNavigationView.addSpaceItem(new SpaceItem("",R.drawable.ic_support));
+        spaceNavigationView.setSpaceItemIconSize(100);
+
+        spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onCentreButtonClick() {
 
                 ListView list = new ListView(Main2Activity.this);
 
@@ -190,8 +206,8 @@ public class Main2Activity extends AppCompatActivity
                 list.setAdapter(arr);
 
                 if (HomeAct.lang==1){
-                    new AlertDialog.Builder(Main2Activity.this).setTitle("المجموع : "+sum+" دينار")
-                            .setView(list).setPositiveButton("طلب", new DialogInterface.OnClickListener() {
+                    new AlertDialog.Builder(Main2Activity.this).setTitle("مجموع الفاتورة : "+sum+" دينار")
+                            .setMessage("عند تاكيد طلبك يرجى تعبائة بعض المعلومات...").setPositiveButton("طلب", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(final DialogInterface dialogInterface, int i) {
 
@@ -273,14 +289,10 @@ public class Main2Activity extends AppCompatActivity
                             dialogInterface.dismiss();
                         }
                     }).show();
-
-                    ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) list.getLayoutParams();
-                    p.setMargins(50, 50, 50, 50);
-                    list.requestLayout();
                 }
                 else{
                     new AlertDialog.Builder(Main2Activity.this).setTitle("Total : "+sum+" JOD")
-                            .setView(list).setPositiveButton("Request", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("Request", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(final DialogInterface dialogInterface, int i) {
 
@@ -339,10 +351,93 @@ public class Main2Activity extends AppCompatActivity
                     p.setMargins(50, 50, 50, 50);
                     list.requestLayout();
                 }
+            }
 
+            @Override
+            public void onItemClick(int itemIndex, String itemName) {
+                switch (itemIndex){
+
+                    case 0:
+                        ListView list = new ListView(Main2Activity.this);
+
+                        ArrayAdapter<String> arr = new ArrayAdapter<String>(Main2Activity.this, android.R.layout.simple_spinner_item,
+                                order);
+                        list.setAdapter(arr);
+
+                        if (HomeAct.lang==1){
+                            new AlertDialog.Builder(Main2Activity.this).setTitle("مجموع الفاتورة : "+sum+" دينار")
+                                    .setView(list).show();
+
+                            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) list.getLayoutParams();
+                            p.setMargins(50, 50, 50, 50);
+                            list.requestLayout();
+                        }
+                        else{
+                            new AlertDialog.Builder(Main2Activity.this).setTitle("Total : "+sum+" JOD")
+                                    .setView(list).show();
+
+                            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) list.getLayoutParams();
+                            p.setMargins(50, 50, 50, 50);
+                            list.requestLayout();
+                        }
+                        break;
+
+                    case 1:
+                        new AlertDialog.Builder(Main2Activity.this)
+                                .setMessage("هل تود الأتصال على رقم المطعم ؟")
+                                .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Intent intent = new Intent((Intent.ACTION_DIAL));
+                                        intent.setData(Uri.parse("tel:+962792942040"));
+                                        startActivity(intent);
+                                    }
+                                }).setNegativeButton("لا", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
+                        break;
+                }
+            }
+
+            @Override
+            public void onItemReselected(int itemIndex, String itemName) {
+                switch (itemIndex){
+
+                    case 0:
+                        ListView list = new ListView(Main2Activity.this);
+
+                        ArrayAdapter<String> arr = new ArrayAdapter<String>(Main2Activity.this, android.R.layout.simple_spinner_item,
+                                order);
+                        list.setAdapter(arr);
+
+                        if (HomeAct.lang==1){
+                            new AlertDialog.Builder(Main2Activity.this).setTitle("المجموع : "+sum+" دينار")
+                                    .setView(list).show();
+
+                            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) list.getLayoutParams();
+                            p.setMargins(50, 50, 50, 50);
+                            list.requestLayout();
+                        }
+                        else{
+                            new AlertDialog.Builder(Main2Activity.this).setTitle("Total : "+sum+" JOD")
+                                    .setView(list).show();
+
+                            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) list.getLayoutParams();
+                            p.setMargins(50, 50, 50, 50);
+                            list.requestLayout();
+                        }
+                        break;
+
+                    case 1:
+
+                        break;
+                }
             }
         });
-
+        spaceNavigationView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
     }
 
     public void uploadDelivery(String user_name, String user_mobile, String user_desc, double la, double lo){
