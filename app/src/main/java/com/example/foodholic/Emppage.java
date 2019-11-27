@@ -1,5 +1,8 @@
 package com.example.foodholic;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,11 +27,15 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -89,10 +96,70 @@ public class Emppage extends AppCompatActivity
 
     static classCloseOpenCash closeOpenCash = new classCloseOpenCash();
 
+    GridView gridview;
+    String da, ta;
+
+
+    public static String[] sites = {
+            "1", "2", "3", "4", "5",
+            "6", "7", "8","9","10",
+            "11","12","13","14","15" };
+
+    ArrayList<String> tabels = new ArrayList<String>();
+
+    public class CustomAdapter extends BaseAdapter {
+
+        String [] result;
+        Context context;
+
+        private LayoutInflater inflater=null;
+
+        public CustomAdapter(Emppage table, String[] site) {
+
+            result=sites;
+            context=table;
+
+            inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE); }
+
+        @Override
+        public int getCount() { return result.length; }
+
+        @Override
+        public Object getItem(int position) { return position; }
+
+        @Override
+        public long getItemId(int position) { return position; }
+
+        public class Holder { TextView os_text; }
+
+        @Override
+        public View getView(final int position, final View convertView, ViewGroup parent) {
+
+            Emppage.CustomAdapter.Holder holder=new Emppage.CustomAdapter.Holder();
+            final View rowView;
+
+            rowView = inflater.inflate(R.layout.sample_gridlayout, null);
+            holder.os_text =(TextView) rowView.findViewById(R.id.os_texts);
+            holder.os_text.setText(result[position]);
+
+            if(!tabels.get(position).contains("Table Number : ")){
+
+                if (shared.getInt("pos", 0) == position)
+                    rowView.setBackgroundColor(getResources().getColor(R.color.colorPick));
+                else
+                    rowView.setBackgroundColor(getResources().getColor(R.color.colorPrimary)); }
+
+            return rowView;
+        }
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_del_emp);
+
+
 
         cname = new ArrayList<String>();
         dname = new ArrayList<String>();
@@ -119,7 +186,7 @@ public class Emppage extends AppCompatActivity
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (shared2.getString("language", "").equals("arabic"))
-            toolbar.setTitle("أهلا و سهلا بك");
+            toolbar.setTitle("مؤسسة الدخيل");
         else
             toolbar.setTitle("Welcome Employee");
 
@@ -1129,7 +1196,7 @@ public class Emppage extends AppCompatActivity
                 }
 
 
-                final ArrayAdapter<classCashSale>adapter=new cashAdapterResultScreen(getApplication(),android.R.layout.simple_list_item_1,saleList);
+                final ArrayAdapter<classCashSale>adapter=new cashAdapterResultScreen(getApplication(), R.layout.items_row,saleList);
                 resList.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
 
@@ -1253,6 +1320,41 @@ public class Emppage extends AppCompatActivity
                 }
             }
         });
+
+        FillReserve();
+
+    }
+
+    private void FillReserve() {
+
+        db.collection("Res_1_Table_Res_").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                try{
+                    if (task.isSuccessful()) {
+
+                        for (QueryDocumentSnapshot document : task.getResult())
+                            tabels.set(Integer.parseInt(document.getId())-1, document.get("time").toString()+"@"+document.get("date"));
+
+                        gridview.setAdapter(new Emppage.CustomAdapter(Emppage.this, sites)); }
+
+                } catch(Exception ex){
+
+                    gridview.setAdapter(new Emppage.CustomAdapter(Emppage.this, tabels.toArray(new String[tabels.size()]) ));
+                }
+
+            } });
+
+        db = FirebaseFirestore.getInstance();
+
+        tabels.add("Table Number : 1"); tabels.add("Table Number : 2"); tabels.add("Table Number : 3");
+        tabels.add("Table Number : 4"); tabels.add("Table Number : 5"); tabels.add("Table Number : 6");
+        tabels.add("Table Number : 7"); tabels.add("Table Number : 8"); tabels.add("Table Number : 9");
+        tabels.add("Table Number : 10"); tabels.add("Table Number : 11"); tabels.add("Table Number : 12");
+        tabels.add("Table Number : 13"); tabels.add("Table Number : 14"); tabels.add("Table Number : 15");
+
+        gridview = (GridView) findViewById(R.id.customgrid);
 
     }
 
@@ -1403,13 +1505,13 @@ public class Emppage extends AppCompatActivity
             final Map<String, Object> evnt = new HashMap<String, Object>();
 
             new AlertDialog.Builder(Emppage.this)
-                    .setTitle("Send An Event ?")
-                    .setView(et).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    .setTitle("إرسال إشعار لزبائن المطعم ؟")
+                    .setView(et).setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
-            }).setPositiveButton("Send", new DialogInterface.OnClickListener() {
+            }).setPositiveButton("إرسال", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
@@ -1420,7 +1522,7 @@ public class Emppage extends AppCompatActivity
                             .set(evnt).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            Toast.makeText(Emppage.this, "Sent To All Customers !", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Emppage.this, "تم الأرسال بنجاح", Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -1486,7 +1588,7 @@ public class Emppage extends AppCompatActivity
                     items.add(a);
                     itemToShow.add(a.itemName);
                 }
-                ArrayAdapter<String>adapter=new ArrayAdapter<>(getApplication(),android.R.layout.simple_list_item_1,itemToShow);
+                ArrayAdapter<String>adapter=new ArrayAdapter<>(getApplication(),R.layout.items_row, R.id.item, itemToShow);
                 itemList.setAdapter(adapter);
 
             }
@@ -1502,7 +1604,7 @@ public class Emppage extends AppCompatActivity
                 subItemsAfterFilering.add(d);
             }
         }
-        ArrayAdapter<String>adapter=new ArrayAdapter<>(getApplication(),android.R.layout.simple_list_item_1,subItemToShow);
+        ArrayAdapter<String>adapter=new ArrayAdapter<>(getApplication(),R.layout.items_row, R.id.item, subItemToShow);
         subList.setAdapter(adapter);
     }
 

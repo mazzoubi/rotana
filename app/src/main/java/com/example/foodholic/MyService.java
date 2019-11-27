@@ -1,11 +1,14 @@
 package com.example.foodholic;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
@@ -55,7 +58,7 @@ public class MyService extends Service {
                                     str = "";
                                     str = document.get("msg").toString(); }
                                 if(!str.equals(""))
-                                    showNotification();
+                                    showNotification(str);
                             }catch (Exception e){}
                         }
                     } });
@@ -64,23 +67,36 @@ public class MyService extends Service {
         return START_STICKY;
     }
 
-    private void showNotification() {
+    private void showNotification(String str) {
 
         isServiceRunning = true;
+        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
+        int notificationId = 1;
+        String channelId = "channel-01";
+        String channelName = "Channel Name";
+        int importance = NotificationManager.IMPORTANCE_HIGH;
 
-        final NotificationManager mgr = (NotificationManager) this
-                .getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationCompat.Builder note = new NotificationCompat.Builder(this);
-        note.setContentTitle(str);
-        note.setAutoCancel(true);
-        note.setDefaults(Notification.DEFAULT_ALL);
-        note.setSmallIcon(R.mipmap.ic_launcher);
-        PendingIntent pi = PendingIntent.getActivity(this, 0, new Intent(this,
-                MainActivity.class), 0);
-        // set pending intent to notification builder
-        note.setContentIntent(pi);
-        mgr.notify(101, note.build());
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel mChannel = new NotificationChannel(
+                    channelId, channelName, importance);
+            notificationManager.createNotificationChannel(mChannel);
+        }
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), channelId)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("إشعار")
+                .setContentText(str);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+        stackBuilder.addNextIntent(new Intent(this, Main2Activity.class));
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
+                0,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+        mBuilder.setContentIntent(resultPendingIntent);
+
+        notificationManager.notify(notificationId, mBuilder.build());
     }
 
 }

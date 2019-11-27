@@ -205,7 +205,8 @@ public class Tabel_res_new extends AppCompatActivity {
     FirebaseFirestore db;
     SharedPreferences shared, shared2;
 
-     String da, ta;
+    String da, ta;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
