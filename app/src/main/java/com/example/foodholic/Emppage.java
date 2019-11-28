@@ -94,7 +94,7 @@ public class Emppage extends AppCompatActivity
     ArrayList<String>cmobile;
     ArrayList<String>caddress;
 
-    static classCloseOpenCash closeOpenCash = new classCloseOpenCash();
+    public static classCloseOpenCash closeOpenCash = new classCloseOpenCash();
 
     GridView gridview;
     String da, ta;
@@ -158,8 +158,6 @@ public class Emppage extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_del_emp);
-
-
 
         cname = new ArrayList<String>();
         dname = new ArrayList<String>();

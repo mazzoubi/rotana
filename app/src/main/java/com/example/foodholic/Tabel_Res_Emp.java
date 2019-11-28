@@ -227,6 +227,7 @@ public class Tabel_Res_Emp extends AppCompatActivity {
     SharedPreferences shared, shared2;
     String da, ta;
     String temp = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -243,7 +244,13 @@ public class Tabel_Res_Emp extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        getDateTime();
+        Button b = findViewById(R.id.btn);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getDateTime();
+            }
+        });
 
         tabels.add("Table Number : 1"); tabels.add("Table Number : 2"); tabels.add("Table Number : 3");
         tabels.add("Table Number : 4"); tabels.add("Table Number : 5"); tabels.add("Table Number : 6");

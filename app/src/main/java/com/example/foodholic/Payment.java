@@ -2,9 +2,11 @@ package com.example.foodholic;
 
 import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -27,7 +29,7 @@ import java.util.Map;
 public class Payment extends AppCompatActivity {
 
     EditText   payment ,description ;
-    TextView pydate ,textView;
+    TextView pydate ;
     Button done;
     FirebaseFirestore db;
     DatePickerDialog.OnDateSetListener date_;
@@ -46,17 +48,20 @@ public class Payment extends AppCompatActivity {
         payment=(EditText)findViewById(R.id.payments);
         description=(EditText)findViewById(R.id.paymentsDesc);
         pydate=(TextView) findViewById(R.id.dateToday);
-        textView=(TextView) findViewById(R.id.textView3);
         done =(Button)findViewById(R.id.apply);
 
+        Toolbar toolbar = findViewById(R.id.tool);
+        toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         shared2 = getSharedPreferences("lang", MODE_PRIVATE);
         if(shared2.getString("language", "").equals("arabic")) {
-            payment.setHint("المبلغ");
-            description.setHint("تفاصيل الدفعه");
-            pydate.setText("التاريخ");
-            done.setText("موافق");
-            textView.setText("تفاصيل التكاليف");
+            payment.setHint("المبلغ المصروف");
+            description.setHint("تفاصيل المصروف");
+            pydate.setText("تاريخ الصرف");
+            done.setText("+ إضافة المصروف +");
+            toolbar.setTitle("الرجوع");
         }
 
 

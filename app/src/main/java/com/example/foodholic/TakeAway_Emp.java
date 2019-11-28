@@ -67,11 +67,11 @@ public class TakeAway_Emp extends AppCompatActivity {
         info = new ArrayList<String>();
         dname = new ArrayList<String>();
 
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, info);
+        adapter = new ArrayAdapter<String>(this, R.layout.items_row3, R.id.item, info);
         list.setAdapter(adapter);
 
         final Spinner sp = findViewById(R.id.type);
-        adapterSpin = new ArrayAdapter<String>(TakeAway_Emp.this, android.R.layout.simple_spinner_item, dname);
+        adapterSpin = new ArrayAdapter<String>(TakeAway_Emp.this, R.layout.items_row3, R.id.item, dname);
         sp.setAdapter(adapterSpin);
 
         getDriver();

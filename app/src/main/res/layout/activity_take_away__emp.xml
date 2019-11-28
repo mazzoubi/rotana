@@ -14,30 +14,53 @@
         app:titleTextColor="@color/colorPrimaryDark"
         android:layout_height="40dp"/>
 
-    <Button
-        android:layout_width="150dp"
-        android:id="@+id/btn"
-        android:text="عرض الكل"
-        android:layout_below="@+id/tool"
-        android:layout_height="50dp"/>
-
-    <android.support.v7.widget.AppCompatSpinner
-        android:layout_width="wrap_content"
-        android:entries="@array/custom"
-        android:id="@+id/type"
-        android:spinnerMode="dropdown"
-        android:layout_margin="5dp"
-        android:layout_alignParentRight="true"
-        android:textSize="24sp"
-        android:layout_below="@+id/tool"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimary"
-        android:layout_height="wrap_content" />
-
-    <ListView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:id="@+id/list"
-        android:layout_below="@+id/btn"
-        android:layout_height="match_parent"/>
+        android:id="@+id/l"
+        android:weightSum="2"
+        android:layout_margin="5dp"
+        android:layout_below="@+id/tool"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/btn"
+            android:textSize="18sp"
+            android:textColor="#ffffff"
+            android:background="@drawable/shape"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="عرض لجميع الطلبات"
+            android:layout_height="50dp"/>
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:layout_width="0dp"
+            android:entries="@array/custom"
+            android:layout_weight="1"
+            android:id="@+id/type"
+            android:backgroundTint="@color/colorPrimary"
+            android:background="@drawable/shape"
+            android:spinnerMode="dropdown"
+            android:layout_marginLeft="15dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_below="@+id/l"
+        android:layout_margin="10dp"
+        android:elevation="10dp"
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:id="@+id/list"
+            android:layout_height="match_parent"/>
+
+    </android.support.v7.widget.CardView>
 
 </RelativeLayout>

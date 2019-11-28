@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -51,6 +52,9 @@ public class cashAddItem extends AppCompatActivity {
 
         db=FirebaseFirestore.getInstance();
 
+        Toolbar bar = findViewById(R.id.tool);
+        setSupportActionBar(bar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         shared2 = getSharedPreferences("lang", MODE_PRIVATE);
         itemName=findViewById(R.id.itemSubItem);
@@ -71,14 +75,15 @@ public class cashAddItem extends AppCompatActivity {
         checkBox.setChecked(true);
 
         if (HomeAct.lang==1){
-            itemName.setText("اسم الماده");
-            itemPrice.setText("سعر الماده");
-            itemCost.setText("سعر التكلفه");
+            itemName.setText("إسم المادة");
+            itemPrice.setText("سعر المادة");
+            itemCost.setText("سعر التكلفة");
             itemPoint.setText("النقاط");
-            newItemName.setText("اسم التصنيف");
+            newItemName.setText("إسم التصنيف");
             checkBox.setText("تصنيف جديد؟");
             kitchen.setText("رقم المطبخ");
-            add.setText("اضافه");
+            add.setText("+ إضافة +");
+            bar.setTitle("الرجوع");
         }
 
         db.collection("Res_1_items").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -98,7 +103,7 @@ public class cashAddItem extends AppCompatActivity {
                     spinerIten.add(a.itemName);
                 }
 
-                ArrayAdapter<String> adapter=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item,spinerIten);
+                ArrayAdapter<String> adapter=new ArrayAdapter<>(getApplicationContext(), R.layout.items_row3, R.id.item,spinerIten);
                 currentItem.setAdapter(adapter);
                 if (itemList.isEmpty()){
                     checkBox.setChecked(true);

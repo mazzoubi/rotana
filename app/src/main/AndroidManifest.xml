@@ -20,8 +20,10 @@
         tools:replace="android:supportsRtl">
         <activity android:name=".Zreport"></activity>
         <activity android:name=".Main2Activity" />
-        <activity android:name=".cashAddItem" />
-        <activity android:name=".Tabel_Res_Emp" />
+        <activity android:name=".cashAddItem"
+            android:parentActivityName=".Emppage"/>
+        <activity android:name=".Tabel_Res_Emp"
+            android:parentActivityName=".Emppage"/>
         <activity android:name=".casher" />
         <activity android:name=".employeeSalaryDiscount" />
         <activity android:name=".employeeLoans" />
@@ -47,7 +49,8 @@
         <activity android:name=".UserLogin" />
         <activity android:name=".Profile"
             android:parentActivityName=".Main2Activity"/>
-        <activity android:name=".Payment" />
+        <activity android:name=".Payment"
+            android:parentActivityName=".Emppage"/>
         <activity android:name=".employeeAdd" />
         <activity android:name=".employeeCreatInformation" />
         <activity android:name=".statistics" />

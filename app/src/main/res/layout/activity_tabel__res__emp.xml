@@ -12,10 +12,23 @@
         app:titleTextColor="@color/colorPrimaryDark"
         android:layout_height="40dp"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/btn"
+        android:layout_below="@+id/tool"
+        android:textSize="18sp"
+        android:padding="5dp"
+        android:layout_margin="5dp"
+        android:textColor="#ffffff"
+        android:background="@drawable/shape"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="إختيار و عرض الحجوزات بالتاريخ والوقت"
+        android:layout_height="50dp"/>
+
     <GridView
         android:id="@+id/customgrid"
-        android:layout_below="@+id/tool"
-        android:layout_marginTop="15dp"
+        android:layout_below="@+id/btn"
         android:layout_width="match_parent"
         android:layout_above="@+id/la"
         android:layout_marginBottom="15dp"

@@ -67,11 +67,11 @@ public class Delivery_Emp extends AppCompatActivity {
         loc = new ArrayList<String>();
         info = new ArrayList<String>();
 
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, info);
+        adapter = new ArrayAdapter<String>(this, R.layout.items_row3, R.id.item, info);
         list.setAdapter(adapter);
         dname = new ArrayList<String>();
         final Spinner sp = findViewById(R.id.type);
-        adapterSpin = new ArrayAdapter<String>(Delivery_Emp.this, android.R.layout.simple_spinner_item, dname);
+        adapterSpin = new ArrayAdapter<String>(Delivery_Emp.this, R.layout.items_row3, R.id.item, dname);
         sp.setAdapter(adapterSpin);
 
         getDriver();
@@ -105,7 +105,7 @@ public class Delivery_Emp extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     removeData(sp.getSelectedItem().toString(), position);
                                 }
-                            }).setCancelable(false).create().show();
+                            }).create().show();
                 }
                 else {
 
@@ -121,7 +121,7 @@ public class Delivery_Emp extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     removeData(sp.getSelectedItem().toString(), position);
                                 }
-                            }).setCancelable(false).create().show();
+                            }).create().show();
                 }
             }
         });
