@@ -1688,6 +1688,9 @@ public class Emppage extends AppCompatActivity
 
     public void AddSale(){
 
+        String bill="";
+        int sum=0;
+
         for(int i=0; i<saleList.size(); i++){
 
             DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
@@ -1705,6 +1708,12 @@ public class Emppage extends AppCompatActivity
             sale.put("empEmail", getIntent().getStringExtra("empemail"));
             sale.put("sale", saleList.get(i).sumPrice);
 
+            sum+=saleList.get(i).sumPrice;
+            bill="date: "+day+"\n" +
+                    "time: "+time + "\n" +
+                    "sub item: "+saleList.get(i).subItemName+"\n" +
+                    "sum price: "+ saleList.get(i).sumPrice+"\n" +
+                    "-------------------------------------------\n" ;
 
             db.collection("Res_1_sales").document()
                     .set(sale)
@@ -1716,6 +1725,12 @@ public class Emppage extends AppCompatActivity
                     });
 
         }
-    }
+        bill+="total: "+sum+"\n\n\n"+"**********Aldakheel**********\n\n\n";
+        print(bill);
 
+
+    }
+    void print(String ss ){
+        Toast.makeText(this, ss, Toast.LENGTH_LONG).show();
+    }
 }
