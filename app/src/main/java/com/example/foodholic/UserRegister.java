@@ -56,7 +56,7 @@ public class UserRegister extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(!eemail.getText().toString().isEmpty() && !ppass.getText().toString().isEmpty()
-                && !mobile.getText().toString().isEmpty() && !name.getText().toString().isEmpty()){
+                        && !mobile.getText().toString().isEmpty() && !name.getText().toString().isEmpty()){
 
                     final FirebaseAuth fire = FirebaseAuth.getInstance();
                     fire.createUserWithEmailAndPassword(eemail.getText().toString(), ppass.getText().toString())

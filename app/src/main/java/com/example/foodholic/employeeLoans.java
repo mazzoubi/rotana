@@ -80,20 +80,20 @@ public class employeeLoans extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"هذا الموظف لديه سلفه حالياً, لا يمكن اكمال الاجراء .....",Toast.LENGTH_LONG).show();
                     }
                     else
-                    Toast.makeText(getApplicationContext(),"this emp have a loan you cant compleat.....",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"this emp have a loan you cant compleat.....",Toast.LENGTH_LONG).show();
                 }
                 else if (value.getText().toString().isEmpty()){
                     if(shared2.getString("language", "").equals("arabic")) {
                         Toast.makeText(getApplicationContext(),"حقل قيمة السلفه فارغ",Toast.LENGTH_LONG).show();
                     }
-                   else Toast.makeText(getApplicationContext(),"value field is empty ",Toast.LENGTH_LONG).show();
+                    else Toast.makeText(getApplicationContext(),"value field is empty ",Toast.LENGTH_LONG).show();
                 }
                 else if (repayment.getText().toString().isEmpty()){
                     if(shared2.getString("language", "").equals("arabic")) {
                         Toast.makeText(getApplicationContext(),"حقل قيمة السداد الشهريه فارغ",Toast.LENGTH_LONG).show();
                     }
                     else
-                    Toast.makeText(getApplicationContext(),"repayment field is empty",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"repayment field is empty",Toast.LENGTH_LONG).show();
                 }
                 else {
                     Map<String, Object> reservation = new HashMap<>();
@@ -115,8 +115,8 @@ public class employeeLoans extends AppCompatActivity {
                                     onBackPressed();
                                 }
                                 else{
-                                Toast.makeText(getApplicationContext(),"successful loan add ..",Toast.LENGTH_LONG).show();
-                                onBackPressed();
+                                    Toast.makeText(getApplicationContext(),"successful loan add ..",Toast.LENGTH_LONG).show();
+                                    onBackPressed();
                                 }
                             }
                         }

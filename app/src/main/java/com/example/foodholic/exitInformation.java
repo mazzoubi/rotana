@@ -111,18 +111,18 @@ public class exitInformation extends AppCompatActivity {
         //////////////////////////////////
         //////////////////////////////////
         for(int i = 0; i< adminEmpAccess.ex.size(); i++){
-                arrayList.add(adminEmpAccess.ex.get(i).email+"\n"+ adminEmpAccess.ex.get(i).date
-                        +"\n"+"time of exit: "+ adminEmpAccess.ex.get(i).time+" hours"+"\n"+ adminEmpAccess.ex.get(i).description);
-                if (adminEmpAccess.ex.get(i).time.equals("day off")){
-                    alldayoff++;
-                    if(adminEmpAccess.ex.get(i).description.equals("no show ,no call")){
-                        dayoffnoshow++;
-                    }
-                    else dayoff++;
+            arrayList.add(adminEmpAccess.ex.get(i).email+"\n"+ adminEmpAccess.ex.get(i).date
+                    +"\n"+"time of exit: "+ adminEmpAccess.ex.get(i).time+" hours"+"\n"+ adminEmpAccess.ex.get(i).description);
+            if (adminEmpAccess.ex.get(i).time.equals("day off")){
+                alldayoff++;
+                if(adminEmpAccess.ex.get(i).description.equals("no show ,no call")){
+                    dayoffnoshow++;
                 }
-                else if(adminEmpAccess.ex.get(i).time.equals("1")){  hourext1++;}
-                else if(adminEmpAccess.ex.get(i).time.equals("2")){hourext2+=2;}
-                else  if(adminEmpAccess.ex.get(i).time.equals("3")){hourext3+=3;}
+                else dayoff++;
+            }
+            else if(adminEmpAccess.ex.get(i).time.equals("1")){  hourext1++;}
+            else if(adminEmpAccess.ex.get(i).time.equals("2")){hourext2+=2;}
+            else  if(adminEmpAccess.ex.get(i).time.equals("3")){hourext3+=3;}
         }
         ArrayAdapter<String> adapter=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_list_item_1,arrayList);
         listView.setAdapter(adapter);

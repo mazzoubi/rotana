@@ -58,24 +58,24 @@ public class warehouse extends AppCompatActivity {
         db.collection("Res_1_warehouse").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                 item=new ArrayList<>();
-            for(DocumentSnapshot d : list){
-                classWarehouseItem a = d.toObject(classWarehouseItem.class);
-                item.add(a);
-            }
-
-            if (item.isEmpty()){
-                if(shared2.getString("language", "").equals("arabic")){
-                    Toast.makeText(getApplicationContext(),"لا يوجد اي عناصر في المستودع",Toast.LENGTH_LONG).show();
+                for(DocumentSnapshot d : list){
+                    classWarehouseItem a = d.toObject(classWarehouseItem.class);
+                    item.add(a);
                 }
-                else
-                Toast.makeText(getApplicationContext(),"you not have any item in your warehouse",Toast.LENGTH_LONG).show();
-            }
-            else {
-                ArrayAdapter<classWarehouseItem> adapter = new adapterWarehouse(getApplicationContext(), R.layout.row, item);
-                listView.setAdapter(adapter);
-            }
+
+                if (item.isEmpty()){
+                    if(shared2.getString("language", "").equals("arabic")){
+                        Toast.makeText(getApplicationContext(),"لا يوجد اي عناصر في المستودع",Toast.LENGTH_LONG).show();
+                    }
+                    else
+                        Toast.makeText(getApplicationContext(),"you not have any item in your warehouse",Toast.LENGTH_LONG).show();
+                }
+                else {
+                    ArrayAdapter<classWarehouseItem> adapter = new adapterWarehouse(getApplicationContext(), R.layout.row, item);
+                    listView.setAdapter(adapter);
+                }
             }
         });
 

@@ -67,74 +67,74 @@ public class onWork extends AppCompatActivity {
                 String[] y = sdf.format(myCalendar.getTime()).split("/");
                 myDatefrom = y[1] + "-" + y[0] + "-" + y[2];
             }};
-                new DatePickerDialog(onWork.this, date_, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-               // Toast.makeText(getApplicationContext(), "chose the dd/mm/yyyy in month you want show information", Toast.LENGTH_LONG).show();
+        new DatePickerDialog(onWork.this, date_, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+        // Toast.makeText(getApplicationContext(), "chose the dd/mm/yyyy in month you want show information", Toast.LENGTH_LONG).show();
 
 
-                //////////////////////////////////////////////////
-                //////////////////////////////////////////////////
+        //////////////////////////////////////////////////
+        //////////////////////////////////////////////////
 
 
-                button = findViewById(R.id.addwork);
-                textView = findViewById(R.id.showname);
-                listView = findViewById(R.id.showemp);
+        button = findViewById(R.id.addwork);
+        textView = findViewById(R.id.showname);
+        listView = findViewById(R.id.showemp);
 
 
         shared2 = getSharedPreferences("lang", MODE_PRIVATE);
         if(shared2.getString("language", "").equals("arabic")) {
-           button.setText("غياب");
+            button.setText("غياب");
         }
 
-                db = FirebaseFirestore.getInstance();
-                db.collection("Res_1_employee").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+        db = FirebaseFirestore.getInstance();
+        db.collection("Res_1_employee").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
 
-                        for (DocumentSnapshot d : list) {
-                            classEmployee a = d.toObject(classEmployee.class);
-                            emp.add(a);
+                for (DocumentSnapshot d : list) {
+                    classEmployee a = d.toObject(classEmployee.class);
+                    emp.add(a);
+                }
+                adapter = new empAdapter(getApplicationContext(), R.layout.rowemp, emp);
+                listView.setAdapter(adapter);
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                pos = position;
+                textView.setText(emp.get(position).Fname + " " + emp.get(position).Lname);
+            }
+        });
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (myDatefrom.equals(" / / ")){
+                    new DatePickerDialog(onWork.this, date_, myCalendar
+                            .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                            myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                    //  Toast.makeText(getApplicationContext(), "chose the dd/mm/yyyy in month you want show information", Toast.LENGTH_LONG).show();
+
+                }
+                else{
+
+
+                    if (textView.getText().toString().isEmpty()){
+                        if(shared2.getString("language", "").equals("arabic")) {
+                            Toast.makeText(getApplicationContext(), "لم يتم تحديد اي موظف ", Toast.LENGTH_LONG).show();
+
                         }
-                        adapter = new empAdapter(getApplicationContext(), R.layout.rowemp, emp);
-                        listView.setAdapter(adapter);
-                    }
-                });
-
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        pos = position;
-                        textView.setText(emp.get(position).Fname + " " + emp.get(position).Lname);
-                    }
-                });
-
-
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        if (myDatefrom.equals(" / / ")){
-                            new DatePickerDialog(onWork.this, date_, myCalendar
-                                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                                    myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-                          //  Toast.makeText(getApplicationContext(), "chose the dd/mm/yyyy in month you want show information", Toast.LENGTH_LONG).show();
-
-                        }
-                        else{
-
-
-                        if (textView.getText().toString().isEmpty()){
-                            if(shared2.getString("language", "").equals("arabic")) {
-                                Toast.makeText(getApplicationContext(), "لم يتم تحديد اي موظف ", Toast.LENGTH_LONG).show();
-
-                            }
-                            else
+                        else
                             Toast.makeText(getApplicationContext(), "no emp selected return select ", Toast.LENGTH_LONG).show();
-                        }
-                        else {
-                            root = FirebaseDatabase.getInstance().getReference();
+                    }
+                    else {
+                        root = FirebaseDatabase.getInstance().getReference();
 
                         Map<String, Object> map = new HashMap<String, Object>();
                         String temp_key = root.push().getKey();
@@ -171,7 +171,7 @@ public class onWork extends AppCompatActivity {
                                     }
                                 });
                     }}}
-                });
+        });
 
-        }
     }
+}

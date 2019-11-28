@@ -272,7 +272,7 @@ public class Emppage extends AppCompatActivity
                                 closeOpenCash.dateOpen = print.format(parsedDate);
                                 closeOpenCash.dateAndTimeOpen = print2.format(parsedDate2);
 
-                                 }
+                            }
                             catch (ParseException e) {
                                 new AlertDialog.Builder(Emppage.this).setMessage(e+"").show();
                             }
@@ -345,7 +345,7 @@ public class Emppage extends AppCompatActivity
         re.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               recreate();
+                recreate();
             }
         });
 
@@ -984,10 +984,10 @@ public class Emppage extends AppCompatActivity
                         temp+=saleList.get(i).subItemName+" = "+saleList.get(i).count+" : "+saleList.get(i).sumPrice+" , ";
                         s+=saleList.get(i).sumPrice;}
 
-                        Intent intent = new Intent(Emppage.this, Tabel_Res_Emp.class);
-                        intent.putExtra("order", temp);
-                        intent.putExtra("orderSum", s+"");
-                        startActivity(intent);
+                    Intent intent = new Intent(Emppage.this, Tabel_Res_Emp.class);
+                    intent.putExtra("order", temp);
+                    intent.putExtra("orderSum", s+"");
+                    startActivity(intent);
                 }
 
             }
@@ -1042,7 +1042,7 @@ public class Emppage extends AppCompatActivity
                                 Date parsedDate = sdf.parse(new Date().toString());
                                 SimpleDateFormat print = new SimpleDateFormat(form);
                                 closeOpenCash.dateAndTimeClose = print.format(parsedDate);
-                            et3.setText(closeOpenCash.dateAndTimeClose); }
+                                et3.setText(closeOpenCash.dateAndTimeClose); }
                             catch (Exception e){}
                         }
                     });
@@ -1495,7 +1495,7 @@ public class Emppage extends AppCompatActivity
                 finish();
             }
 
-         }
+        }
 
         else if(id == R.id.noti){
 
@@ -1551,7 +1551,7 @@ public class Emppage extends AppCompatActivity
                 Intent n =new Intent(getApplicationContext(),Payment.class);
                 n.putExtra("emp",empEmail);
                 startActivity(n);
-            break;
+                break;
             case R.id.nav_contact: startActivity(new Intent(this, Contact.class)); break;
             case R.id.nav_about: startActivity(new Intent(this, About.class)); break; }
 
@@ -1704,6 +1704,7 @@ public class Emppage extends AppCompatActivity
             sale.put("item", itemToShow.get(i));
             sale.put("empEmail", getIntent().getStringExtra("empemail"));
             sale.put("sale", saleList.get(i).sumPrice);
+
 
             db.collection("Res_1_sales").document()
                     .set(sale)

@@ -79,17 +79,17 @@ public class statisticsByEmp extends AppCompatActivity {
         employee.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-               if (position==0){ch=false;}else {
+                if (position==0){ch=false;}else {
 
-                   ch=true;
-                   comp.setText(emp.get(position - 1).Fname + " " + emp.get(position - 1).Lname + "\n" +
-                           emp.get(position - 1).empPhone + "\n" +
-                           emp.get(position - 1).email + "\n" +
-                           emp.get(position - 1).empType);
-                   email = emp.get(position - 1).email;
-               }
+                    ch=true;
+                    comp.setText(emp.get(position - 1).Fname + " " + emp.get(position - 1).Lname + "\n" +
+                            emp.get(position - 1).empPhone + "\n" +
+                            emp.get(position - 1).email + "\n" +
+                            emp.get(position - 1).empType);
+                    email = emp.get(position - 1).email;
+                }
                 if (lang==1){
-                Toast.makeText(getApplicationContext(),"تم, الرجاء اختيار التاريخ الان", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"تم, الرجاء اختيار التاريخ الان", Toast.LENGTH_LONG).show();
                 }
                 else {Toast.makeText(getApplicationContext(),"ok, please choose the date now", Toast.LENGTH_LONG).show();}
             }
@@ -108,67 +108,67 @@ public class statisticsByEmp extends AppCompatActivity {
                     case 0:
                         datemonth="";
                         ch=false;
-                    break;
+                        break;
 
                     case 1:
                         datemonth="01";
                         ch=true;
-                    break;
+                        break;
 
                     case 2:
                         datemonth="02";
                         ch=true;
-                    break;
+                        break;
 
                     case 3:
                         datemonth="03";
                         ch=true;
-                    break;
+                        break;
 
                     case 4:
                         datemonth="04";
                         ch=true;
-                    break;
+                        break;
 
                     case 5:
                         datemonth="05";
                         ch=true;
-                    break;
+                        break;
 
                     case 6:
                         datemonth="06";
                         ch=true;
-                    break;
+                        break;
 
                     case 7:
                         datemonth="07";
                         ch=true;
-                    break;
+                        break;
 
                     case 8:
                         datemonth="08";
                         ch=true;
-                    break;
+                        break;
 
                     case 9:
                         datemonth="09";
                         ch=true;
-                    break;
+                        break;
 
                     case 10:
                         datemonth="10";
                         ch=true;
-                    break;
+                        break;
 
                     case 11:
                         datemonth="11";
                         ch=true;
-                    break;
+                        break;
 
                     case 12:
                         datemonth="12";
                         ch=true;
-                    break;
+                        break;
                 }
             }
 
@@ -193,36 +193,36 @@ public class statisticsByEmp extends AppCompatActivity {
             }
         });
 
-     search.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             if (email.isEmpty()){
-                 if (lang==1) {
-                     Toast.makeText(getApplicationContext(), "الرجاء اختيار اسم الموظف", Toast.LENGTH_LONG).show();
-                 }
-                 else {Toast.makeText(getApplicationContext(), "please choose the employee name", Toast.LENGTH_LONG).show();}
-                 }
-             else if (dateyear.isEmpty()){
-                 if (lang==1) {
-                     Toast.makeText(getApplicationContext(), "الرجاء تحديد السنه", Toast.LENGTH_LONG).show();
-                 }else{Toast.makeText(getApplicationContext(), "please select a year", Toast.LENGTH_LONG).show();}
-                 }
-             else if (datemonth.isEmpty()){
-                 if (lang==1) {
-                     Toast.makeText(getApplicationContext(), "الرجاء تحديد الشهر", Toast.LENGTH_LONG).show();
-                 }else{Toast.makeText(getApplicationContext(), "please select a month", Toast.LENGTH_LONG).show();}
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (email.isEmpty()){
+                    if (lang==1) {
+                        Toast.makeText(getApplicationContext(), "الرجاء اختيار اسم الموظف", Toast.LENGTH_LONG).show();
+                    }
+                    else {Toast.makeText(getApplicationContext(), "please choose the employee name", Toast.LENGTH_LONG).show();}
+                }
+                else if (dateyear.isEmpty()){
+                    if (lang==1) {
+                        Toast.makeText(getApplicationContext(), "الرجاء تحديد السنه", Toast.LENGTH_LONG).show();
+                    }else{Toast.makeText(getApplicationContext(), "please select a year", Toast.LENGTH_LONG).show();}
+                }
+                else if (datemonth.isEmpty()){
+                    if (lang==1) {
+                        Toast.makeText(getApplicationContext(), "الرجاء تحديد الشهر", Toast.LENGTH_LONG).show();
+                    }else{Toast.makeText(getApplicationContext(), "please select a month", Toast.LENGTH_LONG).show();}
 
-             }
-             else {
+                }
+                else {
 
-                   loadSale(email,datemonth,dateyear);
-                loadPayment(email,datemonth,dateyear);
+                    loadSale(email,datemonth,dateyear);
+                    loadPayment(email,datemonth,dateyear);
 
 
-             }
+                }
 
-         }
-     });
+            }
+        });
 
         chart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -247,14 +247,14 @@ public class statisticsByEmp extends AppCompatActivity {
 
 
     public void loadSale( String email1,  String month1,  String year1){
-       // Toast.makeText(getApplicationContext(), "sale ok", Toast.LENGTH_LONG).show();
+        // Toast.makeText(getApplicationContext(), "sale ok", Toast.LENGTH_LONG).show();
         sales = new ArrayList<>();
 
-            for(int i=0;i<Adminpage.cSale.size();i++){
-                if (Adminpage.cSale.get(i).empEmail.contains(email1)&&Adminpage.cSale.get(i).date.contains(month1 + "-" + year1)){
-                    sales.add(Adminpage.cSale.get(i));
-                   salCost+=Adminpage.cSale.get(i).sale;
-                }
+        for(int i=0;i<Adminpage.cSale.size();i++){
+            if (Adminpage.cSale.get(i).empEmail.contains(email1)&&Adminpage.cSale.get(i).date.contains(month1 + "-" + year1)){
+                sales.add(Adminpage.cSale.get(i));
+                salCost+=Adminpage.cSale.get(i).sale;
+            }
         }
 
         salAdapt = new adminAdapterSales(getApplicationContext(), R.layout.row, sales);
@@ -263,18 +263,18 @@ public class statisticsByEmp extends AppCompatActivity {
     }
     public void loadPayment( String email1,  String month1,  String year1) {
 
-       // Toast.makeText(getApplicationContext(), "payment ok", Toast.LENGTH_LONG).show();
+        // Toast.makeText(getApplicationContext(), "payment ok", Toast.LENGTH_LONG).show();
         payments = new ArrayList<>();
 
-            for (int i=0 ; i<Adminpage.cPyment.size();i++) {
-                if (Adminpage.cPyment.get(i).emp.equals(email1) && Adminpage.cPyment.get(i).date.contains(month1 + "-" + year1)) {
-                    payments.add(Adminpage.cPyment.get(i));
-                    payCost+=Adminpage.cPyment.get(i).pay;
-                }
+        for (int i=0 ; i<Adminpage.cPyment.size();i++) {
+            if (Adminpage.cPyment.get(i).emp.equals(email1) && Adminpage.cPyment.get(i).date.contains(month1 + "-" + year1)) {
+                payments.add(Adminpage.cPyment.get(i));
+                payCost+=Adminpage.cPyment.get(i).pay;
             }
-            payadpt = new adminAdapterPayment(getApplicationContext(), R.layout.row, payments);
-            payList.setAdapter(payadpt);
-loadSale(email1,month1,year1);
+        }
+        payadpt = new adminAdapterPayment(getApplicationContext(), R.layout.row, payments);
+        payList.setAdapter(payadpt);
+        loadSale(email1,month1,year1);
     }
     public void loadEmp(){
         db = FirebaseFirestore.getInstance();
@@ -285,7 +285,7 @@ loadSale(email1,month1,year1);
                 List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                 if (lang==1){
                     empnames.add("اختيار موظف");
-                 }
+                }
                 else {empnames.add("select employee");}
                 for (DocumentSnapshot d : list) {
                     classEmployee a = d.toObject(classEmployee.class);

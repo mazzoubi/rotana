@@ -54,12 +54,12 @@ public class statisticsByDay extends AppCompatActivity {
 
 
         final TextView textView =(TextView)findViewById(R.id.dddaday);
-       // final TextView textView2 =(TextView)findViewById(R.id.ddda3day);
+        // final TextView textView2 =(TextView)findViewById(R.id.ddda3day);
         monyResult =(TextView)findViewById(R.id.moneyResultday);
 
         search=(Button)findViewById(R.id.button_searchday);
         moredetale=(Button)findViewById(R.id.button_search3day);
-       // searchyear=(Button)findViewById(R.id.button_search2day);
+        // searchyear=(Button)findViewById(R.id.button_search2day);
         refresh=(Button)findViewById(R.id.button_refreshday);
         chart=findViewById(R.id.button_chartday);
         t1=findViewById(R.id.ddda7day);
@@ -68,7 +68,7 @@ public class statisticsByDay extends AppCompatActivity {
         shared2 = getSharedPreferences("lang", MODE_PRIVATE);
         shared2 = getSharedPreferences("lang", MODE_PRIVATE);
         if(shared2.getString("language", "").equals("arabic")) {
-           // textView2.setText("عرض في السنه");
+            // textView2.setText("عرض في السنه");
             moredetale.setText("تفاصيل اكثر");
             t1.setText("المبيعات");
             t2.setText("التكاليف");

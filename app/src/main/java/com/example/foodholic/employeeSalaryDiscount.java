@@ -55,9 +55,9 @@ public class employeeSalaryDiscount extends AppCompatActivity {
             int count=0;
             for (int i=0;i<adminEmpAccess.dis.size();i++){
                 resultText+=
-                            "value of sal discount   : "+adminEmpAccess.dis.get(i).value+"\n\n"+
-                            "description of discount : "+adminEmpAccess.dis.get(i).description+"\n"+
-                            "------------------------------------\n";
+                        "value of sal discount   : "+adminEmpAccess.dis.get(i).value+"\n\n"+
+                                "description of discount : "+adminEmpAccess.dis.get(i).description+"\n"+
+                                "------------------------------------\n";
                 count+=adminEmpAccess.dis.get(i).value;
             }
             resultText+="number of sal discount  : "+adminEmpAccess.dis.size()+"\n\n";
@@ -80,8 +80,8 @@ public class employeeSalaryDiscount extends AppCompatActivity {
                     resultText="";
                     resultText+=
                             "قيمة الحسم : "+adminEmpAccess.dis.get(i).value+"\n\n"+
-                            "وصف الحسم  : "+adminEmpAccess.dis.get(i).description+"\n"+
-                            "--------------------------------\n";
+                                    "وصف الحسم  : "+adminEmpAccess.dis.get(i).description+"\n"+
+                                    "--------------------------------\n";
                     count+=adminEmpAccess.dis.get(i).value;
                 }
                 resultText+="عدد الحسومات : "+adminEmpAccess.dis.size()+"\n\n";
@@ -129,19 +129,19 @@ public class employeeSalaryDiscount extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"الرجاء ادخال قيمة الحسم",Toast.LENGTH_LONG).show();
                     }
                     else
-                    Toast.makeText(getApplicationContext(),"please enter th value of descount ",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"please enter th value of descount ",Toast.LENGTH_LONG).show();
                 }else if(desc.getText().toString().isEmpty()){
                     if(shared2.getString("language", "").equals("arabic")) {
                         Toast.makeText(getApplicationContext(),"الرجاء ادخال وصف الحسم",Toast.LENGTH_LONG).show();
                     }
                     else
-                    Toast.makeText(getApplicationContext(),"please enter th description of descount",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"please enter th description of descount",Toast.LENGTH_LONG).show();
                 }else if (selected==0){
                     if(shared2.getString("language", "").equals("arabic")) {
                         Toast.makeText(getApplicationContext(),"الجاء اختيار نوع الحسم",Toast.LENGTH_LONG).show();
                     }
                     else
-                    Toast.makeText(getApplicationContext(),"please choose th type of descount",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"please choose th type of descount",Toast.LENGTH_LONG).show();
                 }
                 else{
                     Map<String, Object> reservation = new HashMap<>();
@@ -162,8 +162,8 @@ public class employeeSalaryDiscount extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(),"تم اضافة الحسم بنجاح ..",Toast.LENGTH_LONG).show();
                                     onBackPressed();
                                 }else {
-                                Toast.makeText(getApplicationContext(),"successful salary discount add ..",Toast.LENGTH_LONG).show();
-                                onBackPressed();}
+                                    Toast.makeText(getApplicationContext(),"successful salary discount add ..",Toast.LENGTH_LONG).show();
+                                    onBackPressed();}
                             }
                         }
                     });

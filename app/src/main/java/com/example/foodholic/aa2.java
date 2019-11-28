@@ -54,7 +54,7 @@ public class aa2 extends AppCompatActivity {
         }
         else{
             textView.setText("The item is : "+warehouse.item.get(position).item
-                +"\n"+"Quantity is : "+warehouse.item.get(position).quantity+" "+warehouse.item.get(position).quantityType); }
+                    +"\n"+"Quantity is : "+warehouse.item.get(position).quantity+" "+warehouse.item.get(position).quantityType); }
 
 
 
@@ -69,61 +69,61 @@ public class aa2 extends AppCompatActivity {
 
                 try{
                     give=Double.parseDouble(editText.getText().toString());
-                if(editText.getText().toString().isEmpty()){
-                    if(shared2.getString("language", "").equals("arabic")){}
-                    else
-                    Toast.makeText(getApplicationContext(),"the quantity filed is empty",Toast.LENGTH_LONG).show();
-                }
+                    if(editText.getText().toString().isEmpty()){
+                        if(shared2.getString("language", "").equals("arabic")){}
+                        else
+                            Toast.makeText(getApplicationContext(),"the quantity filed is empty",Toast.LENGTH_LONG).show();
+                    }
 
-                else if (quantity-give<0){
-                    if(shared2.getString("language", "").equals("arabic")){}
-                    else
-                    Toast.makeText(getApplicationContext(),"you not have this quantity in your warehouse, please return input",Toast.LENGTH_LONG).show();
-                }
-                else {
-                    Map<String, Object> reservation = new HashMap<>();
-                    reservation.put("item", warehouse.item.get(position).item);
-                    reservation.put("quantity", quantity-give+"");
-                    reservation.put("quantityType", warehouse.item.get(position).quantityType);
+                    else if (quantity-give<0){
+                        if(shared2.getString("language", "").equals("arabic")){}
+                        else
+                            Toast.makeText(getApplicationContext(),"you not have this quantity in your warehouse, please return input",Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Map<String, Object> reservation = new HashMap<>();
+                        reservation.put("item", warehouse.item.get(position).item);
+                        reservation.put("quantity", quantity-give+"");
+                        reservation.put("quantityType", warehouse.item.get(position).quantityType);
 
-                    db.collection("Res_1_warehouse").document(warehouse.item.get(position).item).set(reservation)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
+                        db.collection("Res_1_warehouse").document(warehouse.item.get(position).item).set(reservation)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            if(shared2.getString("language", "").equals("arabic")){
+                                                Toast.makeText(aa2.this, "تمت العمليه بنجاح", Toast.LENGTH_SHORT).show();
+                                                Intent n =new Intent(getApplicationContext(),warehouse.class);
+                                                onBackPressed();
+                                                startActivity(n);
+                                            }
+                                            else{
+                                                Toast.makeText(aa2.this, "Operation Successful, Your get item", Toast.LENGTH_SHORT).show();
+                                                Intent n =new Intent(getApplicationContext(),warehouse.class);
+                                                onBackPressed();
+                                                startActivity(n);
+                                            }
+
+                                        }
+                                        else
                                         if(shared2.getString("language", "").equals("arabic")){
-                                            Toast.makeText(aa2.this, "تمت العمليه بنجاح", Toast.LENGTH_SHORT).show();
-                                            Intent n =new Intent(getApplicationContext(),warehouse.class);
-                                            onBackPressed();
-                                            startActivity(n);
+                                            Toast.makeText(aa2.this, "خطأ غير متوقع الرجاء اعادة المحاوله !", Toast.LENGTH_SHORT).show();
+
                                         }
-                                        else{
-                                            Toast.makeText(aa2.this, "Operation Successful, Your get item", Toast.LENGTH_SHORT).show();
-                                            Intent n =new Intent(getApplicationContext(),warehouse.class);
-                                            onBackPressed();
-                                            startActivity(n);
-                                        }
+                                        else
+                                            Toast.makeText(aa2.this, "Error, Please Try To get Again !", Toast.LENGTH_SHORT).show();
 
                                     }
-                                    else
-                                    if(shared2.getString("language", "").equals("arabic")){
-                                        Toast.makeText(aa2.this, "خطأ غير متوقع الرجاء اعادة المحاوله !", Toast.LENGTH_SHORT).show();
-
-                                    }
-                                    else
-                                        Toast.makeText(aa2.this, "Error, Please Try To get Again !", Toast.LENGTH_SHORT).show();
-
-                                }
-                            });
+                                });
 
 
-                }}catch (Exception e){
+                    }}catch (Exception e){
                     if(shared2.getString("language", "").equals("arabic")){
                         Toast.makeText(getApplicationContext(),"حقل ادخال الكميه فارغ",Toast.LENGTH_LONG).show();
 
                     }
                     else
-                    Toast.makeText(getApplicationContext(),"the quantity filed is empty",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"the quantity filed is empty",Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -135,52 +135,52 @@ public class aa2 extends AppCompatActivity {
 
                 try{
                     give=Double.parseDouble(editText.getText().toString());
-                if(editText.getText().toString().isEmpty()){
-                    if(shared2.getString("language", "").equals("arabic")){
-                        Toast.makeText(getApplicationContext(),"حقل ادخال الكميه فارغ",Toast.LENGTH_LONG).show();
+                    if(editText.getText().toString().isEmpty()){
+                        if(shared2.getString("language", "").equals("arabic")){
+                            Toast.makeText(getApplicationContext(),"حقل ادخال الكميه فارغ",Toast.LENGTH_LONG).show();
+
+                        }
+                        else
+                            Toast.makeText(getApplicationContext(),"the quantity filed is empty",Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Map<String, Object> reservation = new HashMap<>();
+                        reservation.put("item", warehouse.item.get(position).item);
+                        reservation.put("quantity", quantity+give+"");
+                        reservation.put("quantityType", warehouse.item.get(position).quantityType);
+
+                        db.collection("Res_1_warehouse").document(warehouse.item.get(position).item).set(reservation)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            if(shared2.getString("language", "").equals("arabic")){
+                                                Toast.makeText(aa2.this, "تمت العمليه بنجاح", Toast.LENGTH_SHORT).show();
+                                                Intent n =new Intent(getApplicationContext(),warehouse.class);
+                                                onBackPressed();
+                                                startActivity(n);
+                                            }
+                                            else{
+                                                Toast.makeText(aa2.this, "Operation Successful, Your add item", Toast.LENGTH_SHORT).show();
+                                                Intent n =new Intent(getApplicationContext(),warehouse.class);
+                                                onBackPressed();
+                                                startActivity(n);
+                                            }
+
+                                        }
+                                        else
+                                        if(shared2.getString("language", "").equals("arabic")){
+                                            Toast.makeText(aa2.this, "خطأ غير متوقع الرجاء اعادة المحاوله !", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else
+                                            Toast.makeText(aa2.this, "Error, Please Try To add Again !", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
+
 
                     }
-                    else
-                        Toast.makeText(getApplicationContext(),"the quantity filed is empty",Toast.LENGTH_LONG).show();
-                }
-                else {
-                    Map<String, Object> reservation = new HashMap<>();
-                    reservation.put("item", warehouse.item.get(position).item);
-                    reservation.put("quantity", quantity+give+"");
-                    reservation.put("quantityType", warehouse.item.get(position).quantityType);
-
-                    db.collection("Res_1_warehouse").document(warehouse.item.get(position).item).set(reservation)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
-                                        if(shared2.getString("language", "").equals("arabic")){
-                                            Toast.makeText(aa2.this, "تمت العمليه بنجاح", Toast.LENGTH_SHORT).show();
-                                            Intent n =new Intent(getApplicationContext(),warehouse.class);
-                                            onBackPressed();
-                                            startActivity(n);
-                                        }
-                                        else{
-                                            Toast.makeText(aa2.this, "Operation Successful, Your add item", Toast.LENGTH_SHORT).show();
-                                            Intent n =new Intent(getApplicationContext(),warehouse.class);
-                                            onBackPressed();
-                                            startActivity(n);
-                                        }
-
-                                    }
-                                    else
-                                    if(shared2.getString("language", "").equals("arabic")){
-                                        Toast.makeText(aa2.this, "خطأ غير متوقع الرجاء اعادة المحاوله !", Toast.LENGTH_SHORT).show();
-                                    }
-                                    else
-                                        Toast.makeText(aa2.this, "Error, Please Try To add Again !", Toast.LENGTH_SHORT).show();
-
-                                }
-                            });
-
-
-                }
-            }catch (Exception e){
+                }catch (Exception e){
                     if(shared2.getString("language", "").equals("arabic")){
                         Toast.makeText(getApplicationContext(),"حقل ادخال الكميه فارغ",Toast.LENGTH_LONG).show();
 

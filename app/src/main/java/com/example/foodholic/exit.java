@@ -96,42 +96,42 @@ public class exit extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int dayoff=0,hour1=0,hour2=0,hour3=0;
-         if (myDatefrom.equals(" / / ")){
-             if(shared2.getString("language", "").equals("arabic")) {
-                 Toast.makeText(getApplicationContext(), "الرجاء اختيار التاريخ اولا", Toast.LENGTH_LONG).show();
-             }
-             else {Toast.makeText(getApplicationContext(), "please choose the date", Toast.LENGTH_LONG).show();}
-             }
-         else {
-             for (classExit d : ex) {
-                 if (d.date.equals(myDatefrom)) {
-                     exInday.add(d);
-                     if (d.time.equals("day off")) {
-                         dayoff++;
-                     } else if (d.time.equals("1")) {
-                         hour1++;
-                     } else if (d.time.equals("2")) {
-                         hour2++;
-                     } else if (d.time.equals("3")) {
-                         hour3++;
-                     }
-                 }
-             }
+                if (myDatefrom.equals(" / / ")){
+                    if(shared2.getString("language", "").equals("arabic")) {
+                        Toast.makeText(getApplicationContext(), "الرجاء اختيار التاريخ اولا", Toast.LENGTH_LONG).show();
+                    }
+                    else {Toast.makeText(getApplicationContext(), "please choose the date", Toast.LENGTH_LONG).show();}
+                }
+                else {
+                    for (classExit d : ex) {
+                        if (d.date.equals(myDatefrom)) {
+                            exInday.add(d);
+                            if (d.time.equals("day off")) {
+                                dayoff++;
+                            } else if (d.time.equals("1")) {
+                                hour1++;
+                            } else if (d.time.equals("2")) {
+                                hour2++;
+                            } else if (d.time.equals("3")) {
+                                hour3++;
+                            }
+                        }
+                    }
 
-             if(shared2.getString("language", "").equals("arabic")) {
-                 textView9.setText("الكل : "+exInday.size()+"\n"+
-                         "يوم اجازه : "+dayoff +"\n"+"ساعه : "+hour1+
-                         "\n"+"ساعتين : "+hour2+"\n"+
-                         "ثلاث ساعات : "+hour3 );
-             }
-             else {
-                 textView9.setText("all : "+exInday.size()+"\n"+
-                         "day off : "+dayoff +"\n"+"one hour : "+hour1+
-                         "\n"+"tow hours : "+hour2+"\n"+
-                         "three hours : "+hour3 );
-             }
-             //////////////////////////////////////////////
-         }
+                    if(shared2.getString("language", "").equals("arabic")) {
+                        textView9.setText("الكل : "+exInday.size()+"\n"+
+                                "يوم اجازه : "+dayoff +"\n"+"ساعه : "+hour1+
+                                "\n"+"ساعتين : "+hour2+"\n"+
+                                "ثلاث ساعات : "+hour3 );
+                    }
+                    else {
+                        textView9.setText("all : "+exInday.size()+"\n"+
+                                "day off : "+dayoff +"\n"+"one hour : "+hour1+
+                                "\n"+"tow hours : "+hour2+"\n"+
+                                "three hours : "+hour3 );
+                    }
+                    //////////////////////////////////////////////
+                }
 
 
             }
@@ -220,7 +220,7 @@ public class exit extends AppCompatActivity {
 
                     root = FirebaseDatabase.getInstance().getReference();
                     Map<String, Object> map = new HashMap<String, Object>();
-                   String temp_key = root.push().getKey();
+                    String temp_key = root.push().getKey();
 
                     Map<String, Object> reservation = new HashMap<>();
                     reservation.put("date", extDate);
@@ -242,7 +242,7 @@ public class exit extends AppCompatActivity {
                                             Toast.makeText(exit.this, "Operation Successful, Your you added exit ", Toast.LENGTH_SHORT).show();
 
                                         }
-                                    onBackPressed();}
+                                        onBackPressed();}
                                     else
                                     if (lang==1){
                                         Toast.makeText(exit.this, "حدث خطأ غير متوقع الرجاء اعادة المحاوله !", Toast.LENGTH_SHORT).show();

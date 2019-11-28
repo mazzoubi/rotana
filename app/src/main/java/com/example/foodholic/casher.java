@@ -32,10 +32,10 @@ public class casher extends AppCompatActivity {
 
 
     // هضول الاوبجيكت واليست عشان عملية حساب مجموع السعر والامور الثانيه تحت موضحه الامور اكثر ///////////
-     classCashSale sale;
-     ArrayList<classCashSale> saleList=new ArrayList<>();
-     ArrayAdapter<classCashSale> adp;
-     /////////////////////////////////////////////////////////////////////////////////////////////////////
+    classCashSale sale;
+    ArrayList<classCashSale> saleList=new ArrayList<>();
+    ArrayAdapter<classCashSale> adp;
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,18 +75,18 @@ public class casher extends AppCompatActivity {
         loadSubItem();
 /////////////////end loads
 
-     itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-         @Override
-         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-             getSubItem(items.get(position).itemName);
-         }
-     });//النهايه
+        itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                getSubItem(items.get(position).itemName);
+            }
+        });//النهايه
 
 
 
 
 
- ///////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////
 
         //هاض اليسنر لعند الكومنت الي فيه( /**/ ) هو ع السب ايتم ليست عشان عمليات جمع السعر والامور الثانيه بس انا حالياً مش عامل غير جمع السعر
         /*
@@ -102,11 +102,11 @@ public class casher extends AppCompatActivity {
                 int loopPosition=0;
 
                 if (saleList.isEmpty()){
-                sale.count=1;
-                sale.subItemName=subItemsAfterFilering.get(position).subItem;
-                sale.sumPrice=subItemsAfterFilering.get(position).price;
-                sale.unitPrice=subItemsAfterFilering.get(position).price;
-                saleList.add(sale);
+                    sale.count=1;
+                    sale.subItemName=subItemsAfterFilering.get(position).subItem;
+                    sale.sumPrice=subItemsAfterFilering.get(position).price;
+                    sale.unitPrice=subItemsAfterFilering.get(position).price;
+                    saleList.add(sale);
 
                 }
                 else{
@@ -138,7 +138,7 @@ public class casher extends AppCompatActivity {
 
             }
         });
-       // /**/
+        // /**/
 
     }
 

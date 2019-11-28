@@ -15,12 +15,12 @@ public class empAdapter extends ArrayAdapter<classEmployee> {
 
     classEmployee emp ;
 
-     String  Fname;
-     String  Lname;
-     String  regisetDate;
-     String  email;
-     String empPhone;
-     String  empType;
+    String  Fname;
+    String  Lname;
+    String  regisetDate;
+    String  email;
+    String empPhone;
+    String  empType;
 
 
 

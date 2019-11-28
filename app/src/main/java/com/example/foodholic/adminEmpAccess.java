@@ -30,11 +30,11 @@ public class adminEmpAccess extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener date_;
     TextView dateExit,datetext,ref,empInfo,tt;
     Button button,permissions,discount,loans,salPay;
-     int position;
-     SharedPreferences shared2;
-   public static ArrayList<classExit> ex=new ArrayList<>();
-   public static ArrayList<classLoans> loan=new ArrayList<>();
-   public static ArrayList<classSalDiscount> dis=new ArrayList<>();
+    int position;
+    SharedPreferences shared2;
+    public static ArrayList<classExit> ex=new ArrayList<>();
+    public static ArrayList<classLoans> loan=new ArrayList<>();
+    public static ArrayList<classSalDiscount> dis=new ArrayList<>();
     FirebaseFirestore db ,db1,db2;
     int dayoff=0;
     int hourex=0;
@@ -57,7 +57,7 @@ public class adminEmpAccess extends AppCompatActivity {
         String[] aaa=aa.split(" ");
         String day =(a.getDay()+1)+"";
         String month =(a.getMonth()+1)+"";
-         date=day+"-"+month+"-"+aaa[5];
+        date=day+"-"+month+"-"+aaa[5];
         myDatefrom=month+"-"+aaa[5];
         if (month.length()==1){
             month="0"+month;
@@ -258,43 +258,43 @@ public class adminEmpAccess extends AppCompatActivity {
 
 ///////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////
-                db.collection("Res_1_exitRequest").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+        db.collection("Res_1_exitRequest").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-                        ex=new ArrayList<>();
+                ex=new ArrayList<>();
 
-                        List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
-                        for(DocumentSnapshot d:list){
-                            classExit a=d.toObject(classExit.class);
-                            String []s=a.date.split("-");
-                            if (a.email.equals(employeeCreatInformation.emp.get(position).email)&&myDatefrom.equals(s[1]+"-"+s[2])){
-                                ex.add(a);
-                                if (a.time.equals("day off")){
-                                    dayoff++;
-                                }
-                                else if (a.time.equals("1")){
-                                    hourex++;
-                                }
-                                else if (a.time.equals("2")){
-                                    hourex+=2;
-                                }
-                                else if (a.time.equals("3")){
-                                    hourex+=3;
-                                }
-                                else{}
-                            }
-
-
-                            if(shared2.getString("language", "").equals("arabic")) {
-                                dateExit.setText("المغادرات : "+hourex+"\n"+"الغيابات : "+dayoff);
-                            }
-                            else dateExit.setText("hours exit : "+hourex+"\n"+"day off : "+dayoff);
+                List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
+                for(DocumentSnapshot d:list){
+                    classExit a=d.toObject(classExit.class);
+                    String []s=a.date.split("-");
+                    if (a.email.equals(employeeCreatInformation.emp.get(position).email)&&myDatefrom.equals(s[1]+"-"+s[2])){
+                        ex.add(a);
+                        if (a.time.equals("day off")){
+                            dayoff++;
                         }
-
-
+                        else if (a.time.equals("1")){
+                            hourex++;
+                        }
+                        else if (a.time.equals("2")){
+                            hourex+=2;
+                        }
+                        else if (a.time.equals("3")){
+                            hourex+=3;
+                        }
+                        else{}
                     }
-                });
+
+
+                    if(shared2.getString("language", "").equals("arabic")) {
+                        dateExit.setText("المغادرات : "+hourex+"\n"+"الغيابات : "+dayoff);
+                    }
+                    else dateExit.setText("hours exit : "+hourex+"\n"+"day off : "+dayoff);
+                }
+
+
+            }
+        });
 
 
 
@@ -316,12 +316,12 @@ public class adminEmpAccess extends AppCompatActivity {
                 +"\n\n"+"employee email :   "+employeeCreatInformation.emp.get(position).email+"\n\n"
                 +"employee register date :  "+employeeCreatInformation.emp.get(position).regisetDate+"\n\n"+
                 "employee salary : "+employeeCreatInformation.emp.get(position).sal+" JOD"
-                        +"\n\n"+"num of discount :   "+numDis+"\n\n"+
-                        "discount value :   "+disVal+"\n\n"+
-                        "num of loans :   "+numloan+"\n\n"+
-                        "loans value :   "+disLoan+"\n\n"+
-                        "dates of sal payment :   "+datesOfSal
-                );
+                +"\n\n"+"num of discount :   "+numDis+"\n\n"+
+                "discount value :   "+disVal+"\n\n"+
+                "num of loans :   "+numloan+"\n\n"+
+                "loans value :   "+disLoan+"\n\n"+
+                "dates of sal payment :   "+datesOfSal
+        );
 
         if(shared2.getString("language", "").equals("arabic")) {
             button.setText("اضافة اجازه");
@@ -358,14 +358,14 @@ public class adminEmpAccess extends AppCompatActivity {
             }
 
             empInfo.setText("اسم الموظف :   "+employeeCreatInformation.emp.get(position).Fname+" "+employeeCreatInformation.emp.get(position).Lname
-            +"\n\n"+"الهاتف :   "+employeeCreatInformation.emp.get(position).empPhone
-            +"\n\n"+"العنوان : "+employeeCreatInformation.emp.get(position).address+"\n\n"
-            +"نوع الموظف :   "+s2
+                    +"\n\n"+"الهاتف :   "+employeeCreatInformation.emp.get(position).empPhone
+                    +"\n\n"+"العنوان : "+employeeCreatInformation.emp.get(position).address+"\n\n"
+                    +"نوع الموظف :   "+s2
                     +"\n\n"+"المسمى الوظيفي : "+s1
-            +"\n\n"+"البريد الالكتروني :   "+employeeCreatInformation.emp.get(position).email+"\n\n"
-            +"تاريخ التوظيف :   "+employeeCreatInformation.emp.get(position).regisetDate
-            +"\n\n"+"الراتب :   "+employeeCreatInformation.emp.get(position).sal+" د.ا"+"\n\n"
-            +"\n\n"+"عدد الحسومات :   "+numDis+"\n\n"+
+                    +"\n\n"+"البريد الالكتروني :   "+employeeCreatInformation.emp.get(position).email+"\n\n"
+                    +"تاريخ التوظيف :   "+employeeCreatInformation.emp.get(position).regisetDate
+                    +"\n\n"+"الراتب :   "+employeeCreatInformation.emp.get(position).sal+" د.ا"+"\n\n"
+                    +"\n\n"+"عدد الحسومات :   "+numDis+"\n\n"+
                     "قيمة الحسومات :   "+disVal+"\n\n"+
                     "عدد السلف :   "+numloan+"\n\n"+
                     "قيمة السلف :   "+disLoan+"\n\n"+
@@ -377,38 +377,38 @@ public class adminEmpAccess extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try{
-                double disss=0,lo=loan.get(0).loan,py=loan.get(0).repyment,loanREsult=0;
-                loanREsult=lo-py;
-                FirebaseFirestore dd=FirebaseFirestore.getInstance();
-                ArrayList<classSalDiscount>ss=new ArrayList<>();
-                for (int i=0;i<dis.size();i++){
-                    if (dis.get(i).type==2){
-                        dd.collection("Res_1_salDiscount").document(dis.get(i).disId).delete();
-                    }
-                }
-
-                if(loanREsult<=0){
-                    dd.collection("Res_1_loans").document(loan.get(0).loanId).delete();
-                }
-                else {
-                    Map<String, Object> reservation = new HashMap<>();
-                    reservation.put("totelLoan", loan.get(0).totelLoan);
-                    reservation.put("loan", loanREsult);
-                    reservation.put("repyment", loan.get(0).repyment);
-                    reservation.put("empEmail", loan.get(0).empEmail);
-                    reservation.put("loanId", loan.get(0).loanId);
-
-
-
-                    db.collection("Res_1_loans").document(loan.get(0).loanId).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()){
-
-                            }
+                    double disss=0,lo=loan.get(0).loan,py=loan.get(0).repyment,loanREsult=0;
+                    loanREsult=lo-py;
+                    FirebaseFirestore dd=FirebaseFirestore.getInstance();
+                    ArrayList<classSalDiscount>ss=new ArrayList<>();
+                    for (int i=0;i<dis.size();i++){
+                        if (dis.get(i).type==2){
+                            dd.collection("Res_1_salDiscount").document(dis.get(i).disId).delete();
                         }
-                    });
-                }
+                    }
+
+                    if(loanREsult<=0){
+                        dd.collection("Res_1_loans").document(loan.get(0).loanId).delete();
+                    }
+                    else {
+                        Map<String, Object> reservation = new HashMap<>();
+                        reservation.put("totelLoan", loan.get(0).totelLoan);
+                        reservation.put("loan", loanREsult);
+                        reservation.put("repyment", loan.get(0).repyment);
+                        reservation.put("empEmail", loan.get(0).empEmail);
+                        reservation.put("loanId", loan.get(0).loanId);
+
+
+
+                        db.collection("Res_1_loans").document(loan.get(0).loanId).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()){
+
+                                }
+                            }
+                        });
+                    }
 
                     String dr=new Date()+"";
                     String []time=dr.split(" ");
@@ -437,7 +437,7 @@ public class adminEmpAccess extends AppCompatActivity {
                                         Toast.makeText(getApplicationContext(), "Error, Please Try Again !", Toast.LENGTH_SHORT).show();
                                 }
                             });
-            }catch (Exception e){
+                }catch (Exception e){
                     String dr=new Date()+"";
                     String []time=dr.split(" ");
                     Map<String, Object> reservation = new HashMap<>();
