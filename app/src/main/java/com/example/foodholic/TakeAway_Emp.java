@@ -110,12 +110,12 @@ public class TakeAway_Emp extends AppCompatActivity {
                                 removeData(sp.getSelectedItem().toString()); }
                         })
                         .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        AddSale( position);
-                        removeData(sp.getSelectedItem().toString());
-                         }
-                }).setCancelable(false).create().show();
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                AddSale( position);
+                                removeData(sp.getSelectedItem().toString());
+                            }
+                        }).create().show();
             }
         });
 
@@ -138,7 +138,7 @@ public class TakeAway_Emp extends AppCompatActivity {
                         num = RemoveSpace(num);
                         startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", num, null)));
                     }
-                }).setCancelable(false).show();
+                }).show();
 
                 return true;
             }
@@ -160,9 +160,11 @@ public class TakeAway_Emp extends AppCompatActivity {
 
                         info.add("الأسم : "+document.get("user_name").toString()+"\n"
                                 +"الهاتف : "+document.get("user_mobile").toString()+"\n"
+                                +"بريد : "+document.get("email").toString()+"\n"
                                 +"العنوان : "+document.get("user_loc").toString()+"\n"
-                                +"قائمة : "+document.get("item_list").toString()+"\n"
-                                +"مجموع : "+document.get("item_sum_price").toString()+"\n" );
+                                +"الطلب : "+document.get("item_list").toString()+"\n"
+                                +"مجموع النقاط : "+document.get("point_sum").toString()+" نقطة"+"\n"
+                                +"مجموع المبلغ : "+document.get("item_sum_price").toString()+" دينار"+"\n" );
 
                     }
 
@@ -184,11 +186,13 @@ public class TakeAway_Emp extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                        info.add("الأسم : "+task.getResult().get("user_name").toString()+"\n"
-                                +"الهاتف : "+task.getResult().get("user_mobile").toString()+"\n"
-                                +"العنوان : "+task.getResult().get("user_loc").toString()+"\n"
-                                +"قائمة : "+task.getResult().get("item_list").toString()+"\n"
-                                +"مجموع : "+task.getResult().get("item_sum_price").toString()+"\n" );
+                    info.add("الأسم : "+task.getResult().get("user_name").toString()+"\n"
+                            +"الهاتف : "+task.getResult().get("user_mobile").toString()+"\n"
+                            +"بريد : "+task.getResult().get("email").toString()+"\n"
+                            +"العنوان : "+task.getResult().get("user_loc").toString()+"\n"
+                            +"الطلب : "+task.getResult().get("item_list").toString()+"\n"
+                            +"مجموع النقاط : "+task.getResult().get("point_sum").toString()+" نقطة"+"\n"
+                            +"مجموع المبلغ : "+task.getResult().get("item_sum_price").toString()+" دينار"+"\n" );
 
                     adapter.notifyDataSetChanged();
                     if(info.isEmpty())
@@ -251,10 +255,10 @@ public class TakeAway_Emp extends AppCompatActivity {
 
     }
 
-    public void AddSale(int pos){
+    public void AddSale(final int pos){
 
         String [] temp = info.get(pos)
-                .substring(info.get(pos).indexOf("قائمة : ")+8, info.get(pos).indexOf("مجموع : ")).split(" , ");
+                .substring(info.get(pos).indexOf("الطلب : ")+8, info.get(pos).indexOf("مجموع المبلغ : ")).split(" , ");
 
         String [] temp2 = new String [temp.length];
 
@@ -265,41 +269,76 @@ public class TakeAway_Emp extends AppCompatActivity {
 
             try{
                 DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
-            Date dateee = new Date();
-            String date = dateFormat.format(dateee);
+                Date dateee = new Date();
+                String date = dateFormat.format(dateee);
 
-            String day = date.substring(0, date.indexOf(" "));
-            String time = date.substring(date.indexOf(" ")+1);
+                String day = date.substring(0, date.indexOf(" "));
+                String time = date.substring(date.indexOf(" ")+1);
 
-            Map<String, Object> sale = new HashMap<>();
-            sale.put("date", day);
-            sale.put("time", time);
-            sale.put("item", "");
-            sale.put("subItem", temp[i].substring(0, temp[i].indexOf("=")));
-            sale.put("empEmail", getIntent().getStringExtra("empemail"));
-            sale.put("sale", temp2[i]);
+                Map<String, Object> sale = new HashMap<>();
+                sale.put("date", day);
+                sale.put("time", time);
+                sale.put("item", "");
+                sale.put("subItem", temp[i].substring(0, temp[i].indexOf("=")));
+                sale.put("empEmail", getIntent().getStringExtra("empemail"));
+                sale.put("sale", temp2[i]);
 
-            db.collection("Res_1_sales").document()
-                    .set(sale)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            recreate();
-                        }
-                    });
+                db.collection("Res_1_sales").document()
+                        .set(sale)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                String t = info.get(pos).substring(info.get(pos).indexOf("مجموع النقاط : ")+15, info.get(pos).indexOf(" نقطة"));
+                                String e = info.get(pos).substring(info.get(pos).indexOf("بريد : ")+7, info.get(pos).indexOf("العنوان : "));
+                                getPoint(e.replace("\n", ""), t);
+                            }
+                        });
             }
-            catch(Exception ex){}
-
-
-        }
+            catch(Exception ex){} }
 
 
 
 
 
+    }
 
+    private void getPoint(final String e, final String t) {
 
+        final Map<String, Object> tempMap = new HashMap<>();
 
+        db = FirebaseFirestore.getInstance();
+
+        db.collection("Res_1_Customer_Acc").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        if (task.isSuccessful())
+                            for (QueryDocumentSnapshot document : task.getResult())
+                                if(document.get("email").toString().equals(e)){
+                                    tempMap.put("email", document.get("email"));
+                                    tempMap.put("mobile", document.get("mobile"));
+                                    tempMap.put("name", document.get("name"));
+                                    tempMap.put("pass", document.get("pass"));
+                                    tempMap.put("points", document.get("points"));
+                                    addPoint(document.getId(), tempMap, t); }
+                    }
+                });
+
+    }
+
+    private void addPoint(String id, Map<String, Object> map, String newP) {
+
+        String points = String.valueOf(Double.parseDouble(map.get("points").toString()) + Double.parseDouble(newP));
+        map.put("points", points);
+        db.collection("Res_1_Customer_Acc").document(id).set(map)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(TakeAway_Emp.this, "تمت العملية بنجاح", Toast.LENGTH_SHORT).show();
+                        recreate();
+                    }
+                });
 
     }
 

@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -93,6 +94,8 @@ public class Emppage extends AppCompatActivity
     ArrayList<String>dname;
     ArrayList<String>cmobile;
     ArrayList<String>caddress;
+    ArrayAdapter<String> adapter;
+    ArrayList<String> temp;
 
     public static classCloseOpenCash closeOpenCash = new classCloseOpenCash();
 
@@ -153,6 +156,12 @@ public class Emppage extends AppCompatActivity
         }
 
     }
+
+    String UID="";
+    String EMAIL="";
+    String PO="";
+
+    final Map<String, Object> tempMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -411,6 +420,120 @@ public class Emppage extends AppCompatActivity
 
                     }
                 });
+
+                Button b2 = dialog2.findViewById(R.id.poin);
+                b2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        final AlertDialog.Builder builder3 = new AlertDialog.Builder(Emppage.this);
+                        LayoutInflater inflater3 = Emppage.this.getLayoutInflater();
+                        builder3.setView(inflater3.inflate(R.layout.calulator2, null));
+                        final AlertDialog dialog3 = builder3.create();
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+                        dialog3.show();
+
+                        TextView t3 = dialog3.findViewById(R.id.title);
+                        String s=String.valueOf(sum*10);
+                        t3.setText("مجموع الفاتورة بالنقاط : "+s+" نقطة ");
+
+                        final TextView t2 = dialog3.findViewById(R.id.change);
+                        final EditText e = dialog3.findViewById(R.id.pay);
+                        e.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                if(s.toString().equals(""))
+                                    e.setText("0");
+                                else{
+                                    String temp = String.valueOf((Double.parseDouble(e.getText().toString())-sum*10));
+                                    try{
+                                        if(HomeAct.lang==1){
+                                            t2.setText("الباقي : "+temp.substring(0, temp.indexOf(".")+3)+" نقطة ");
+                                        }
+                                        else {
+                                            t2.setText("The rest : "+temp.substring(0, temp.indexOf(".")+3)+"  ");
+                                        }
+                                    }
+                                    catch(Exception ex){
+                                        if(HomeAct.lang==1){
+                                            t2.setText("الباقي : "+temp+" نقطة ");
+                                        }
+                                        else {
+                                            t2.setText("The rest : "+temp+" JOD ");
+                                        }
+
+                                    }
+                                }
+
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+
+                            }
+                        });
+
+                        Button b = dialog3.findViewById(R.id.delivaa);
+                        b.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog3.dismiss();
+                            }
+                        });
+                        Button b2 = dialog3.findViewById(R.id.poinaa);
+                        b2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                takePoint(String.valueOf(sum*10));
+                                print("مجموع الخصم : "+sum*10+"\n\n\n"+"**********Aldakheel**********\n\n\n");
+                                dialog3.dismiss();
+                                dialog2.dismiss();
+                            }
+                        });
+
+                        temp = new ArrayList<String>();
+
+                        adapter = new ArrayAdapter<String>(Emppage.this, android.R.layout.simple_dropdown_item_1line, temp);
+                        final AutoCompleteTextView et1 = dialog3.findViewById(R.id.email);
+                        et1.setAdapter(adapter);
+
+                        db.collection("Res_1_Customer_Acc")
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                                        if (task.isSuccessful())
+                                            for (QueryDocumentSnapshot document : task.getResult())
+                                                addCustomData(document.get("email").toString());
+
+                                    } });
+
+                        Button bbb = dialog3.findViewById(R.id.sea);
+                        bbb.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                getPoint(et1.getText().toString());
+
+                                TextView t = dialog3.findViewById(R.id.po);
+                                t.setText(PO);
+
+                                EditText ete = dialog3.findViewById(R.id.pay);
+                                ete.setText(String.valueOf(PO));
+
+                            }
+                        });
+
+                    }
+                });
+
+
 
                 Button b = dialog2.findViewById(R.id.deliv);
                 b.setOnClickListener(new View.OnClickListener() {
@@ -1323,6 +1446,13 @@ public class Emppage extends AppCompatActivity
 
     }
 
+    public void addCustomData(String str){
+
+        temp.add(str);
+        adapter.notifyDataSetChanged();
+
+    }
+
     private void FillReserve() {
 
         db.collection("Res_1_Table_Res_").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -1353,6 +1483,49 @@ public class Emppage extends AppCompatActivity
         tabels.add("Table Number : 13"); tabels.add("Table Number : 14"); tabels.add("Table Number : 15");
 
         gridview = (GridView) findViewById(R.id.customgrid);
+
+    }
+
+    private void getPoint(final String e) {
+
+        db = FirebaseFirestore.getInstance();
+
+        db.collection("Res_1_Customer_Acc").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        if (task.isSuccessful())
+                            for (QueryDocumentSnapshot document : task.getResult())
+                                if(document.get("email").toString().equals(e)){
+                                    EMAIL = document.get("email").toString();
+                                    PO = document.get("points").toString();
+                                    UID = document.getId();
+
+                                    tempMap.put("email", document.get("email"));
+                                    tempMap.put("mobile", document.get("mobile"));
+                                    tempMap.put("name", document.get("name"));
+                                    tempMap.put("pass", document.get("pass"));
+                                    tempMap.put("points", document.get("points")); }
+                    }
+                });
+
+
+
+    }
+
+    private void takePoint(String newP) {
+
+        String points = String.valueOf(Double.parseDouble(tempMap.get("points").toString()) - Double.parseDouble(newP));
+        tempMap.put("points", points);
+        db.collection("Res_1_Customer_Acc").document(UID).set(tempMap)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(Emppage.this, "تمت العملية بنجاح", Toast.LENGTH_SHORT).show();
+                        recreate();
+                    }
+                });
 
     }
 

@@ -101,6 +101,7 @@ public class Main2Activity extends AppCompatActivity
     double lng, lat;
 
     double sum = 0;
+    double point = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,6 +174,7 @@ public class Main2Activity extends AppCompatActivity
                     if(subItemToShow.get(i).equals(subItems.get(j).subItem)){
                         order.add(subItems.get(j).subItem + " = 1 : "+subItems.get(j).price+", ");
                         sum+=Double.parseDouble(subItems.get(j).price+"");
+                        point+=Double.parseDouble(subItems.get(j).point+"");
                     }
                 }
                 if (HomeAct.lang==1){
@@ -446,15 +448,22 @@ public class Main2Activity extends AppCompatActivity
         for(int i=0; i<order.size(); i++)
             temp+=order.get(i);
 
+        FirebaseAuth a = FirebaseAuth.getInstance();
+
         Map<String, Object> order = new HashMap<>();
         order.put("user_name", user_name);
         order.put("user_mobile", user_mobile);
         order.put("user_desc", user_desc);
         order.put("item_list", temp);
         order.put("item_sum_price", sum+"");
-        order.put("user_loc", "");
+        order.put("point_sum", point+"");
         order.put("lat", la);
         order.put("lng", lo);
+
+        if(a.getCurrentUser() != null)
+            order.put("email", a.getCurrentUser().getEmail());
+        else
+            order.put("email", "");
 
             db.collection("Res_1_Delivery").document("برنامج")
                     .collection("1").document(user_name).set(order)
@@ -490,13 +499,21 @@ public class Main2Activity extends AppCompatActivity
         for(int i=0; i<order.size(); i++)
             temp+=order.get(i);
 
+        FirebaseAuth a = FirebaseAuth.getInstance();
+
         Map<String, Object> order = new HashMap<>();
         order.put("user_name", user_name);
         order.put("user_mobile", user_mobile);
         order.put("user_desc", user_desc);
         order.put("item_list", temp);
         order.put("item_sum_price", sum+"");
+        order.put("point_sum", point+"");
         order.put("user_loc", "");
+
+        if(a.getCurrentUser() != null)
+            order.put("email", a.getCurrentUser().getEmail());
+        else
+            order.put("email", "");
 
         db.collection("Res_1_TakeAway").document((new Date()).toString()).set(order)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {

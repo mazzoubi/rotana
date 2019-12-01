@@ -187,29 +187,35 @@ public class Delivery_Emp extends AppCompatActivity {
 
                 for(QueryDocumentSnapshot document : task.getResult())
 
-                    if (task.isSuccessful()) {
-                        if (HomeAct.lang==1){
-                            info.add("الأسم : "+document.get("name").toString()+"\n"
-                                    +"الهاتف : "+document.get("mobile").toString()+"\n"
-                                    +"العنوان : "+document.get("address").toString()+"\n"
-                                    +"المجموع : "+document.get("sum").toString()+"\n" );
-                        }
-                        else{
-                            info.add("Name : "+document.get("name").toString()+"\n"
-                                    +"Phone : "+document.get("mobile").toString()+"\n"
-                                    +"Address : "+document.get("address").toString()+"\n"
-                                    +"Total : "+document.get("sum").toString()+"\n" );
-                        }
+                {
 
-                        adapter.notifyDataSetChanged();
-                        if(info.isEmpty())
-                           if (HomeAct.lang==1){
-                               Toast.makeText(Delivery_Emp.this, "لايوجد طلبات دلفري", Toast.LENGTH_SHORT).show();
-                           }
-                        else {
-                               Toast.makeText(Delivery_Emp.this, "No delivery request", Toast.LENGTH_SHORT).show();
-                           }
-                    }
+                    try {
+                        if (task.isSuccessful()) {
+                            if (HomeAct.lang==1){
+                                info.add("الأسم : "+document.get("name").toString()+"\n"
+                                        +"الهاتف : "+document.get("mobile").toString()+"\n"
+                                        +"العنوان : "+document.get("address").toString()+"\n"
+                                        +"المجموع : "+document.get("sum").toString()+"\n" );
+                            }
+                            else{
+                                info.add("Name : "+document.get("name").toString()+"\n"
+                                        +"Phone : "+document.get("mobile").toString()+"\n"
+                                        +"Address : "+document.get("address").toString()+"\n"
+                                        +"Total : "+document.get("sum").toString()+"\n" );
+                            }
+
+                            adapter.notifyDataSetChanged();
+                            if(info.isEmpty())
+                                if (HomeAct.lang==1){
+                                    Toast.makeText(Delivery_Emp.this, "لايوجد طلبات دلفري", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Toast.makeText(Delivery_Emp.this, "No delivery request", Toast.LENGTH_SHORT).show();
+                                }
+                        }
+                    } catch(Exception e){}
+
+                }
 
             }
         });

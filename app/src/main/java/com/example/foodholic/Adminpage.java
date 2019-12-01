@@ -2,8 +2,10 @@ package com.example.foodholic;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,8 +23,6 @@ import java.util.List;
 
 public class Adminpage extends AppCompatActivity {
 
-
-
     FirebaseFirestore db ;
     FirebaseFirestore dbs;
 
@@ -37,12 +37,16 @@ public class Adminpage extends AppCompatActivity {
     SharedPreferences shared2;
 
    public static String email;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adminpage);
 
-
+        Toolbar toolbar = findViewById(R.id.tool);
+        toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("مؤسسة الدخيل");
 
         final ProgressBar progressBar=(ProgressBar)findViewById(R.id.progressBar);
         emp=(Button)findViewById(R.id.employee);
@@ -76,6 +80,7 @@ public class Adminpage extends AppCompatActivity {
             warehouse.setText("المستودع");
             openClose.setText("فتح واغلاق الكاش");
             textView.setText("صفحة المدير");
+            toolbar.setTitle("مؤسسة الدخيل");
         }
 
 
