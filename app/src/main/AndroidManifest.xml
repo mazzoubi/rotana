@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -18,12 +19,16 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
-        <activity android:name=".Zreport"></activity>
+        <activity android:name=".offer"
+            android:parentActivityName=".Emppage"/>
+        <activity android:name=".Zreport" />
         <activity android:name=".Main2Activity" />
-        <activity android:name=".cashAddItem"
-            android:parentActivityName=".Emppage"/>
-        <activity android:name=".Tabel_Res_Emp"
-            android:parentActivityName=".Emppage"/>
+        <activity
+            android:name=".cashAddItem"
+            android:parentActivityName=".Emppage" />
+        <activity
+            android:name=".Tabel_Res_Emp"
+            android:parentActivityName=".Emppage" />
         <activity android:name=".casher" />
         <activity android:name=".employeeSalaryDiscount" />
         <activity android:name=".employeeLoans" />
@@ -47,10 +52,12 @@
         <activity android:name=".foodType" />
         <activity android:name=".UserRegister" />
         <activity android:name=".UserLogin" />
-        <activity android:name=".Profile"
-            android:parentActivityName=".Main2Activity"/>
-        <activity android:name=".Payment"
-            android:parentActivityName=".Emppage"/>
+        <activity
+            android:name=".Profile"
+            android:parentActivityName=".Main2Activity" />
+        <activity
+            android:name=".Payment"
+            android:parentActivityName=".Emppage" />
         <activity android:name=".employeeAdd" />
         <activity android:name=".employeeCreatInformation" />
         <activity android:name=".statistics" />

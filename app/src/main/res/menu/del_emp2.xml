@@ -5,6 +5,9 @@
         android:id="@+id/noti"
         android:title="إرسال إشعار" />
     <item
+        android:id="@+id/offer"
+        android:title="ضبط العروض" />
+    <item
         android:id="@+id/out"
         android:title="تسجيل خروج" />
 </menu>

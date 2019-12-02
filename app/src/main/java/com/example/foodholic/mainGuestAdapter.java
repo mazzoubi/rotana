@@ -34,16 +34,19 @@ public class mainGuestAdapter extends ArrayAdapter<classSubItem> {
         TextView point =(TextView)myView.findViewById(R.id.guestPoint);
         TextView priceAfter =(TextView)myView.findViewById(R.id.guestPriceAftertax);
         ImageView imageView=myView.findViewById(R.id.imageView2);
+        TextView des=myView.findViewById(R.id.des);
 
         Sales=getItem(position);
 
         if (HomeAct.lang==1){
             neme.setText(Sales.subItem+"");
+            des.setText(Sales.description+"");
             point.setText("النقاط : "+Sales.point);
             priceAfter.setText("السعر : "+Sales.price+" دينار ");
         }
         else {
             neme.setText(Sales.subItem+"");
+            des.setText(Sales.description+"");
             point.setText("Point : "+Sales.point);
             priceAfter.setText("Price : "+Sales.price+" JOD ");
         }

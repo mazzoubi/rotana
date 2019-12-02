@@ -1670,6 +1670,12 @@ public class Emppage extends AppCompatActivity
 
         }
 
+        else if (id == R.id.offer){
+
+            startActivity(new Intent(Emppage.this, offer.class));
+
+        }
+
         else if(id == R.id.noti){
 
             final EditText et = new EditText(Emppage.this);

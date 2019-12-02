@@ -5,6 +5,9 @@
         android:id="@+id/noti"
         android:title="Notification" />
     <item
+        android:id="@+id/offer"
+        android:title="Offer" />
+    <item
         android:id="@+id/out"
         android:title="Log Out" />
 </menu>

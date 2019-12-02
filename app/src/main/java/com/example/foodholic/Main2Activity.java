@@ -52,6 +52,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.luseen.spacenavigation.SpaceItem;
 import com.luseen.spacenavigation.SpaceNavigationView;
@@ -191,34 +192,50 @@ public class Main2Activity extends AppCompatActivity
 
             }
         });
-        slider();
+        getOffers();
     }
 
-    public void slider(){
+    private void getOffers() {
+
+        final ArrayList<String> temp1, temp2;
+        temp1 = new ArrayList<>();
+        temp2 = new ArrayList<>();
+
+        FirebaseFirestore fb = FirebaseFirestore.getInstance();
+        fb.collection("Res_1_Offer")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for(QueryDocumentSnapshot snaps : task.getResult()){
+                        temp1.add(snaps.get("description").toString());
+                        temp2.add(snaps.get("link").toString()); }
+                slider(temp1, temp2); }
+            }
+        });
+
+    }
+
+    public void slider(ArrayList<String> desc, ArrayList<String> link){
 
         final SliderLayout mDemoSlider = (SliderLayout)findViewById(R.id.slider);
-
         HashMap<String,String> url_maps = new HashMap<String, String>();
-        url_maps.put("عروض خيالية على البيتزا فقط من عندنا", "https://martjackyumstorage.blob.core.windows.net/yum-resources/81e77da2-723b-483d-8c0d-49f800c1e288/Images/userimages/banner_bigfeast_arb.jpg");
-        url_maps.put("بيتزا الافضل لدينا جربونا", "https://martjackamstorage.blob.core.windows.net/am-resources/c3877a59-69f7-40fa-bb17-ae5b9ac37732/Images/ProductImages/Source/limo%20Arabic.jpg");
-        url_maps.put("بيتزا", "http://mlsspace.com/wp-content/uploads/2017/03/big_offer01.gif");
-        url_maps.put("بيتزا", "http://mlsspace.com/wp-content/uploads/2017/03/big_offer01.gif");
+
+        for(int i=0; i<link.size(); i++)
+            url_maps.put(desc.get(i), link.get(i));
 
         for(String name : url_maps.keySet()){
             TextSliderView textSliderView = new TextSliderView(this);
-            // initialize a SliderLayout
-            textSliderView
-                    .description(name)
-                    .image(url_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.FitCenterCrop);
 
-            //add your extra information
+            textSliderView.description(name)
+                    .image(url_maps.get(name))
+                    .setScaleType(BaseSliderView.ScaleType.Fit);
+
             textSliderView.bundle(new Bundle());
             textSliderView.getBundle()
                     .putString("extra",name);
 
-            mDemoSlider.addSlider(textSliderView);
-        }
+            mDemoSlider.addSlider(textSliderView); }
 
         mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
         mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
