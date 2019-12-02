@@ -41,6 +41,11 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -186,6 +191,40 @@ public class Main2Activity extends AppCompatActivity
 
             }
         });
+        slider();
+    }
+
+    public void slider(){
+
+        final SliderLayout mDemoSlider = (SliderLayout)findViewById(R.id.slider);
+
+        HashMap<String,String> url_maps = new HashMap<String, String>();
+        url_maps.put("عروض خيالية على البيتزا فقط من عندنا", "https://martjackyumstorage.blob.core.windows.net/yum-resources/81e77da2-723b-483d-8c0d-49f800c1e288/Images/userimages/banner_bigfeast_arb.jpg");
+        url_maps.put("بيتزا الافضل لدينا جربونا", "https://martjackamstorage.blob.core.windows.net/am-resources/c3877a59-69f7-40fa-bb17-ae5b9ac37732/Images/ProductImages/Source/limo%20Arabic.jpg");
+        url_maps.put("بيتزا", "http://mlsspace.com/wp-content/uploads/2017/03/big_offer01.gif");
+        url_maps.put("بيتزا", "http://mlsspace.com/wp-content/uploads/2017/03/big_offer01.gif");
+
+        for(String name : url_maps.keySet()){
+            TextSliderView textSliderView = new TextSliderView(this);
+            // initialize a SliderLayout
+            textSliderView
+                    .description(name)
+                    .image(url_maps.get(name))
+                    .setScaleType(BaseSliderView.ScaleType.FitCenterCrop);
+
+            //add your extra information
+            textSliderView.bundle(new Bundle());
+            textSliderView.getBundle()
+                    .putString("extra",name);
+
+            mDemoSlider.addSlider(textSliderView);
+        }
+
+        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+        mDemoSlider.setDuration(4000);
+        mDemoSlider.setPresetTransformer("ZoomOut");
 
     }
 
