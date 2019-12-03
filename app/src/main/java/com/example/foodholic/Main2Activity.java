@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -46,6 +47,8 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -68,44 +71,21 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Main2Activity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
 
-    ArrayList<classItem>items;
-    ArrayList<String>itemToShow;
+    ArrayList<classItem> items;
+    ArrayList<String> itemToShow;
     FirebaseFirestore db;
 
     Spinner spinner;
     ListView listView;
-    ArrayList<classSubItem>subItems=new ArrayList<>();
-    ArrayList<String>subItemToShow;
-    public ArrayList<String>order;
-    ArrayList<classSubItem>subItemsAfterFilering;
-
-    LocationListener mLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(final Location location) {
-            lng = location.getLongitude();
-            lat = location.getLatitude();
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-    };
+    ArrayList<classSubItem> subItems = new ArrayList<>();
+    ArrayList<String> subItemToShow;
+    public ArrayList<String> order;
+    ArrayList<classSubItem> subItemsAfterFilering;
 
     double lng, lat;
-
+    private FusedLocationProviderClient fusedLocationClient;
     double sum = 0;
     double point = 0;
 
@@ -119,10 +99,9 @@ public class Main2Activity extends AppCompatActivity
         startService(intent);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        if (HomeAct.lang==1){
+        if (HomeAct.lang == 1) {
             toolbar.setTitle("مؤسسة الدخيل");
-        }
-        else {
+        } else {
             toolbar.setTitle("welcome");
         }
 
@@ -134,7 +113,7 @@ public class Main2Activity extends AppCompatActivity
         navigationView.inflateMenu(R.menu.activity_guest2_drawer2);
 
         order = new ArrayList<String>();
-        db=FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         loadSubItem();
         loadItem();
@@ -145,19 +124,8 @@ public class Main2Activity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(Main2Activity.this);
 
-        LocationManager mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return; }
-
-        try{
-
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000,
-                    10, mLocationListener);
-        }catch (Exception e){}
-
-        spinner =findViewById(R.id.guestSpinner);
-        listView=findViewById(R.id.guestList);
+        spinner = findViewById(R.id.guestSpinner);
+        listView = findViewById(R.id.guestList);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -176,23 +144,23 @@ public class Main2Activity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                for (int j=0; j<subItems.size(); j++){
-                    if(subItemToShow.get(i).equals(subItems.get(j).subItem)){
-                        order.add(subItems.get(j).subItem + " = 1 : "+subItems.get(j).price+", ");
-                        sum+=Double.parseDouble(subItems.get(j).price+"");
-                        point+=Double.parseDouble(subItems.get(j).point+"");
+                for (int j = 0; j < subItems.size(); j++) {
+                    if (subItemToShow.get(i).equals(subItems.get(j).subItem)) {
+                        order.add(subItems.get(j).subItem + " = 1 : " + subItems.get(j).price + ", ");
+                        sum += Double.parseDouble(subItems.get(j).price + "");
+                        point += Double.parseDouble(subItems.get(j).point + "");
                     }
                 }
-                if (HomeAct.lang==1){
+                if (HomeAct.lang == 1) {
                     Toast.makeText(Main2Activity.this, "تمت الاضافة", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else {
                     Toast.makeText(Main2Activity.this, "Done", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
         getOffers();
+        getLocFunc();
     }
 
     private void getOffers() {
@@ -206,25 +174,27 @@ public class Main2Activity extends AppCompatActivity
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for(QueryDocumentSnapshot snaps : task.getResult()){
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot snaps : task.getResult()) {
                         temp1.add(snaps.get("description").toString());
-                        temp2.add(snaps.get("link").toString()); }
-                slider(temp1, temp2); }
+                        temp2.add(snaps.get("link").toString());
+                    }
+                    slider(temp1, temp2);
+                }
             }
         });
 
     }
 
-    public void slider(ArrayList<String> desc, ArrayList<String> link){
+    public void slider(ArrayList<String> desc, ArrayList<String> link) {
 
-        final SliderLayout mDemoSlider = (SliderLayout)findViewById(R.id.slider);
-        HashMap<String,String> url_maps = new HashMap<String, String>();
+        final SliderLayout mDemoSlider = (SliderLayout) findViewById(R.id.slider);
+        HashMap<String, String> url_maps = new HashMap<String, String>();
 
-        for(int i=0; i<link.size(); i++)
+        for (int i = 0; i < link.size(); i++)
             url_maps.put(desc.get(i), link.get(i));
 
-        for(String name : url_maps.keySet()){
+        for (String name : url_maps.keySet()) {
             TextSliderView textSliderView = new TextSliderView(this);
 
             textSliderView.description(name)
@@ -233,9 +203,10 @@ public class Main2Activity extends AppCompatActivity
 
             textSliderView.bundle(new Bundle());
             textSliderView.getBundle()
-                    .putString("extra",name);
+                    .putString("extra", name);
 
-            mDemoSlider.addSlider(textSliderView); }
+            mDemoSlider.addSlider(textSliderView);
+        }
 
         mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
         mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
@@ -245,12 +216,12 @@ public class Main2Activity extends AppCompatActivity
 
     }
 
-    private void Space(Bundle savedInstanceState){
+    private void Space(Bundle savedInstanceState) {
 
         SpaceNavigationView spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
         spaceNavigationView.addSpaceItem(new SpaceItem("", R.drawable.ic_menu));
-        spaceNavigationView.addSpaceItem(new SpaceItem("",R.drawable.ic_support));
+        spaceNavigationView.addSpaceItem(new SpaceItem("", R.drawable.ic_support));
         spaceNavigationView.setSpaceItemIconSize(100);
 
         spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
@@ -263,8 +234,8 @@ public class Main2Activity extends AppCompatActivity
                         order);
                 list.setAdapter(arr);
 
-                if (HomeAct.lang==1){
-                    new AlertDialog.Builder(Main2Activity.this).setTitle("مجموع الفاتورة : "+sum+" دينار")
+                if (HomeAct.lang == 1) {
+                    new AlertDialog.Builder(Main2Activity.this).setTitle("مجموع الفاتورة : " + sum + " دينار")
                             .setMessage("عند تاكيد طلبك يرجى تعبائة بعض المعلومات...").setPositiveButton("طلب", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(final DialogInterface dialogInterface, int i) {
@@ -280,6 +251,9 @@ public class Main2Activity extends AppCompatActivity
 
                             dialog.show();
                             dialog.getWindow().setAttributes(lp);
+
+                            TextView est = dialog.findViewById(R.id.est);
+                            est.setText("أجرة توصيل : "+getEst()+" دينار");
 
                             final TextView time = dialog.findViewById(R.id.time);
                             time.setOnClickListener(new View.OnClickListener() {
@@ -317,8 +291,9 @@ public class Main2Activity extends AppCompatActivity
                                     EditText a = dialog.findViewById(R.id.name);
                                     EditText b = dialog.findViewById(R.id.mobile);
                                     EditText c = dialog.findViewById(R.id.desc);
+                                    TextView d = dialog.findViewById(R.id.est);
 
-                                    uploadDelivery(a.getText().toString(), b.getText().toString(), c.getText().toString(), lat, lng);
+                                    uploadDelivery(a.getText().toString(), b.getText().toString(), c.getText().toString(), lat, lng, d.getText().toString());
                                     dialog.dismiss();
                                 }
                             });
@@ -374,9 +349,10 @@ public class Main2Activity extends AppCompatActivity
                                     EditText a = dialog.findViewById(R.id.name);
                                     EditText b = dialog.findViewById(R.id.mobile);
                                     EditText c = dialog.findViewById(R.id.desc);
+                                    TextView d = dialog.findViewById(R.id.est);
 
-                                    uploadDelivery(a.getText().toString(), b.getText().toString(), c.getText().toString(), lat, lng);
-                                    dialogInterface.dismiss();
+                                    uploadDelivery(a.getText().toString(), b.getText().toString(), c.getText().toString(), lat, lng, d.getText().toString());
+                                    dialog.dismiss();
                                 }
                             });
 
@@ -441,6 +417,7 @@ public class Main2Activity extends AppCompatActivity
                         break;
 
                     case 1:
+
                         new AlertDialog.Builder(Main2Activity.this)
                                 .setMessage("هل تود الأتصال على رقم المطعم ؟")
                                 .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
@@ -498,7 +475,61 @@ public class Main2Activity extends AppCompatActivity
         spaceNavigationView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
     }
 
-    public void uploadDelivery(String user_name, String user_mobile, String user_desc, double la, double lo){
+    private String getEst() {
+
+        String dist = String.valueOf(distance(32.539795, 35.879494, lat, lng));
+
+        if(dist.length()>3)
+            return dist.substring(0, 4);
+        else
+            return dist; }
+
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        return (dist*1.61);
+    }
+
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
+    }
+
+    private void getLocFunc() {
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        fusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+
+                if(location != null){
+                    lng = location.getLongitude();
+                    lat = location.getLatitude();
+                }
+                else
+                {
+                    lng = 0;
+                    lat = 0;
+                }
+            }
+        });
+
+    }
+
+    public void uploadDelivery(String user_name, String user_mobile, String user_desc, double la, double lo, String d){
+
+        d=d.replace(" دينار", "");
+        d=d.replace("أجرة توصيل : ", "");
 
         String temp = "";
         for(int i=0; i<order.size(); i++)
@@ -513,6 +544,7 @@ public class Main2Activity extends AppCompatActivity
         order.put("item_list", temp);
         order.put("item_sum_price", sum+"");
         order.put("point_sum", point+"");
+        order.put("d_price", d);
         order.put("lat", la);
         order.put("lng", lo);
 
