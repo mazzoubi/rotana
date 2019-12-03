@@ -112,15 +112,17 @@ public class Login extends AppCompatActivity {
 
                                 else if (Email.contains(".emp")){
 
-//                                    SharedPreferences.Editor editor = shared.edit();
-//                                    editor.putString("cash", "");
-//                                    editor.apply();
-
                                     Intent ax = new Intent(Login.this, Emppage.class);
                                     ax.putExtra("empemail",Email);
                                     startActivity(ax);
                                     finish(); }
 
+                                else if (Email.contains(".cap")){
+
+                                    Intent ax = new Intent(Login.this, Emppage.class);
+                                    ax.putExtra("empemail",Email);
+                                    startActivity(ax);
+                                    finish(); }
 
                             } else
                                 Toast.makeText(Login.this, "Sign in error, Account not found !", Toast.LENGTH_SHORT).show();

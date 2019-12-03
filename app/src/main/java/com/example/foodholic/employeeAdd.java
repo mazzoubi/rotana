@@ -91,6 +91,7 @@ public class employeeAdd extends AppCompatActivity {
             arrayList.add("مدير");
             arrayList.add("موظف");
             arrayList.add("سائق");
+            arrayList.add("كابتن اوردر");
             ArrayAdapter<String>adapter=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item,arrayList);
             spinner.setAdapter(adapter);
 
@@ -169,6 +170,9 @@ public class employeeAdd extends AppCompatActivity {
                     case 3:
                         type="dr";
                         break;
+                    case 4:
+                        type="cap";
+                        break;
 
                 }
             }
@@ -211,6 +215,9 @@ public class employeeAdd extends AppCompatActivity {
                         emp.email=emaill;
                     } else if (type.equals("dr")) {
                         emaill = e+ ".del@gmail.com" ;
+                        emp.email=emaill;
+                    }else if (type.equals("cap")) {
+                        emaill = e+ ".cap@gmail.com" ;
                         emp.email=emaill;
                     }
 

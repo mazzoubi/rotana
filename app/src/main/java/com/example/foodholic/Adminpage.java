@@ -145,7 +145,8 @@ public class Adminpage extends AppCompatActivity {
                 cSale=new ArrayList<>() ;
                 List<DocumentSnapshot>list=queryDocumentSnapshots.getDocuments();
                 for(DocumentSnapshot d:list){
-                    cSale.add(d.toObject(classSales.class));
+                    try{cSale.add(d.toObject(classSales.class)); }
+                    catch(Exception e){}
                 }
                 emp.setEnabled(true);
                 stati.setEnabled(true);

@@ -232,6 +232,19 @@ public class Emppage extends AppCompatActivity
         btn6 = findViewById(R.id.btn6);
         btn7 = findViewById(R.id.btn7);
 
+        if(getIntent().getStringExtra("empemail").contains(".cap")){
+            btn2.setVisibility(View.GONE);
+            btn3.setVisibility(View.GONE);
+            btn4.setVisibility(View.GONE);
+            btn6.setVisibility(View.GONE);
+            btn7.setVisibility(View.GONE);
+            close.setVisibility(View.GONE);
+            re.setVisibility(View.GONE);
+
+            btn5.setWidth(2500);
+
+        }
+
         SharedPreferences.Editor editor = shared.edit();
         editor.putString("cash", "");
         editor.apply();
