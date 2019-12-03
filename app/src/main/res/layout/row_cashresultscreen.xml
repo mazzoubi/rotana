@@ -8,6 +8,7 @@
         android:id="@+id/rname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#ffffff"
         android:layout_marginRight="5dp"
         android:textSize="18sp"
         android:gravity="right"
@@ -17,6 +18,7 @@
         android:id="@+id/rcount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#ffffff"
         android:layout_marginRight="5dp"
         android:gravity="right"
         android:textSize="18sp"
@@ -25,6 +27,7 @@
     <TextView
         android:id="@+id/ruprice"
         android:layout_width="match_parent"
+        android:textColor="#ffffff"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:layout_marginRight="5dp"
@@ -36,6 +39,7 @@
         android:layout_width="match_parent"
         android:layout_marginRight="5dp"
         android:gravity="right"
+        android:textColor="#ffffff"
         android:textSize="18sp"
         android:layout_height="wrap_content"
         android:text="TextView" />
