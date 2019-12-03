@@ -142,7 +142,7 @@ public class Delivery_Emp extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String str = info.get(position);
-                            String num = str.substring(str.indexOf("الهاتف : ")+9, str.indexOf("العنوان : "));
+                            String num = str.substring(str.indexOf("الهاتف : ")+9, str.indexOf("قائمة : "));
                             num = RemoveSpace(num);
                             startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", num, null)));
                         }
@@ -161,7 +161,7 @@ public class Delivery_Emp extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String str = info.get(position);
-                            String num = str.substring(str.indexOf("phone : ")+9, str.indexOf("Address : "));
+                            String num = str.substring(str.indexOf("phone : ")+9, str.indexOf("Menu : "));
                             num = RemoveSpace(num);
                             startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", num, null)));
                         }
@@ -192,19 +192,29 @@ public class Delivery_Emp extends AppCompatActivity {
                     try {
                         if (task.isSuccessful()) {
                             if (HomeAct.lang==1){
-                                info.add("الأسم : "+document.get("name").toString()+"\n"
-                                        +"الهاتف : "+document.get("mobile").toString()+"\n"
-                                        +"العنوان : "+document.get("address").toString()+"\n"
-                                        +"المجموع : "+document.get("sum").toString()+"\n" );
+
+                                info.add("الأسم : "+document.get("user_name").toString()+"\n"
+                                        +"الهاتف : "+document.get("user_mobile").toString()+"\n"
+                                        +"قائمة : "+document.get("item_list").toString()+"\n"
+                                        +"النقاط : "+document.get("point_sum").toString()+"\n"
+                                        +"ملاحظات : "+document.get("user_desc").toString()+"\n"
+                                        +"سعر توصيل : "+document.get("d_price").toString()+"\n"
+                                        +"العنوان : "+"jordan"+"\n"
+                                        +"المجموع : "+document.get("item_sum_price").toString()+"\n" );
                             }
                             else{
-                                info.add("Name : "+document.get("name").toString()+"\n"
-                                        +"Phone : "+document.get("mobile").toString()+"\n"
-                                        +"Address : "+document.get("address").toString()+"\n"
-                                        +"Total : "+document.get("sum").toString()+"\n" );
+                                info.add("Name : "+document.get("user_name").toString()+"\n"
+                                        +"Phone : "+document.get("user_mobile").toString()+"\n"
+                                        +"Menu : "+document.get("item_list").toString()+"\n"
+                                        +"Points : "+document.get("point_sum").toString()+"\n"
+                                        +"Notes : "+document.get("user_desc").toString()+"\n"
+                                        +"Delivery Price : "+document.get("d_price").toString()+"\n"
+                                        +"Address : "+"Jordan"+"\n"
+                                        +"Total : "+document.get("item_sum_price").toString()+"\n" );
                             }
 
                             adapter.notifyDataSetChanged();
+
                             if(info.isEmpty())
                                 if (HomeAct.lang==1){
                                     Toast.makeText(Delivery_Emp.this, "لايوجد طلبات دلفري", Toast.LENGTH_SHORT).show();
@@ -213,7 +223,7 @@ public class Delivery_Emp extends AppCompatActivity {
                                     Toast.makeText(Delivery_Emp.this, "No delivery request", Toast.LENGTH_SHORT).show();
                                 }
                         }
-                    } catch(Exception e){}
+                    } catch(Exception e){new AlertDialog.Builder(Delivery_Emp.this).setMessage(e.getMessage()).show();}
 
                 }
 
