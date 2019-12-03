@@ -1363,9 +1363,25 @@ public class Emppage extends AppCompatActivity
                                         s.setText("مجموع الفاتورة : "+sum+" دينار ");
 
                                 }
-                            }).setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
+                            }).setNegativeButton("حذف", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    saleList.remove(pos);
+                                    adapter.notifyDataSetChanged();
+
+                                    sum = 0;
+                                    for (int j =0; j<saleList.size(); j++)
+                                        sum+=saleList.get(j).sumPrice;
+
+                                    String t = "";
+                                    TextView s = findViewById(R.id.tot);
+
+                                    if(String.valueOf(sum).length() > 10)
+                                        s.setText("مجموع الفاتورة : "+t.substring(t.indexOf("."), t.indexOf(".")+3)+" دينار ");
+                                    else
+                                        s.setText("مجموع الفاتورة : "+sum+" دينار ");
+
                                     dialogInterface.dismiss();
                                 }
                             }).show();
@@ -1408,6 +1424,21 @@ public class Emppage extends AppCompatActivity
                             }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    saleList.remove(pos);
+                                    adapter.notifyDataSetChanged();
+
+                                    sum = 0;
+                                    for (int j =0; j<saleList.size(); j++)
+                                        sum+=saleList.get(j).sumPrice;
+
+                                    String t = "";
+                                    TextView s = findViewById(R.id.tot);
+
+                                    if(String.valueOf(sum).length() > 10)
+                                        s.setText("Total invoice : "+t.substring(t.indexOf("."), t.indexOf(".")+3)+" JOD ");
+                                    else
+                                        s.setText("Total invoice : "+sum+" JOD ");
                                     dialogInterface.dismiss();
                                 }
                             }).show();

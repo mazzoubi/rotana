@@ -44,6 +44,17 @@
                     android:inputType="textPersonName" />
 
                 <EditText
+                    android:id="@+id/descr"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:textSize="18sp"
+                    android:background="@drawable/shape2"
+                    android:gravity="center"
+                    android:hint="Item description"
+                    android:inputType="textPersonName" />
+
+                <EditText
                     android:id="@+id/itemPrice"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -99,8 +110,9 @@
                     android:id="@+id/spinner_correntItem"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:backgroundTint="@color/colorPrimary"
                     android:layout_marginTop="15dp"
-                    android:background="@drawable/fui_idp_button_background_anonymous" />
+                    android:background="@drawable/shape" />
 
                 <EditText
                     android:id="@+id/itemNewItem"
@@ -114,9 +126,23 @@
                     android:inputType="textPersonName" />
 
                 <Button
+                    android:id="@+id/addimg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:layout_marginTop="15dp"
+                    android:textColor="#ffffff"
+                    android:textAllCaps="false"
+                    android:textSize="24sp"
+                    android:layout_marginBottom="5dp"
+                    android:text="Add Image" />
+
+                <Button
                     android:id="@+id/buttonItemAdd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textAllCaps="false"
                     android:background="@drawable/shape"
                     android:backgroundTint="@color/colorPrimary"
                     android:layout_marginTop="15dp"

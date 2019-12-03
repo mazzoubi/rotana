@@ -2,6 +2,7 @@ package com.example.foodholic;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -23,28 +24,32 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class cashAddItem extends AppCompatActivity {
 
     FirebaseFirestore db;
-    EditText itemName,itemPrice,itemCost,itemPoint,newItemName,kitchen;
+    EditText itemName,itemPrice,itemCost,itemPoint,newItemName,kitchen, descr;
     CheckBox checkBox;
     ImageView imageView;
-    Button add;
+    Button add, addimg;
     Spinner currentItem;
     SharedPreferences shared2;
     ArrayList<classItem>itemList;
     ArrayList<classSubItem> subItems;
-
     ArrayList<String>spinerIten;
-
     String itemItem="";
+    Uri ImageUri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +67,8 @@ public class cashAddItem extends AppCompatActivity {
         itemCost=findViewById(R.id.itemCost);
         itemPoint=findViewById(R.id.itemPoint);
         newItemName=findViewById(R.id.itemNewItem);
+        descr=findViewById(R.id.descr);
+        addimg=findViewById(R.id.addimg);
 
 
         checkBox=findViewById(R.id.itemCheckBox);
@@ -75,14 +82,16 @@ public class cashAddItem extends AppCompatActivity {
         checkBox.setChecked(true);
 
         if (HomeAct.lang==1){
-            itemName.setText("إسم المادة");
-            itemPrice.setText("سعر المادة");
-            itemCost.setText("سعر التكلفة");
-            itemPoint.setText("النقاط");
-            newItemName.setText("إسم التصنيف");
+            itemName.setHint("إسم المادة");
+            itemPrice.setHint("سعر المادة");
+            itemCost.setHint("سعر التكلفة");
+            itemPoint.setHint("النقاط");
+            newItemName.setHint("إسم التصنيف");
             checkBox.setText("تصنيف جديد؟");
-            kitchen.setText("رقم المطبخ");
+            kitchen.setHint("رقم المطبخ");
+            descr.setHint("وصف المادة");
             add.setText("+ إضافة +");
+            addimg.setText("+ إضافة صورة +");
             bar.setTitle("الرجوع");
         }
 
@@ -148,6 +157,17 @@ public class cashAddItem extends AppCompatActivity {
             }
         });
 
+        addimg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent galleryIntent = new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent, 1996);
+
+            }
+        });
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,80 +242,105 @@ public class cashAddItem extends AppCompatActivity {
                                  }
                              }
                              else{
-                                 Map<String, Object> reservation = new HashMap<>();
-                                 String id=new Date()+"";
+                                 final Map<String, Object> reservation = new HashMap<>();
+                                 final String id=new Date()+"";
                                  reservation.put("itemName", newItemName.getText().toString());
 
+                                 final Uri resultUri = ImageUri;
 
-                                 db.collection("Res_1_items").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                 StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
+                                 final StorageReference ref = mStorageRef.child("Offers/"+ UUID.randomUUID().toString());
+                                 ref.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                      @Override
-                                     public void onComplete(@NonNull Task<Void> task) {
-                                         if (task.isSuccessful()){
+                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                         ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                             @Override
+                                             public void onSuccess(final Uri uri) {
 
-                                             if(shared2.getString("language", "").equals("arabic")) {
-                                                 Toast.makeText(getApplicationContext(),"لقد تمت اضافة العنصر بنجاح ..",Toast.LENGTH_LONG).show();
+                                                 db.collection("Res_1_items").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                     @Override
+                                                     public void onComplete(@NonNull Task<Void> task) {
+                                                         if (task.isSuccessful()){
+
+                                                             if(shared2.getString("language", "").equals("arabic")) {
+                                                                 Toast.makeText(getApplicationContext(),"لقد تمت اضافة العنصر بنجاح ..",Toast.LENGTH_LONG).show();
+                                                             }
+                                                             else{
+                                                                 Toast.makeText(getApplicationContext(),"successful add ..",Toast.LENGTH_LONG).show();
+                                                             }
+                                                             Map<String, Object> reservation = new HashMap<>();
+                                                             String id=new Date()+"";
+                                                             reservation.put("item", newItemName.getText().toString());
+                                                             reservation.put("subItem", itemName.getText().toString() );
+                                                             reservation.put("image", uri.toString());
+                                                             reservation.put("description", descr.getText().toString());
+                                                             reservation.put("point", itemPoint.getText().toString());
+                                                             reservation.put("kitchen", kitchen.getText().toString());
+                                                             reservation.put("price",  Double.parseDouble(itemPrice.getText().toString()));
+                                                             reservation.put("cost",  Double.parseDouble(itemCost.getText().toString()));
+                                                             reservation.put("itemId", id);
+
+
+
+                                                             db.collection("Res_1_subItem").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                 @Override
+                                                                 public void onComplete(@NonNull Task<Void> task) {
+                                                                     if (task.isSuccessful()){
+                                                                         if(shared2.getString("language", "").equals("arabic")) {
+                                                                             Toast.makeText(getApplicationContext(),"لقد تمت الاضافة بنجاح ..",Toast.LENGTH_LONG).show();
+                                                                             startActivity(new Intent(cashAddItem.this, Emppage.class)); finish();}
+                                                                         else{
+                                                                             Toast.makeText(getApplicationContext(),"successful add ..",Toast.LENGTH_LONG).show();
+                                                                         } }  } });
+                                                         }  } });
                                              }
-                                             else{
-                                                 Toast.makeText(getApplicationContext(),"successful add ..",Toast.LENGTH_LONG).show();
-                                             }
-                                             Map<String, Object> reservation = new HashMap<>();
-                                             String id=new Date()+"";
-                                             reservation.put("item", newItemName.getText().toString());
-                                             reservation.put("subItem", itemName.getText().toString() );
-                                             reservation.put("image", "");
-                                             reservation.put("point", itemPoint.getText().toString());
-                                             reservation.put("kitchen", kitchen.getText().toString());
-                                             reservation.put("price",  Double.parseDouble(itemPrice.getText().toString()));
-                                             reservation.put("cost",  Double.parseDouble(itemCost.getText().toString()));
-                                             reservation.put("itemId", id);
-
-
-
-                                             db.collection("Res_1_subItem").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                 @Override
-                                                 public void onComplete(@NonNull Task<Void> task) {
-                                                     if (task.isSuccessful()){
-                                                         if(shared2.getString("language", "").equals("arabic")) {
-                                                             Toast.makeText(getApplicationContext(),"لقد تمت الاضافة بنجاح ..",Toast.LENGTH_LONG).show();
-                                                             startActivity(new Intent(cashAddItem.this, Emppage.class));
-                                                         }
-                                                         else{
-                                                             Toast.makeText(getApplicationContext(),"successful add ..",Toast.LENGTH_LONG).show();
-                                                         }
-                                                     }
-                                                 }
-                                             });
-                                         }
+                                         });
                                      }
-                                 });
-                             }
-                         }
+                                 }); } }
                     }
                     else{
-                        Map<String, Object> reservation = new HashMap<>();
-                        String id=new Date()+"";
-                        reservation.put("item", itemItem);
-                        reservation.put("subItem", itemName.getText().toString() );
-                        reservation.put("image", "");
-                        reservation.put("point", itemPoint.getText().toString());
-                        reservation.put("kitchen", kitchen.getText().toString());
-                        reservation.put("price", Double.parseDouble(itemPrice.getText().toString()));
-                        reservation.put("itemId", id);
 
+                        final Uri resultUri = ImageUri;
 
-
-                        db.collection("Res_1_subItem").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
+                        final StorageReference ref = mStorageRef.child("Offers/"+ UUID.randomUUID().toString());
+                        ref.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()){
-                                    if(shared2.getString("language", "").equals("arabic")) {
-                                        Toast.makeText(getApplicationContext(),"لقد تمت اضافة العنصر بنجاح ..",Toast.LENGTH_LONG).show();
-                                        startActivity(new Intent(cashAddItem.this, Emppage.class));
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+
+                                        Map<String, Object> reservation = new HashMap<>();
+                                        String id=new Date()+"";
+                                        reservation.put("item", itemItem);
+                                        reservation.put("subItem", itemName.getText().toString() );
+                                        reservation.put("image",  uri.toString());
+                                        reservation.put("description", descr.getText().toString());
+                                        reservation.put("point", itemPoint.getText().toString());
+                                        reservation.put("kitchen", kitchen.getText().toString());
+                                        reservation.put("price", Double.parseDouble(itemPrice.getText().toString()));
+                                        reservation.put("itemId", id);
+
+
+
+                                        db.collection("Res_1_subItem").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()){
+                                                    if(shared2.getString("language", "").equals("arabic")) {
+                                                        Toast.makeText(getApplicationContext(),"لقد تمت اضافة العنصر بنجاح ..",Toast.LENGTH_LONG).show();
+                                                        startActivity(new Intent(cashAddItem.this, Emppage.class));
+                                                        finish();
+                                                    }
+                                                    else{
+                                                        Toast.makeText(getApplicationContext(),"successful item add ..",Toast.LENGTH_LONG).show();
+                                                    }
+                                                }
+                                            }
+                                        });
                                     }
-                                    else{
-                                        Toast.makeText(getApplicationContext(),"successful item add ..",Toast.LENGTH_LONG).show();
-                                    }
-                                }
+                                });
                             }
                         });
                     }
@@ -303,4 +348,14 @@ public class cashAddItem extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1996 && resultCode == RESULT_OK && data != null)
+            ImageUri = data.getData();
+        Toast.makeText(cashAddItem.this, "تم إضافة الصورة بنجاح", Toast.LENGTH_SHORT).show();}
+
+
 }
