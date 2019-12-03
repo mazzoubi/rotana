@@ -125,7 +125,7 @@ public class Delivery_Emp extends AppCompatActivity {
                 }
             }
         });
-
+//l
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
