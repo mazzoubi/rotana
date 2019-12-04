@@ -38,8 +38,10 @@ public class Drive extends AppCompatActivity {
     ArrayList<String> id;
     ArrayList<String> loc;
     ArrayList<String> info;
+    ArrayList<String>latlng;
 
     String name="";
+    String p="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +58,93 @@ public class Drive extends AppCompatActivity {
         id = new ArrayList<String>();
         loc = new ArrayList<String>();
         info = new ArrayList<String>();
+        latlng = new ArrayList<String>();
 
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, info);
+        adapter = new ArrayAdapter<String>(this, R.layout.items_row3, R.id.item, info);
         list.setAdapter(adapter);
 
         downloadDriverData();
 
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
+
+                getLngLat();
+
+                if (HomeAct.lang==1){
+                    new AlertDialog.Builder(Drive.this)
+                            .setMessage("هل ترغب بالأتصال أم الذهاب للموقع؟")
+                            .setNegativeButton("عرض الموقع", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                            Uri.parse("http://maps.google.com/maps?daddr="+latlng.get(i)));
+                                    startActivity(intent);
+                                }
+                            }).setPositiveButton("إتصال", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String str = info.get(i);
+                            String num = str.substring(str.indexOf("الهاتف : ")+9, str.indexOf("قائمة : "));
+                            num = RemoveSpace(num);
+                            startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", num, null)));
+                        }
+                    }).show();
+
+                }
+                else {
+                    new AlertDialog.Builder(Drive.this)
+                            .setMessage("Want to connect?")
+                            .setNegativeButton("no", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                            Uri.parse("http://maps.google.com/maps?daddr="+latlng.get(i)));
+                                    startActivity(intent);
+                                }
+                            }).setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String str = info.get(i);
+                            String num = str.substring(str.indexOf("phone : ")+9, str.indexOf("Menu : "));
+                            num = RemoveSpace(num);
+                            startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", num, null)));
+                        }
+                    }).show();
+
+                }
+
+            }
+        });
+
+    }
+
+    private void getLngLat() {
+
+        latlng.clear();
+
+        db.collection("Res_1_Delivery")
+                .document(name).collection("1")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for(QueryDocumentSnapshot document : task.getResult())
+                    latlng.add(document.get("lat").toString()+","+document.get("lng").toString());
+            }
+        });
+
+    }
+
+    public String RemoveSpace(String str){
+
+        char [] arr = str.toCharArray();
+        String temp = "";
+
+        for(int i=0; i<arr.length; i++)
+            if(Character.isDigit(arr[i]) || arr[i] == '.')
+                temp+=arr[i];
+
+        return temp;
     }
 
     public void downloadDriverData(){
@@ -102,16 +185,24 @@ public class Drive extends AppCompatActivity {
                 for(QueryDocumentSnapshot document : task.getResult())
                     if (task.isSuccessful()) {
                         if (HomeAct.lang==1){
-                            info.add("الأسم : "+document.get("name").toString()+"\n"
-                                    +"الهاتف : "+document.get("mobile").toString()+"\n"
-                                    +"العنوان : "+document.get("address").toString()+"\n"
-                                    +"المجموع : "+document.get("sum").toString()+"\n" );
+                            info.add("الأسم : "+document.get("user_name").toString()+"\n"
+                                    +"الهاتف : "+document.get("user_mobile").toString()+"\n"
+                                    +"قائمة : "+document.get("item_list").toString()+"\n"
+                                    +"النقاط : "+document.get("point_sum").toString()+"\n"
+                                    +"ملاحظات : "+document.get("user_desc").toString()+"\n"
+                                    +"سعر توصيل : "+document.get("d_price").toString()+"\n"
+                                    +"العنوان : "+"jordan"+"\n"
+                                    +"المجموع : "+document.get("item_sum_price").toString()+"\n" );
                         }
                         else {
-                            info.add("Name : "+document.get("name").toString()+"\n"
-                                    +"Phone : "+document.get("mobile").toString()+"\n"
-                                    +"Address : "+document.get("address").toString()+"\n"
-                                    +"Total : "+document.get("sum").toString()+"\n" );
+                            info.add("Name : "+document.get("user_name").toString()+"\n"
+                                    +"Phone : "+document.get("user_mobile").toString()+"\n"
+                                    +"Menu : "+document.get("item_list").toString()+"\n"
+                                    +"Points : "+document.get("point_sum").toString()+"\n"
+                                    +"Notes : "+document.get("user_desc").toString()+"\n"
+                                    +"Delivery Price : "+document.get("d_price").toString()+"\n"
+                                    +"Address : "+"Jordan"+"\n"
+                                    +"Total : "+document.get("item_sum_price").toString()+"\n" );
 
                         }
                         adapter.notifyDataSetChanged();

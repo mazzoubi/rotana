@@ -47,8 +47,11 @@ public class Delivery_Emp extends AppCompatActivity {
     ArrayList<String> loc;
     ArrayList<String> info;
     ArrayList<String>dname;
+    ArrayList<String>latlng;
 
     ArrayAdapter<String> adapterSpin;
+
+    String p="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,7 @@ public class Delivery_Emp extends AppCompatActivity {
         id = new ArrayList<String>();
         loc = new ArrayList<String>();
         info = new ArrayList<String>();
+        latlng = new ArrayList<String>();
 
         adapter = new ArrayAdapter<String>(this, R.layout.items_row3, R.id.item, info);
         list.setAdapter(adapter);
@@ -130,13 +134,17 @@ public class Delivery_Emp extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
+                getLngLat();
+
                 if (HomeAct.lang==1){
                     new AlertDialog.Builder(Delivery_Emp.this)
-                            .setMessage("هل ترغب بالأتصال ؟")
-                            .setNegativeButton("لا", new DialogInterface.OnClickListener() {
+                            .setMessage("هل ترغب بالأتصال أم الذهاب للموقع؟")
+                            .setNegativeButton("عرض الموقع", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
+                                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                            Uri.parse("http://maps.google.com/maps?daddr="+latlng.get(position)));
+                                    startActivity(intent);
                                 }
                             }).setPositiveButton("إتصال", new DialogInterface.OnClickListener() {
                         @Override
@@ -146,7 +154,7 @@ public class Delivery_Emp extends AppCompatActivity {
                             num = RemoveSpace(num);
                             startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", num, null)));
                         }
-                    }).setCancelable(false).show();
+                    }).show();
 
                 }
                 else {
@@ -155,7 +163,9 @@ public class Delivery_Emp extends AppCompatActivity {
                             .setNegativeButton("no", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
+                                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                            Uri.parse("http://maps.google.com/maps?daddr="+latlng.get(position)));
+                                    startActivity(intent);
                                 }
                             }).setPositiveButton("yes", new DialogInterface.OnClickListener() {
                         @Override
@@ -165,7 +175,7 @@ public class Delivery_Emp extends AppCompatActivity {
                             num = RemoveSpace(num);
                             startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", num, null)));
                         }
-                    }).setCancelable(false).show();
+                    }).show();
 
                 }
                 return true;
@@ -175,9 +185,27 @@ public class Delivery_Emp extends AppCompatActivity {
 
     }
 
+    private void getLngLat() {
+
+        latlng.clear();
+
+        db.collection("Res_1_Delivery")
+                .document(p).collection("1")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for(QueryDocumentSnapshot document : task.getResult())
+                    latlng.add(document.get("lat").toString()+","+document.get("lng").toString());
+            }
+        });
+
+    }
+
     public void downloadData(String path){
 
         info.clear();
+
+        p = path;
 
         db.collection("Res_1_Delivery")
                 .document(path).collection("1")
@@ -257,14 +285,6 @@ public class Delivery_Emp extends AppCompatActivity {
                         }
                     }
                 });
-
-    }
-
-    public void ConfirmData(int id){
-
-        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                Uri.parse("http://maps.google.com/maps?daddr="+loc.get(id)+","+loc.get(id+1)));
-        startActivity(intent);
 
     }
 

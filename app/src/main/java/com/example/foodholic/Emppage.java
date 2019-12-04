@@ -615,10 +615,11 @@ public class Emppage extends AppCompatActivity
                                         @Override
                                         public void onClick(View v) {
 
-                                            final EditText name, mobile, desc;
+                                            final EditText name, mobile, desc, dprice;
                                             name = dialog.findViewById(R.id.name);
                                             mobile = dialog.findViewById(R.id.mobile);
                                             desc = dialog.findViewById(R.id.desc);
+                                            dprice = dialog.findViewById(R.id.deliva);
 
                                             if(!cname.contains(name.getText().toString())) {
                                                 if (HomeAct.lang==1){
@@ -641,10 +642,16 @@ public class Emppage extends AppCompatActivity
                                                     }).show();
 
                                                     Map<String, Object> order = new HashMap<>();
-                                                    order.put("address", desc.getText().toString());
-                                                    order.put("mobile", mobile.getText().toString());
-                                                    order.put("name", name.getText().toString());
-                                                    order.put("sum", sum+"");
+                                                    order.put("user_name", name.getText().toString());
+                                                    order.put("user_mobile", mobile.getText().toString());
+                                                    order.put("user_desc", desc.getText().toString());
+                                                    order.put("item_list", MenuSum());
+                                                    order.put("item_sum_price", sum+"");
+                                                    order.put("point_sum", "0");
+                                                    order.put("d_price", dprice.getText().toString());
+                                                    order.put("email", "");
+                                                    order.put("lat", "");
+                                                    order.put("lng", "");
 
                                                     db.collection("Res_1_Delivery")
                                                             .document(sp.getSelectedItem().toString())
@@ -679,10 +686,16 @@ public class Emppage extends AppCompatActivity
                                                     }).show();
 
                                                     Map<String, Object> order = new HashMap<>();
-                                                    order.put("address", desc.getText().toString());
-                                                    order.put("mobile", mobile.getText().toString());
-                                                    order.put("name", name.getText().toString());
-                                                    order.put("sum", sum+"");
+                                                    order.put("user_name", name.getText().toString());
+                                                    order.put("user_mobile", mobile.getText().toString());
+                                                    order.put("user_desc", desc.getText().toString());
+                                                    order.put("item_list", MenuSum());
+                                                    order.put("item_sum_price", sum+"");
+                                                    order.put("point_sum", "0");
+                                                    order.put("d_price", dprice.getText().toString());
+                                                    order.put("email", "");
+                                                    order.put("lat", "");
+                                                    order.put("lng", "");
 
                                                     db.collection("Res_1_Delivery")
                                                             .document(sp.getSelectedItem().toString())
@@ -1488,6 +1501,14 @@ public class Emppage extends AppCompatActivity
 
         FillReserve();
 
+    }
+
+    private String MenuSum() {
+
+        String str="";
+        for(int i=0; i<saleList.size(); i++)
+            str+=saleList.get(i).subItemName+" = "+saleList.get(i).count+" : "+saleList.get(i).unitPrice+",";
+        return str;
     }
 
     public void addCustomData(String str){

@@ -68,7 +68,7 @@
             android:padding="10dp"
             android:gravity="center"
             android:textStyle="bold"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:textColor="@color/colorPrimary"
             android:layout_height="50dp" />
 
@@ -87,9 +87,28 @@
             android:padding="10dp"
             android:gravity="center"
             android:textStyle="bold"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:textColor="@color/colorPrimary"
             android:layout_height="150dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:hint="أجرة توصيل"
+            android:id="@+id/deliva"
+            android:textColorHint="@color/colorPrimary"
+            android:background="@drawable/shape2"
+            android:singleLine="false"
+            android:layout_below="@+id/desc"
+            android:layout_centerHorizontal="true"
+            android:textSize="24dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:padding="10dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/colorPrimary"
+            android:layout_height="50dp" />
 
         <Button
             android:layout_width="match_parent"
@@ -103,7 +122,7 @@
             android:textStyle="bold"
             android:layout_marginTop="15dp"
             android:layout_marginRight="15dp"
-            android:layout_below="@+id/desc"
+            android:layout_below="@+id/deliva"
             android:padding="15dp"
             android:layout_marginBottom="15dp"
             android:textColor="@color/colorPrimaryDark"
