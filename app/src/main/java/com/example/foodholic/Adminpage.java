@@ -1,14 +1,21 @@
 package com.example.foodholic;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,13 +30,124 @@ import java.util.List;
 
 public class Adminpage extends AppCompatActivity {
 
+    public class CustomGridViewAdapter extends BaseAdapter {
+
+        public Integer[] mThumbIds = {
+                R.drawable.ic_person, R.drawable.ic_storage,
+                R.drawable.ic_report, R.drawable.ic_pay,
+                R.drawable.ic_cash, R.drawable.ic_z,
+                R.drawable.ic_drive, R.drawable.ic_star };
+
+        //public String[] mThumbNames = {"Human Resources", "Storage", "Reports", "Payments", "Cash Drawer", "Taxes", "Delivery Drivers", "Ratings" };
+        public String[] mThumbNames = {"Ratings", "Delivery Drivers", "Taxes", "Cash Drawer", "Payments", "Reports", "Storage", "Human Resources" };
+        //public String[] mThumbNames2 = {"تقارير جودة","سائقين التوصيل", "ضرائب", "صندوق الكاش","مصروفات", "تقارير", "مستودعات", "شؤون موظفين" };
+        public String[] mThumbNames2 = {"شؤون موظفين","مستودعات", "تقارير", "مصروفات","صندوق الكاش", "ضرائب", "سائقين التوصيل", "تقارير جودة" };
+
+        private Context mContext;
+
+        public CustomGridViewAdapter(Context c) {
+            mContext = c;
+        }
+
+        @Override
+        public int getCount() {
+            return mThumbIds.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mThumbIds[position];
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+
+            ViewHolderItem viewHolder;
+
+            if (convertView == null) {
+
+                LayoutInflater inflater = (Adminpage.this).getLayoutInflater();
+                convertView = inflater.inflate(R.layout.row_grid, parent, false);
+
+                viewHolder = new ViewHolderItem();
+                viewHolder.textViewItem = convertView.findViewById(R.id.textView);
+                viewHolder.imageViewItem = convertView.findViewById(R.id.imageView);
+
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        switch (position){
+
+                            case 0:
+                                Intent n=new Intent(getApplicationContext(),employeeCreatInformation.class);
+                                startActivity(n);
+                                break;
+                            case 1:
+                                Intent n1 =new Intent(getApplicationContext(),warehouse.class);
+                                startActivity(n1);
+                                break;
+                            case 2:
+                                Intent n2=new Intent(getApplicationContext(),statistics.class);
+                                startActivity(n2);
+                                break;
+                            case 3:
+                                Intent n3 =new Intent(getApplicationContext(),Payment.class);
+                                n3.putExtra("emp",email);
+                                startActivity(n3);
+                                break;
+                            case 4:
+                                Intent n4=new Intent(getApplicationContext(),statisticsMainActivity.class);
+                                startActivity(n4);
+                                break;
+                            case 5:
+                                Intent n5=new Intent(getApplicationContext(),Zreport.class);
+                                startActivity(n5);
+                                break;
+                            case 6:
+                                break;
+                            case 7:
+                                break;
+
+                        }
+
+                    }
+                });
+
+                convertView.setTag(viewHolder); }
+
+            else
+                viewHolder = (ViewHolderItem) convertView.getTag();
+
+            if(shared2.getString("language", "").equals("arabic"))
+                viewHolder.textViewItem.setText(mThumbNames2[position]);
+            else
+                viewHolder.textViewItem.setText(mThumbNames[position]);
+
+            viewHolder.textViewItem.setTag(position);
+
+            viewHolder.imageViewItem.setImageResource(mThumbIds[position]);
+
+
+            return convertView; }
+
+    }
+
+    static class ViewHolderItem {
+        TextView textViewItem;
+        ImageView imageViewItem; }
+
     FirebaseFirestore db ;
     FirebaseFirestore dbs;
 
     public static ArrayList<classSales> cSale=new ArrayList<>();
     public static ArrayList<classPayment> cPyment=new ArrayList<>();
 
-    Button emp,stati,addPayment,warehouse ,zreport,openClose;
     boolean a=false,b=false;
     ArrayAdapter<String> adapter;
 
@@ -41,83 +159,19 @@ public class Adminpage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_adminpage);
-
-        Toolbar toolbar = findViewById(R.id.tool);
-        toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle("مؤسسة الدخيل");
+        setContentView(R.layout.activity_adminpage_new);
 
         final ProgressBar progressBar=(ProgressBar)findViewById(R.id.progressBar);
-        emp=(Button)findViewById(R.id.employee);
-        stati=(Button)findViewById(R.id.statistics2);
-        addPayment=(Button)findViewById(R.id.addPayment);
-        warehouse=findViewById(R.id.warehouse);
-        textView=findViewById(R.id.textView6);
-        zreport=findViewById(R.id.warehouse2);
-        openClose=findViewById(R.id.warehouse3);
-
-        openClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent n=new Intent(getApplicationContext(),statisticsMainActivity.class);
-                startActivity(n);
-            }
-        });
-        zreport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent n=new Intent(getApplicationContext(),Zreport.class);
-                startActivity(n);
-            }
-        });
-
         shared2 = getSharedPreferences("lang", MODE_PRIVATE);
-        if(shared2.getString("language", "").equals("arabic")){
-            emp.setText("الموظفين");
-            stati.setText("التقارير");
-            addPayment.setText("اضافة التكاليف");
-            warehouse.setText("المستودع");
-            openClose.setText("فتح واغلاق الكاش");
+
+        textView = findViewById(R.id.textView6);
+
+        if(shared2.getString("language", "").equals("arabic"))
             textView.setText("صفحة المدير");
-            toolbar.setTitle("مؤسسة الدخيل");
-        }
 
+        GridView gridView = findViewById(R.id.gridViewCustom);
+        gridView.setAdapter(new CustomGridViewAdapter(this));
 
-        warehouse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent n =new Intent(getApplicationContext(),warehouse.class);
-                startActivity(n);
-            }
-        });
-
-
-        addPayment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent n =new Intent(getApplicationContext(),Payment.class);
-                n.putExtra("emp",email);
-                startActivity(n);
-            }
-        });
-
-        emp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent n=new Intent(getApplicationContext(),employeeCreatInformation.class);
-                startActivity(n);
-            }
-        });
-
-        stati.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"ok",Toast.LENGTH_SHORT);
-                Intent n=new Intent(getApplicationContext(),statistics.class);
-                startActivity(n);
-            }
-        });
         db = FirebaseFirestore.getInstance();
 
         db.collection("Res_1_payment").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -130,8 +184,6 @@ public class Adminpage extends AppCompatActivity {
                 for(DocumentSnapshot d:list){
                     cPyment.add(d.toObject(classPayment.class));
                 }
-                emp.setEnabled(true);
-                stati.setEnabled(true);
 
             }
 
@@ -148,8 +200,6 @@ public class Adminpage extends AppCompatActivity {
                     try{cSale.add(d.toObject(classSales.class)); }
                     catch(Exception e){}
                 }
-                emp.setEnabled(true);
-                stati.setEnabled(true);
             }
         });
 
