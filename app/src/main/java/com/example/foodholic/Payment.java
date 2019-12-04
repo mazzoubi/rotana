@@ -36,6 +36,7 @@ public class Payment extends AppCompatActivity {
     String myDatefrom=" / / ";
     Double pay=0.0;
     SharedPreferences shared2;
+    SharedPreferences shared3;
 
     String email;
     @Override
@@ -56,6 +57,8 @@ public class Payment extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         shared2 = getSharedPreferences("lang", MODE_PRIVATE);
+        shared3 = getSharedPreferences("cash", MODE_PRIVATE);
+
         if(shared2.getString("language", "").equals("arabic")) {
             payment.setHint("المبلغ المصروف");
             description.setHint("تفاصيل المصروف");
@@ -142,6 +145,13 @@ public class Payment extends AppCompatActivity {
 
     }
     public void uploadData(String date, double pay,String desc){
+
+        double paySum = Double.parseDouble(shared3.getString("pay", "0.0"));
+        paySum+=pay;
+
+        SharedPreferences.Editor editor = shared3.edit();
+        editor.putString("pay", paySum+"");
+        editor.apply();
 
         String dd=new Date()+"";
         String []time=dd.split(" ");

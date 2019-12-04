@@ -88,20 +88,18 @@
             android:id="@+id/tot"
             android:textColorHint="@color/colorPrimary"
             android:background="@drawable/shape2"
-            android:singleLine="true"
             android:layout_below="@+id/pric"
             android:layout_centerHorizontal="true"
             android:enabled="false"
             android:textSize="24dp"
             android:layout_marginLeft="15dp"
-            android:inputType="number"
             android:layout_marginRight="15dp"
             android:padding="10dp"
             android:gravity="center"
             android:textStyle="bold"
             android:layout_marginTop="15dp"
             android:textColor="@color/colorPrimary"
-            android:layout_height="50dp" />
+            android:layout_height="wrap_content" />
 
         <EditText
             android:layout_width="match_parent"

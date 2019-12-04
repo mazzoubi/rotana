@@ -69,6 +69,7 @@ public class Emppage extends AppCompatActivity
 
     SharedPreferences shared;
     SharedPreferences shared2;
+    SharedPreferences shared3;
 
     public static String empEmail;
 
@@ -189,6 +190,8 @@ public class Emppage extends AppCompatActivity
 
         shared = getSharedPreferences("delivery", MODE_PRIVATE);
         shared2 = getSharedPreferences("lang", MODE_PRIVATE);
+        shared3 = getSharedPreferences("cash", MODE_PRIVATE);
+
         db = FirebaseFirestore.getInstance();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -1181,9 +1184,16 @@ public class Emppage extends AppCompatActivity
                         @Override
                         public void onClick(View view) {
 
+                            Double nu = ((closeOpenCash.total+closeOpenCash.floor)-Double.parseDouble(shared3.getString("pay", "0.0")));
+
                             et1.setText(closeOpenCash.empEmail);
                             et2.setText(closeOpenCash.dateAndTimeOpen);
-                            et5.setText("مبيعات : "+closeOpenCash.total+"   ارضية : "+closeOpenCash.floor+"   مجموع : "+(closeOpenCash.total+closeOpenCash.floor));
+                            et5.setText("مبيعات : "+closeOpenCash.total+"   ارضية : "+closeOpenCash.floor+
+                                    "   مصروفات : "+ shared3.getString("pay", "0.0")+"\n");
+                            et5.setText(et5.getText().toString()+"   مجموع : "+nu);
+
+                            closeOpenCash.total = nu;
+
                             String form = "HH:mm dd-MM-yy";
                             SimpleDateFormat sdf = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
 
@@ -1213,6 +1223,10 @@ public class Emppage extends AppCompatActivity
 
                                                 SharedPreferences.Editor editor = shared2.edit();
                                                 editor.putString("cash", "");
+                                                editor.apply();
+
+                                                editor = shared3.edit();
+                                                editor.putString("pay", "0.0");
                                                 editor.apply();
 
                                                 closeOpenCash = new classCloseOpenCash();
