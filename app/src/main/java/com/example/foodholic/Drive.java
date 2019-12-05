@@ -1,22 +1,37 @@
 package com.example.foodholic;
 
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -25,8 +40,15 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.luseen.spacenavigation.SpaceItem;
+import com.luseen.spacenavigation.SpaceNavigationView;
+import com.luseen.spacenavigation.SpaceOnClickListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Drive extends AppCompatActivity {
 
@@ -47,6 +69,7 @@ public class Drive extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drive);
+        Space(savedInstanceState);
 
         db = FirebaseFirestore.getInstance();
 
@@ -119,6 +142,199 @@ public class Drive extends AppCompatActivity {
 
     }
 
+    private void getNoti() {
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("Res_1_Delivery").document(name).collection("1")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            showNotification();
+                        }
+                    } });
+    }
+
+    private void showNotification() {
+
+        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        int notificationId = 1;
+        String channelId = "channel-01";
+        String channelName = "Channel Name";
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel mChannel = new NotificationChannel(
+                    channelId, channelName, importance);
+            notificationManager.createNotificationChannel(mChannel);
+        }
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), channelId)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("إشعار")
+                .setContentText("لديك طلبية جديدة, تفقد البرنامج");
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+        stackBuilder.addNextIntent(new Intent(this, Main2Activity.class));
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
+                0,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+        mBuilder.setContentIntent(resultPendingIntent);
+
+        notificationManager.notify(notificationId, mBuilder.build());
+    }
+
+    private void Space(Bundle savedInstanceState) {
+
+        SpaceNavigationView spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
+        spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
+        spaceNavigationView.addSpaceItem(new SpaceItem("", R.drawable.ic_exit));
+        spaceNavigationView.addSpaceItem(new SpaceItem("", R.drawable.ic_support));
+        spaceNavigationView.setSpaceItemIconSize(100);
+
+        spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
+            @Override
+            public void onCentreButtonClick() {
+
+                final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(Drive.this);
+                LayoutInflater inflater = Drive.this.getLayoutInflater();
+                builder.setView(inflater.inflate(R.layout.dialog_deliver3, null));
+                final android.support.v7.app.AlertDialog dialog = builder.create();
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                dialog.show();
+                dialog.getWindow().setAttributes(lp);
+
+                TextView t1 = dialog.findViewById(R.id.dnum);
+                t1.setText("عدد الطلبيات : "+info.size()+" طلب");
+                TextView t2 = dialog.findViewById(R.id.dprice);
+                t2.setText("مجموع مبلغ الوجبات : "+getRecieteSum()+" دينار");
+                TextView t3 = dialog.findViewById(R.id.dsum);
+                t3.setText("مجموع مبلغ التوصيل : "+getpriceSum()+" دينار");
+
+            }
+
+            @Override
+            public void onItemClick(int itemIndex, String itemName) {
+                switch (itemIndex){
+
+                    case 0:
+                        FirebaseAuth auth = FirebaseAuth.getInstance();
+                        auth.signOut();
+
+                        UploadDriverData();
+
+                        startActivity(new Intent(Drive.this, Login.class));
+                        finish();
+
+                        break;
+
+                    case 1:
+
+                        new android.support.v7.app.AlertDialog.Builder(Drive.this)
+                                .setMessage("هل تود الأتصال على رقم المطعم ؟")
+                                .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Intent intent = new Intent((Intent.ACTION_DIAL));
+                                        intent.setData(Uri.parse("tel:+962792942040"));
+                                        startActivity(intent);
+                                    }
+                                }).setNegativeButton("لا", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
+
+                        break;
+                }
+            }
+
+            @Override
+            public void onItemReselected(int itemIndex, String itemName) {
+                switch (itemIndex){
+
+                    case 0:
+                        FirebaseAuth auth = FirebaseAuth.getInstance();
+                        auth.signOut();
+
+                        UploadDriverData();
+
+                        startActivity(new Intent(Drive.this, Login.class));
+                        finish();
+                        break;
+
+                    case 1:
+
+                        new android.support.v7.app.AlertDialog.Builder(Drive.this)
+                                .setMessage("هل تود الأتصال على رقم المطعم ؟")
+                                .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Intent intent = new Intent((Intent.ACTION_DIAL));
+                                        intent.setData(Uri.parse("tel:+962792942040"));
+                                        startActivity(intent);
+                                    }
+                                }).setNegativeButton("لا", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
+
+                        break;
+                }
+            }
+        });
+        spaceNavigationView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        UploadDriverData();
+    }
+
+    private void UploadDriverData() {
+
+        FirebaseFirestore fb = FirebaseFirestore.getInstance();
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("date_time", new Date().toString());
+        map.put("delivery_sum", getRecieteSum());
+        map.put("order_sum", getpriceSum());
+        map.put("order_num", info.size()+"");
+
+        fb.collection("Res_1_Driver_Report").document(getIntent().getStringExtra("email")).collection("1").document(new Date().toString()).set(map);
+
+    }
+
+    private String getRecieteSum() {
+
+        Double sum = 0.0;
+        for(int i=0; i<info.size(); i++)
+            sum+=Double.parseDouble(info.get(i).substring(info.get(i).indexOf("المجموع : ")+10));
+
+        return sum+"";
+    }
+
+    private String getpriceSum() {
+
+        Double sum = 0.0;
+        for(int i=0; i<info.size(); i++)
+            sum+=Double.parseDouble(info.get(i).substring(info.get(i).indexOf("سعر توصيل : ")+12, info.get(i).indexOf("العنوان : ")));
+
+        return sum+"";
+    }
+
     private void getLngLat() {
 
         latlng.clear();
@@ -171,6 +387,7 @@ public class Drive extends AppCompatActivity {
     public void AddDataName(String temp){
         name = temp;
         downloadData();
+        getNoti();
     }
 
     public void downloadData(){

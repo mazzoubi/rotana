@@ -18,6 +18,8 @@
         android:layout_width="match_parent"
         android:layout_margin="15dp"
         android:elevation="15dp"
+        android:id="@+id/card"
+        android:layout_above="@+id/space"
         android:layout_below="@+id/tool"
         android:layout_height="match_parent">
 
@@ -28,5 +30,62 @@
             android:layout_height="match_parent"/>
 
     </android.support.v7.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_below="@+id/card"
+        android:weightSum="3"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="شكرا لجهودك"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="   "
+            android:textSize="12sp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="أخي السائق"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <com.luseen.spacenavigation.SpaceNavigationView
+        android:id="@+id/space"
+        android:elevation="10dp"
+        app:centre_button_icon="@drawable/ic_menu"
+        app:inactive_item_color="#ffffff"
+        app:active_item_color="#ffffff"
+        android:layout_marginTop="5dp"
+        app:centre_button_color="@color/colorPrimaryDark"
+        android:layoutDirection="rtl"
+        app:active_centre_button_background_color="@color/colorPrimaryDark"
+        app:active_centre_button_icon_color="@color/colorPrimary"
+        app:inactive_centre_button_icon_color="@color/colorPrimary"
+        android:layout_width="match_parent"
+        app:space_background_color="@color/colorPrimary"
+        app:space_item_icon_size="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"/>
 
 </RelativeLayout>

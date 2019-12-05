@@ -467,7 +467,21 @@ public class Main2Activity extends AppCompatActivity
                         break;
 
                     case 1:
-
+                        new AlertDialog.Builder(Main2Activity.this)
+                                .setMessage("Call The Resturant ?")
+                                .setPositiveButton("Call", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Intent intent = new Intent((Intent.ACTION_DIAL));
+                                        intent.setData(Uri.parse("tel:+962792942040"));
+                                        startActivity(intent);
+                                    }
+                                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
                         break;
                 }
             }
