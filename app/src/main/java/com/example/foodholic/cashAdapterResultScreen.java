@@ -31,16 +31,16 @@ public class cashAdapterResultScreen extends ArrayAdapter<classCashSale> {
         Sales=getItem(position);
 
         if (HomeAct.lang==1) {
-            neme.setText("أسم المادة : " + Sales.subItemName);
-            count.setText("العدد : " + Sales.count);
-            uprice.setText("السعر الأفرادي : " + Sales.unitPrice);
-            sum.setText("السعر الكامل : " + Sales.sumPrice);
+            neme.setText(Sales.subItemName+"");
+            count.setText(Sales.count+"");
+            uprice.setText(Sales.unitPrice+"");
+            sum.setText(Sales.sumPrice+"");
         }
         else {
-            neme.setText("Subject Name : " + Sales.subItemName);
-            count.setText("no# : " + Sales.count);
-            uprice.setText("Item price : " + Sales.unitPrice);
-            sum.setText("total : " + Sales.sumPrice);
+            neme.setText(Sales.subItemName+"");
+            count.setText(Sales.count+"");
+            uprice.setText(Sales.unitPrice+"");
+            sum.setText(Sales.sumPrice+"");
         }
 
         return myView ;

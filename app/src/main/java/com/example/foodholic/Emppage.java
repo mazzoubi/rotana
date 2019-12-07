@@ -1357,7 +1357,7 @@ public class Emppage extends AppCompatActivity
                 }
 
 
-                final ArrayAdapter<classCashSale>adapter=new cashAdapterResultScreen(getApplication(), R.layout.items_row,saleList);
+                final ArrayAdapter<classCashSale>adapter=new cashAdapterResultScreen(getApplication(), R.layout.items_row, saleList);
                 resList.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
 
