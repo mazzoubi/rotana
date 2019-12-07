@@ -19,8 +19,11 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
-        <activity android:name=".offer"
-            android:parentActivityName=".Emppage"/>
+        <activity android:name=".RateActivity"
+            android:parentActivityName=".Main2Activity"/>
+        <activity
+            android:name=".offer"
+            android:parentActivityName=".Emppage" />
         <activity android:name=".Zreport" />
         <activity android:name=".Main2Activity" />
         <activity

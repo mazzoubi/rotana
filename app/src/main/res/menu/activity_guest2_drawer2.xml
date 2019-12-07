@@ -17,6 +17,10 @@
             android:icon="@mipmap/ic_pro"
             android:title="ملف شخصي" />
         <item
+            android:id="@+id/rate"
+            android:icon="@drawable/ic_star"
+            android:title="تقييم الخدمة / شكاوي واقتراحات" />
+        <item
             android:id="@+id/nav_location"
             android:icon="@mipmap/ic_location"
             android:title="موقعنا" />

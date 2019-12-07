@@ -877,6 +877,7 @@ public class Main2Activity extends AppCompatActivity
             case R.id.nav_pro: startActivity(new Intent(this, Profile.class)); break;
             case R.id.nav_location: startActivity(new Intent(this, Loc.class)); break;
             case R.id.nav_contact: startActivity(new Intent(this, Contact.class)); break;
+            case R.id.rate: startActivity(new Intent(this, RateActivity.class)); break;
             case R.id.nav_about: startActivity(new Intent(this, About.class)); break; }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

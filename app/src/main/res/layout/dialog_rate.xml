@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/shape3"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:hint="اسم الخدمة "
+            android:id="@+id/name"
+            android:textColorHint="@color/colorPrimary"
+            android:background="@drawable/shape2"
+            android:singleLine="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="24dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:padding="10dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/colorPrimary"
+            android:layout_height="50dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:hint="ملاحظات التقييم"
+            android:id="@+id/desc"
+            android:textColorHint="@color/colorPrimary"
+            android:background="@drawable/shape2"
+            android:singleLine="false"
+            android:layout_marginBottom="15dp"
+            android:layout_below="@+id/name"
+            android:layout_centerHorizontal="true"
+            android:textSize="24dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:padding="10dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/colorPrimary"
+            android:layout_height="150dp" />
+
+        <RatingBar
+            android:id="@+id/rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/desc"
+            android:numStars="5"
+            android:textColor="@color/colorPrimary" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:text="إرسال التقييم"
+            android:layout_marginBottom="15dp"
+            android:id="@+id/deliv"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:textSize="20dp"
+            android:background="@drawable/shape"
+            android:backgroundTint="@color/colorPrimary"
+            android:textStyle="bold"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_below="@+id/rating"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</ScrollView>
