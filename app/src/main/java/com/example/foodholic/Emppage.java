@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.hardware.usb.UsbDevice;
+import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -49,6 +51,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.Closeable;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -56,6 +61,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -1514,6 +1520,17 @@ public class Emppage extends AppCompatActivity
         });
 
         FillReserve();
+
+        //Print();
+    }
+
+    private void Print() {
+
+        try {
+            Socket socket = new Socket("127.0.0.1", 5554);
+            OutputStream out = socket.getOutputStream();
+            out.write("hi my name is ahmad".getBytes());
+        } catch(Exception e){}
 
     }
 
