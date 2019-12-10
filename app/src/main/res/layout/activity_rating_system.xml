@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ratingSystem">
+
+    <Button
+        android:id="@+id/rat_res"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="restaurant"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.196" />
+
+    <Button
+        android:id="@+id/rat_meal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="meal"
+        app:layout_constraintEnd_toEndOf="@+id/rat_res"
+        app:layout_constraintStart_toStartOf="@+id/rat_res"
+        app:layout_constraintTop_toBottomOf="@+id/rat_res" />
+
+    <Button
+        android:id="@+id/rat_emp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="employee"
+        app:layout_constraintEnd_toEndOf="@+id/rat_meal"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/rat_meal"
+        app:layout_constraintTop_toBottomOf="@+id/rat_meal" />
+
+    <Button
+        android:id="@+id/rat_delv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="delvery"
+        app:layout_constraintEnd_toEndOf="@+id/rat_emp"
+        app:layout_constraintStart_toStartOf="@+id/rat_emp"
+        app:layout_constraintTop_toBottomOf="@+id/rat_emp" />
+
+    <ScrollView
+        android:id="@+id/scrollView6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/rat_delv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/rat_emp"
+        app:layout_constraintTop_toTopOf="@+id/rat_res">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/rat_textResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/rat_textSumRate"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView6" />
+</android.support.constraint.ConstraintLayout>

@@ -19,8 +19,10 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
-        <activity android:name=".RateActivity"
-            android:parentActivityName=".Main2Activity"/>
+        <activity android:name=".ratingSystem"></activity>
+        <activity
+            android:name=".RateActivity"
+            android:parentActivityName=".Main2Activity" />
         <activity
             android:name=".offer"
             android:parentActivityName=".Emppage" />

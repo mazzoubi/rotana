@@ -1984,13 +1984,14 @@ public class Emppage extends AppCompatActivity
             sale.put("sale", saleList.get(i).sumPrice);
 
             sum+=saleList.get(i).sumPrice;
-            bill="date: "+day+"\n" +
+            bill+="date: "+day+"\n" +
                     "time: "+time + "\n" +
                     "sub item: "+saleList.get(i).subItemName+"\n" +
                     "sum price: "+ saleList.get(i).sumPrice+"\n" +
                     "-------------------------------------------\n" ;
 
             db.collection("Res_1_sales").document()
+                    
                     .set(sale)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override

@@ -110,6 +110,8 @@ public class Adminpage extends AppCompatActivity {
                                 startActivity(n5);
                                 break;
                             case 6:
+                                Intent n6=new Intent(getApplicationContext(),ratingSystem.class);
+                                startActivity(n6);
                                 break;
                             case 7:
                                 break;
