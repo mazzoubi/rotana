@@ -33,13 +33,17 @@ public class Adminpage extends AppCompatActivity {
     public class CustomGridViewAdapter extends BaseAdapter {
 
         public Integer[] mThumbIds = {
-                R.drawable.ic_person, R.drawable.ic_storage,
-                R.drawable.ic_report, R.drawable.ic_pay,
-                R.drawable.ic_cash, R.drawable.ic_z,
-                R.drawable.ic_drive, R.drawable.ic_star };
+                R.drawable.ic_person,
+                R.drawable.ic_storage,
+                R.drawable.ic_report,
+                R.drawable.ic_pay,
+                R.drawable.ic_cash,
+                R.drawable.ic_z,
+                R.drawable.ic_drive,
+                R.drawable.ic_star };
 
         //public String[] mThumbNames = {"Human Resources", "Storage", "Reports", "Payments", "Cash Drawer", "Taxes", "Delivery Drivers", "Ratings" };
-        public String[] mThumbNames = {"Ratings", "Delivery Drivers", "Taxes", "Cash Drawer", "Payments", "Reports", "Storage", "Human Resources" };
+        public String[] mThumbNames = {"Human Resources","Storage" ,"Reports", "Payments","Cash Drawer",  "Taxes" ,"Delivery Drivers" , "Ratings" };
         //public String[] mThumbNames2 = {"تقارير جودة","سائقين التوصيل", "ضرائب", "صندوق الكاش","مصروفات", "تقارير", "مستودعات", "شؤون موظفين" };
         public String[] mThumbNames2 = {"شؤون موظفين","مستودعات", "تقارير", "مصروفات","صندوق الكاش", "ضرائب", "سائقين التوصيل", "تقارير جودة" };
 
@@ -110,13 +114,14 @@ public class Adminpage extends AppCompatActivity {
                                 startActivity(n5);
                                 break;
                             case 6:
+                            Intent n7=new Intent(getApplicationContext(),driverReport.class);
+                            startActivity(n7);
+                            break;
+                            case 7:
                                 Intent n6=new Intent(getApplicationContext(),ratingSystem.class);
                                 startActivity(n6);
                                 break;
-                            case 7:
-                                Intent n7=new Intent(getApplicationContext(),driverReport.class);
-                                startActivity(n7);
-                                break;
+
 
                         }
 
