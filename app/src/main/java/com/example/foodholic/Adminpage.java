@@ -114,6 +114,8 @@ public class Adminpage extends AppCompatActivity {
                                 startActivity(n6);
                                 break;
                             case 7:
+                                Intent n7=new Intent(getApplicationContext(),driverReport.class);
+                                startActivity(n7);
                                 break;
 
                         }

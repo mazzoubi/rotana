@@ -19,7 +19,8 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
-        <activity android:name=".ratingSystem"></activity>
+        <activity android:name=".driverReport"></activity>
+        <activity android:name=".ratingSystem" />
         <activity
             android:name=".RateActivity"
             android:parentActivityName=".Main2Activity" />
