@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -50,6 +51,11 @@ public class statisticsMainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_statistics_main);
+
+    Toolbar bar = findViewById(R.id.tool);
+    setSupportActionBar(bar);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     init();
 
     print.setOnClickListener(new View.OnClickListener() {
@@ -138,11 +144,11 @@ public class statisticsMainActivity extends AppCompatActivity {
               arrayList.add("اسم الموظف: "+empName+"" +
                       "\nالبريد الالكتروني: "+allCloseOpen.get(0).empEmail+"\n" +
                       "تاريخ هذه العمليه: "+new Date()+"" +
-                      "\n-------------------------------");
+                      "\n\n\n");
               toPrint+="\nاسم الموظف: "+empName+"" +
                       "\nالبريد الالكتروني: "+allCloseOpen.get(0).empEmail+"\n" +
                       "تاريخ هذه العمليه: "+new Date()+"" +
-                      "\n-------------------------------";
+                      "\n\n\n";
               for (int i=0 ; i< allCloseOpen.size();i++){
                 if (allCloseOpen.get(i).dateOpen.contains(ss)){
                   floor+=allCloseOpen.get(i).floor;
@@ -163,11 +169,11 @@ public class statisticsMainActivity extends AppCompatActivity {
                           "المجموع الكلي   = "+allCloseOpen.get(i).total;
                 }
               }
-              arrayList.add("\n-------------------------------\n" +
+              arrayList.add("\n\n\n" +
                       "مجموع فتح صندوق   = "+floor+"\n" +
                       "مجموع المبيعات    = "+sale+"\n" +
                       "المجموع الكلي   = "+total);
-              toPrint+="\n-------------------------------\n" +
+              toPrint+="\n\n\n" +
                       "مجموع فتح صندوق   = "+floor+"\n" +
                       "مجموع المبيعات    = "+sale+"\n" +
                       "المجموع الكلي   = "+total;
@@ -181,11 +187,11 @@ public class statisticsMainActivity extends AppCompatActivity {
               arrayList.add("اسم الموظف: "+empName+"" +
                       "\nالبريد الالكتروني: "+allCloseOpen.get(0).empEmail+"\n" +
                       "تاريخ هذه العمليه: "+new Date()+"" +
-                      "\n-------------------------------");
+                      "\n\n");
               toPrint+="\nاسم الموظف: "+empName+"" +
                       "\nالبريد الالكتروني: "+allCloseOpen.get(0).empEmail+"\n" +
                       "تاريخ هذه العمليه: "+new Date()+"" +
-                      "\n-------------------------------";
+                      "\n\n";
               for (int i=0 ; i< allCloseOpen.size();i++){
                 if (allCloseOpen.get(i).dateOpen.contains(ss)){
                   floor+=allCloseOpen.get(i).floor;
@@ -206,11 +212,11 @@ public class statisticsMainActivity extends AppCompatActivity {
                           "المجموع الكلي   = "+allCloseOpen.get(i).total;
                 }
               }
-              arrayList.add("\n-------------------------------\n" +
+              arrayList.add("\n\n\n" +
                       "مجموع فتح صندوق   = "+floor+"\n" +
                       "مجموع المبيعات    = "+sale+"\n" +
                       "المجموع الكلي   = "+total);
-              toPrint+="\n-------------------------------\n" +
+              toPrint+="\n\n\n" +
                       "مجموع فتح صندوق   = "+floor+"\n" +
                       "مجموع المبيعات    = "+sale+"\n" +
                       "المجموع الكلي   = "+total;
@@ -222,11 +228,11 @@ public class statisticsMainActivity extends AppCompatActivity {
               arrayList.add("اسم الموظف: "+empName+"" +
                       "\nالبريد الالكتروني: "+allCloseOpen.get(0).empEmail+"\n" +
                       "تاريخ هذه العمليه: "+new Date()+"" +
-                      "\n-------------------------------");
+                      "\n\n");
               toPrint+="\nاسم الموظف: "+empName+"" +
                       "\nالبريد الالكتروني: "+allCloseOpen.get(0).empEmail+"\n" +
                       "تاريخ هذه العمليه: "+new Date()+"" +
-                      "\n-------------------------------";
+                      "\n\n";
               for (int i=0 ; i< allCloseOpen.size();i++){
                 if (allCloseOpen.get(i).dateOpen.contains(myDatefrom)){
                   floor+=allCloseOpen.get(i).floor;
@@ -249,11 +255,11 @@ public class statisticsMainActivity extends AppCompatActivity {
 
                 }
               }
-              arrayList.add("\n-------------------------------\n" +
+              arrayList.add("\n\n\n" +
                       "مجموع فتح صندوق   = "+floor+"\n" +
                       "مجموع المبيعات    = "+sale+"\n" +
                       "المجموع الكلي   = "+total);
-              toPrint+="\n-------------------------------\n" +
+              toPrint+="\n\n\n" +
                       "مجموع فتح صندوق   = "+floor+"\n" +
                       "مجموع المبيعات    = "+sale+"\n" +
                       "المجموع الكلي   = "+total;
@@ -287,11 +293,11 @@ public class statisticsMainActivity extends AppCompatActivity {
               arrayList.add("emp name: "+empName+"" +
                       "\nemp email: "+allCloseOpen.get(0).empEmail+"\n" +
                       "date of this opreation: "+new Date()+"" +
-                      "\n-------------------------------");
+                      "\n\n");
               toPrint+="\nemp name: "+empName+"" +
                       "\nemp email: "+allCloseOpen.get(0).empEmail+"\n" +
                       "date of this opreation: "+new Date()+"" +
-                      "\n-------------------------------";
+                      "\n\n";
               for (int i=0 ; i< allCloseOpen.size();i++){
                 if (allCloseOpen.get(i).dateOpen.contains(ss)){
                   floor+=allCloseOpen.get(i).floor;
@@ -312,11 +318,11 @@ public class statisticsMainActivity extends AppCompatActivity {
                           "total   = "+(allCloseOpen.get(i).total+allCloseOpen.get(i).floor);
                 }
               }
-              arrayList.add("\n-------------------------------\n" +
+              arrayList.add("\n\n\n" +
                       "floor   = "+floor+"\n" +
                       "sale    = "+sale+"\n" +
                       "total   = "+total);
-              toPrint+="\n-------------------------------\n" +
+              toPrint+="\n\n\n" +
                       "floor   = "+floor+"\n" +
                       "sale    = "+sale+"\n" +
                       "total   = "+total;
@@ -330,11 +336,11 @@ public class statisticsMainActivity extends AppCompatActivity {
               arrayList.add("emp name: "+empName+"" +
                       "\nemp email: "+allCloseOpen.get(0).empEmail+"\n" +
                       "date of this opreation: "+new Date()+"" +
-                      "\n-------------------------------");
+                      "\n\n");
               toPrint+="\nemp name: "+empName+"" +
                       "\nemp email: "+allCloseOpen.get(0).empEmail+"\n" +
                       "date of this opreation: "+new Date()+"" +
-                      "\n-------------------------------";
+                      "\n\n";
               for (int i=0 ; i< allCloseOpen.size();i++){
                 if (allCloseOpen.get(i).dateOpen.contains(ss)){
                   floor+=allCloseOpen.get(i).floor;
@@ -356,11 +362,11 @@ public class statisticsMainActivity extends AppCompatActivity {
                           "total   = "+(allCloseOpen.get(i).total+allCloseOpen.get(i).floor);
                 }
               }
-              arrayList.add("\n-------------------------------\n" +
+              arrayList.add("\n\n\n" +
                       "floor   = "+floor+"\n" +
                       "sale    = "+sale+"\n" +
                       "total   = "+total);
-              toPrint+="\n-------------------------------\n" +
+              toPrint+="\n\n\n" +
                       "floor   = "+floor+"\n" +
                       "sale    = "+sale+"\n" +
                       "total   = "+total;
@@ -372,11 +378,11 @@ public class statisticsMainActivity extends AppCompatActivity {
               arrayList.add("emp name: "+empName+"" +
                       "\nemp email: "+allCloseOpen.get(0).empEmail+"\n" +
                       "date of this opreation: "+new Date()+"" +
-                      "\n-------------------------------");
+                      "\n\n");
               toPrint+="\nemp name: "+empName+"" +
                       "\nemp email: "+allCloseOpen.get(0).empEmail+"\n" +
                       "date of this opreation: "+new Date()+"" +
-                      "\n-------------------------------";
+                      "\n\n";
               for (int i=0 ; i< allCloseOpen.size();i++){
                 if (allCloseOpen.get(i).dateOpen.contains(myDatefrom)){
                   floor+=allCloseOpen.get(i).floor;
@@ -399,11 +405,11 @@ public class statisticsMainActivity extends AppCompatActivity {
 
                 }
               }
-              arrayList.add("\n-------------------------------\n" +
+              arrayList.add("\n\n\n" +
                       "floor   = "+floor+"\n" +
                       "sale    = "+sale+"\n" +
                       "total   = "+total);
-              toPrint+="\n-------------------------------\n" +
+              toPrint+="\n\n\n" +
                       "floor   = "+floor+"\n" +
                       "sale    = "+sale+"\n" +
                       "total   = "+total;

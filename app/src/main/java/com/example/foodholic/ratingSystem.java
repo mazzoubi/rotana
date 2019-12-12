@@ -2,6 +2,7 @@ package com.example.foodholic;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -30,6 +31,11 @@ public class ratingSystem extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating_system);
+
+        Toolbar bar = findViewById(R.id.tool);
+        setSupportActionBar(bar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         init();
         LoadData();
 
@@ -41,11 +47,11 @@ public class ratingSystem extends AppCompatActivity {
                 int count=0;
 
                 for (classRating d : res){
-                    resl+="------------------------\n" +
-                            "rate: "+d.rate+" point\n" +
-                            "\n\nnote: \n"+d.note+"\n" +
-                            "service provided or providers: "+d.name+"\n" +
-                            "------------------------\n";
+                    resl+="----------------------------------------------\n" +
+                            "التقييم : "+d.rate+" نقطة\n" +
+                            "ملاحظة: "+d.note+"\n" +
+                            "اسم الخدمة او الموظف: "+d.name+"\n" +
+                            "----------------------------------------------\n";
                     sum+=Double.parseDouble(d.rate);
                     count++;
                 }
@@ -61,11 +67,11 @@ public class ratingSystem extends AppCompatActivity {
                 int count=0;
 
                 for (classRating d : delevery){
-                    resl+="------------------------\n" +
-                            "rate: "+d.rate+" point\n" +
-                            "\n\nnote: \n"+d.note+"\n" +
-                            "service provided or providers: "+d.name+"\n" +
-                            "------------------------\n";
+                    resl+="----------------------------------------------\n" +
+                            "التقييم : "+d.rate+" نقطة\n" +
+                            "ملاحظة: "+d.note+"\n" +
+                            "اسم الخدمة او الموظف: "+d.name+"\n" +
+                            "----------------------------------------------\n";
                     sum+=Double.parseDouble(d.rate);
                     count++;
                 }
@@ -81,11 +87,11 @@ public class ratingSystem extends AppCompatActivity {
                 int count=0;
 
                 for (classRating d : emp){
-                    resl+="------------------------\n" +
-                            "rate: "+d.rate+" point\n" +
-                            "\n\nnote: \n"+d.note+"\n" +
-                            "service provided or providers: "+d.name+"\n" +
-                            "------------------------\n";
+                    resl+="----------------------------------------------\n" +
+                            "التقييم : "+d.rate+" نقطة\n" +
+                            "ملاحظة: "+d.note+"\n" +
+                            "اسم الخدمة او الموظف: "+d.name+"\n" +
+                            "----------------------------------------------\n";
                     sum+=Double.parseDouble(d.rate);
                     count++;
                 }
@@ -101,11 +107,11 @@ public class ratingSystem extends AppCompatActivity {
                 int count=0;
 
                 for (classRating d : meal){
-                    resl+="------------------------\n" +
-                            "rate: "+d.rate+" point\n" +
-                            "\n\nnote: \n"+d.note+"\n" +
-                            "service provided or providers: "+d.name+"\n" +
-                            "------------------------\n";
+                    resl+="----------------------------------------------\n" +
+                            "التقييم : "+d.rate+" نقطة\n" +
+                            "ملاحظة: "+d.note+"\n" +
+                            "اسم الخدمة او الموظف: "+d.name+"\n" +
+                            "----------------------------------------------\n";
                     sum+=Double.parseDouble(d.rate);
                     count++;
                 }

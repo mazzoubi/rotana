@@ -2,6 +2,7 @@ package com.example.foodholic;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,6 +38,11 @@ public class driverReport extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_report);
+
+        Toolbar bar = findViewById(R.id.tool);
+        setSupportActionBar(bar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         init();
         loadEmp();
 
@@ -133,10 +139,10 @@ public class driverReport extends AppCompatActivity {
                 List<DocumentSnapshot>list=queryDocumentSnapshots.getDocuments();
                 for(DocumentSnapshot d : list){
                     delRepoet.add(d.toObject(classDelReport.class));
-                    aa.add( "time        : "+d.toObject(classDelReport.class).date_time+"\n" +
-                            "delivery sum: "+d.toObject(classDelReport.class).delivery_sum+"\n" +
-                            "order sum   : "+d.toObject(classDelReport.class).order_sum+"\n"+
-                            "order num   : "+d.toObject(classDelReport.class).order_num+"\n");
+                    aa.add( "التاريخ : "+d.toObject(classDelReport.class).date_time+"\n" +
+                            "مجموع الطلبيات للمطعم: "+d.toObject(classDelReport.class).delivery_sum+" دينار"+"\n" +
+                            "مجموع التوصيل   : "+d.toObject(classDelReport.class).order_sum+" دينار"+"\n"+
+                            "عدد الطلبيات   : "+d.toObject(classDelReport.class).order_num+"\n");
                 }
                 ArrayAdapter arrayAdapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,aa);
                 listView.setAdapter(arrayAdapter);

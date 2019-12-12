@@ -19,8 +19,10 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
-        <activity android:name=".driverReport"></activity>
-        <activity android:name=".ratingSystem" />
+        <activity android:name=".driverReport"
+            android:parentActivityName=".Adminpage"/>
+        <activity android:name=".ratingSystem"
+            android:parentActivityName=".Adminpage"/>
         <activity
             android:name=".RateActivity"
             android:parentActivityName=".Main2Activity" />
@@ -42,7 +44,8 @@
         <activity android:name=".statisticsByItem" />
         <activity android:name=".statisticsByEmp" />
         <activity android:name=".statisticsByDay" />
-        <activity android:name=".statisticsMainActivity" />
+        <activity android:name=".statisticsMainActivity"
+            android:parentActivityName=".Adminpage"/>
         <activity android:name=".Add_Emp" />
         <activity android:name=".statistics_chart"
             android:parentActivityName=".statistics"/>

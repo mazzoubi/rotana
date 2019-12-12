@@ -1,62 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ratingSystem">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tool"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
+        app:title="الرجوع"
+        app:titleTextColor="@color/colorPrimaryDark" />
+
     <Button
         android:id="@+id/rat_res"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="restaurant"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.049"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.196" />
+        android:layout_below="@+id/tool"
+        android:background="@drawable/shape"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_margin="5dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="restaurant" />
 
     <Button
         android:id="@+id/rat_meal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_below="@+id/rat_res"
+        android:background="@drawable/shape"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_margin="5dp"
         android:text="meal"
-        app:layout_constraintEnd_toEndOf="@+id/rat_res"
-        app:layout_constraintStart_toStartOf="@+id/rat_res"
-        app:layout_constraintTop_toBottomOf="@+id/rat_res" />
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
 
     <Button
         android:id="@+id/rat_emp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_below="@+id/rat_meal"
+        android:background="@drawable/shape"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_margin="5dp"
         android:text="employee"
-        app:layout_constraintEnd_toEndOf="@+id/rat_meal"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/rat_meal"
-        app:layout_constraintTop_toBottomOf="@+id/rat_meal" />
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
 
     <Button
         android:id="@+id/rat_delv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="delvery"
-        app:layout_constraintEnd_toEndOf="@+id/rat_emp"
-        app:layout_constraintStart_toStartOf="@+id/rat_emp"
-        app:layout_constraintTop_toBottomOf="@+id/rat_emp" />
+        android:layout_below="@+id/rat_emp"
+        android:background="@drawable/shape"
+        android:text="delivery"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_margin="5dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
 
     <ScrollView
         android:id="@+id/scrollView6"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/rat_delv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/rat_emp"
-        app:layout_constraintTop_toTopOf="@+id/rat_res">
+        android:layout_width="match_parent"
+        android:layout_below="@+id/rat_delv"
+        android:layout_above="@+id/rat_textSumRate"
+        android:layout_margin="5dp"
+        android:layout_height="match_parent" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -72,13 +80,13 @@
 
     <TextView
         android:id="@+id/rat_textSumRate"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView6" />
-</android.support.constraint.ConstraintLayout>
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textSize="18sp"
+        android:background="@drawable/shape4"
+        android:textColor="@color/colorPrimary"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"/>
+</RelativeLayout>

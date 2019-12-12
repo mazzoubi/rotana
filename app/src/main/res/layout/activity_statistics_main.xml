@@ -1,55 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".statisticsMainActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tool"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
+        app:title="الرجوع"
+        app:titleTextColor="@color/colorPrimaryDark" />
+
     <LinearLayout
         android:id="@+id/linearLayout5"
-        android:layout_width="0dp"
-        android:layout_height="49dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.298">
-
-        <Spinner
-            android:id="@+id/a2spinner"
-            android:layout_width="130dp"
-            android:layout_height="35dp"
-            android:background="@drawable/fui_idp_button_background_anonymous" />
-
-        <TextView
-            android:id="@+id/a2date"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:text="Enter date" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:weightSum="4"
+        android:layout_below="@+id/rg"
+        android:orientation="horizontal" >
 
         <Button
             android:id="@+id/a2search"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:background="@drawable/shape"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp"
             android:layout_weight="1"
-            android:text="@android:string/search_go" />
+            android:text="search"/>
+
+        <TextView
+            android:id="@+id/a2date"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:text="Enter date" />
+
+        <Spinner
+            android:id="@+id/a2spinner"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:background="@drawable/shape"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_height="40dp" />
+
     </LinearLayout>
 
     <ListView
         android:id="@+id/a2list"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_below="@+id/linearLayout5"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_above="@+id/a2print"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,43 +71,43 @@
 
     <Button
         android:id="@+id/a2print"
-        android:layout_width="74dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/printerlogo"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.83" />
+        android:layout_width="75dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/printerlogo" />
 
     <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/a2print"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.445"
-        app:layout_constraintStart_toEndOf="@+id/a2print"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.901">
+        android:layout_width="match_parent"
+        android:layout_below="@+id/tool"
+        android:weightSum="3"
+        android:id="@+id/rg"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
 
         <RadioButton
             android:id="@+id/a2yearRadio"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:layout_height="wrap_content"
-            android:text="year" />
+            android:text="سنوي" />
 
         <RadioButton
             android:id="@+id/a2monthRadio"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="month" />
+            android:gravity="center"
+            android:text="شهري" />
 
         <RadioButton
             android:id="@+id/a2dayRadio"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="day" />
+            android:gravity="center"
+            android:text="يومي" />
     </RadioGroup>
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
