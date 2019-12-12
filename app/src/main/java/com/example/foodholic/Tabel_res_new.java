@@ -223,6 +223,16 @@ public class Tabel_res_new extends AppCompatActivity {
 
         getDateTime();
 
+        Button b = findViewById(R.id.btn);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                getDateTime();
+
+            }
+        });
+
         db = FirebaseFirestore.getInstance();
 
         tabels.add("Table Number : 1"); tabels.add("Table Number : 2"); tabels.add("Table Number : 3");

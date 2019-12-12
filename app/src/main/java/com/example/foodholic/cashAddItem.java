@@ -322,8 +322,6 @@ public class cashAddItem extends AppCompatActivity {
                                         reservation.put("price", Double.parseDouble(itemPrice.getText().toString()));
                                         reservation.put("itemId", id);
 
-
-
                                         db.collection("Res_1_subItem").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {

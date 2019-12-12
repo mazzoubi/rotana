@@ -182,7 +182,7 @@ public class Profile extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                   Intent intent = new Intent(Profile.this, UserRegister.class);
                   startActivity(intent); } })
-              .setCancelable(false).create().show(); }
+              .create().show(); }
     else
       DownloadData();
 

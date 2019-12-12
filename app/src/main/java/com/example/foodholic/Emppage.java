@@ -241,18 +241,18 @@ public class Emppage extends AppCompatActivity
         btn6 = findViewById(R.id.btn6);
         btn7 = findViewById(R.id.btn7);
 
-        if(getIntent().getStringExtra("empemail").contains(".cap")){
-            btn2.setVisibility(View.GONE);
-            btn3.setVisibility(View.GONE);
-            btn4.setVisibility(View.GONE);
-            btn6.setVisibility(View.GONE);
-            btn7.setVisibility(View.GONE);
-            close.setVisibility(View.GONE);
-            re.setVisibility(View.GONE);
+        try{
+            if(getIntent().getStringExtra("empemail").contains(".cap")){
+                btn2.setVisibility(View.GONE);
+                btn3.setVisibility(View.GONE);
+                btn4.setVisibility(View.GONE);
+                btn6.setVisibility(View.GONE);
+                btn7.setVisibility(View.GONE);
+                close.setVisibility(View.GONE);
+                re.setVisibility(View.GONE);
 
-            btn5.setWidth(2500);
-
-        }
+                btn5.setWidth(2500); }
+        } catch (Exception e){}
 
         SharedPreferences.Editor editor = shared.edit();
         editor.putString("cash", "");
@@ -762,10 +762,11 @@ public class Emppage extends AppCompatActivity
                                 @Override
                                 public void onClick(View v) {
 
-                                    final EditText name, mobile, desc;
+                                    final EditText name, mobile, desc, dprice;
                                     name = dialog.findViewById(R.id.name);
                                     mobile = dialog.findViewById(R.id.mobile);
                                     desc = dialog.findViewById(R.id.desc);
+                                    dprice = dialog.findViewById(R.id.deliva);
 
                                     if(!cname.contains(name.getText().toString())) {
                                         if (HomeAct.lang==1){
@@ -787,11 +788,18 @@ public class Emppage extends AppCompatActivity
                                                 }
                                             }).show();
 
+
                                             Map<String, Object> order = new HashMap<>();
-                                            order.put("address", desc.getText().toString());
-                                            order.put("mobile", mobile.getText().toString());
-                                            order.put("name", name.getText().toString());
-                                            order.put("sum", sum+"");
+                                            order.put("user_name", name.getText().toString());
+                                            order.put("user_mobile", mobile.getText().toString());
+                                            order.put("user_desc", desc.getText().toString());
+                                            order.put("item_list", MenuSum());
+                                            order.put("item_sum_price", sum+"");
+                                            order.put("point_sum", "0");
+                                            order.put("d_price", dprice.getText().toString());
+                                            order.put("email", "");
+                                            order.put("lat", "");
+                                            order.put("lng", "");
 
                                             db.collection("Res_1_Delivery")
                                                     .document(sp.getSelectedItem().toString())
@@ -826,10 +834,16 @@ public class Emppage extends AppCompatActivity
                                             }).show();
 
                                             Map<String, Object> order = new HashMap<>();
-                                            order.put("address", desc.getText().toString());
-                                            order.put("mobile", mobile.getText().toString());
-                                            order.put("name", name.getText().toString());
-                                            order.put("sum", sum+"");
+                                            order.put("user_name", name.getText().toString());
+                                            order.put("user_mobile", mobile.getText().toString());
+                                            order.put("user_desc", desc.getText().toString());
+                                            order.put("item_list", MenuSum());
+                                            order.put("item_sum_price", sum+"");
+                                            order.put("point_sum", "0");
+                                            order.put("d_price", dprice.getText().toString());
+                                            order.put("email", "");
+                                            order.put("lat", "");
+                                            order.put("lng", "");
 
                                             db.collection("Res_1_Delivery")
                                                     .document(sp.getSelectedItem().toString())
@@ -896,6 +910,7 @@ public class Emppage extends AppCompatActivity
                                     final EditText name2 = dialog.findViewById(R.id.name);
                                     final EditText mobile2 = dialog.findViewById(R.id.mobile);
                                     final EditText desc2 = dialog.findViewById(R.id.desc);
+
                                     sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                         @Override
                                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -970,11 +985,14 @@ public class Emppage extends AppCompatActivity
                                                 s+=saleList.get(i).sumPrice;
 
                                                 Map<String, Object> order = new HashMap<>();
-                                                order.put("user_name", name.getText().toString());
-                                                order.put("user_mobile", mobile.getText().toString());
-                                                order.put("user_loc", desc.getText().toString());
-                                                order.put("item_list", temp);
-                                                order.put("item_sum_price", s+"");
+                                                order.put("user_name", name2.getText().toString());
+                                                order.put("user_mobile", mobile2.getText().toString());
+                                                order.put("user_loc", desc2.getText().toString());
+                                                order.put("item_list", MenuSum());
+                                                order.put("item_sum_price", sum+"");
+                                                order.put("point_sum", "0");
+                                                order.put("d_price", "");
+                                                order.put("email", "");
 
                                                 db.collection("Res_1_TakeAway").document(new Date().toString()).set(order)
                                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -1098,11 +1116,14 @@ public class Emppage extends AppCompatActivity
                                         s+=saleList.get(i).sumPrice;
 
                                         Map<String, Object> order = new HashMap<>();
-                                        order.put("user_name", name.getText().toString());
-                                        order.put("user_mobile", mobile.getText().toString());
-                                        order.put("user_loc", desc.getText().toString());
-                                        order.put("item_list", temp);
-                                        order.put("item_sum_price", s+"");
+                                        order.put("user_name", name2.getText().toString());
+                                        order.put("user_mobile", mobile2.getText().toString());
+                                        order.put("user_loc", desc2.getText().toString());
+                                        order.put("item_list", MenuSum());
+                                        order.put("item_sum_price", sum+"");
+                                        order.put("point_sum", "0");
+                                        order.put("d_price", "");
+                                        order.put("email", "");
 
                                         db.collection("Res_1_TakeAway").document(new Date().toString()).set(order)
                                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
