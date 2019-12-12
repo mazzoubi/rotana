@@ -152,7 +152,7 @@ public class Emppage extends AppCompatActivity
             holder.os_text =(TextView) rowView.findViewById(R.id.os_texts);
             holder.os_text.setText(result[position]);
 
-            if(!tabels.get(position).contains("Table Number : ")){
+            if(!tabels.get(position).contains("Table Number : ") && checkDateRes(tabels.get(position))){
 
                 if (shared.getInt("pos", 0) == position)
                     rowView.setBackgroundColor(getResources().getColor(R.color.colorPick));
@@ -164,6 +164,26 @@ public class Emppage extends AppCompatActivity
 
     }
 
+    public boolean checkDateRes(String str) {
+
+        String str2 = str.substring(0, str.indexOf("@"));
+        str = str.substring(str.indexOf("@")+1);
+
+        String form = "dd/MM/yy HH";
+        SimpleDateFormat sdf = new SimpleDateFormat(form, Locale.US);
+
+        Date d1 = null;
+        Date d2 = null;
+        try {
+            d1 = sdf.parse(str+" "+str2);
+            d2 = sdf.parse(da+" "+ta); }
+        catch (ParseException e) {}
+
+        if(d2.compareTo(d1) == 0)
+            return true;
+        else
+            return false; }
+
     String UID="";
     String EMAIL="";
     String PO="";
@@ -174,6 +194,14 @@ public class Emppage extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_del_emp);
+
+        String myFormat = "dd/MM/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        da = sdf.format(new Date());
+
+        String myFormat2 = "HH:mm"; //In which you need put here
+        SimpleDateFormat sdf2 = new SimpleDateFormat(myFormat2, Locale.US);
+        ta = sdf2.format(new Date());
 
         cname = new ArrayList<String>();
         dname = new ArrayList<String>();
@@ -1571,6 +1599,8 @@ public class Emppage extends AppCompatActivity
     }
 
     private void FillReserve() {
+
+
 
         db.collection("Res_1_Table_Res_").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override

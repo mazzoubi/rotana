@@ -86,8 +86,12 @@ public class Tabel_Res_Emp extends AppCompatActivity {
             holder.os_text =(TextView) rowView.findViewById(R.id.os_texts);
             holder.os_text.setText(result[position]);
 
-            if(!tabels.get(position).contains("Table Number : "))
-                    rowView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            if(!tabels.get(position).contains("Table Number : ") && checkDateRes(tabels.get(position))){
+
+                if (shared.getInt("pos", 0) == position)
+                    rowView.setBackgroundColor(getResources().getColor(R.color.colorPick));
+                else
+                    rowView.setBackgroundColor(getResources().getColor(R.color.colorPrimary)); }
 
 
             rowView.setOnClickListener(new View.OnClickListener() {
@@ -262,6 +266,26 @@ public class Tabel_Res_Emp extends AppCompatActivity {
          }
 
 
+    public boolean checkDateRes(String str) {
+
+        String str2 = str.substring(0, str.indexOf("@"));
+        str = str.substring(str.indexOf("@")+1);
+
+        String form = "dd/MM/yy HH";
+        SimpleDateFormat sdf = new SimpleDateFormat(form, Locale.US);
+
+        Date d1 = null;
+        Date d2 = null;
+        try {
+            d1 = sdf.parse(str+" "+str2);
+            d2 = sdf.parse(da+" "+ta); }
+        catch (ParseException e) {}
+
+        if(d2.compareTo(d1) == 0)
+            return true;
+        else
+            return false; }
+
     public void getDateTime() {
 
         final Calendar cal = Calendar.getInstance();
@@ -349,18 +373,14 @@ public class Tabel_Res_Emp extends AppCompatActivity {
                 try{
                     if (task.isSuccessful()) {
 
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            tabels.set(Integer.parseInt(document.getId()) - 1, document.get("date").toString()+"\n"+
-                                    document.get("time").toString()+"\n"+document.get("name").toString()+"\n"+
-                                    document.get("mobile").toString()+"\n"+ document.get("people").toString()+"\n"+
-                                    document.get("order").toString()+"\n"+document.get("sum").toString()+"\n");
+                        for (QueryDocumentSnapshot document : task.getResult())
+                            tabels.set(Integer.parseInt(document.getId())-1, document.get("time").toString()+"@"+document.get("date"));
 
-                        }
-                        gridview.setAdapter(new CustomAdapter(Tabel_Res_Emp.this, sites)); }
+                        gridview.setAdapter(new Tabel_Res_Emp.CustomAdapter(Tabel_Res_Emp.this, sites)); }
 
                 } catch(Exception ex){
 
-                    gridview.setAdapter(new CustomAdapter(Tabel_Res_Emp.this, tabels.toArray(new String[tabels.size()]) ));
+                    gridview.setAdapter(new Tabel_Res_Emp.CustomAdapter(Tabel_Res_Emp.this, tabels.toArray(new String[tabels.size()]) ));
                 }
 
             } });
