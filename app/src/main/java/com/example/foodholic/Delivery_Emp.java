@@ -9,9 +9,12 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -50,6 +53,7 @@ public class Delivery_Emp extends AppCompatActivity {
     ArrayList<String>latlng;
 
     ArrayAdapter<String> adapterSpin;
+    ArrayAdapter<String> adapterSpin2;
 
     String p="";
 
@@ -97,91 +101,130 @@ public class Delivery_Emp extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, final int position, long ido) {
                 if (HomeAct.lang==1){
 
-                    new AlertDialog.Builder(Delivery_Emp.this)
-                            .setMessage("تأكيد أم حذف الطلب ؟")
-                            .setNegativeButton("حذف", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    removeData(sp.getSelectedItem().toString(), position); }
-                            })
-                            .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    removeData(sp.getSelectedItem().toString(), position);
-                                }
-                            }).create().show();
-                }
-                else {
+                    final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(Delivery_Emp.this);
+                    LayoutInflater inflater = Delivery_Emp.this.getLayoutInflater();
+                    builder.setView(inflater.inflate(R.layout.dialog_redirect, null));
+                    final android.support.v7.app.AlertDialog dialog = builder.create();
+                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                    lp.copyFrom(dialog.getWindow().getAttributes());
+                    lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-                    new AlertDialog.Builder(Delivery_Emp.this)
-                            .setMessage("Confirm or delete request?")
-                            .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    removeData(sp.getSelectedItem().toString(), position); }
-                            })
-                            .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    removeData(sp.getSelectedItem().toString(), position);
-                                }
-                            }).create().show();
-                }
-            }
-        });
+                    dialog.show();
+                    dialog.getWindow().setAttributes(lp);
 
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                    Button b1, b2, b3, b4, b5;
 
-                getLngLat();
+                    b1 = dialog.findViewById(R.id.call);
+                    b2 = dialog.findViewById(R.id.go);
+                    b3 = dialog.findViewById(R.id.redirect);
+                    b4 = dialog.findViewById(R.id.confirm);
+                    b5 = dialog.findViewById(R.id.remove);
 
-                if (HomeAct.lang==1){
-                    new AlertDialog.Builder(Delivery_Emp.this)
-                            .setMessage("هل ترغب بالأتصال أم الذهاب للموقع؟")
-                            .setNegativeButton("عرض الموقع", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                                            Uri.parse("http://maps.google.com/maps?daddr="+latlng.get(position)));
-                                    startActivity(intent);
-                                }
-                            }).setPositiveButton("إتصال", new DialogInterface.OnClickListener() {
+                    b1.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(View view) {
+
                             String str = info.get(position);
                             String num = str.substring(str.indexOf("الهاتف : ")+9, str.indexOf("قائمة : "));
                             num = RemoveSpace(num);
                             startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", num, null)));
-                        }
-                    }).show();
 
-                }
-                else {
-                    new AlertDialog.Builder(Delivery_Emp.this)
-                            .setMessage("Want to connect?")
-                            .setNegativeButton("no", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                                            Uri.parse("http://maps.google.com/maps?daddr="+latlng.get(position)));
-                                    startActivity(intent);
-                                }
-                            }).setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                        }
+                    });
+
+                    b2.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            String str = info.get(position);
-                            String num = str.substring(str.indexOf("phone : ")+9, str.indexOf("Menu : "));
-                            num = RemoveSpace(num);
-                            startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", num, null)));
+                        public void onClick(View view) {
+
+                            getLngLat();
+
+                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                    Uri.parse("http://maps.google.com/maps?daddr="+latlng.get(position)));
+                            startActivity(intent);
+
                         }
-                    }).show();
+                    });
+
+                    b4.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            removeData(sp.getSelectedItem().toString(), position);
+
+                        }
+                    });
+
+                    b5.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            removeData(sp.getSelectedItem().toString(), position);
+
+                        }
+                    });
+
+                    b3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            final android.support.v7.app.AlertDialog.Builder builder2 = new android.support.v7.app.AlertDialog.Builder(Delivery_Emp.this);
+                            LayoutInflater inflater2 = Delivery_Emp.this.getLayoutInflater();
+                            builder2.setView(inflater2.inflate(R.layout.dialog_redirect2, null));
+                            final android.support.v7.app.AlertDialog dialog2 = builder2.create();
+                            WindowManager.LayoutParams lp2 = new WindowManager.LayoutParams();
+                            lp2.copyFrom(dialog2.getWindow().getAttributes());
+                            lp2.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                            lp2.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                            dialog2.show();
+                            dialog2.getWindow().setAttributes(lp2);
+
+                            final Spinner sp2 = dialog2.findViewById(R.id.type2);
+                            adapterSpin = new ArrayAdapter<String>(Delivery_Emp.this, R.layout.items_row3, R.id.item, dname);
+                            sp2.setAdapter(adapterSpin);
+
+                            Button bbb = dialog2.findViewById(R.id.call);
+                            bbb.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    String temp = info.get(position);
+                                    HashMap<String, String> map = new HashMap<>();
+                                    map.put("user_name", temp.substring(temp.indexOf("الأسم : ")+8, temp.indexOf("الهاتف : ")).replace("\n", ""));
+                                    map.put("user_mobile", temp.substring(temp.indexOf("الهاتف : ")+9, temp.indexOf("قائمة : ")).replace("\n", ""));
+                                    map.put("user_desc", temp.substring(temp.indexOf("ملاحظات : ")+10, temp.indexOf("سعر توصيل : ")).replace("\n", ""));
+                                    map.put("item_list",temp.substring(temp.indexOf("قائمة : ")+8, temp.indexOf("النقاط : ")).replace("\n", ""));
+                                    map.put("item_sum_price", temp.substring(temp.indexOf("المجموع : ")+10).replace("\n", ""));
+                                    map.put("point_sum", temp.substring(temp.indexOf("النقاط : ")+9, temp.indexOf("ملاحظات : ")).replace("\n", ""));
+                                    map.put("d_price", temp.substring(temp.indexOf("سعر توصيل : ")+12, temp.indexOf("العنوان : ")).replace("\n", ""));
+                                    map.put("email", "");
+                                    map.put("lat", "");
+                                    map.put("lng", "");
+
+                                    db.collection("Res_1_Delivery")
+                                            .document(sp2.getSelectedItem().toString())
+                                            .collection("1")
+                                            .document(map.get("user_name")).set(map)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if(task.isSuccessful()){
+                                                        Toast.makeText(Delivery_Emp.this, "تم نقل الطلب", Toast.LENGTH_SHORT).show();
+                                                        removeData(sp.getSelectedItem().toString(), position); }
+                                                }
+                                            });
+
+                                }
+                            });
+
+
+                        }
+                    });
 
                 }
-                return true;
             }
         });
-
 
     }
 
@@ -204,7 +247,7 @@ public class Delivery_Emp extends AppCompatActivity {
     public void downloadData(String path){
 
         info.clear();
-
+        adapter.notifyDataSetChanged();
         p = path;
 
         db.collection("Res_1_Delivery")
