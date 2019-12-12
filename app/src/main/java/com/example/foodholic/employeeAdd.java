@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,7 +36,6 @@ public class employeeAdd extends AppCompatActivity {
     EditText email,pass , fname,lname,phone,address,sal;
     Spinner spinner,spinnerJop;
 
-
     String type="",joptype="";
     SharedPreferences shared2;
 
@@ -45,6 +45,10 @@ public class employeeAdd extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_add);
+
+        Toolbar bar = findViewById(R.id.tool);
+        setSupportActionBar(bar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         shared2 = getSharedPreferences("lang", MODE_PRIVATE);
 

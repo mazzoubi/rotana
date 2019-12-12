@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -48,6 +49,9 @@ public class statistics extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
 
+        Toolbar bar = findViewById(R.id.tool);
+        setSupportActionBar(bar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         csal=new ArrayList<>();
         cpay=new ArrayList<>();
@@ -82,7 +86,7 @@ public class statistics extends AppCompatActivity {
 //            moredetale.setText("تفاصيل اكثر");
             t1.setText("المبيعات");
             t2.setText("التكاليف");
-            monyResult.setText("التكاليف: " + 0 + " JD      | " + "المبيعات: " + 0 + " JD     \n\n" + "     الارباح: " + 0 + " JD     ");
+            monyResult.setText("التكاليف : " + 0 + " دينار" + " | المبيعات : " + 0 + " دينار" + " | الارباح : " + 0 + " دينار");
             adda=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item,m);
             spinner.setAdapter(adda);
         }
@@ -141,7 +145,7 @@ public class statistics extends AppCompatActivity {
 
                 new DatePickerDialog(statistics.this, date_, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-                Toast.makeText(getApplicationContext(),"chose the dd/mm/yyyy in month you want show statistics",Toast.LENGTH_LONG).show();
+
 
 
 

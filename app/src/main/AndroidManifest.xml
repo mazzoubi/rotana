@@ -36,25 +36,31 @@
             android:name=".Tabel_Res_Emp"
             android:parentActivityName=".Emppage" />
         <activity android:name=".casher" />
-        <activity android:name=".employeeSalaryDiscount" />
+        <activity android:name=".employeeSalaryDiscount"
+            android:parentActivityName=".Adminpage"/>
         <activity android:name=".employeeLoans" />
         <activity android:name=".statisticsByItem" />
         <activity android:name=".statisticsByEmp" />
         <activity android:name=".statisticsByDay" />
         <activity android:name=".statisticsMainActivity" />
         <activity android:name=".Add_Emp" />
-        <activity android:name=".statistics_chart" />
+        <activity android:name=".statistics_chart"
+            android:parentActivityName=".statistics"/>
         <activity android:name=".empPermission" />
         <activity
             android:name=".Tabel_res_new"
             android:parentActivityName=".Main2Activity" />
-        <activity android:name=".aa2" />
+        <activity android:name=".aa2"
+            android:parentActivityName=".warehouse"/>
         <activity android:name=".aa1" />
-        <activity android:name=".warehouse" />
-        <activity android:name=".onWork" />
+        <activity android:name=".warehouse"
+            android:parentActivityName=".Adminpage"/>
+        <activity android:name=".onWork"
+            android:parentActivityName=".employeeCreatInformation"/>
         <activity android:name=".exitInformation" />
         <activity android:name=".exit" />
-        <activity android:name=".adminEmpAccess" />
+        <activity android:name=".adminEmpAccess"
+            android:parentActivityName=".employeeCreatInformation"/>
         <activity android:name=".foodType" />
         <activity android:name=".UserRegister" />
         <activity android:name=".UserLogin" />
@@ -64,9 +70,12 @@
         <activity
             android:name=".Payment"
             android:parentActivityName=".Emppage" />
-        <activity android:name=".employeeAdd" />
-        <activity android:name=".employeeCreatInformation" />
-        <activity android:name=".statistics" />
+        <activity android:name=".employeeAdd"
+            android:parentActivityName=".employeeCreatInformation"/>
+        <activity android:name=".employeeCreatInformation"
+            android:parentActivityName=".Adminpage"/>
+        <activity android:name=".statistics"
+            android:parentActivityName=".Adminpage"/>
         <activity
             android:name=".Online"
             android:parentActivityName=".Emppage" />

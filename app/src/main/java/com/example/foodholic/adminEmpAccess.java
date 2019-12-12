@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,7 +29,7 @@ public class adminEmpAccess extends AppCompatActivity {
 
     String myDatefrom=" / / ";
     DatePickerDialog.OnDateSetListener date_;
-    TextView dateExit,datetext,ref,empInfo,tt;
+    TextView dateExit,datetext,ref,empInfo;
     Button button,permissions,discount,loans,salPay;
     int position;
     SharedPreferences shared2;
@@ -52,6 +53,10 @@ public class adminEmpAccess extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_emp_access);
 
+        Toolbar bar = findViewById(R.id.tool);
+        setSupportActionBar(bar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Date a=new Date();
         String aa=a+"";
         String[] aaa=aa.split(" ");
@@ -74,7 +79,7 @@ public class adminEmpAccess extends AppCompatActivity {
         datetext.setText(date);
         ref=findViewById(R.id.ref);
         empInfo=findViewById(R.id.textView13);
-        tt=findViewById(R.id.textView12);
+        
         button =findViewById(R.id.addexite);
         permissions=findViewById(R.id.addpermissions);
         loans=findViewById(R.id.loans);
@@ -326,7 +331,6 @@ public class adminEmpAccess extends AppCompatActivity {
         if(shared2.getString("language", "").equals("arabic")) {
             button.setText("اضافة اجازه");
             permissions.setText("الصلاحيات");
-            tt.setText("الاجازات");
             loans.setText("السلف");
             discount.setText("الحسومات");
             salPay.setText("دفع الراتب");
