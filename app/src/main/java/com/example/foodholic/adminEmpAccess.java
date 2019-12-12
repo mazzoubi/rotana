@@ -380,19 +380,16 @@ public class adminEmpAccess extends AppCompatActivity {
         salPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                for (int i=0;i<dis.size();i++){
+                    if (dis.get(i).type==2){
+                        db.collection("Res_1_salDiscount").document(dis.get(i).disId).delete();
+                    }
+                }
                 try{
                     double disss=0,lo=loan.get(0).loan,py=loan.get(0).repyment,loanREsult=0;
                     loanREsult=lo-py;
-                    FirebaseFirestore dd=FirebaseFirestore.getInstance();
-                    ArrayList<classSalDiscount>ss=new ArrayList<>();
-                    for (int i=0;i<dis.size();i++){
-                        if (dis.get(i).type==2){
-                            dd.collection("Res_1_salDiscount").document(dis.get(i).disId).delete();
-                        }
-                    }
-
                     if(loanREsult<=0){
-                        dd.collection("Res_1_loans").document(loan.get(0).loanId).delete();
+                        db.collection("Res_1_loans").document(loan.get(0).loanId).delete();
                     }
                     else {
                         Map<String, Object> reservation = new HashMap<>();

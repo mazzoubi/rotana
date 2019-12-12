@@ -1,8 +1,11 @@
 package com.example.foodholic;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -10,14 +13,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class employeeCreatInformation extends AppCompatActivity {
 
@@ -81,6 +89,104 @@ public class employeeCreatInformation extends AppCompatActivity {
         });
 
 
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                final int xx =i;
+                if(shared2.getString("language", "").equals("arabic")) {
+                    AlertDialog.Builder builder=new AlertDialog.Builder(employeeCreatInformation.this)
+                            .setMessage("هل تريد حذف هذا الموظف؟")
+                            .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    try {
+                                        db.collection("Res_1_employee").document(emp.get(xx).email).delete();
+                                        Map<String, Object> reservation = new HashMap<>();
+                                        reservation.put("Fname", emp.get(xx).Fname);
+                                        reservation.put("Lname", emp.get(xx).Lname);
+                                        reservation.put("regisetDate", emp.get(xx).regisetDate);
+                                        reservation.put("email", emp.get(xx).email);
+                                        reservation.put("empType", emp.get(xx).empType);
+                                        reservation.put("empPhone", emp.get(xx).empPhone); //
+                                        reservation.put("sal",emp.get(xx).sal);
+                                        reservation.put("address",emp.get(xx).address);
+                                        reservation.put("jopType", emp.get(xx).jopType);
+
+
+                                        db.collection("Res_1_employeeDeleted").document(emp.get(xx).email).set(reservation)
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                    }
+                                                });
+
+                                        Toast.makeText(getApplicationContext(),"تم الاجراء بنجاح",Toast.LENGTH_LONG).show();
+                                    }catch (Exception e){Toast.makeText(getApplicationContext(),"!!لايمكن تنفيذ هذا الاجراء",Toast.LENGTH_LONG).show();}
+                                }
+                            })
+                            .setNegativeButton("الغاء", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert=builder.create();
+                    alert.setTitle("حذف موظف");
+                    alert.show();
+
+
+                }
+                else {
+                    AlertDialog.Builder builder=new AlertDialog.Builder(employeeCreatInformation.this)
+                            .setMessage("do you want delete this employee?")
+                            .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    try {
+                                        db.collection("Res_1_employee").document(emp.get(xx).email).delete();
+                                        db.collection("Res_1_employee").document(emp.get(xx).email).delete();
+                                        Map<String, Object> reservation = new HashMap<>();
+                                        reservation.put("Fname", emp.get(xx).Fname);
+                                        reservation.put("Lname", emp.get(xx).Lname);
+                                        reservation.put("regisetDate", emp.get(xx).regisetDate);
+                                        reservation.put("email", emp.get(xx).email);
+                                        reservation.put("empType", emp.get(xx).empType);
+                                        reservation.put("empPhone", emp.get(xx).empPhone); //
+                                        reservation.put("sal",emp.get(xx).sal);
+                                        reservation.put("address",emp.get(xx).address);
+                                        reservation.put("jopType", emp.get(xx).jopType);
+
+
+                                        db.collection("Res_1_employeeDeleted").document(emp.get(xx).email).set(reservation)
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                    }
+                                                });
+
+                                        Toast.makeText(getApplicationContext(),"this operation is done",Toast.LENGTH_LONG).show();
+
+                                    }catch (Exception e){Toast.makeText(getApplicationContext(),"This procedure cannot be performed",Toast.LENGTH_LONG).show();}
+                                }
+                            })
+                            .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert=builder.create();
+                    alert.setTitle("Delete Employee");
+                    alert.show();
+
+
+                }
+
+
+                return false;
+            }
+        });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -89,6 +195,7 @@ public class employeeCreatInformation extends AppCompatActivity {
                 n.putExtra("position",position);
                 startActivity(n);
             }
+
         });
 
     }
