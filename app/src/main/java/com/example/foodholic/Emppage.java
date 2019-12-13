@@ -78,6 +78,7 @@ public class Emppage extends AppCompatActivity
     SharedPreferences shared3;
 
     public static String empEmail;
+    public static classEmployee empObj;
 
     ArrayList<classItem>items;
     ArrayList<classSubItem>subItems;
@@ -209,7 +210,7 @@ public class Emppage extends AppCompatActivity
         caddress = new ArrayList<String>();
 
         empEmail=getIntent().getStringExtra("empemail");
-
+        empLoadInfo(empEmail);
         ee = new EditText(Emppage.this);
         if (HomeAct.lang==1){
             ee.setHint("أدخل مقدار الكاش");
@@ -1349,17 +1350,27 @@ public class Emppage extends AppCompatActivity
         btn6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (empObj.cashWork||empObj.warehousea)
                 startActivity(new Intent(Emppage.this, cashAddItem.class));
-
+                else {
+                    if(shared2.getString("language", "").equals("arabic"))
+                        Toast.makeText(Emppage.this, "انت لا تمتلك صلاحيات الدخول الى هذا الاجراء", Toast.LENGTH_SHORT).show();
+                    else Toast.makeText(Emppage.this, "you don't have permission enter", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         btn7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (empObj.addpayment){
                 Intent n=new Intent(getApplicationContext(), Payment.class);
                 n.putExtra("emp",empEmail);
-                startActivity(n);
+                startActivity(n);}
+                else {
+                    if(shared2.getString("language", "").equals("arabic"))
+                        Toast.makeText(Emppage.this, "انت لا تمتلك صلاحيات الدخول الى هذا الاجراء", Toast.LENGTH_SHORT).show();
+                    else Toast.makeText(Emppage.this, "you don't have permission enter", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -1868,18 +1879,71 @@ public class Emppage extends AppCompatActivity
 
         switch (id){
             case R.id.nav_menu:break;
-            case R.id.nav_table: startActivity(new Intent(this, Tabel_Res_Emp.class)); break;
-            case R.id.nav_online: startActivity(new Intent(this, Online.class)); break;
-            case R.id.nav_take: startActivity(new Intent(this, TakeAway_Emp.class)); break;
-            case R.id.nav_delivery: startActivity(new Intent(this, Delivery_Emp.class)); break;
-            case R.id.nav_add: startActivity(new Intent(this, Add_Emp.class)); break;
-            case R.id.nav_pay:
-                Intent n =new Intent(getApplicationContext(),Payment.class);
-                n.putExtra("emp",empEmail);
-                startActivity(n);
+            case R.id.nav_table:
+                if (empObj.tableResev)
+                startActivity(new Intent(this, Tabel_Res_Emp.class));
+                else {
+                    if(shared2.getString("language", "").equals("arabic"))
+                        Toast.makeText(this, "انت لا تمتلك صلاحيات الدخول الى هذا الاجراء", Toast.LENGTH_SHORT).show();
+                    else Toast.makeText(this, "you don't have permission enter", Toast.LENGTH_SHORT).show();
+                }
                 break;
-            case R.id.nav_contact: startActivity(new Intent(this, Contact.class)); break;
-            case R.id.nav_about: startActivity(new Intent(this, About.class)); break; }
+            case R.id.nav_online:
+                if (empObj.onlineReservation)
+                startActivity(new Intent(this, Online.class));
+                else {
+                    if(shared2.getString("language", "").equals("arabic"))
+                        Toast.makeText(this, "انت لا تمتلك صلاحيات الدخول الى هذا الاجراء", Toast.LENGTH_SHORT).show();
+                    else Toast.makeText(this, "you don't have permission enter", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.nav_take:
+                if (empObj.takeAway)
+                startActivity(new Intent(this, TakeAway_Emp.class));
+                else {
+                    if(shared2.getString("language", "").equals("arabic"))
+                        Toast.makeText(this, "انت لا تمتلك صلاحيات الدخول الى هذا الاجراء", Toast.LENGTH_SHORT).show();
+                    else Toast.makeText(this, "you don't have permission enter", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+            case R.id.nav_delivery:
+                if (empObj.delevery)
+                startActivity(new Intent(this, Delivery_Emp.class));
+                else {
+                    if(shared2.getString("language", "").equals("arabic"))
+                        Toast.makeText(this, "انت لا تمتلك صلاحيات الدخول الى هذا الاجراء", Toast.LENGTH_SHORT).show();
+                    else Toast.makeText(this, "you don't have permission enter", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.nav_add:
+                if (empObj.warehousea||empObj.cashWork)
+                startActivity(new Intent(this, Add_Emp.class));
+                else {
+                    if(shared2.getString("language", "").equals("arabic"))
+                        Toast.makeText(this, "انت لا تمتلك صلاحيات الدخول الى هذا الاجراء", Toast.LENGTH_SHORT).show();
+                    else Toast.makeText(this, "you don't have permission enter", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.nav_pay:
+                if (empObj.addpayment) {
+                    Intent n = new Intent(getApplicationContext(), Payment.class);
+                    n.putExtra("emp", empEmail);
+                    startActivity(n);
+                }
+                else {
+                    if(shared2.getString("language", "").equals("arabic"))
+                        Toast.makeText(this, "انت لا تمتلك صلاحيات الدخول الى هذا الاجراء", Toast.LENGTH_SHORT).show();
+                    else Toast.makeText(this, "you don't have permission enter", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.nav_contact:
+                startActivity(new Intent(this, Contact.class));
+            break;
+            case R.id.nav_about:
+                startActivity(new Intent(this, About.class));
+                break;
+        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -2056,6 +2120,20 @@ public class Emppage extends AppCompatActivity
         print(bill);
 
 
+    }
+    void empLoadInfo(final String e){
+        FirebaseFirestore db =FirebaseFirestore.getInstance();
+        db.collection("Res_1_employee").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
+                for(DocumentSnapshot d : list){
+                    if (d.toObject(classEmployee.class).email.equals(e)){
+                        empObj=d.toObject(classEmployee.class);
+                    }
+                }
+            }
+        });
     }
     void print(String ss ){
         Toast.makeText(this, ss, Toast.LENGTH_LONG).show();
