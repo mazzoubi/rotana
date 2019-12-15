@@ -289,6 +289,10 @@ public class statisticsByItem extends AppCompatActivity {
         year=findViewById(R.id.a1yearspinner);
         subitem=findViewById(R.id.a1sunitemspinner);
         button=findViewById(R.id.a1button);
+
+        if (HomeAct.lang==1){
+            button.setText("بحث");
+        }
     }
     void listItem(){
         FirebaseFirestore db=FirebaseFirestore.getInstance();
