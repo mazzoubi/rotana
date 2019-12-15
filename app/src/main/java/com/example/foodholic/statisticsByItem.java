@@ -73,31 +73,60 @@ public class statisticsByItem extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 ArrayList<String> ss =new ArrayList<>();
-                ss.add("choose sub item");
-                ArrayAdapter<String>adapter;
-                if (i==0){
-                    subitem.setEnabled(false);
-                    year.setEnabled(false);
-                    month.setEnabled(false);
-                    result.setText("\n\n\n\n\n\t\t\t\t\tplease choose item");
-                }
-                else {
-                    it=adapterView.getItemAtPosition(i).toString();
+              if (HomeAct.lang==1){
+                  ss.add("اختر عنصر");
+                  ArrayAdapter<String>adapter;
+                  if (i==0){
+                      subitem.setEnabled(false);
+                      year.setEnabled(false);
+                      month.setEnabled(false);
+                      result.setText("\n\n\n\n\n\t\t\t\t\tالرجاء اختيار عنصر");
+                  }
+                  else {
+                      it=adapterView.getItemAtPosition(i).toString();
 
 
-                    for(classSubItem d: listSubItem){
-                        if (d.item.equals(it)){
-                            ss.add(d.subItem);
-                        }
-                    }
-                    year.setEnabled(true);
-                    month.setEnabled(true);
-                    subitem.setEnabled(true);
-                    result.setText("\n\n\n\n\n\t\t\t\t\t");
+                      for(classSubItem d: listSubItem){
+                          if (d.item.equals(it)){
+                              ss.add(d.subItem);
+                          }
+                      }
+                      year.setEnabled(true);
+                      month.setEnabled(true);
+                      subitem.setEnabled(true);
+                      result.setText("\n\n\n\n\n\t\t\t\t\t");
 
-                }
-                adapter=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_list_item_1,ss);
-                subitem.setAdapter(adapter);
+                  }
+                  adapter=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_list_item_1,ss);
+                  subitem.setAdapter(adapter);
+              }
+              else {
+                  ss.add("choose sub item");
+                  ArrayAdapter<String>adapter;
+                  if (i==0){
+                      subitem.setEnabled(false);
+                      year.setEnabled(false);
+                      month.setEnabled(false);
+                      result.setText("\n\n\n\n\n\t\t\t\t\tplease choose item");
+                  }
+                  else {
+                      it=adapterView.getItemAtPosition(i).toString();
+
+
+                      for(classSubItem d: listSubItem){
+                          if (d.item.equals(it)){
+                              ss.add(d.subItem);
+                          }
+                      }
+                      year.setEnabled(true);
+                      month.setEnabled(true);
+                      subitem.setEnabled(true);
+                      result.setText("\n\n\n\n\n\t\t\t\t\t");
+
+                  }
+                  adapter=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_list_item_1,ss);
+                  subitem.setAdapter(adapter);
+              }
             }
 
             @Override
@@ -129,62 +158,122 @@ public class statisticsByItem extends AppCompatActivity {
             public void onClick(View view) {
                 double cost=0,sale=0;
                 ArrayList<classSales> ss=new ArrayList<>();
-                if (m.isEmpty()&&s.isEmpty()){
-                    for (classSales d : list){
-                        if (d.item.equals(it)&&d.date.contains(y)){
-                            cost+=d.cost;
-                            sale+=d.sale;
-                            ss.add(d);
-                        }
-                    }
-                result.setText("\n\n\n\n Item : "+it+"\n" +
-                        "Sub Item : "+s+"\n\n" +
-                        "Costs = "+cost+"\n" +
-                        "profit = "+(sale-cost)+"\n" +
-                        "Total = "+sale);
-                }
-                else if (!m.isEmpty()&&s.isEmpty()){
-                    for (classSales d : list){
-                        if (d.item.equals(it)&&d.date.contains(m+"-"+y)){
-                            cost+=d.cost;
-                            sale+=d.sale;
-                            ss.add(d);
-                        }
-                    }
-                    result.setText("\n\n\n\n Item : "+it+"\n" +
-                            "Sub Item : "+s+"\n\n" +
-                            "Costs = "+cost+"\n" +
-                            "profit = "+(sale-cost)+"\n" +
-                            "Total = "+sale);
-                }
-                else if (m.isEmpty()&&!s.isEmpty()){
-                    for (classSales d : list){
-                        if (d.subItem.equals(s)&&d.date.contains(y)){
-                            cost+=d.cost;
-                            sale+=d.sale;
-                            ss.add(d);
-                        }
-                    }
-                    result.setText("\n\n\n\n Item : "+it+"\n" +
-                            "Sub Item : "+s+"\n\n" +
-                            "Costs = "+cost+"\n" +
-                            "profit = "+(sale-cost)+"\n" +
-                            "Total = "+sale);
-                }
-                else if (!m.isEmpty()&&!s.isEmpty()){
-                    for (classSales d : list){
-                        if (d.subItem.equals(s)&&d.date.contains(m+"-"+y)){
-                            cost+=d.cost;
-                            sale+=d.sale;
-                            ss.add(d);
-                        }
-                    }
-                    result.setText("\n\n\n\n Item : "+it+"\n" +
-                            "Sub Item : "+s+"\n\n" +
-                            "Costs = "+cost+"\n" +
-                            "profit = "+(sale-cost)+"\n" +
-                            "Total = "+sale);
-                }
+              if (HomeAct.lang==1){
+                  if (m.isEmpty()&&s.isEmpty()){
+                      for (classSales d : list){
+                          if (d.item.equals(it)&&d.date.contains(y)){
+                              cost+=d.cost;
+                              sale+=d.sale;
+                              ss.add(d);
+                          }
+                      }
+                      result.setText("\n\n\n\n العنصر : "+it+"\n" +
+                              "العنصر الفرعي : "+s+"\n\n" +
+                              "التكلفه = "+cost+"\n" +
+                              "الربح = "+(sale-cost)+"\n" +
+                              "المجموع = "+sale);
+                  }
+                  else if (!m.isEmpty()&&s.isEmpty()){
+                      for (classSales d : list){
+                          if (d.item.equals(it)&&d.date.contains(m+"-"+y)){
+                              cost+=d.cost;
+                              sale+=d.sale;
+                              ss.add(d);
+                          }
+                      }
+                      result.setText("\n\n\n\n العنصر : "+it+"\n" +
+                              "العنصر الفرعي : "+s+"\n\n" +
+                              "التكلفه = "+cost+"\n" +
+                              "الربح = "+(sale-cost)+"\n" +
+                              "المجموع = "+sale);
+                  }
+                  else if (m.isEmpty()&&!s.isEmpty()){
+                      for (classSales d : list){
+                          if (d.subItem.equals(s)&&d.date.contains(y)){
+                              cost+=d.cost;
+                              sale+=d.sale;
+                              ss.add(d);
+                          }
+                      }
+                      result.setText("\n\n\n\n العنصر : "+it+"\n" +
+                              "العنصر الفرعي : "+s+"\n\n" +
+                              "التكلفه = "+cost+"\n" +
+                              "الربح = "+(sale-cost)+"\n" +
+                              "المجموع = "+sale);
+                  }
+                  else if (!m.isEmpty()&&!s.isEmpty()){
+                      for (classSales d : list){
+                          if (d.subItem.equals(s)&&d.date.contains(m+"-"+y)){
+                              cost+=d.cost;
+                              sale+=d.sale;
+                              ss.add(d);
+                          }
+                      }
+                      result.setText("\n\n\n\n العنصر : "+it+"\n" +
+                              "العنصر الفرعي : "+s+"\n\n" +
+                              "التكلفه = "+cost+"\n" +
+                              "الربح = "+(sale-cost)+"\n" +
+                              "المجموع = "+sale);
+                  }
+              }
+              else {
+                  if (m.isEmpty()&&s.isEmpty()){
+                      for (classSales d : list){
+                          if (d.item.equals(it)&&d.date.contains(y)){
+                              cost+=d.cost;
+                              sale+=d.sale;
+                              ss.add(d);
+                          }
+                      }
+                      result.setText("\n\n\n\n Item : "+it+"\n" +
+                              "Sub Item : "+s+"\n\n" +
+                              "Costs = "+cost+"\n" +
+                              "profit = "+(sale-cost)+"\n" +
+                              "Total = "+sale);
+                  }
+                  else if (!m.isEmpty()&&s.isEmpty()){
+                      for (classSales d : list){
+                          if (d.item.equals(it)&&d.date.contains(m+"-"+y)){
+                              cost+=d.cost;
+                              sale+=d.sale;
+                              ss.add(d);
+                          }
+                      }
+                      result.setText("\n\n\n\n Item : "+it+"\n" +
+                              "Sub Item : "+s+"\n\n" +
+                              "Costs = "+cost+"\n" +
+                              "profit = "+(sale-cost)+"\n" +
+                              "Total = "+sale);
+                  }
+                  else if (m.isEmpty()&&!s.isEmpty()){
+                      for (classSales d : list){
+                          if (d.subItem.equals(s)&&d.date.contains(y)){
+                              cost+=d.cost;
+                              sale+=d.sale;
+                              ss.add(d);
+                          }
+                      }
+                      result.setText("\n\n\n\n Item : "+it+"\n" +
+                              "Sub Item : "+s+"\n\n" +
+                              "Costs = "+cost+"\n" +
+                              "profit = "+(sale-cost)+"\n" +
+                              "Total = "+sale);
+                  }
+                  else if (!m.isEmpty()&&!s.isEmpty()){
+                      for (classSales d : list){
+                          if (d.subItem.equals(s)&&d.date.contains(m+"-"+y)){
+                              cost+=d.cost;
+                              sale+=d.sale;
+                              ss.add(d);
+                          }
+                      }
+                      result.setText("\n\n\n\n Item : "+it+"\n" +
+                              "Sub Item : "+s+"\n\n" +
+                              "Costs = "+cost+"\n" +
+                              "profit = "+(sale-cost)+"\n" +
+                              "Total = "+sale);
+                  }
+              }
             }
         });
 
@@ -210,7 +299,12 @@ public class statisticsByItem extends AppCompatActivity {
             listItem=new ArrayList<>();
                 ArrayAdapter<String> itemAdapter;
                 ArrayList<String> zz=new ArrayList<>();
-                zz.add("choose item");
+                if (HomeAct.lang==1){
+                    zz.add("اختر عنصر");
+                }
+                else {
+                    zz.add("choose item");
+                }
             List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
                 for(DocumentSnapshot d : list){
                     listItem.add(d.toObject(classItem.class));
