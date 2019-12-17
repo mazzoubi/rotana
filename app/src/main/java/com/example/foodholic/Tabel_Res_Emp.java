@@ -328,39 +328,66 @@ public class Tabel_Res_Emp extends AppCompatActivity {
     private void ReserveClick(final int p, final View vie, String name, String mobile, String people,
                               String date, String time){
 
-        if(shared.getInt("pos", 0) == 0){
-            vie.setBackgroundColor(getResources().getColor(R.color.colorPick));
-            SharedPreferences.Editor editor = shared.edit();
-            editor.putInt("pos", p);
-            editor.apply();
+//        if(shared.getInt("pos", 0) == 0){
+//            vie.setBackgroundColor(getResources().getColor(R.color.colorPick));
+//            SharedPreferences.Editor editor = shared.edit();
+//            editor.putInt("pos", p);
+//            editor.apply();
 
-            if(!getIntent().getStringExtra("order").equals("")){
+            if(date.contains("تاريخ") || time.contains("وقت"))
+                Toast.makeText(Tabel_Res_Emp.this, "اختر وقت و تاريخ رجائا", Toast.LENGTH_SHORT).show();
+            else{
+                if(getIntent().getStringExtra("order") != null){
+                    if(!getIntent().getStringExtra("order").equals("")){
 
-                Map<String, Object> order = new HashMap<>();
-                order.put("name", name);
-                order.put("mobile", mobile);
-                order.put("people", people);
-                order.put("date", date);
-                order.put("time", time);
-                order.put("order", getIntent().getStringExtra("order"));
-                order.put("sum", getIntent().getStringExtra("orderSum"));
+                        Map<String, Object> order = new HashMap<>();
+                        order.put("name", name);
+                        order.put("mobile", mobile);
+                        order.put("people", people);
+                        order.put("date", date);
+                        order.put("time", time);
+                        order.put("order", getIntent().getStringExtra("order"));
+                        order.put("sum", getIntent().getStringExtra("orderSum"));
 
-                db.collection("Res_1_Table_Res_").document(""+(p+1)).set(order)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful())
-                                    Toast.makeText(Tabel_Res_Emp.this, "تم اضافة الحجز", Toast.LENGTH_SHORT).show();
-                                else
-                                    Toast.makeText(Tabel_Res_Emp.this, "حاول مجددا", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        db.collection("Res_1_Table_Res_").document(""+(p+1)).set(order)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful())
+                                            Toast.makeText(Tabel_Res_Emp.this, "تم اضافة الحجز", Toast.LENGTH_SHORT).show();
+                                        else
+                                            Toast.makeText(Tabel_Res_Emp.this, "حاول مجددا", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+                }
+                else{
+                    Map<String, Object> order = new HashMap<>();
+                    order.put("name", name);
+                    order.put("mobile", mobile);
+                    order.put("people", people);
+                    order.put("date", date);
+                    order.put("time", time);
+                    order.put("order", "");
+                    order.put("sum", "");
+
+                    db.collection("Res_1_Table_Res_").document(""+(p+1)).set(order)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful())
+                                        Toast.makeText(Tabel_Res_Emp.this, "تم اضافة الحجز", Toast.LENGTH_SHORT).show();
+                                    else
+                                        Toast.makeText(Tabel_Res_Emp.this, "حاول مجددا", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                }
             }
 
-
-        }
-        else
-            Toast.makeText(Tabel_Res_Emp.this, "لديك حجز مسبق", Toast.LENGTH_LONG).show();
+      //  }
+       // else
+        //    Toast.makeText(Tabel_Res_Emp.this, "لديك حجز مسبق", Toast.LENGTH_LONG).show();
 
     }
 

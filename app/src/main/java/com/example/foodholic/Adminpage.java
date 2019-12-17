@@ -40,12 +40,16 @@ public class Adminpage extends AppCompatActivity {
                 R.drawable.ic_cash,
                 R.drawable.ic_z,
                 R.drawable.ic_drive,
-                R.drawable.ic_star };
+                R.drawable.ic_star,
+                R.drawable.ic_point,
+                R.drawable.ic_visa,
+                R.drawable.ic_vip,
+                R.drawable.ic_suppliers };
 
         //public String[] mThumbNames = {"Human Resources", "Storage", "Reports", "Payments", "Cash Drawer", "Taxes", "Delivery Drivers", "Ratings" };
-        public String[] mThumbNames = {"Human Resources","Storage" ,"Reports", "Payments","Cash Drawer",  "Taxes" ,"Delivery Drivers" , "Ratings" };
+        public String[] mThumbNames = {"Human Resources","Storage" ,"Reports", "Payments","Cash Drawer",  "Taxes" ,"Delivery Drivers" , "Ratings", "Points", "VISA", "VIP", "Suppliers" };
         //public String[] mThumbNames2 = {"تقارير جودة","سائقين التوصيل", "ضرائب", "صندوق الكاش","مصروفات", "تقارير", "مستودعات", "شؤون موظفين" };
-        public String[] mThumbNames2 = {"شؤون موظفين","مستودعات", "تقارير", "مصروفات","صندوق الكاش", "ضرائب", "سائقين التوصيل", "تقارير جودة" };
+        public String[] mThumbNames2 = {"شؤون موظفين","مستودعات", "تقارير", "مصروفات","صندوق الكاش", "ضرائب", "سائقين التوصيل", "تقارير جودة", "نقاط", "فيزا", "أهم العملاء", "موردين" };
 
         private Context mContext;
 
@@ -114,12 +118,26 @@ public class Adminpage extends AppCompatActivity {
                                 startActivity(n5);
                                 break;
                             case 6:
-                            Intent n7=new Intent(getApplicationContext(),driverReport.class);
-                            startActivity(n7);
-                            break;
+                                Intent n7=new Intent(getApplicationContext(),driverReport.class);
+                                startActivity(n7);
+                                break;
                             case 7:
                                 Intent n6=new Intent(getApplicationContext(),ratingSystem.class);
                                 startActivity(n6);
+                                break;
+                            case 8:
+                                Intent n8=new Intent(getApplicationContext(),PointReport.class);
+                                startActivity(n8);
+                                break;
+                            case 9:
+                                Intent n9=new Intent(getApplicationContext(),VisaReport.class);
+                                startActivity(n9);
+                                break;
+                            case 10:
+                                Toast.makeText(getApplicationContext(), "قريبا !!!", Toast.LENGTH_SHORT).show();
+                                break;
+                            case 11:
+                                Toast.makeText(getApplicationContext(), "قريبا !!!", Toast.LENGTH_SHORT).show();
                                 break;
                         }
 

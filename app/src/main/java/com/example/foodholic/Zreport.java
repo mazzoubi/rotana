@@ -253,7 +253,7 @@ public class Zreport extends AppCompatActivity {
                 cSale=new ArrayList<>() ;
                 List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
                 for(DocumentSnapshot d:list){
-                    cSale.add(d.toObject(classSales.class));
+                    try{cSale.add(d.toObject(classSales.class));}catch (Exception e){}
                 }
             }
         });

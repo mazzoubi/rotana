@@ -541,7 +541,6 @@ public class Emppage extends AppCompatActivity
                             @Override
                             public void onClick(View view) {
                                 takePoint(String.valueOf(sum*10));
-                                print("مجموع الخصم : "+sum*10+"\n\n\n"+"**********Aldakheel**********\n\n\n");
                                 dialog3.dismiss();
                                 dialog2.dismiss();
                             }
@@ -1680,8 +1679,7 @@ public class Emppage extends AppCompatActivity
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(Emppage.this, "تمت العملية بنجاح", Toast.LENGTH_SHORT).show();
-                        recreate();
+                        AddSale2();
                     }
                 });
 
@@ -2073,6 +2071,53 @@ public class Emppage extends AppCompatActivity
 
         dname.add(name);
         adapterSpin.notifyDataSetChanged();
+
+    }
+
+    public void AddSale2(){
+
+        String bill="";
+        int sum=0;
+
+        for(int i=0; i<saleList.size(); i++){
+
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
+            Date dateee = new Date();
+            String date = dateFormat.format(dateee);
+
+            String day = date.substring(0, date.indexOf(" "));
+            String time = date.substring(date.indexOf(" ")+1);
+
+            Map<String, Object> sale = new HashMap<>();
+            sale.put("date", day);
+            sale.put("time", time);
+            sale.put("subItem", saleList.get(i).subItemName);
+            sale.put("item", itemToShow.get(i));
+            sale.put("empEmail", getIntent().getStringExtra("empemail"));
+            sale.put("sale", saleList.get(i).sumPrice);
+
+            sum+=saleList.get(i).sumPrice;
+            bill+="date: "+day+"\n" +
+                    "time: "+time + "\n" +
+                    "sub item: "+saleList.get(i).subItemName+"\n" +
+                    "sum price: "+ saleList.get(i).sumPrice+"\n" +
+                    "-------------------------------------------\n" ;
+
+            db.collection("Res_1_point_sales").document()
+
+                    .set(sale)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(Emppage.this, "تمت العملية بنجاح", Toast.LENGTH_SHORT).show();
+                            recreate();
+                        }
+                    });
+
+        }
+        bill+="total: "+sum+"\n\n\n"+"**********Aldakheel**********\n\n\n";
+        print(bill);
+
 
     }
 

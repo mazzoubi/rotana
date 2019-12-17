@@ -47,16 +47,16 @@ public class ratingSystem extends AppCompatActivity {
                 int count=0;
 
                 for (classRating d : res){
-                    resl+="----------------------------------------------\n" +
+                    resl+="\n" +
                             "التقييم : "+d.rate+" نقطة\n" +
                             "ملاحظة: "+d.note+"\n" +
                             "اسم الخدمة او الموظف: "+d.name+"\n" +
-                            "----------------------------------------------\n";
+                            "\n";
                     sum+=Double.parseDouble(d.rate);
                     count++;
                 }
                 result.setText(resl);
-                sumt.setText("The rate AVG= "+(sum/count)+" Point");
+                sumt.setText("التقييم الكلي = "+(sum/count)+" نقطة من 5");
             }
         });
         bDel.setOnClickListener(new View.OnClickListener() {
@@ -67,16 +67,16 @@ public class ratingSystem extends AppCompatActivity {
                 int count=0;
 
                 for (classRating d : delevery){
-                    resl+="----------------------------------------------\n" +
+                    resl+="\n" +
                             "التقييم : "+d.rate+" نقطة\n" +
                             "ملاحظة: "+d.note+"\n" +
                             "اسم الخدمة او الموظف: "+d.name+"\n" +
-                            "----------------------------------------------\n";
+                            "\n";
                     sum+=Double.parseDouble(d.rate);
                     count++;
                 }
                 result.setText(resl);
-                sumt.setText("The rate AVG= "+(sum/count)+" Point");
+                sumt.setText("التقييم الكلي = "+(sum/count)+" نقطة من 5");
             }
         });
         bEmp.setOnClickListener(new View.OnClickListener() {
@@ -87,16 +87,16 @@ public class ratingSystem extends AppCompatActivity {
                 int count=0;
 
                 for (classRating d : emp){
-                    resl+="----------------------------------------------\n" +
+                    resl+="\n" +
                             "التقييم : "+d.rate+" نقطة\n" +
                             "ملاحظة: "+d.note+"\n" +
                             "اسم الخدمة او الموظف: "+d.name+"\n" +
-                            "----------------------------------------------\n";
+                            "\n";
                     sum+=Double.parseDouble(d.rate);
                     count++;
                 }
                 result.setText(resl);
-                sumt.setText("The rate AVG= "+(sum/count)+" Point");
+                sumt.setText("التقييم الكلي = "+(sum/count)+" نقطة من 5");
             }
         });
         bMeal.setOnClickListener(new View.OnClickListener() {
@@ -107,16 +107,16 @@ public class ratingSystem extends AppCompatActivity {
                 int count=0;
 
                 for (classRating d : meal){
-                    resl+="----------------------------------------------\n" +
+                    resl+="\n" +
                             "التقييم : "+d.rate+" نقطة\n" +
                             "ملاحظة: "+d.note+"\n" +
                             "اسم الخدمة او الموظف: "+d.name+"\n" +
-                            "----------------------------------------------\n";
+                            "\n";
                     sum+=Double.parseDouble(d.rate);
                     count++;
                 }
                 result.setText(resl);
-                sumt.setText("The rate AVG= "+(sum/count)+" Point");
+                sumt.setText("التقييم الكلي = "+(sum/count)+" نقطة من 5");
             }
         });
 

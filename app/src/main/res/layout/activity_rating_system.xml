@@ -23,7 +23,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="restaurant" />
+        android:text="تقييم خدمات المطعم" />
 
     <Button
         android:id="@+id/rat_meal"
@@ -31,7 +31,7 @@
         android:background="@drawable/shape"
         android:backgroundTint="@color/colorPrimary"
         android:layout_margin="5dp"
-        android:text="meal"
+        android:text="تقييم الوجبات"
         android:textColor="@color/colorPrimaryDark"
         android:layout_width="match_parent"
         android:layout_height="40dp" />
@@ -42,7 +42,7 @@
         android:background="@drawable/shape"
         android:backgroundTint="@color/colorPrimary"
         android:layout_margin="5dp"
-        android:text="employee"
+        android:text="تقييم الموظفين"
         android:textColor="@color/colorPrimaryDark"
         android:layout_width="match_parent"
         android:layout_height="40dp" />
@@ -51,7 +51,7 @@
         android:id="@+id/rat_delv"
         android:layout_below="@+id/rat_emp"
         android:background="@drawable/shape"
-        android:text="delivery"
+        android:text="تقييم خدمات التوصيل"
         android:backgroundTint="@color/colorPrimary"
         android:layout_margin="5dp"
         android:textColor="@color/colorPrimaryDark"
@@ -74,6 +74,9 @@
             <TextView
                 android:id="@+id/rat_textResult"
                 android:layout_width="match_parent"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>

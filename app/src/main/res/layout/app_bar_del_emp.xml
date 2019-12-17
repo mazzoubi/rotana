@@ -81,27 +81,37 @@
 
     </android.support.v7.widget.CardView>
 
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_toRightOf="@+id/ca"
-        android:layout_marginLeft="150dp"
-        android:src="@drawable/dakhel"
-        android:alpha="0.3"
+    <TextClock
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:format12Hour="dd/MM/yyyy"
         android:layout_above="@+id/bt"
-        android:scaleType="fitCenter"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:layout_marginRight="5dp"
+        android:padding="4dp"
+        android:layout_marginBottom="5dp"
+        android:textColor="@color/colorPrimary"
+        android:background="@drawable/shape2"
+        android:textStyle="bold"
         android:layout_below="@+id/lalala"
-        android:layout_height="50dp"/>
+        android:layout_height="wrap_content"/>
 
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_toLeftOf="@+id/ca"
-        android:layout_marginRight="150dp"
-        android:src="@drawable/dakhel"
-        android:alpha="0.3"
+    <TextClock
+        android:layout_width="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textColor="@color/colorPrimary"
+        android:padding="4dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/shape2"
+        android:format12Hour="hh:mm:ss a"
         android:layout_above="@+id/bt"
-        android:scaleType="fitCenter"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textStyle="bold"
         android:layout_below="@+id/lalala"
-        android:layout_height="50dp"/>
+        android:layout_height="wrap_content"/>
 
     <include layout="@layout/activity_casher"
         android:layout_height="match_parent"

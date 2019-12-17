@@ -19,8 +19,9 @@
         android:id="@+id/textView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="15dp"
         android:text="Admin Page"
+        android:layout_alignParentTop="true"
         android:gravity="center"
         android:fontFamily="serif"
         android:textColor="@color/colorPrimaryDark"
@@ -32,7 +33,7 @@
         android:id="@+id/lay"
         app:cardElevation="15dp"
         android:background="@color/colorPrimary"
-        android:layout_margin="25dp"
+        android:layout_margin="15dp"
         android:layout_below="@+id/textView6"
         android:layout_height="wrap_content">
 
@@ -40,12 +41,11 @@
             android:id="@+id/gridViewCustom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:horizontalSpacing="2dp"
-            android:verticalSpacing="2dp"
+            android:horizontalSpacing="3dp"
+            android:verticalSpacing="3dp"
             android:background="#e5e5e5"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:columnWidth="180dp"
             android:gravity="center"
             android:numColumns="2" />
 
