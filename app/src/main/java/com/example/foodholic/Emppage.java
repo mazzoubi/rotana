@@ -413,7 +413,8 @@ public class Emppage extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
-                final AlertDialog.Builder builder2 = new AlertDialog.Builder(Emppage.this);
+                if (empObj.cashWork){
+                    final AlertDialog.Builder builder2 = new AlertDialog.Builder(Emppage.this);
                 LayoutInflater inflater2 = Emppage.this.getLayoutInflater();
                 builder2.setView(inflater2.inflate(R.layout.calulator, null));
                 final AlertDialog dialog2 = builder2.create();
@@ -421,14 +422,14 @@ public class Emppage extends AppCompatActivity
                 dialog2.show();
 
                 TextView t = dialog2.findViewById(R.id.title);
-                String s=String.valueOf(sum);
+                String s = String.valueOf(sum);
 
-                if(String.valueOf(sum).length() > 10)
-                    t.setText("مجموع الفاتورة : "+s.substring(s.indexOf("."), s.indexOf(".")+3)+" دينار ");
+                if (String.valueOf(sum).length() > 10)
+                    t.setText("مجموع الفاتورة : " + s.substring(s.indexOf("."), s.indexOf(".") + 3) + " دينار ");
                 else
-                    t.setText("مجموع الفاتورة : "+sum+" دينار ");
+                    t.setText("مجموع الفاتورة : " + sum + " دينار ");
 
-                closeOpenCash.total+=sum;
+                closeOpenCash.total += sum;
 
                 final TextView t2 = dialog2.findViewById(R.id.change);
 
@@ -441,24 +442,21 @@ public class Emppage extends AppCompatActivity
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        if(s.toString().equals(""))
+                        if (s.toString().equals(""))
                             e.setText("0");
-                        else{
-                            String temp = String.valueOf((Double.parseDouble(e.getText().toString())-sum));
-                            try{
-                                if(HomeAct.lang==1){
-                                    t2.setText("الباقي : "+temp.substring(0, temp.indexOf(".")+3)+" دينار ");
+                        else {
+                            String temp = String.valueOf((Double.parseDouble(e.getText().toString()) - sum));
+                            try {
+                                if (HomeAct.lang == 1) {
+                                    t2.setText("الباقي : " + temp.substring(0, temp.indexOf(".") + 3) + " دينار ");
+                                } else {
+                                    t2.setText("The rest : " + temp.substring(0, temp.indexOf(".") + 3) + "  ");
                                 }
-                                else {
-                                    t2.setText("The rest : "+temp.substring(0, temp.indexOf(".")+3)+"  ");
-                                }
-                            }
-                            catch(Exception ex){
-                                if(HomeAct.lang==1){
-                                    t2.setText("الباقي : "+temp+" دينار ");
-                                }
-                                else {
-                                    t2.setText("The rest : "+temp+" JOD ");
+                            } catch (Exception ex) {
+                                if (HomeAct.lang == 1) {
+                                    t2.setText("الباقي : " + temp + " دينار ");
+                                } else {
+                                    t2.setText("The rest : " + temp + " JOD ");
                                 }
 
                             }
@@ -485,8 +483,8 @@ public class Emppage extends AppCompatActivity
                         dialog3.show();
 
                         TextView t3 = dialog3.findViewById(R.id.title);
-                        String s=String.valueOf(sum*10);
-                        t3.setText("مجموع الفاتورة بالنقاط : "+s+" نقطة ");
+                        String s = String.valueOf(sum * 10);
+                        t3.setText("مجموع الفاتورة بالنقاط : " + s + " نقطة ");
 
                         final TextView t2 = dialog3.findViewById(R.id.change);
                         final EditText e = dialog3.findViewById(R.id.pay);
@@ -498,24 +496,21 @@ public class Emppage extends AppCompatActivity
 
                             @Override
                             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                                if(s.toString().equals(""))
+                                if (s.toString().equals(""))
                                     e.setText("0");
-                                else{
-                                    String temp = String.valueOf((Double.parseDouble(e.getText().toString())-sum*10));
-                                    try{
-                                        if(HomeAct.lang==1){
-                                            t2.setText("الباقي : "+temp.substring(0, temp.indexOf(".")+3)+" نقطة ");
+                                else {
+                                    String temp = String.valueOf((Double.parseDouble(e.getText().toString()) - sum * 10));
+                                    try {
+                                        if (HomeAct.lang == 1) {
+                                            t2.setText("الباقي : " + temp.substring(0, temp.indexOf(".") + 3) + " نقطة ");
+                                        } else {
+                                            t2.setText("The rest : " + temp.substring(0, temp.indexOf(".") + 3) + "  ");
                                         }
-                                        else {
-                                            t2.setText("The rest : "+temp.substring(0, temp.indexOf(".")+3)+"  ");
-                                        }
-                                    }
-                                    catch(Exception ex){
-                                        if(HomeAct.lang==1){
-                                            t2.setText("الباقي : "+temp+" نقطة ");
-                                        }
-                                        else {
-                                            t2.setText("The rest : "+temp+" JOD ");
+                                    } catch (Exception ex) {
+                                        if (HomeAct.lang == 1) {
+                                            t2.setText("الباقي : " + temp + " نقطة ");
+                                        } else {
+                                            t2.setText("The rest : " + temp + " JOD ");
                                         }
 
                                     }
@@ -540,7 +535,7 @@ public class Emppage extends AppCompatActivity
                         b2.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                takePoint(String.valueOf(sum*10));
+                                takePoint(String.valueOf(sum * 10));
                                 dialog3.dismiss();
                                 dialog2.dismiss();
                             }
@@ -562,7 +557,8 @@ public class Emppage extends AppCompatActivity
                                             for (QueryDocumentSnapshot document : task.getResult())
                                                 addCustomData(document.get("email").toString());
 
-                                    } });
+                                    }
+                                });
 
                         Button bbb = dialog3.findViewById(R.id.sea);
                         bbb.setOnClickListener(new View.OnClickListener() {
@@ -584,22 +580,19 @@ public class Emppage extends AppCompatActivity
                 });
 
 
-
                 Button b = dialog2.findViewById(R.id.deliv);
                 b.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        if((Double.parseDouble(e.getText().toString())-sum)>=0 && !e.getText().toString().equals("")){
+                        if ((Double.parseDouble(e.getText().toString()) - sum) >= 0 && !e.getText().toString().equals("")) {
                             AddSale();
                             dialog2.dismiss();
                             recreate();
-                        }
-                        else{
-                            if (HomeAct.lang==1){
+                        } else {
+                            if (HomeAct.lang == 1) {
                                 Toast.makeText(Emppage.this, "الرجاء ادخال مبلغ صحيح", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
+                            } else {
                                 Toast.makeText(Emppage.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -608,11 +601,17 @@ public class Emppage extends AppCompatActivity
                     }
                 });
 
-            }
+            } else {
+                    if(shared2.getString("language", "").equals("arabic"))
+                        Toast.makeText(Emppage.this, "انت لا تمتلك صلاحيات الدخول الى هذا الاجراء", Toast.LENGTH_SHORT).show();
+                    else Toast.makeText(Emppage.this, "you don't have permission enter", Toast.LENGTH_SHORT).show();
+                }}
         });
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if(empObj.delevery){
 
                 new AlertDialog.Builder(Emppage.this)
                         .setTitle("الرجاء الاختيار")
@@ -897,11 +896,17 @@ public class Emppage extends AppCompatActivity
                 }).show();
 
 
-            }
+            } else {
+                if(shared2.getString("language", "").equals("arabic"))
+                    Toast.makeText(Emppage.this, "انت لا تمتلك صلاحيات الدخول الى هذا الاجراء", Toast.LENGTH_SHORT).show();
+                else Toast.makeText(Emppage.this, "you don't have permission enter", Toast.LENGTH_SHORT).show();
+            } }
         });
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if(empObj.takeAway){
 
                 new AlertDialog.Builder(Emppage.this)
                         .setTitle("الرجاء الاختيار")
@@ -1169,11 +1174,17 @@ public class Emppage extends AppCompatActivity
                     }
                 }).show();
 
-            }
+            } else {
+                if(shared2.getString("language", "").equals("arabic"))
+                    Toast.makeText(Emppage.this, "انت لا تمتلك صلاحيات الدخول الى هذا الاجراء", Toast.LENGTH_SHORT).show();
+                else Toast.makeText(Emppage.this, "you don't have permission enter", Toast.LENGTH_SHORT).show();
+            }}
         });
         btn5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if(empObj.onlineReservation){
 
                 if (saleList.isEmpty())
                     startActivity(new Intent(Emppage.this, Tabel_Res_Emp.class));
@@ -1197,7 +1208,11 @@ public class Emppage extends AppCompatActivity
                     startActivity(intent);
                 }
 
-            }
+            } else {
+                if(shared2.getString("language", "").equals("arabic"))
+                    Toast.makeText(Emppage.this, "انت لا تمتلك صلاحيات الدخول الى هذا الاجراء", Toast.LENGTH_SHORT).show();
+                else Toast.makeText(Emppage.this, "you don't have permission enter", Toast.LENGTH_SHORT).show();
+            }}
         });
 
         close.setOnClickListener(new View.OnClickListener() {

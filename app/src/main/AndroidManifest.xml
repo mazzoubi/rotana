@@ -20,7 +20,8 @@
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
         <activity android:name=".VisaReport"></activity>
-        <activity android:name=".PointReport" />
+        <activity android:name=".PointReport"
+            android:parentActivityName=".Adminpage"/>
         <activity
             android:name=".driverReport"
             android:parentActivityName=".Adminpage" />
