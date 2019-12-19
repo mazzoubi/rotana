@@ -111,12 +111,12 @@ public class Emppage extends AppCompatActivity
     String da, ta;
 
 
+    ArrayList<String> tabels = new ArrayList<String>();
     public static String[] sites = {
             "1", "2", "3", "4", "5",
-            "6", "7", "8","9","10",
-            "11","12","13","14","15" };
-
-    ArrayList<String> tabels = new ArrayList<String>();
+            "6", "7", "8","9","10", "11","12",
+            "13", "14", "15", "16", "17", "18", "19",
+            "20", "21", "22","23","24", "25","26", "27", "28", "29", "30" };
 
     public class CustomAdapter extends BaseAdapter {
 
@@ -133,7 +133,7 @@ public class Emppage extends AppCompatActivity
             inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE); }
 
         @Override
-        public int getCount() { return result.length; }
+        public int getCount() { return tabels.size(); }
 
         @Override
         public Object getItem(int position) { return position; }
@@ -1593,9 +1593,42 @@ public class Emppage extends AppCompatActivity
             }
         });
 
+
+
         FillReserve();
 
         //Print();
+    }
+
+    private void GetTabelCount() {
+
+        FirebaseFirestore fb = FirebaseFirestore.getInstance();
+        fb.collection("Res_1_Table_Count").document("TC")
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                if(task.isSuccessful())
+                    AddTables(task.getResult().getData().get("count").toString());
+
+
+            }
+        });
+
+
+
+    }
+
+    private void AddTables(String count) {
+
+        tabels.clear();
+        int c = Integer.parseInt(count);
+
+        for(int i=0; i<c; i++)
+            tabels.add("Table Number : "+i);
+
+        FillReserve();
+
     }
 
     private void Print() {
@@ -1647,12 +1680,7 @@ public class Emppage extends AppCompatActivity
             } });
 
         db = FirebaseFirestore.getInstance();
-
-        tabels.add("Table Number : 1"); tabels.add("Table Number : 2"); tabels.add("Table Number : 3");
-        tabels.add("Table Number : 4"); tabels.add("Table Number : 5"); tabels.add("Table Number : 6");
-        tabels.add("Table Number : 7"); tabels.add("Table Number : 8"); tabels.add("Table Number : 9");
-        tabels.add("Table Number : 10"); tabels.add("Table Number : 11"); tabels.add("Table Number : 12");
-        tabels.add("Table Number : 13"); tabels.add("Table Number : 14"); tabels.add("Table Number : 15");
+        GetTabelCount();
 
         gridview = (GridView) findViewById(R.id.customgrid);
 
@@ -2196,6 +2224,9 @@ public class Emppage extends AppCompatActivity
         });
     }
     void print(String ss ){
-        Toast.makeText(this, ss, Toast.LENGTH_LONG).show();
+
+        ///Socket socket = new Socket("");
+
+
     }
 }

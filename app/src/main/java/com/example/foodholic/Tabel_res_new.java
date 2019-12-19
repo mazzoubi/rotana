@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -45,12 +46,14 @@ import java.util.Map;
 
 public class Tabel_res_new extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener date_;
+    ArrayList<String> tabels = new ArrayList<String>();
     public static String[] sites = {
             "1", "2", "3", "4", "5",
-            "6", "7", "8","9","10",
-            "11","12","13","14","15" };
+            "6", "7", "8","9","10", "11","12",
+            "13", "14", "15", "16", "17", "18", "19",
+            "20", "21", "22","23","24", "25","26", "27", "28", "29", "30" };
 
-    ArrayList<String> tabels = new ArrayList<String>();
+
 
     public class CustomAdapter extends BaseAdapter{
 
@@ -67,7 +70,7 @@ public class Tabel_res_new extends AppCompatActivity {
             inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE); }
 
         @Override
-        public int getCount() { return result.length; }
+        public int getCount() { return tabels.size(); }
 
         @Override
         public Object getItem(int position) { return position; }
@@ -234,16 +237,40 @@ public class Tabel_res_new extends AppCompatActivity {
         });
 
         db = FirebaseFirestore.getInstance();
+        gridview = (GridView) findViewById(R.id.customgrid);
 
-        tabels.add("Table Number : 1"); tabels.add("Table Number : 2"); tabels.add("Table Number : 3");
-        tabels.add("Table Number : 4"); tabels.add("Table Number : 5"); tabels.add("Table Number : 6");
-        tabels.add("Table Number : 7"); tabels.add("Table Number : 8"); tabels.add("Table Number : 9");
-        tabels.add("Table Number : 10"); tabels.add("Table Number : 11"); tabels.add("Table Number : 12");
-        tabels.add("Table Number : 13"); tabels.add("Table Number : 14"); tabels.add("Table Number : 15");
+        GetTabelCount(); }
 
-        gridview = (GridView) findViewById(R.id.customgrid); }
+    private void GetTabelCount() {
 
-        public boolean checkDateRes(String str) {
+        FirebaseFirestore fb = FirebaseFirestore.getInstance();
+        fb.collection("Res_1_Table_Count").document("TC")
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                if(task.isSuccessful())
+                    AddTables(task.getResult().getData().get("count").toString());
+
+
+            }
+        });
+
+
+
+    }
+
+    private void AddTables(String count) {
+
+        tabels.clear();
+        int c = Integer.parseInt(count);
+
+        for(int i=0; i<c; i++)
+            tabels.add("Table Number : "+i);
+
+    }
+
+    public boolean checkDateRes(String str) {
 
         String str2 = str.substring(0, str.indexOf("@"));
         str = str.substring(str.indexOf("@")+1);

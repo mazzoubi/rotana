@@ -84,7 +84,7 @@
     <TextClock
         android:layout_width="wrap_content"
         android:layout_alignParentRight="true"
-        android:format12Hour="dd/MM/yyyy"
+        android:format12Hour="dd/MM/yyyy a"
         android:layout_above="@+id/bt"
         android:gravity="center"
         android:textSize="16sp"

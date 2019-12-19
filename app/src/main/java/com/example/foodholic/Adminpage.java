@@ -1,10 +1,13 @@
 package com.example.foodholic;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -14,18 +17,23 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Adminpage extends AppCompatActivity {
@@ -125,7 +133,24 @@ public class Adminpage extends AppCompatActivity {
                                 startActivity(n7);
                                 break;
                             case 7:
-                                Toast.makeText(getApplicationContext(), "قريبا !!!", Toast.LENGTH_SHORT).show();
+                                final EditText edt = new EditText(Adminpage.this);
+                                edt.setHint("أدخل عدد الطاولات");
+                                new AlertDialog.Builder(Adminpage.this)
+                                        .setTitle("تنظيم الصالة")
+                                        .setView(edt)
+                                        .setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.dismiss();
+                                            } })
+                                        .setPositiveButton("إدخال", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                uploadTabelNum(edt.getText().toString());
+                                                dialogInterface.dismiss();
+                                            }
+                                        }).show();
+
                                 break;
                             case 8:
                                 Intent n6=new Intent(getApplicationContext(),ratingSystem.class);
@@ -173,6 +198,23 @@ public class Adminpage extends AppCompatActivity {
 
             return convertView; }
 
+    }
+
+    private void uploadTabelNum(String toString) {
+
+        FirebaseFirestore fb = FirebaseFirestore.getInstance();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("count", toString);
+        fb.collection("Res_1_Table_Count")
+                .document("TC").set(map)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        if(task.isSuccessful())
+                            Toast.makeText(Adminpage.this, "تمت الاضافة بنجاح", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     static class ViewHolderItem {
