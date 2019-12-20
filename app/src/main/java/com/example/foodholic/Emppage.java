@@ -414,6 +414,9 @@ public class Emppage extends AppCompatActivity
             public void onClick(View view) {
 
                 if (empObj.cashWork){
+
+                    Print();
+
                     final AlertDialog.Builder builder2 = new AlertDialog.Builder(Emppage.this);
                 LayoutInflater inflater2 = Emppage.this.getLayoutInflater();
                 builder2.setView(inflater2.inflate(R.layout.calulator, null));
@@ -1597,7 +1600,7 @@ public class Emppage extends AppCompatActivity
 
         FillReserve();
 
-        //Print();
+
     }
 
     private void GetTabelCount() {
@@ -1634,10 +1637,10 @@ public class Emppage extends AppCompatActivity
     private void Print() {
 
         try {
-            Socket socket = new Socket("127.0.0.1", 5554);
+            Socket socket = new Socket("192.168.123.3", 9100);
             OutputStream out = socket.getOutputStream();
             out.write("hi my name is ahmad".getBytes());
-        } catch(Exception e){}
+        } catch(Exception e){new AlertDialog.Builder(Emppage.this).setMessage(e.getMessage()).show(); }
 
     }
 
