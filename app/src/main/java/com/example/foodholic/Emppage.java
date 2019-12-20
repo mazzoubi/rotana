@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,6 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -195,7 +197,8 @@ public class Emppage extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_del_emp);
-
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         String myFormat = "dd/MM/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         da = sdf.format(new Date());
@@ -1637,10 +1640,21 @@ public class Emppage extends AppCompatActivity
     private void Print() {
 
         try {
+
+
+
             Socket socket = new Socket("192.168.123.3", 9100);
             OutputStream out = socket.getOutputStream();
-            out.write("hi my name is ahmad".getBytes());
-        } catch(Exception e){new AlertDialog.Builder(Emppage.this).setMessage(e.getMessage()).show(); }
+            //OutputStream out = System.out;
+
+            out.write("hi my name is ahmadyfتالالالا احمد هعهعهع".getBytes());
+            out.write("\n\n\n\f".getBytes());
+            out.close();
+            socket.close();
+        }
+        catch(Exception e){
+            new AlertDialog.Builder(Emppage.this).setMessage(e.toString()).show();
+        }
 
     }
 
