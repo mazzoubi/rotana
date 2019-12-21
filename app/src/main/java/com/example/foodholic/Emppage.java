@@ -52,9 +52,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -1641,16 +1644,19 @@ public class Emppage extends AppCompatActivity
 
         try {
 
+            Socket socket = new Socket("192.168.1.3", 9100);
 
 
-            Socket socket = new Socket("192.168.123.3", 9100);
-            OutputStream out = socket.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(),"UTF-8")); //optional encoding
+            writer.write("hاحمد"+"\n\n\n\f");
+            writer.close();
+
             //OutputStream out = System.out;
 
-            out.write("hi my name is ahmadyfتالالالا احمد هعهعهع".getBytes());
-            out.write("\n\n\n\f".getBytes());
-            out.close();
-            socket.close();
+           // out.write(t.getText().toString());
+            //out.write("\n\n\n\f".getBytes());
+            //out.close();
+           // socket.close();
         }
         catch(Exception e){
             new AlertDialog.Builder(Emppage.this).setMessage(e.toString()).show();
