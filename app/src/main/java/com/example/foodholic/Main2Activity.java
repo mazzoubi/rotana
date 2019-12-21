@@ -61,6 +61,7 @@ import com.luseen.spacenavigation.SpaceItem;
 import com.luseen.spacenavigation.SpaceNavigationView;
 import com.luseen.spacenavigation.SpaceOnClickListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -878,11 +879,72 @@ public class Main2Activity extends AppCompatActivity
             case R.id.nav_location: startActivity(new Intent(this, Loc.class)); break;
             case R.id.nav_contact: startActivity(new Intent(this, Contact.class)); break;
             case R.id.rate: startActivity(new Intent(this, RateActivity.class)); break;
+            case R.id.nav_job:
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(Main2Activity.this);
+                LayoutInflater inflater = Main2Activity.this.getLayoutInflater();
+                builder.setView(inflater.inflate(R.layout.dialog_job, null));
+                final AlertDialog dialog = builder.create();
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                dialog.show();
+                dialog.getWindow().setAttributes(lp);
+
+                Button up = dialog.findViewById(R.id.up);
+                up.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        EditText n = dialog.findViewById(R.id.name);
+                        EditText m = dialog.findViewById(R.id.mobile);
+                        EditText e = dialog.findViewById(R.id.email);
+                        EditText j = dialog.findViewById(R.id.job);
+                        EditText desc = dialog.findViewById(R.id.desc);
+
+                        String d = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+
+                        UploadResume(n.getText().toString(), m.getText().toString(),
+                                e.getText().toString(), j.getText().toString(),
+                                desc.getText().toString(), d);
+
+                        dialog.dismiss();
+
+                    }
+                });
+
+                break;
             case R.id.nav_about: startActivity(new Intent(this, About.class)); break; }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void UploadResume(String name, String mobile, String email, String job, String desc, String date){
+
+        FirebaseFirestore fb = FirebaseFirestore.getInstance();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("name", name);
+        map.put("mobile", mobile);
+        map.put("email", email);
+        map.put("job", job);
+        map.put("desc", desc);
+        map.put("date", date);
+
+        fb.collection("Res_1_Job_Applications")
+                .document().set(map)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        if(task.isSuccessful())
+                            Toast.makeText(Main2Activity.this, "شكرا لإدخال معلوماتك , سيتم التواصل معك في أقرب وقت", Toast.LENGTH_LONG).show();
+                    }
+                });
+
     }
 
 }
