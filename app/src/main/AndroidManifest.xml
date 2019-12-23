@@ -19,6 +19,7 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
+        <activity android:name=".zzStringToBitmap"></activity>
         <activity android:name=".VisaReport" />
         <activity
             android:name=".Job_Apps"
