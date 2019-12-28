@@ -58,7 +58,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -421,8 +423,6 @@ public class Emppage extends AppCompatActivity
 
                 if (empObj.cashWork){
 
-                    Print();
-
                     final AlertDialog.Builder builder2 = new AlertDialog.Builder(Emppage.this);
                 LayoutInflater inflater2 = Emppage.this.getLayoutInflater();
                 builder2.setView(inflater2.inflate(R.layout.calulator, null));
@@ -595,7 +595,7 @@ public class Emppage extends AppCompatActivity
                     public void onClick(View v) {
 
                         if ((Double.parseDouble(e.getText().toString()) - sum) >= 0 && !e.getText().toString().equals("")) {
-                            AddSale();
+                            AddSale(e.getText().toString(), (Double.parseDouble(e.getText().toString()) - sum)+"", ""+sum);
                             dialog2.dismiss();
                             recreate();
                         } else {
@@ -683,6 +683,7 @@ public class Emppage extends AppCompatActivity
                                                         @Override
                                                         public void onClick(DialogInterface dialogInterface, int i) {
                                                             dialog.dismiss();
+                                                            recreate();
                                                         }
                                                     }).show();
 
@@ -750,7 +751,7 @@ public class Emppage extends AppCompatActivity
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                     if(task.isSuccessful())
-                                                                        Toast.makeText(Emppage.this, "Your request is added", Toast.LENGTH_SHORT).show();
+                                                                        Toast.makeText(Emppage.this, "تم إضافة طلبك", Toast.LENGTH_SHORT).show();
                                                                 }
                                                             });
 
@@ -821,6 +822,7 @@ public class Emppage extends AppCompatActivity
                                                 @Override
                                                 public void onClick(DialogInterface dialogInterface, int i) {
                                                     dialog.dismiss();
+                                                    recreate();
                                                 }
                                             }).show();
 
@@ -1583,30 +1585,27 @@ public class Emppage extends AppCompatActivity
                 String t = "";
                 TextView s = findViewById(R.id.tot);
 
-                if(String.valueOf(sum).length() > 10){
-                    if (HomeAct.lang==1){
-                        s.setText("مجموع الفاتورة : "+t.substring(t.indexOf("."), t.indexOf(".")+3)+" دينار ");
+                try{
+                    if(String.valueOf(sum).length() > 10){
+                        if (HomeAct.lang==1){
+                            s.setText("مجموع الفاتورة : "+t.substring(t.indexOf("."), t.indexOf(".")+3)+" دينار ");
+                        }
+                        else {
+                            s.setText("Total invoice : "+t.substring(t.indexOf("."), t.indexOf(".")+3)+" JOD ");
+                        }
                     }
-                    else {
-                        s.setText("Total invoice : "+t.substring(t.indexOf("."), t.indexOf(".")+3)+" JOD ");
+                    else{
+                        if (HomeAct.lang==1){
+                            s.setText("مجموع الفاتورة : "+sum+" دينار ");
+                        }
+                        else {
+                            s.setText("Total invoice : "+sum+" JOD ");
+                        }
                     }
-                }
-                else{
-                    if (HomeAct.lang==1){
-                        s.setText("مجموع الفاتورة : "+sum+" دينار ");
-                    }
-                    else {
-                        s.setText("Total invoice : "+sum+" JOD ");
-                    }
-                }
+                } catch(Exception e){}
             }
         });
-
-
-
-        FillReserve();
-
-
+        GetTabelCount();
     }
 
     private void GetTabelCount() {
@@ -1640,26 +1639,24 @@ public class Emppage extends AppCompatActivity
 
     }
 
-    private void Print() {
+    private void Print(String str) {
 
         try {
 
-            Socket socket = new Socket("192.168.1.3", 9100);
+            SocketAddress socketAddress = new InetSocketAddress("192.168.1.3", 9100);
+            Socket socket = new Socket();
 
+            socket.connect(socketAddress, 2000);
 
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(),"UTF-8")); //optional encoding
-            writer.write("hاحمد"+"\n\n\n\f");
+            writer.write(str);
+            writer.write("\n\n\n\f");
             writer.close();
+            socket.close();
 
-            //OutputStream out = System.out;
-
-           // out.write(t.getText().toString());
-            //out.write("\n\n\n\f".getBytes());
-            //out.close();
-           // socket.close();
         }
         catch(Exception e){
-            new AlertDialog.Builder(Emppage.this).setMessage(e.toString()).show();
+            Toast.makeText(this, "لا يوجد طابعة !!!", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -1681,9 +1678,10 @@ public class Emppage extends AppCompatActivity
 
     private void FillReserve() {
 
+        gridview = (GridView) findViewById(R.id.customgrid);
 
-
-        db.collection("Res_1_Table_Res_").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        FirebaseFirestore fb = FirebaseFirestore.getInstance();
+        fb.collection("Res_1_Table_Res_").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
@@ -1701,11 +1699,6 @@ public class Emppage extends AppCompatActivity
                 }
 
             } });
-
-        db = FirebaseFirestore.getInstance();
-        GetTabelCount();
-
-        gridview = (GridView) findViewById(R.id.customgrid);
 
     }
 
@@ -2153,13 +2146,14 @@ public class Emppage extends AppCompatActivity
 
             String day = date.substring(0, date.indexOf(" "));
             String time = date.substring(date.indexOf(" ")+1);
+            FirebaseAuth auth = FirebaseAuth.getInstance();
 
             Map<String, Object> sale = new HashMap<>();
             sale.put("date", day);
             sale.put("time", time);
             sale.put("subItem", saleList.get(i).subItemName);
             sale.put("item", itemToShow.get(i));
-            sale.put("empEmail", getIntent().getStringExtra("empemail"));
+            sale.put("empEmail", auth.getCurrentUser().getEmail());
             sale.put("sale", saleList.get(i).sumPrice);
 
             sum+=saleList.get(i).sumPrice;
@@ -2182,39 +2176,40 @@ public class Emppage extends AppCompatActivity
 
         }
         bill+="total: "+sum+"\n\n\n"+"**********Aldakheel**********\n\n\n";
-        print(bill);
 
 
     }
 
-    public void AddSale(){
+    public void AddSale(String paid, String change, String sum){
 
         String bill="";
-        int sum=0;
+
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
+        Date dateee = new Date();
+        String date = dateFormat.format(dateee);
+
+        String day = date.substring(0, date.indexOf(" "));
+        String time = date.substring(date.indexOf(" ")+1);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        bill+="WELCOME TO HYBRID RESTAURANT\n";
+        bill+="Bill Type : Cash\n";
+        bill+="\n\n";
+        bill+="Date : "+day+"\n";
+        bill+="Time : "+time+"\n";
+        bill+="__________________________________________\n\n\n";
 
         for(int i=0; i<saleList.size(); i++){
-
-            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
-            Date dateee = new Date();
-            String date = dateFormat.format(dateee);
-
-            String day = date.substring(0, date.indexOf(" "));
-            String time = date.substring(date.indexOf(" ")+1);
 
             Map<String, Object> sale = new HashMap<>();
             sale.put("date", day);
             sale.put("time", time);
             sale.put("subItem", saleList.get(i).subItemName);
             sale.put("item", itemToShow.get(i));
-            sale.put("empEmail", getIntent().getStringExtra("empemail"));
+            sale.put("empEmail", auth.getCurrentUser().getEmail());
             sale.put("sale", saleList.get(i).sumPrice);
 
-            sum+=saleList.get(i).sumPrice;
-            bill+="date: "+day+"\n" +
-                    "time: "+time + "\n" +
-                    "sub item: "+saleList.get(i).subItemName+"\n" +
-                    "sum price: "+ saleList.get(i).sumPrice+"\n" +
-                    "-------------------------------------------\n" ;
+            bill+="\nItem : "+saleList.get(i).subItemName+" X"+saleList.get(i).count+" Price : "+saleList.get(i).sumPrice+"\n";
 
             db.collection("Res_1_sales").document()
                     
@@ -2225,11 +2220,14 @@ public class Emppage extends AppCompatActivity
                             recreate();
                         }
                     });
-
         }
-        bill+="total: "+sum+"\n\n\n"+"**********Aldakheel**********\n\n\n";
-        print(bill);
 
+        bill+="\nBill Value : "+sum+"\n";
+        bill+="\nPaid : "+paid+"\n";
+        bill+="\nChange : "+change+"\n";
+        bill+="\n\n\nTHANK YOU FOR YOUR PURCHASE, COME AGAIN !\n\n\n";
+
+        Print(bill);
 
     }
     void empLoadInfo(final String e){
@@ -2245,11 +2243,5 @@ public class Emppage extends AppCompatActivity
                 }
             }
         });
-    }
-    void print(String ss ){
-
-        ///Socket socket = new Socket("");
-
-
     }
 }

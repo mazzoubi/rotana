@@ -20,11 +20,17 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -112,8 +118,7 @@ public class TakeAway_Emp extends AppCompatActivity {
                         .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                AddSale( position);
-                                removeData(sp.getSelectedItem().toString());
+                                AddSale(sp.getSelectedItem().toString(), position);
                             }
                         }).create().show();
             }
@@ -255,50 +260,85 @@ public class TakeAway_Emp extends AppCompatActivity {
 
     }
 
-    public void AddSale(final int pos){
+    public void AddSale(final String path, final int pos){
 
-        String [] temp = info.get(pos)
-                .substring(info.get(pos).indexOf("الطلب : ")+8, info.get(pos).indexOf("مجموع المبلغ : ")).split(" , ");
+        String bill="";
+        FirebaseAuth auth = FirebaseAuth.getInstance();
 
-        String [] temp2 = new String [temp.length];
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
+        Date dateee = new Date();
+        String date = dateFormat.format(dateee);
 
-        for(int i=0; i<temp2.length; i++)
-            temp2[i] = temp[i].substring(temp[i].indexOf(":")+1);
+        String day = date.substring(0, date.indexOf(" "));
+        String time = date.substring(date.indexOf(" ")+1);
+
+        ArrayList<String> ttt = info;
+
+        String [] temp = info.get(pos).substring(info.get(pos)
+                .indexOf("الطلب : ")+8, info.get(pos).indexOf("مجموع النقاط :"))
+                .replaceAll("= ", "X").replaceAll(":", "Price : ").replaceAll("\n", "")
+                .split(",");
+
+        if(temp[temp.length-1].equals(" ")){
+            String [] temp2 = temp;
+            temp = new String[temp2.length-1];
+            for(int i=0; i<temp.length; i++)
+                temp[i] = temp2[i]; }
+
+        bill+="WELCOME TO HYBRID RESTAURANT\n";
+        bill+="Bill Type : Take Away\n";
+        bill+="\n\n";
+        bill+="Date : "+day+"\n";
+        bill+="Time : "+time+"\n";
+        bill+="__________________________________________\n\n\n";
+
+        Map<String, Object> sale = new HashMap<>();
 
         for(int i=0; i<temp.length; i++){
 
-            try{
-                DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
-                Date dateee = new Date();
-                String date = dateFormat.format(dateee);
+            sale.put("date", day);
+            sale.put("time", time);
+            sale.put("subItem", temp[i].substring(0, temp[i].indexOf(" X")));
+            sale.put("item", "");
+            sale.put("empEmail", auth.getCurrentUser().getEmail());
 
-                String day = date.substring(0, date.indexOf(" "));
-                String time = date.substring(date.indexOf(" ")+1);
+            double p = Double.parseDouble(temp[i].substring(temp[i].indexOf("Price : ")+8));
+            int c = Integer.parseInt(temp[i].substring(temp[i].indexOf("X")+1, temp[i].indexOf(" Price : ")));
+            sale.put("sale", String.valueOf(p*c));
 
-                Map<String, Object> sale = new HashMap<>();
-                sale.put("date", day);
-                sale.put("time", time);
-                sale.put("item", "");
-                sale.put("subItem", temp[i].substring(0, temp[i].indexOf("=")));
-                sale.put("empEmail", getIntent().getStringExtra("empemail"));
-                sale.put("sale", temp2[i]);
+            bill+="\nItem : "+temp[i]+"\n";
+            db.collection("Res_1_sales").document().set(sale);
+        }
 
-                db.collection("Res_1_sales").document()
-                        .set(sale)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                String t = info.get(pos).substring(info.get(pos).indexOf("مجموع النقاط : ")+15, info.get(pos).indexOf(" نقطة"));
-                                String e = info.get(pos).substring(info.get(pos).indexOf("بريد : ")+7, info.get(pos).indexOf("العنوان : "));
-                                getPoint(e.replace("\n", ""), t);
-                            }
-                        });
-            }
-            catch(Exception ex){} }
+        bill+="\nBill Value : "+info.get(pos).substring(info.get(pos).indexOf("المجموع : ")+10)+"\n";
+        bill+="\n\n\nTHANK YOU FOR YOUR PURCHASE, COME AGAIN !\n\n\n";
 
 
+        //getPoint(e.replace("\n", ""), t);
 
+        Print(bill);
+        removeData(path);
+    }
 
+    private void Print(String str) {
+
+        try {
+
+            SocketAddress socketAddress = new InetSocketAddress("192.168.1.3", 9100);
+            Socket socket = new Socket();
+
+            socket.connect(socketAddress, 2000);
+
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(),"UTF-8")); //optional encoding
+            writer.write(str);
+            writer.write("\n\n\n\f");
+            writer.close();
+            socket.close();
+
+        }
+        catch(Exception e){
+            Toast.makeText(this, "لا يوجد طابعة !!!", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

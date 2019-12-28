@@ -26,14 +26,20 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -99,6 +105,8 @@ public class Tabel_Res_Emp extends AppCompatActivity {
 
                 @Override
                 public void onClick(View v) {
+
+                    getResData(position+1);
 
                     final AlertDialog.Builder builder = new AlertDialog.Builder(Tabel_Res_Emp.this);
                     LayoutInflater inflater = Tabel_Res_Emp.this.getLayoutInflater();
@@ -187,25 +195,64 @@ public class Tabel_Res_Emp extends AppCompatActivity {
                             editor.putInt("pos", 0);
                             editor.apply();
 
-//view the fatoorah and print it ____________________________________________
                             new AlertDialog.Builder(Tabel_Res_Emp.this)
-                                    .setTitle("الفاتورة").setMessage(tabels.get(position))
+                                    .setTitle("الفاتورة").setMessage(info.get(position+1))
                                     .setPositiveButton("طباعة", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            try {
-                                                Socket socket = new Socket("192.168.123.100", 9100);
-                                                PrintWriter pw = new PrintWriter(socket.getOutputStream());
-                                                pw.println(tabels.get(position));
-                                                pw.println("\n\n\n\f");
-                                                pw.close();
-                                                socket.close();
-                                            } catch (Exception e) {
-                                              //  new AlertDialog.Builder(Tabel_Res_Emp.this).setMessage(e.getMessage()).show();
+
+                                            String bill="";
+                                            FirebaseAuth auth = FirebaseAuth.getInstance();
+
+                                            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
+                                            Date dateee = new Date();
+                                            String date = dateFormat.format(dateee);
+
+                                            String day = date.substring(0, date.indexOf(" "));
+                                            String time = date.substring(date.indexOf(" ")+1);
+
+                                            String [] temp = info.get(position+1).substring(info.get(position+1)
+                                                    .indexOf("الطلب : ")+8, info.get(position+1).indexOf("مجموع"))
+                                                    .replaceAll("= ", "X").replaceAll(":", "Price : ").replaceAll("\n", "")
+                                                    .split(",");
+
+                                            if(temp[temp.length-1].equals(" ")){
+                                                String [] temp2 = temp;
+                                                temp = new String[temp2.length-1];
+                                                for(int d=0; d<temp.length; d++)
+                                                    temp[d] = temp2[d]; }
+
+                                            bill+="WELCOME TO HYBRID RESTAURANT\n";
+                                            bill+="Bill Type : Cash\n";
+                                            bill+="\n\n";
+                                            bill+="Date : "+day+"\n";
+                                            bill+="Time : "+time+"\n";
+                                            bill+="__________________________________________\n\n\n";
+
+                                            Map<String, Object> sale = new HashMap<>();
+
+                                            for(int ii=0; ii<temp.length; ii++){
+
+                                                sale.put("date", day);
+                                                sale.put("time", time);
+                                                sale.put("subItem", temp[ii].substring(0, temp[ii].indexOf(" X")));
+                                                sale.put("item", "");
+                                                sale.put("empEmail", auth.getCurrentUser().getEmail());
+
+                                                double p = Double.parseDouble(temp[ii].substring(temp[ii].indexOf("Price : ")+8));
+                                                int c = Integer.parseInt(temp[ii].substring(temp[ii].indexOf("X")+1, temp[ii].indexOf(" Price : ")));
+                                                sale.put("sale", String.valueOf(p*c));
+
+                                                bill+="\nItem : "+temp[ii]+"\n";
+                                                db.collection("Res_1_sales").document().set(sale);
                                             }
-//                                            db.collection("Res_1_Table_Res_").document(""+(position+1)).delete();
-//                                            rowView.setBackgroundColor(Color.WHITE);
-//                                            dialog.dismiss();
+
+                                            bill+="\nBill Value : "+info.get(position+1).substring(info.get(position+1).indexOf("مجموع : ")+8)+"\n";
+                                            bill+="\n\n\nTHANK YOU FOR YOUR PURCHASE, COME AGAIN !\n\n\n";
+
+                                            Print(bill);
+                                            removeData(position+1);
+
                                         }
                                     }).setNegativeButton("الغاء", new DialogInterface.OnClickListener() {
                                 @Override
@@ -227,11 +274,74 @@ public class Tabel_Res_Emp extends AppCompatActivity {
 
     }
 
+    private void removeData(int i) {
+
+        FirebaseFirestore fb = FirebaseFirestore.getInstance();
+        fb.collection("Res_1_Table_Res_").document(i+"").delete();
+
+    }
+
+    private void getResData(final int pos) {
+
+        info.clear();
+
+        for(int i=0; i<tabels.size(); i++)
+            info.add("لا يوجد فاتورة");
+
+        FirebaseFirestore fb = FirebaseFirestore.getInstance();
+        fb.collection("Res_1_Table_Res_").document(""+pos)
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                if(task.isSuccessful()){
+
+                    info.set(pos,
+                            "تاريخ : "+task.getResult().get("date").toString()+"\n"+
+                                    "وقت : "+task.getResult().get("time").toString()+"\n"+
+                                    "الاسم : "+task.getResult().get("name").toString()+"\n"+
+                                    "هاتف : "+task.getResult().get("mobile").toString()+"\n"+
+                                    "اشخاص : "+task.getResult().get("people").toString()+"\n"+
+                                    "الطلب : "+task.getResult().get("order").toString()+"\n"+
+                                    "مجموع : "+task.getResult().get("sum").toString()+"\n"
+
+                    );
+
+                }
+
+            }
+        });
+
+    }
+
+    private void Print(String str) {
+
+        try {
+
+            SocketAddress socketAddress = new InetSocketAddress("192.168.1.3", 9100);
+            Socket socket = new Socket();
+
+            socket.connect(socketAddress, 2000);
+
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(),"UTF-8")); //optional encoding
+            writer.write(str);
+            writer.write("\n\n\n\f");
+            writer.close();
+            socket.close();
+
+        }
+        catch(Exception e){
+            Toast.makeText(this, "لا يوجد طابعة !!!", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
     GridView gridview;
     FirebaseFirestore db;
     SharedPreferences shared, shared2;
     String da, ta;
     String temp = "";
+    ArrayList<String> info = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

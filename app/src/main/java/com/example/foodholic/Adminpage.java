@@ -204,19 +204,27 @@ public class Adminpage extends AppCompatActivity {
 
     private void uploadTabelNum(String toString) {
 
-        FirebaseFirestore fb = FirebaseFirestore.getInstance();
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("count", toString);
-        fb.collection("Res_1_Table_Count")
-                .document("TC").set(map)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+        try{
 
-                        if(task.isSuccessful())
-                            Toast.makeText(Adminpage.this, "تمت الاضافة بنجاح", Toast.LENGTH_LONG).show();
-                    }
-                });
+            int x = Integer.parseInt(toString);
+
+            FirebaseFirestore fb = FirebaseFirestore.getInstance();
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("count", toString);
+            fb.collection("Res_1_Table_Count")
+                    .document("TC").set(map)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                            if(task.isSuccessful())
+                                Toast.makeText(Adminpage.this, "تمت الاضافة بنجاح", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+        } catch (Exception ex){
+            Toast.makeText(this, "الرجاء ادخال ارقام انجليزية صحيحة", Toast.LENGTH_LONG).show();
+        }
     }
 
     static class ViewHolderItem {

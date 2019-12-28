@@ -22,11 +22,17 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -150,7 +156,7 @@ public class Delivery_Emp extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
 
-                            removeData(sp.getSelectedItem().toString(), position);
+                            AddSale(sp.getSelectedItem().toString(), position);
 
                         }
                     });
@@ -341,6 +347,77 @@ public class Delivery_Emp extends AppCompatActivity {
                 temp+=arr[i];
 
         return temp;
+    }
+
+    public void AddSale(final String path, final int pos){
+
+        String bill="";
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
+        Date dateee = new Date();
+        String date = dateFormat.format(dateee);
+
+        String day = date.substring(0, date.indexOf(" "));
+        String time = date.substring(date.indexOf(" ")+1);
+
+        String [] temp = info.get(pos).substring(info.get(pos)
+                .indexOf("قائمة : ")+8, info.get(pos).indexOf("النقاط"))
+                .replaceAll("= ", "X").replaceAll(":", "Single Price : ").replaceAll("\n", "")
+                .split(",");
+
+        bill+="WELCOME TO HYBRID RESTAURANT\n";
+        bill+="Bill Type : Delivery\n";
+        bill+="\n\n";
+        bill+="Date : "+day+"\n";
+        bill+="Time : "+time+"\n";
+        bill+="__________________________________________\n\n\n";
+
+        Map<String, Object> sale = new HashMap<>();
+
+        for(int i=0; i<temp.length; i++){
+
+            sale.put("date", day);
+            sale.put("time", time);
+            sale.put("subItem", temp[i].substring(0, temp[i].indexOf(" X")));
+            sale.put("item", "");
+            sale.put("empEmail", auth.getCurrentUser().getEmail());
+
+            double p = Double.parseDouble(temp[i].substring(temp[i].indexOf("Single Price : ")+14));
+            int c = Integer.parseInt(temp[i].substring(temp[i].indexOf("X")+1, temp[i].indexOf(" Single Price : ")));
+            sale.put("sale", String.valueOf(p*c));
+
+            bill+="\nItem : "+temp[i]+"\n";
+            db.collection("Res_1_sales").document().set(sale);
+        }
+
+        bill+="\nBill Value : "+info.get(pos).substring(info.get(pos).indexOf("المجموع : ")+10)+"\n";
+        bill+="\n\n\nTHANK YOU FOR YOUR PURCHASE, COME AGAIN !\n\n\n";
+
+        Print(bill);
+        removeData(path, pos);
+    }
+
+    private void Print(String str) {
+
+        try {
+
+            SocketAddress socketAddress = new InetSocketAddress("192.168.1.3", 9100);
+            Socket socket = new Socket();
+
+            socket.connect(socketAddress, 2000);
+
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(),"UTF-8")); //optional encoding
+            writer.write(str);
+            writer.write("\n\n\n\f");
+            writer.close();
+            socket.close();
+
+        }
+        catch(Exception e){
+            Toast.makeText(this, "لا يوجد طابعة !!!", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void getDriver(){
