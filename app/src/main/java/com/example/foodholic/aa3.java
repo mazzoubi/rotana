@@ -61,6 +61,7 @@ public class aa3 extends AppCompatActivity {
                                     try {
                                         db.collection("Res_1_subItem").document(subItems.get(pos).itemId).delete();
                                         Toast.makeText(getApplicationContext(),"تم الاجراء بنجاح",Toast.LENGTH_LONG).show();
+                                        recreate();
                                     }catch (Exception e){Toast.makeText(getApplicationContext(),"!!لايمكن تنفيذ هذا الاجراء",Toast.LENGTH_LONG).show();}
                                 }
                             })
@@ -85,6 +86,7 @@ public class aa3 extends AppCompatActivity {
                                     try {
                                         db.collection("Res_1_subItem").document(subItems.get(pos).itemId).delete();
                                         Toast.makeText(getApplicationContext(),"this operation is done",Toast.LENGTH_LONG).show();
+                                        recreate();
                                     }catch (Exception e){Toast.makeText(getApplicationContext(),"This procedure cannot be performed",Toast.LENGTH_LONG).show();}
                                 }
                             })
