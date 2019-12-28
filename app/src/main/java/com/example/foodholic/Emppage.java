@@ -1376,7 +1376,7 @@ public class Emppage extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 if (empObj.cashWork||empObj.warehousea)
-                startActivity(new Intent(Emppage.this, cashAddItem.class));
+                startActivity(new Intent(Emppage.this, aa3.class));
                 else {
                     if(shared2.getString("language", "").equals("arabic"))
                         Toast.makeText(Emppage.this, "انت لا تمتلك صلاحيات الدخول الى هذا الاجراء", Toast.LENGTH_SHORT).show();
