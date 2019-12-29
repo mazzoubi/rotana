@@ -19,7 +19,8 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl" >
-        <activity android:name=".aa3" >
+        <activity android:name=".aa3"
+            android:parentActivityName=".Adminpage">
         </activity>
         <activity android:name=".zzStringToBitmap" />
         <activity android:name=".VisaReport" />
@@ -45,7 +46,7 @@
         <activity android:name=".Main2Activity" />
         <activity
             android:name=".cashAddItem"
-            android:parentActivityName=".Emppage" />
+            android:parentActivityName=".aa3" />
         <activity
             android:name=".Tabel_Res_Emp"
             android:parentActivityName=".Emppage" />

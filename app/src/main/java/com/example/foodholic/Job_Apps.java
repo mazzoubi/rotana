@@ -1,7 +1,9 @@
 package com.example.foodholic;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,6 +31,7 @@ public class Job_Apps extends AppCompatActivity {
     ArrayAdapter<String> adapter;
 
     ArrayList<String> info;
+    ArrayList<String> id;
     ArrayList<String> time;
 
     ArrayAdapter<String> adapterSpin;
@@ -46,6 +50,7 @@ public class Job_Apps extends AppCompatActivity {
 
         info = new ArrayList<String>();
         time = new ArrayList<String>();
+        id = new ArrayList<String>();
 
         adapter = new ArrayAdapter<String>(this, R.layout.items_row3, R.id.item, info);
         list.setAdapter(adapter);
@@ -53,6 +58,39 @@ public class Job_Apps extends AppCompatActivity {
         final Spinner sp = findViewById(R.id.type);
         adapterSpin = new ArrayAdapter<String>(Job_Apps.this, R.layout.items_row3, R.id.item, time);
         sp.setAdapter(adapterSpin);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
+
+                new AlertDialog.Builder(Job_Apps.this)
+                        .setTitle("تأكيد").setMessage("هل ترغب بحذف هذا الطلب ؟")
+                        .setPositiveButton("حذف", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int k) {
+                                FirebaseFirestore fb = FirebaseFirestore.getInstance();
+                                fb.collection("Res_1_Job_Applications").document(""+id.get(i))
+                                        .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+
+                                        info.remove(i);
+                                        id.remove(i);
+                                        adapter.notifyDataSetChanged();
+
+                                        Toast.makeText(Job_Apps.this, "تم الحذف بنجاح", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                                dialogInterface.dismiss(); }
+                        }).setNegativeButton("الغاء", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).show();
+
+            }
+        });
 
         getTime();
 
@@ -81,6 +119,7 @@ public class Job_Apps extends AppCompatActivity {
     public void downloadData(String path){
 
         info.clear();
+        id.clear();
 
         db.collection("Res_1_Job_Applications")
                 .whereEqualTo("date", path)
@@ -94,7 +133,7 @@ public class Job_Apps extends AppCompatActivity {
                                 + "البريد : " + document.get("email").toString() + "\n"
                                 + "الوظيفة : " + document.get("job").toString() + "\n"
                                 + "ملاحظات : " + document.get("desc").toString() + "\n" );
-
+                        id.add(document.getId());
 
                     }
                     adapter.notifyDataSetChanged();
@@ -105,6 +144,7 @@ public class Job_Apps extends AppCompatActivity {
     public void downloadAllData(){
 
         info.clear();
+        id.clear();
 
         db.collection("Res_1_Job_Applications")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -116,7 +156,8 @@ public class Job_Apps extends AppCompatActivity {
                                 + "الهاتف : " + document.get("mobile").toString() + "\n"
                                 + "البريد : " + document.get("email").toString() + "\n"
                                 + "الوظيفة : " + document.get("job").toString() + "\n"
-                                + "ملاحظات : " + document.get("desc").toString() + "\n" ); }
+                                + "ملاحظات : " + document.get("desc").toString() + "\n" );
+                        id.add(document.getId()); }
                     adapter.notifyDataSetChanged();
                 }
             }

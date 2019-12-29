@@ -161,7 +161,7 @@
             android:textColor="@color/colorPrimaryDark"
             android:layout_height="wrap_content"
             android:id="@+id/btn6"
-            android:text="إضافة صنف"/>
+            android:text="حذف/إضافة صنف"/>
 
         <Button
             android:layout_width="wrap_content"

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -33,7 +34,13 @@ public class aa3 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aa3);
+
+        Toolbar bar = findViewById(R.id.tool);
+        setSupportActionBar(bar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         init();
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -120,7 +127,7 @@ public class aa3 extends AppCompatActivity {
         listView=findViewById(R.id.listView911);
         spinner=findViewById(R.id.spinner911);
         if (HomeAct.lang==1){
-            button.setText("اضافة عنصر");
+            button.setText(" + اضافة عنصر + ");
         }
         else{
             button.setText("add item");
@@ -157,7 +164,7 @@ public class aa3 extends AppCompatActivity {
                     item.add(d.toObject(classItem.class));
                     ii.add(d.toObject(classItem.class).itemName);
                 }
-                ArrayAdapter<String> adapter=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item,ii);
+                ArrayAdapter<String> adapter=new ArrayAdapter<>(getApplicationContext(),R.layout.items_row3, R.id.item,ii);
                 spinner.setAdapter(adapter);
             }
         });
