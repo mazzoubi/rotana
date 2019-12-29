@@ -185,7 +185,7 @@ public class Emppage extends AppCompatActivity
         try {
             d1 = sdf.parse(str+" "+str2);
             d2 = sdf.parse(da+" "+ta); }
-        catch (ParseException e) {}
+        catch (ParseException e) { return false; }
 
         if(d2.compareTo(d1) == 0)
             return true;
