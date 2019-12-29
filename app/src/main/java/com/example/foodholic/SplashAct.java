@@ -37,8 +37,6 @@ public class SplashAct extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
 
-
-
         if ( ContextCompat.checkSelfPermission( this,
                 Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED )
             ActivityCompat.requestPermissions(this,
@@ -130,7 +128,7 @@ public class SplashAct extends AppCompatActivity {
                 editor.putString("language", "english");
                 editor.apply();
 
-                Intent ax = new Intent(SplashAct.this, Login.class);
+                Intent ax = new Intent(SplashAct.this, HomeAct.class);
                 startActivity(ax);
                 overridePendingTransition(R.anim.fleft, R.anim.fhelper);
             }
@@ -144,7 +142,7 @@ public class SplashAct extends AppCompatActivity {
                 editor.putString("language", "arabic");
                 editor.apply();
 
-                Intent ax = new Intent(SplashAct.this, Login.class);
+                Intent ax = new Intent(SplashAct.this, HomeAct.class);
                 startActivity(ax);
                 overridePendingTransition(R.anim.fleft, R.anim.fhelper);
             }

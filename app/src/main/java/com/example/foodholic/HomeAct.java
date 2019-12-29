@@ -67,6 +67,9 @@ public class HomeAct extends AppCompatActivity {
             lang =0 ;
             login.setText("Log In"); }
 
+        Intent intent = new Intent(HomeAct.this, Login.class);
+        startActivity(intent);
+        finish();
 
         guest.setOnClickListener(new View.OnClickListener() {
             @Override
