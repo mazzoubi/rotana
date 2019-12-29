@@ -15,29 +15,11 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
         android:backgroundTint="#ffffff"
         android:contentDescription="@string/nav_header_desc"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:background="@drawable/lol" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:textStyle="bold"
-        android:fontFamily="serif"
-        android:gravity="center"
-        android:text="Resturant"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:textStyle="bold"
-        android:fontFamily="serif"
-        android:layout_height="wrap_content"
-        android:text="The best food you'll ever have" />
 
 </LinearLayout>

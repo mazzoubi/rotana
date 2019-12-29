@@ -40,19 +40,19 @@ public class Contact extends AppCompatActivity {
         rest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "079", null)));
+                startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "0788166999", null)));
             } });
 
         mng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "078", null)));
+                startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "0772044546", null)));
             } });
 
         tch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "077", null)));
+                startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "0792942040", null)));
             } });
 
     }

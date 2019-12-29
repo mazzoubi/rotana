@@ -130,7 +130,7 @@ public class SplashAct extends AppCompatActivity {
                 editor.putString("language", "english");
                 editor.apply();
 
-                Intent ax = new Intent(SplashAct.this, HomeAct.class);
+                Intent ax = new Intent(SplashAct.this, Login.class);
                 startActivity(ax);
                 overridePendingTransition(R.anim.fleft, R.anim.fhelper);
             }
@@ -144,7 +144,7 @@ public class SplashAct extends AppCompatActivity {
                 editor.putString("language", "arabic");
                 editor.apply();
 
-                Intent ax = new Intent(SplashAct.this, HomeAct.class);
+                Intent ax = new Intent(SplashAct.this, Login.class);
                 startActivity(ax);
                 overridePendingTransition(R.anim.fleft, R.anim.fhelper);
             }

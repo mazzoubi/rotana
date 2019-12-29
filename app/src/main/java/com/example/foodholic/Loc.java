@@ -36,7 +36,7 @@ public class Loc extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                        Uri.parse("http://maps.google.com/maps?daddr=32.551390,35.842978"));
+                        Uri.parse("http://maps.google.com/maps?daddr=32.532917,35.869199"));
                 startActivity(intent);
 
             }
