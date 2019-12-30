@@ -62,6 +62,8 @@ public class Drive extends AppCompatActivity {
     ArrayList<String> info;
     ArrayList<String>latlng;
 
+    Toolbar toolbar;
+    TextView t1,t2;
     String name="";
     String p="";
     int lang=0;
@@ -70,10 +72,19 @@ public class Drive extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drive);
         Space(savedInstanceState);
+        t1=findViewById(R.id.driverpro);
+        t2=findViewById(R.id.thanks);
+        toolbar=findViewById(R.id.tool);
         SharedPreferences shared2;
         shared2 = getSharedPreferences("lang", MODE_PRIVATE);
         if(shared2.getString("language", "").equals("arabic")) {
             lang=1;
+
+        }
+        else {
+            t1.setText("dear driver");
+            t2.setText("thanks for your efforts");
+            toolbar.setTitle("Aldakhil Corporation delivery");
         }
         db = FirebaseFirestore.getInstance();
 
