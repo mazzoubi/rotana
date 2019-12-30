@@ -11,26 +11,26 @@ import java.util.ArrayList;
 
 public class zReportAdapter extends ArrayAdapter<String> {
 
-    String warehouseItem ;
+  String warehouseItem ;
 
-    zReportAdapter(Context context, int view , ArrayList<String> arrayList){
-        super(context,view,arrayList);
-    }
+  zReportAdapter(Context context, int view , ArrayList<String> arrayList){
+    super(context,view,arrayList);
+  }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+  @Override
+  public View getView(int position, View convertView, ViewGroup parent) {
 
-        LayoutInflater layoutInflater=LayoutInflater.from(getContext());
-        View myView = layoutInflater.inflate(R.layout.row_zreport,parent,false);
+    LayoutInflater layoutInflater=LayoutInflater.from(getContext());
+    View myView = layoutInflater.inflate(R.layout.row_zreport,parent,false);
 
-        TextView textView =(TextView)myView.findViewById(R.id.textView25);
-
-
-        warehouseItem=getItem(position);
-
-        textView.setText(warehouseItem);
+    TextView textView =(TextView)myView.findViewById(R.id.textView25);
 
 
-        return myView ;
-    }
+    warehouseItem=getItem(position);
+
+    textView.setText(warehouseItem);
+
+
+    return myView ;
+  }
 }

@@ -164,14 +164,14 @@ public class Delivery extends AppCompatActivity {
         }
 
     }
-    
+
     public void removeData(String path){
-        
+
         db.collection("Res_1_Delivery").document(path).delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        
+
                         user_name.clear();
                         user_mobile.clear();
                         user_desc.clear();
@@ -181,7 +181,7 @@ public class Delivery extends AppCompatActivity {
                         id.clear();
                         info.clear();
                         adapter.clear();
-                        
+
                         adapter.notifyDataSetChanged();
                         if(HomeAct.lang==1){
                             Toast.makeText(Delivery.this, "تم حذف الطلب !", Toast.LENGTH_SHORT).show();
@@ -190,7 +190,7 @@ public class Delivery extends AppCompatActivity {
                             Toast.makeText(Delivery.this, "Order Removed !", Toast.LENGTH_SHORT).show();
                         }
                         downloadData(); } });
-        
+
     }
-    
+
 }
