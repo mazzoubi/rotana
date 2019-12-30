@@ -1,5 +1,6 @@
 package com.example.foodholic;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -27,6 +28,7 @@ public class ratingSystem extends AppCompatActivity {
     Button bRes,bDel,bEmp,bMeal;
     TextView result,sumt;
 
+    int lang=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,6 +126,11 @@ public class ratingSystem extends AppCompatActivity {
 
 
     void init (){
+        SharedPreferences shared2;
+        shared2 = getSharedPreferences("lang", MODE_PRIVATE);
+        if(shared2.getString("language", "").equals("arabic")) {
+            lang=1;
+        }
         db = FirebaseFirestore.getInstance();
         bRes=findViewById(R.id.rat_res);
         bDel=findViewById(R.id.rat_delv);

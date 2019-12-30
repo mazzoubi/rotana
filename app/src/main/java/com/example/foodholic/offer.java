@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -54,6 +55,7 @@ public class offer extends AppCompatActivity {
         public String description="";
         public String uid="";
         public String link=""; }
+        int lang=0;
 
     public class OfferAdapter extends ArrayAdapter<OfferClass> {
 
@@ -82,28 +84,55 @@ public class offer extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    new AlertDialog.Builder(context)
-                            .setTitle("تنبيه")
-                            .setMessage("هل ترغب بحذف العرض ؟")
-                            .setNegativeButton("لا", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            }).setPositiveButton("نعم", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            FirebaseFirestore fb = FirebaseFirestore.getInstance();
-                            fb.collection("Res_1_Offer").document(offer.uid)
-                                    .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful())
-                                        recreate();
-                                }
-                            });
-                        }
-                    }).show();
+                    if (lang==1){
+                        new AlertDialog.Builder(context)
+                                .setTitle("تنبيه")
+                                .setMessage("هل ترغب بحذف العرض ؟")
+                                .setNegativeButton("لا", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                }).setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                FirebaseFirestore fb = FirebaseFirestore.getInstance();
+                                fb.collection("Res_1_Offer").document(offer.uid)
+                                        .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful())
+                                            recreate();
+                                    }
+                                });
+                            }
+                        }).show();
+                    }
+                    else {
+                        new AlertDialog.Builder(context)
+                                .setTitle("note")
+                                .setMessage("do you want to delete the offer ?")
+                                .setNegativeButton("no", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                }).setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                FirebaseFirestore fb = FirebaseFirestore.getInstance();
+                                fb.collection("Res_1_Offer").document(offer.uid)
+                                        .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful())
+                                            recreate();
+                                    }
+                                });
+                            }
+                        }).show();
+                    }
+
 
                 }
             });
@@ -123,9 +152,19 @@ public class offer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offer);
-
+        SharedPreferences shared2;
+        shared2 = getSharedPreferences("lang", MODE_PRIVATE);
+        if(shared2.getString("language", "").equals("arabic")) {
+            lang=1;
+        }
         Toolbar toolbar = findViewById(R.id.tool);
-        toolbar.setTitle("إعدادات العروض");
+        if (lang==1){
+            toolbar.setTitle("إعدادات العروض");
+        }
+        else {
+            toolbar.setTitle("offer settings");
+        }
+
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -137,6 +176,9 @@ public class offer extends AppCompatActivity {
         getOffers();
 
         Button btn = findViewById(R.id.btn);
+        if (lang==1){
+            btn.setText("show all");
+        }
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -206,7 +248,12 @@ public class offer extends AppCompatActivity {
                 .set(o).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                Toast.makeText(offer.this, "تمت العملية بنجاح !", Toast.LENGTH_SHORT).show();
+                if (lang==1){
+                    Toast.makeText(offer.this, "تمت العملية بنجاح", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(offer.this, "the operation is done", Toast.LENGTH_SHORT).show();
+                }
+
                 recreate();
             }
         });

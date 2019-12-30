@@ -64,13 +64,17 @@ public class Drive extends AppCompatActivity {
 
     String name="";
     String p="";
-
+    int lang=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drive);
         Space(savedInstanceState);
-
+        SharedPreferences shared2;
+        shared2 = getSharedPreferences("lang", MODE_PRIVATE);
+        if(shared2.getString("language", "").equals("arabic")) {
+            lang=1;
+        }
         db = FirebaseFirestore.getInstance();
 
         Toolbar bar = findViewById(R.id.tool);
@@ -94,7 +98,7 @@ public class Drive extends AppCompatActivity {
 
                 getLngLat();
 
-                if (HomeAct.lang==1){
+                if (lang==1){
                     new AlertDialog.Builder(Drive.this)
                             .setMessage("هل ترغب بالأتصال أم الذهاب للموقع؟")
                             .setNegativeButton("عرض الموقع", new DialogInterface.OnClickListener() {
@@ -171,21 +175,46 @@ public class Drive extends AppCompatActivity {
                     channelId, channelName, importance);
             notificationManager.createNotificationChannel(mChannel);
         }
+        SharedPreferences shared2;
+        shared2 = getSharedPreferences("lang", MODE_PRIVATE);
+        if(shared2.getString("language", "").equals("arabic")) {
+            lang=1;
+        }
+        if (lang==1){
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), channelId)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle("إشعار")
+                    .setContentText("لديك طلبية جديدة, تفقد البرنامج");
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), channelId)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("إشعار")
-                .setContentText("لديك طلبية جديدة, تفقد البرنامج");
 
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
-        stackBuilder.addNextIntent(new Intent(this, Main2Activity.class));
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
-                0,
-                PendingIntent.FLAG_UPDATE_CURRENT
-        );
-        mBuilder.setContentIntent(resultPendingIntent);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+            stackBuilder.addNextIntent(new Intent(this, Main2Activity.class));
+            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
+                    0,
+                    PendingIntent.FLAG_UPDATE_CURRENT
+            );
+            mBuilder.setContentIntent(resultPendingIntent);
 
-        notificationManager.notify(notificationId, mBuilder.build());
+            notificationManager.notify(notificationId, mBuilder.build());
+        }
+        else {
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), channelId)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle("notification")
+                    .setContentText("you have new order, see your app");
+
+
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+            stackBuilder.addNextIntent(new Intent(this, Main2Activity.class));
+            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
+                    0,
+                    PendingIntent.FLAG_UPDATE_CURRENT
+            );
+            mBuilder.setContentIntent(resultPendingIntent);
+
+            notificationManager.notify(notificationId, mBuilder.build());
+        }
+
     }
 
     private void Space(Bundle savedInstanceState) {
@@ -209,15 +238,29 @@ public class Drive extends AppCompatActivity {
                 lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
                 lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
+
+
                 dialog.show();
                 dialog.getWindow().setAttributes(lp);
-
                 TextView t1 = dialog.findViewById(R.id.dnum);
-                t1.setText("عدد الطلبيات : "+info.size()+" طلب");
                 TextView t2 = dialog.findViewById(R.id.dprice);
-                t2.setText("مجموع مبلغ الوجبات : "+getRecieteSum()+" دينار");
                 TextView t3 = dialog.findViewById(R.id.dsum);
-                t3.setText("مجموع مبلغ التوصيل : "+getpriceSum()+" دينار");
+                if(lang==1){
+                    t1.setText("عدد الطلبيات : "+info.size()+" طلب");
+
+                    t2.setText("مجموع مبلغ الوجبات : "+getRecieteSum()+" دينار");
+
+                    t3.setText("مجموع مبلغ التوصيل : "+getpriceSum()+" دينار");
+                }
+                else {
+                    t1.setText("orders count : "+info.size()+" order");
+
+                    t2.setText("sum of meals amount : "+getRecieteSum()+" دينار");
+
+                    t3.setText("sum of delivery amount : "+getpriceSum()+" دينار");
+                }
+
+
 
             }
 
@@ -237,22 +280,41 @@ public class Drive extends AppCompatActivity {
                         break;
 
                     case 1:
+                        if (lang==1){
+                            new android.support.v7.app.AlertDialog.Builder(Drive.this)
+                                    .setMessage("هل تود الأتصال على رقم المطعم ؟")
+                                    .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            Intent intent = new Intent((Intent.ACTION_DIAL));
+                                            intent.setData(Uri.parse("tel:+962792942040"));
+                                            startActivity(intent);
+                                        }
+                                    }).setNegativeButton("لا", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).show();
+                        }
+                        else {
+                            new android.support.v7.app.AlertDialog.Builder(Drive.this)
+                                    .setMessage("do you want to call the restaurant?")
+                                    .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            Intent intent = new Intent((Intent.ACTION_DIAL));
+                                            intent.setData(Uri.parse("tel:+962792942040"));
+                                            startActivity(intent);
+                                        }
+                                    }).setNegativeButton("no", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).show();
+                        }
 
-                        new android.support.v7.app.AlertDialog.Builder(Drive.this)
-                                .setMessage("هل تود الأتصال على رقم المطعم ؟")
-                                .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        Intent intent = new Intent((Intent.ACTION_DIAL));
-                                        intent.setData(Uri.parse("tel:+962792942040"));
-                                        startActivity(intent);
-                                    }
-                                }).setNegativeButton("لا", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        }).show();
 
                         break;
                 }
@@ -274,21 +336,41 @@ public class Drive extends AppCompatActivity {
 
                     case 1:
 
-                        new android.support.v7.app.AlertDialog.Builder(Drive.this)
-                                .setMessage("هل تود الأتصال على رقم المطعم ؟")
-                                .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        Intent intent = new Intent((Intent.ACTION_DIAL));
-                                        intent.setData(Uri.parse("tel:+962792942040"));
-                                        startActivity(intent);
-                                    }
-                                }).setNegativeButton("لا", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        }).show();
+                        if (lang==1 ){
+                            new android.support.v7.app.AlertDialog.Builder(Drive.this)
+                                    .setMessage("هل تود الأتصال على رقم المطعم ؟")
+                                    .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            Intent intent = new Intent((Intent.ACTION_DIAL));
+                                            intent.setData(Uri.parse("tel:+962792942040"));
+                                            startActivity(intent);
+                                        }
+                                    }).setNegativeButton("لا", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).show();
+                        }
+                        else {
+                            new android.support.v7.app.AlertDialog.Builder(Drive.this)
+                                    .setMessage("do you want to call the restaurant?")
+                                    .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            Intent intent = new Intent((Intent.ACTION_DIAL));
+                                            intent.setData(Uri.parse("tel:+962792942040"));
+                                            startActivity(intent);
+                                        }
+                                    }).setNegativeButton("no", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).show();
+                        }
+
 
                         break;
                 }
@@ -401,7 +483,7 @@ public class Drive extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 for(QueryDocumentSnapshot document : task.getResult())
                     if (task.isSuccessful()) {
-                        if (HomeAct.lang==1){
+                        if (lang==1){
                             info.add("الأسم : "+document.get("user_name").toString()+"\n"
                                     +"الهاتف : "+document.get("user_mobile").toString()+"\n"
                                     +"قائمة : "+document.get("item_list").toString()+"\n"
@@ -424,7 +506,7 @@ public class Drive extends AppCompatActivity {
                         }
                         adapter.notifyDataSetChanged();
                         if(info.isEmpty()){
-                            if (HomeAct.lang==1){
+                            if (lang==1){
                                 Toast.makeText(Drive.this, "لايوجد طلبات دلفري", Toast.LENGTH_SHORT).show();
                             }
                             else {

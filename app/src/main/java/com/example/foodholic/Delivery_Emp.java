@@ -62,12 +62,16 @@ public class Delivery_Emp extends AppCompatActivity {
     ArrayAdapter<String> adapterSpin2;
 
     String p="";
-
+    int lang=0 ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery__emp);
-
+        SharedPreferences shared2;
+        shared2 = getSharedPreferences("lang", MODE_PRIVATE);
+        if(shared2.getString("language", "").equals("arabic")) {
+            lang=1;
+        }
         db = FirebaseFirestore.getInstance();
 
         Toolbar bar = findViewById(R.id.tool);
@@ -105,7 +109,7 @@ public class Delivery_Emp extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long ido) {
-                if (HomeAct.lang==1){
+                if (lang==1){
 
                     final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(Delivery_Emp.this);
                     LayoutInflater inflater = Delivery_Emp.this.getLayoutInflater();
@@ -229,6 +233,134 @@ public class Delivery_Emp extends AppCompatActivity {
                     });
 
                 }
+                else {
+                    final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(Delivery_Emp.this);
+                    LayoutInflater inflater = Delivery_Emp.this.getLayoutInflater();
+                    builder.setView(inflater.inflate(R.layout.dialog_redirect, null));
+                    final android.support.v7.app.AlertDialog dialog = builder.create();
+                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                    lp.copyFrom(dialog.getWindow().getAttributes());
+                    lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                    dialog.show();
+                    dialog.getWindow().setAttributes(lp);
+
+                    Button b1, b2, b3, b4, b5;
+
+                    b1 = dialog.findViewById(R.id.call);
+                    b2 = dialog.findViewById(R.id.go);
+                    b3 = dialog.findViewById(R.id.redirect);
+                    b4 = dialog.findViewById(R.id.confirm);
+                    b5 = dialog.findViewById(R.id.remove);
+
+                    b1.setText("contact with customer");
+                    b2.setText("show customer address");
+                    b3.setText("transfer the order to another driver");
+                    b4.setText("receipt confirmation");
+                    b5.setText("remove order");
+                    b1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            String str = info.get(position);
+                            String num = str.substring(str.indexOf("phone : ")+9, str.indexOf("menu : "));
+                            num = RemoveSpace(num);
+                            startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", num, null)));
+
+                        }
+                    });
+
+                    b2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            getLngLat();
+
+                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                    Uri.parse("http://maps.google.com/maps?daddr="+latlng.get(position)));
+                            startActivity(intent);
+
+                        }
+                    });
+
+                    b4.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            AddSale(sp.getSelectedItem().toString(), position);
+
+                        }
+                    });
+
+                    b5.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            removeData(sp.getSelectedItem().toString(), position);
+
+                        }
+                    });
+
+                    b3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            final android.support.v7.app.AlertDialog.Builder builder2 = new android.support.v7.app.AlertDialog.Builder(Delivery_Emp.this);
+                            LayoutInflater inflater2 = Delivery_Emp.this.getLayoutInflater();
+                            builder2.setView(inflater2.inflate(R.layout.dialog_redirect2, null));
+                            final android.support.v7.app.AlertDialog dialog2 = builder2.create();
+                            WindowManager.LayoutParams lp2 = new WindowManager.LayoutParams();
+                            lp2.copyFrom(dialog2.getWindow().getAttributes());
+                            lp2.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                            lp2.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                            dialog2.show();
+                            dialog2.getWindow().setAttributes(lp2);
+
+                            final Spinner sp2 = dialog2.findViewById(R.id.type2);
+                            adapterSpin = new ArrayAdapter<String>(Delivery_Emp.this, R.layout.items_row3, R.id.item, dname);
+                            sp2.setAdapter(adapterSpin);
+
+                            Button bbb = dialog2.findViewById(R.id.call);
+                            bbb.setText("contact with customer");
+                            bbb.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    String temp = info.get(position);
+                                    HashMap<String, String> map = new HashMap<>();
+                                    map.put("user_name", temp.substring(temp.indexOf("الأسم : ")+8, temp.indexOf("الهاتف : ")).replace("\n", ""));
+                                    map.put("user_mobile", temp.substring(temp.indexOf("الهاتف : ")+9, temp.indexOf("قائمة : ")).replace("\n", ""));
+                                    map.put("user_desc", temp.substring(temp.indexOf("ملاحظات : ")+10, temp.indexOf("سعر توصيل : ")).replace("\n", ""));
+                                    map.put("item_list",temp.substring(temp.indexOf("قائمة : ")+8, temp.indexOf("النقاط : ")).replace("\n", ""));
+                                    map.put("item_sum_price", temp.substring(temp.indexOf("المجموع : ")+10).replace("\n", ""));
+                                    map.put("point_sum", temp.substring(temp.indexOf("النقاط : ")+9, temp.indexOf("ملاحظات : ")).replace("\n", ""));
+                                    map.put("d_price", temp.substring(temp.indexOf("سعر توصيل : ")+12, temp.indexOf("العنوان : ")).replace("\n", ""));
+                                    map.put("email", "");
+                                    map.put("lat", "");
+                                    map.put("lng", "");
+
+                                    db.collection("Res_1_Delivery")
+                                            .document(sp2.getSelectedItem().toString())
+                                            .collection("1")
+                                            .document(map.get("user_name")).set(map)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if(task.isSuccessful()){
+                                                        Toast.makeText(Delivery_Emp.this, "delivery is done", Toast.LENGTH_SHORT).show();
+                                                        removeData(sp.getSelectedItem().toString(), position); }
+                                                }
+                                            });
+
+                                }
+                            });
+
+
+                        }
+                    });
+                }
             }
         });
 
@@ -268,7 +400,7 @@ public class Delivery_Emp extends AppCompatActivity {
 
                     try {
                         if (task.isSuccessful()) {
-                            if (HomeAct.lang==1){
+                            if (lang==1){
 
                                 info.add("الأسم : "+document.get("user_name").toString()+"\n"
                                         +"الهاتف : "+document.get("user_mobile").toString()+"\n"
@@ -293,7 +425,7 @@ public class Delivery_Emp extends AppCompatActivity {
                             adapter.notifyDataSetChanged();
 
                             if(info.isEmpty())
-                                if (HomeAct.lang==1){
+                                if (lang==1){
                                     Toast.makeText(Delivery_Emp.this, "لايوجد طلبات دلفري", Toast.LENGTH_SHORT).show();
                                 }
                                 else {

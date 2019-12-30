@@ -1,5 +1,6 @@
 package com.example.foodholic;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -32,7 +33,7 @@ public class driverReport extends AppCompatActivity {
     String y="",m="";
     ListView listView;
     Button button;
-
+    int lang=0;
     String empName="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +110,11 @@ public class driverReport extends AppCompatActivity {
         month=findViewById(R.id.rep_spinnerMonth);
         listView=findViewById(R.id.rep_list);
         button=findViewById(R.id.rep_button);
+        SharedPreferences shared2;
+        shared2 = getSharedPreferences("lang", MODE_PRIVATE);
+        if(shared2.getString("language", "").equals("arabic")) {
+            lang=1;
+        }
     }
     void loadEmp(){
         db.collection("Res_1_employee").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -139,10 +145,19 @@ public class driverReport extends AppCompatActivity {
                 List<DocumentSnapshot>list=queryDocumentSnapshots.getDocuments();
                 for(DocumentSnapshot d : list){
                     delRepoet.add(d.toObject(classDelReport.class));
-                    aa.add( "التاريخ : "+d.toObject(classDelReport.class).date_time+"\n" +
-                            "مجموع الطلبيات للمطعم: "+d.toObject(classDelReport.class).delivery_sum+" دينار"+"\n" +
-                            "مجموع التوصيل   : "+d.toObject(classDelReport.class).order_sum+" دينار"+"\n"+
-                            "عدد الطلبيات   : "+d.toObject(classDelReport.class).order_num+"\n");
+                    if (lang == 1) {
+                        aa.add( "التاريخ : "+d.toObject(classDelReport.class).date_time+"\n" +
+                                "مجموع الطلبيات للمطعم: "+d.toObject(classDelReport.class).delivery_sum+" دينار"+"\n" +
+                                "مجموع التوصيل   : "+d.toObject(classDelReport.class).order_sum+" دينار"+"\n"+
+                                "عدد الطلبيات   : "+d.toObject(classDelReport.class).order_num+"\n");
+                    }
+                    else {
+                        aa.add( "date : "+d.toObject(classDelReport.class).date_time+"\n" +
+                                "sum of restaurant order: "+d.toObject(classDelReport.class).delivery_sum+" JOD"+"\n" +
+                                "sum of delivery   : "+d.toObject(classDelReport.class).order_sum+" JOD"+"\n"+
+                                "sum of order   : "+d.toObject(classDelReport.class).order_num+"\n");
+                    }
+
                 }
                 ArrayAdapter arrayAdapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,aa);
                 listView.setAdapter(arrayAdapter);

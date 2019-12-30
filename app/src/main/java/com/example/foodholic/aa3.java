@@ -3,6 +3,7 @@ package com.example.foodholic;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -30,6 +31,7 @@ public class aa3 extends AppCompatActivity {
     Button button;
     ListView listView;
     Spinner spinner;
+    int lang=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +61,7 @@ public class aa3 extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 final int pos=i;
-                if(HomeAct.lang==1) {
+                if(lang==1) {
                     AlertDialog.Builder builder=new AlertDialog.Builder(aa3.this)
                             .setMessage("هل تريد حذف هذا العنصر؟")
                             .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
@@ -122,11 +124,16 @@ public class aa3 extends AppCompatActivity {
     }
 
     void init (){
+        SharedPreferences shared2;
+        shared2 = getSharedPreferences("lang", MODE_PRIVATE);
+        if(shared2.getString("language", "").equals("arabic")) {
+            lang=1;
+        }
         db=FirebaseFirestore.getInstance();
         button=findViewById(R.id.button911);
         listView=findViewById(R.id.listView911);
         spinner=findViewById(R.id.spinner911);
-        if (HomeAct.lang==1){
+        if (lang==1){
             button.setText(" + اضافة عنصر + ");
         }
         else{
