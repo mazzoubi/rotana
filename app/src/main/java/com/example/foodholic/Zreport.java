@@ -113,21 +113,25 @@ public class Zreport extends AppCompatActivity {
                     }
                     syear.add("\n\n\n\n\t\t\t\tyearly report " +
                             "\nRes : "+HomeAct.resName+"\n" +
-                            "pill dat : "+new Date()+"\n" +
+                            "pill date : "+new Date()+"\n" +
                             "\t-----------------------\n" +
                             "\n\n");
                     double z=0;
                     int y=0;
                     int i=1;
+                    String []s;
+                    String aaa;
                     for(;i<=12;i++){
                         for(int a=0 ; a<list.size();a++){
+                            s=list.get(a).date.split("-");
+                            aaa=s[1]+"-"+s[2];
                             if (i+"".length()==1){
-                                if (list.get(a).date.contains("0"+i+"-"+year)){
+                                if (aaa.equals("0"+i+"-"+year)){
                                    z+=list.get(a).sale;
                                    y=1;
                                 }
                             }else{
-                                if (list.get(a).date.contains(""+i+"-"+year)){
+                                if (aaa.equals(""+i+"-"+year)){
                                     z+=list.get(a).sale;
                                     y=1;
                                 }

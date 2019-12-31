@@ -33,7 +33,7 @@ public class statisticsByEmp extends AppCompatActivity {
     String dateyear="",datemonth="",email="";
 
     Button search , chart;
-    TextView s,p,comp;
+    TextView s,p,comp,resa;
     Spinner month,year,employee;
     ListView payList,saleList;
 
@@ -54,7 +54,7 @@ public class statisticsByEmp extends AppCompatActivity {
 
         search=findViewById(R.id.empStatSearchButton);
         chart=findViewById(R.id.empStatStatistics);
-
+        resa=findViewById(R.id.textView322);
         s=findViewById(R.id.empStatSaleText);
         p=findViewById(R.id.empStatPayText);
         comp=findViewById(R.id.empStatText);
@@ -249,14 +249,17 @@ public class statisticsByEmp extends AppCompatActivity {
     public void loadSale( String email1,  String month1,  String year1){
         // Toast.makeText(getApplicationContext(), "sale ok", Toast.LENGTH_LONG).show();
         sales = new ArrayList<>();
-
-        for(int i=0;i<Adminpage.cSale.size();i++){
-            if (Adminpage.cSale.get(i).empEmail.contains(email1)&&Adminpage.cSale.get(i).date.contains(month1 + "-" + year1)){
+        salCost=0;
+        String []s ;
+        String aaa;
+        for(int i=0;i<Adminpage.cSale.size();i++) {
+            s = Adminpage.cSale.get(i).date.split("-");
+            aaa = s[1] + "-" + s[2];
+            if (Adminpage.cSale.get(i).empEmail.contains(email1) && aaa.equals(month1 + "-" + year1)) {
                 sales.add(Adminpage.cSale.get(i));
-                salCost+=Adminpage.cSale.get(i).sale;
+                salCost += Adminpage.cSale.get(i).sale;
             }
         }
-
         salAdapt = new adminAdapterSales(getApplicationContext(), R.layout.row, sales);
         saleList.setAdapter(salAdapt);
 
@@ -265,9 +268,13 @@ public class statisticsByEmp extends AppCompatActivity {
 
         // Toast.makeText(getApplicationContext(), "payment ok", Toast.LENGTH_LONG).show();
         payments = new ArrayList<>();
-
+        payCost=0;
+        String []s ;
+        String aaa;
         for (int i=0 ; i<Adminpage.cPyment.size();i++) {
-            if (Adminpage.cPyment.get(i).emp.equals(email1) && Adminpage.cPyment.get(i).date.contains(month1 + "-" + year1)) {
+            s=Adminpage.cPyment.get(i).date.split("-");
+            aaa=s[1]+"-"+s[2];
+            if (Adminpage.cPyment.get(i).emp.equals(email1) && aaa.equals(month1 + "-" + year1)) {
                 payments.add(Adminpage.cPyment.get(i));
                 payCost+=Adminpage.cPyment.get(i).pay;
             }
