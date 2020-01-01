@@ -297,6 +297,9 @@ public class statisticsByEmp extends AppCompatActivity {
                 for (DocumentSnapshot d : list) {
                     classEmployee a = d.toObject(classEmployee.class);
                     if (a.cashWork || a.delevery) {
+                        if(a.email.equals(null)){
+                            a.email="";
+                        }
                         emp.add(a);
                         empnames.add(a.Fname+" "+a.Lname+" "+a.empType);
                     }

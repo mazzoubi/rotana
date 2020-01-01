@@ -270,8 +270,17 @@ public class Adminpage extends AppCompatActivity {
 
                 cPyment=new ArrayList<>();
                 List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
+                classPayment a=new classPayment();
                 for(DocumentSnapshot d:list){
-                    cPyment.add(d.toObject(classPayment.class));
+                    a=d.toObject(classPayment.class);
+                   try{
+                       if(a.emp.equals(null)){
+                           a.emp="";
+                       }
+                   }catch (Exception e){
+                       a.emp="";
+                   }
+                    cPyment.add(a);
                 }
 
             }
@@ -285,8 +294,15 @@ public class Adminpage extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 cSale=new ArrayList<>() ;
                 List<DocumentSnapshot>list=queryDocumentSnapshots.getDocuments();
+                classSales a =new classSales();
                 for(DocumentSnapshot d:list){
-                    try{cSale.add(d.toObject(classSales.class)); }
+                    try{
+                        a=d.toObject(classSales.class);
+                        if(a.empEmail.equals(null)){
+                            a.empEmail="";
+                        }
+                        cSale.add(d.toObject(classSales.class));
+                    }
                     catch(Exception e){}
                 }
             }

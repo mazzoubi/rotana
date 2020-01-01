@@ -160,7 +160,7 @@ public class Payment extends AppCompatActivity {
         reservation.put("pay", pay);
         reservation.put("description", desc);
         reservation.put("time", time[3]);
-        reservation.put("emp", email);
+        reservation.put("emp", email+"");
 
 
         db.collection("Res_1_payment").document(""+new Date()).set(reservation)
