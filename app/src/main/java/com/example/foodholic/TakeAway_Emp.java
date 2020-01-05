@@ -315,9 +315,9 @@ public class TakeAway_Emp extends AppCompatActivity {
 
 
         //getPoint(e.replace("\n", ""), t);
-
-        Print(bill);
         removeData(path);
+        Print(bill);
+
     }
 
     private void Print(String str) {

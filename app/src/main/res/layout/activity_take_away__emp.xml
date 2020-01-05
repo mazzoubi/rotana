@@ -26,6 +26,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:id="@+id/btn"
+            android:enabled="false"
             android:textSize="18sp"
             android:textColor="#ffffff"
             android:background="@drawable/shape"

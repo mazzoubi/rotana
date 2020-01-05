@@ -331,7 +331,6 @@ public class Emppage extends AppCompatActivity
 
                             try {
 
-
                                 Date parsedDate = sdf.parse(new Date().toString());
                                 Date parsedDate2 = sdf2.parse(new Date().toString());
 
@@ -421,6 +420,8 @@ public class Emppage extends AppCompatActivity
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                PrintUsingServer("مرحيا, اسمي ,احمد يااااااااااااااااااس , يسعد الله");
 
                 if (empObj.cashWork){
 
@@ -1644,6 +1645,29 @@ public class Emppage extends AppCompatActivity
             }
         });
         GetTabelCount();
+
+
+
+    }
+
+    private void PrintUsingServer(String s) {
+
+        try {
+
+            SocketAddress socketAddress = new InetSocketAddress("192.168.14.54", 9100);
+            Socket socket = new Socket();
+
+            socket.connect(socketAddress, 5000);
+
+            OutputStreamWriter clientSocketWriter = (new OutputStreamWriter(socket.getOutputStream(), "UTF8")); //optional encoding
+            clientSocketWriter.write(s);
+            clientSocketWriter.close();
+            socket.close();
+
+        }
+        catch(Exception e){
+            Toast.makeText(this, "لا يوجد طابعة !!!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void GetTabelCount() {
@@ -2265,7 +2289,7 @@ public class Emppage extends AppCompatActivity
         bill+="\nChange : "+change+"\n";
         bill+="\n\n\nTHANK YOU FOR YOUR PURCHASE, COME AGAIN !\n\n\n";
 
-        Print(bill);
+        PrintUsingServer("مرحبا ,انا ,اسمي ,ahmad");
 
     }
     void empLoadInfo(final String e){
