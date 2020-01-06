@@ -108,7 +108,6 @@ public class Adminpage extends AppCompatActivity {
                                 startActivity(n);
                                 break;
                             case 1:
-
                                 Intent n1 =new Intent(getApplicationContext(),warehouse.class);
                                 startActivity(n1);
                                 break;

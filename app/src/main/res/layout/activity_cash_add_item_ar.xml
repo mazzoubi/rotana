@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".cashAddItem">
+    tools:context=".cashAddItemAR">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
@@ -49,7 +49,6 @@
                         android:text="En" />
                 </RadioGroup>
 
-
                 <EditText
                     android:id="@+id/itemSubItem"
                     android:layout_width="match_parent"
@@ -76,34 +75,37 @@
                     android:id="@+id/itemPrice"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:textSize="18sp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/shape2"
+                    android:enabled="false"
                     android:gravity="center"
                     android:hint="Item price"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:textSize="18sp" />
 
                 <EditText
                     android:id="@+id/itemCost"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="5dp"
-                    android:textSize="18sp"
-                    android:gravity="center"
                     android:background="@drawable/shape2"
+                    android:enabled="false"
+                    android:gravity="center"
                     android:hint="Item cost"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:textSize="18sp" />
 
                 <EditText
                     android:id="@+id/itemPoint"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="5dp"
-                    android:textSize="18sp"
-                    android:hint="point"
                     android:background="@drawable/shape2"
+                    android:enabled="false"
                     android:gravity="center"
-                    android:inputType="textPersonName" />
+                    android:hint="point"
+                    android:inputType="textPersonName"
+                    android:textSize="18sp" />
 
                 <EditText
                     android:id="@+id/kitchenNo"
@@ -111,50 +113,11 @@
                     android:layout_height="40dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/shape2"
+                    android:enabled="false"
                     android:gravity="center"
-                    android:textSize="18sp"
                     android:hint="kitchen no#"
-                    android:inputType="textPersonName" />
-
-                <CheckBox
-                    android:id="@+id/itemCheckBox"
-                    android:layout_width="wrap_content"
-                    android:textSize="18sp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="New rating item?" />
-
-                <Spinner
-                    android:id="@+id/spinner_correntItem"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/shape" />
-
-                <EditText
-                    android:id="@+id/itemNewItem"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@drawable/shape2"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:hint="New item name"
-                    android:inputType="textPersonName" />
-
-                <Button
-                    android:id="@+id/addimg"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shape"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:layout_marginTop="15dp"
-                    android:textColor="#ffffff"
-                    android:textAllCaps="false"
-                    android:textSize="24sp"
-                    android:layout_marginBottom="5dp"
-                    android:text="Add Image" />
+                    android:inputType="textPersonName"
+                    android:textSize="18sp" />
 
                 <Button
                     android:id="@+id/buttonItemAdd"

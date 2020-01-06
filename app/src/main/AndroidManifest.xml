@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.foodholic" >
+    package="com.example.foodholic">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -18,10 +18,11 @@
         android:roundIcon="@drawable/lal"
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
-        tools:replace="android:supportsRtl" >
-        <activity android:name=".aa3"
-            android:parentActivityName=".Adminpage">
-        </activity>
+        tools:replace="android:supportsRtl">
+        <activity android:name=".cashAddItemAR"></activity>
+        <activity
+            android:name=".aa3"
+            android:parentActivityName=".Adminpage"></activity>
         <activity android:name=".zzStringToBitmap" />
         <activity android:name=".VisaReport" />
         <activity
@@ -141,7 +142,7 @@
         <activity android:name=".Login" />
         <activity
             android:name=".SplashAct"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

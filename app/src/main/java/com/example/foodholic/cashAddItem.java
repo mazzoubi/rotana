@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -50,6 +51,7 @@ public class cashAddItem extends AppCompatActivity {
     String itemItem="";
     Uri ImageUri=Uri.parse("");
 
+    RadioButton ar,en;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +71,8 @@ public class cashAddItem extends AppCompatActivity {
         newItemName=findViewById(R.id.itemNewItem);
         descr=findViewById(R.id.descr);
         addimg=findViewById(R.id.addimg);
+        ar=findViewById(R.id.radioButtonAR);
+        en=findViewById(R.id.radioButtonEN);
 
 
         checkBox=findViewById(R.id.itemCheckBox);
@@ -172,270 +176,550 @@ public class cashAddItem extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                if (itemName.getText().toString().isEmpty()){
-                   if (HomeAct.lang==1){
-                       Toast.makeText(getApplicationContext(),"الرجاء ادخال اسم العنصر",Toast.LENGTH_LONG).show();
-                   }
-                   else {
-                       Toast.makeText(getApplicationContext(),"please enter item name",Toast.LENGTH_LONG).show();
-                   }
+                if (ar.isChecked()){
+                    addar();
                 }
-                else if (itemPrice.getText().toString().isEmpty()){
+                else if (en.isChecked()){
+                    adden();
+                }
+                else {
                     if (HomeAct.lang==1){
-                        Toast.makeText(getApplicationContext(),"الرجاء ادخال سعر العنصر",Toast.LENGTH_LONG).show();
+                        Toast.makeText(cashAddItem.this, "الرجاء اختيار اللغه", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        Toast.makeText(getApplicationContext(),"please enter item price",Toast.LENGTH_LONG).show();
+                        Toast.makeText(cashAddItem.this, "please choose language", Toast.LENGTH_SHORT).show();
                     }
                 }
-                else if (itemCost.getText().toString().isEmpty()){
-                    if (HomeAct.lang==1){
-                        Toast.makeText(getApplicationContext(),"الرجاء ادخال سعر النكلفه للعنصر",Toast.LENGTH_LONG).show();
-                    }
-                    else {
-                        Toast.makeText(getApplicationContext(),"please enter item cost",Toast.LENGTH_LONG).show();
-                    }
-                }
-                else if (itemPoint.getText().toString().isEmpty()){
-                    if (HomeAct.lang==1){
-                        Toast.makeText(getApplicationContext(),"الرجاء ادخال النقاط",Toast.LENGTH_LONG).show();
-                    }
-                    else {
-                        Toast.makeText(getApplicationContext(),"please enter item point",Toast.LENGTH_LONG).show();
-                    }
-                }
+            }
+        });
+    }
 
+    void adden(){
+
+        if (itemName.getText().toString().isEmpty()){
+            if (HomeAct.lang==1){
+                Toast.makeText(getApplicationContext(),"الرجاء ادخال اسم العنصر",Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(getApplicationContext(),"please enter item name",Toast.LENGTH_LONG).show();
+            }
+        }
+        else if (itemPrice.getText().toString().isEmpty()){
+            if (HomeAct.lang==1){
+                Toast.makeText(getApplicationContext(),"الرجاء ادخال سعر العنصر",Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(getApplicationContext(),"please enter item price",Toast.LENGTH_LONG).show();
+            }
+        }
+        else if (itemCost.getText().toString().isEmpty()){
+            if (HomeAct.lang==1){
+                Toast.makeText(getApplicationContext(),"الرجاء ادخال سعر النكلفه للعنصر",Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(getApplicationContext(),"please enter item cost",Toast.LENGTH_LONG).show();
+            }
+        }
+        else if (itemPoint.getText().toString().isEmpty()){
+            if (HomeAct.lang==1){
+                Toast.makeText(getApplicationContext(),"الرجاء ادخال النقاط",Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(getApplicationContext(),"please enter item point",Toast.LENGTH_LONG).show();
+            }
+        }
+
+        else{
+            if (checkBox.isChecked()){
+                if (newItemName.getText().toString().isEmpty()){
+                    if (HomeAct.lang==1){
+                        Toast.makeText(getApplicationContext(),"الرجاء اختيار اسم العنصر الجديد",Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(),"please enter new item name",Toast.LENGTH_LONG).show();
+                    }
+                }
                 else{
-                    if (checkBox.isChecked()){
-                         if (newItemName.getText().toString().isEmpty()){
-                             if (HomeAct.lang==1){
-                                 Toast.makeText(getApplicationContext(),"الرجاء اختيار اسم العنصر الجديد",Toast.LENGTH_LONG).show();
-                             }
-                             else {
-                                 Toast.makeText(getApplicationContext(),"please enter new item name",Toast.LENGTH_LONG).show();
-                             }
+                    boolean x=false;
+                    for(int i=0;i<itemList.size();i++){
+                        if (itemList.get(i).itemName.equals(newItemName.getText().toString())){
+                            x=true;
+                            break;
                         }
-                         else{
-                             boolean x=false;
-                             for(int i=0;i<itemList.size();i++){
-                                 if (itemList.get(i).itemName.equals(newItemName.getText().toString())){
-                                     x=true;
-                                     break;
-                                 }
-                             }
-                             if (newItemName.getText().toString().isEmpty()){
-                                 if (HomeAct.lang==1){
-                                     Toast.makeText(getApplicationContext(),"الرجاء اختيار اسم العنصر الجديد",Toast.LENGTH_LONG).show();
-                                 }
-                                 else {
-                                     Toast.makeText(getApplicationContext(),"please enter new item name",Toast.LENGTH_LONG).show();
-                                 }
-                             }
-                             else if (x){
-                                 if (HomeAct.lang==1){
-                                     Toast.makeText(getApplicationContext(),"العنصر موجود فعلاً بالقائمه الرجاء اختياره من القائمه",Toast.LENGTH_LONG).show();
-                                 }
-                                 else {
-                                     Toast.makeText(getApplicationContext(),"this item found in list please choose it from list",Toast.LENGTH_LONG).show();
-                                 }
-                             }
-                             else{
-                                 final Map<String, Object> reservation = new HashMap<>();
-                                 final String id=new Date()+"";
-                                 reservation.put("itemName", newItemName.getText().toString());
-
-                                 final Uri resultUri = ImageUri;
-
-                                 if(!resultUri.toString().equals("")){
-                                     StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
-                                     final StorageReference ref = mStorageRef.child("Offers/"+ UUID.randomUUID().toString());
-                                     ref.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                         @Override
-                                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                             ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                                 @Override
-                                                 public void onSuccess(final Uri uri) {
-
-                                                     db.collection("Res_1_items").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                         @Override
-                                                         public void onComplete(@NonNull Task<Void> task) {
-                                                             if (task.isSuccessful()){
-
-                                                                 if(shared2.getString("language", "").equals("arabic")) {
-                                                                     Toast.makeText(getApplicationContext(),"لقد تمت اضافة العنصر بنجاح ..",Toast.LENGTH_LONG).show();
-                                                                 }
-                                                                 else{
-                                                                     Toast.makeText(getApplicationContext(),"successful add ..",Toast.LENGTH_LONG).show();
-                                                                 }
-                                                                 Map<String, Object> reservation = new HashMap<>();
-                                                                 String id=new Date()+"";
-                                                                 reservation.put("item", newItemName.getText().toString());
-                                                                 reservation.put("subItem", itemName.getText().toString() );
-                                                                 reservation.put("image", uri.toString());
-                                                                 reservation.put("description", descr.getText().toString());
-                                                                 reservation.put("Ar_description", "");
-                                                                 reservation.put("Ar_item", "");
-                                                                 reservation.put("Ar_subItem", "");
-                                                                 reservation.put("point", itemPoint.getText().toString());
-                                                                 reservation.put("kitchen", kitchen.getText().toString());
-                                                                 reservation.put("price",  Double.parseDouble(itemPrice.getText().toString()));
-                                                                 reservation.put("cost",  Double.parseDouble(itemCost.getText().toString()));
-                                                                 reservation.put("itemId", id);
-
-
-
-                                                                 db.collection("Res_1_subItem").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                     @Override
-                                                                     public void onComplete(@NonNull Task<Void> task) {
-                                                                         if (task.isSuccessful()){
-                                                                             if(shared2.getString("language", "").equals("arabic")) {
-                                                                                 Toast.makeText(getApplicationContext(),"لقد تمت الاضافة بنجاح ..",Toast.LENGTH_LONG).show();
-                                                                                 startActivity(new Intent(cashAddItem.this, Emppage.class)); finish();}
-                                                                             else{
-                                                                                 Toast.makeText(getApplicationContext(),"successful add ..",Toast.LENGTH_LONG).show();
-                                                                             } }  } });
-                                                             }  } });
-                                                 }
-                                             });
-                                         }
-                                     }); }
-                                 else{
-
-                                     db.collection("Res_1_items").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                         @Override
-                                         public void onComplete(@NonNull Task<Void> task) {
-                                             if (task.isSuccessful()){
-
-                                                 if(shared2.getString("language", "").equals("arabic")) {
-                                                     Toast.makeText(getApplicationContext(),"لقد تمت اضافة العنصر بنجاح ..",Toast.LENGTH_LONG).show();
-                                                 }
-                                                 else{
-                                                     Toast.makeText(getApplicationContext(),"successful add ..",Toast.LENGTH_LONG).show();
-                                                 }
-                                                 Map<String, Object> reservation = new HashMap<>();
-                                                 String id=new Date()+"";
-                                                 reservation.put("item", newItemName.getText().toString());
-                                                 reservation.put("subItem", itemName.getText().toString() );
-                                                 reservation.put("image", "");
-                                                 reservation.put("Ar_description", "");
-                                                 reservation.put("Ar_item", "");
-                                                 reservation.put("Ar_subItem", "");
-                                                 reservation.put("description", descr.getText().toString());
-                                                 reservation.put("point", itemPoint.getText().toString());
-                                                 reservation.put("kitchen", kitchen.getText().toString());
-                                                 reservation.put("price",  Double.parseDouble(itemPrice.getText().toString()));
-                                                 reservation.put("cost",  Double.parseDouble(itemCost.getText().toString()));
-                                                 reservation.put("itemId", id);
-
-
-
-                                                 db.collection("Res_1_subItem").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                     @Override
-                                                     public void onComplete(@NonNull Task<Void> task) {
-                                                         if (task.isSuccessful()){
-                                                             if(shared2.getString("language", "").equals("arabic")) {
-                                                                 Toast.makeText(getApplicationContext(),"لقد تمت الاضافة بنجاح ..",Toast.LENGTH_LONG).show();
-                                                                 startActivity(new Intent(cashAddItem.this, Emppage.class)); finish();}
-                                                             else{
-                                                                 Toast.makeText(getApplicationContext(),"successful add ..",Toast.LENGTH_LONG).show();
-                                                             } }  } });
-                                             }  } });
-
-                                 }
-
-                                 }
-
-
-                             } }
+                    }
+                    if (newItemName.getText().toString().isEmpty()){
+                        if (HomeAct.lang==1){
+                            Toast.makeText(getApplicationContext(),"الرجاء اختيار اسم العنصر الجديد",Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(),"please enter new item name",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else if (x){
+                        if (HomeAct.lang==1){
+                            Toast.makeText(getApplicationContext(),"العنصر موجود فعلاً بالقائمه الرجاء اختياره من القائمه",Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(),"this item found in list please choose it from list",Toast.LENGTH_LONG).show();
+                        }
+                    }
                     else{
+                        final Map<String, Object> reservation = new HashMap<>();
+                        final String id=new Date()+"";
+                        reservation.put("itemName", newItemName.getText().toString());
 
                         final Uri resultUri = ImageUri;
 
-                        if(!resultUri.toString().equals("")) {
-
+                        if(!resultUri.toString().equals("")){
                             StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
-                            final StorageReference ref = mStorageRef.child("Offers/" + UUID.randomUUID().toString());
+                            final StorageReference ref = mStorageRef.child("Offers/"+ UUID.randomUUID().toString());
                             ref.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                     ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                         @Override
-                                        public void onSuccess(Uri uri) {
+                                        public void onSuccess(final Uri uri) {
 
-                                            Map<String, Object> reservation = new HashMap<>();
-                                            String id = new Date() + "";
-                                            reservation.put("item", itemItem);
-                                            reservation.put("subItem", itemName.getText().toString());
-                                            reservation.put("image", uri.toString());
-                                            reservation.put("Ar_description", "");
-                                            reservation.put("Ar_item", "");
-                                            reservation.put("Ar_subItem", "");
-                                            reservation.put("description", descr.getText().toString());
-                                            reservation.put("point", itemPoint.getText().toString());
-                                            reservation.put("kitchen", kitchen.getText().toString());
-                                            reservation.put("price", Double.parseDouble(itemPrice.getText().toString()));
-                                            reservation.put("itemId", id);
-
-                                            db.collection("Res_1_subItem").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            db.collection("Res_1_items").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        if (shared2.getString("language", "").equals("arabic")) {
-                                                            Toast.makeText(getApplicationContext(), "لقد تمت اضافة العنصر بنجاح ..", Toast.LENGTH_LONG).show();
-                                                            startActivity(new Intent(cashAddItem.this, Emppage.class));
-                                                            finish();
-                                                        } else {
-                                                            Toast.makeText(getApplicationContext(), "successful item add ..", Toast.LENGTH_LONG).show();
+                                                    if (task.isSuccessful()){
+
+                                                        if(shared2.getString("language", "").equals("arabic")) {
+                                                            Toast.makeText(getApplicationContext(),"لقد تمت اضافة العنصر بنجاح ..",Toast.LENGTH_LONG).show();
                                                         }
-                                                    }
+                                                        else{
+                                                            Toast.makeText(getApplicationContext(),"successful add ..",Toast.LENGTH_LONG).show();
+                                                        }
+                                                        Map<String, Object> reservation = new HashMap<>();
+                                                        String id=new Date()+"";
+                                                        reservation.put("item", newItemName.getText().toString());
+                                                        reservation.put("subItem", itemName.getText().toString() );
+                                                        reservation.put("image", uri.toString());
+                                                        reservation.put("description", descr.getText().toString());
+                                                        reservation.put("Ar_description", "");
+                                                        reservation.put("Ar_item", "");
+                                                        reservation.put("Ar_subItem", "");
+                                                        reservation.put("point", itemPoint.getText().toString());
+                                                        reservation.put("kitchen", kitchen.getText().toString());
+                                                        reservation.put("price",   Double.parseDouble(itemPrice.getText().toString()));
+                                                        reservation.put("cost",  itemCost.getText().toString());
+                                                        reservation.put("itemId", id);
+
+
+
+                                                        db.collection("Res_1_subItem").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if (task.isSuccessful()){
+                                                                    if(shared2.getString("language", "").equals("arabic")) {
+                                                                        Toast.makeText(getApplicationContext(),"لقد تمت الاضافة بنجاح ..",Toast.LENGTH_LONG).show();
+                                                                        startActivity(new Intent(cashAddItem.this, Emppage.class)); finish();}
+                                                                    else{
+                                                                        Toast.makeText(getApplicationContext(),"successful add ..",Toast.LENGTH_LONG).show();
+                                                                    } }  } });
+                                                    }  } });
+                                        }
+                                    });
+                                }
+                            }); }
+                        else{
+
+                            db.collection("Res_1_items").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()){
+
+                                        if(shared2.getString("language", "").equals("arabic")) {
+                                            Toast.makeText(getApplicationContext(),"لقد تمت اضافة العنصر بنجاح ..",Toast.LENGTH_LONG).show();
+                                        }
+                                        else{
+                                            Toast.makeText(getApplicationContext(),"successful add ..",Toast.LENGTH_LONG).show();
+                                        }
+                                        Map<String, Object> reservation = new HashMap<>();
+                                        String id=new Date()+"";
+                                        reservation.put("item", newItemName.getText().toString());
+                                        reservation.put("subItem", itemName.getText().toString() );
+                                        reservation.put("image", "");
+                                        reservation.put("Ar_description", "");
+                                        reservation.put("Ar_item", "");
+                                        reservation.put("Ar_subItem", "");
+                                        reservation.put("description", descr.getText().toString());
+                                        reservation.put("point", itemPoint.getText().toString());
+                                        reservation.put("kitchen", kitchen.getText().toString());
+                                        reservation.put("price",  Double.parseDouble(itemPrice.getText().toString()));
+                                        reservation.put("cost",  itemCost.getText().toString());
+                                        reservation.put("itemId", id);
+
+
+
+                                        db.collection("Res_1_subItem").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()){
+                                                    if(shared2.getString("language", "").equals("arabic")) {
+                                                        Toast.makeText(getApplicationContext(),"لقد تمت الاضافة بنجاح ..",Toast.LENGTH_LONG).show();
+                                                        startActivity(new Intent(cashAddItem.this, Emppage.class)); finish();}
+                                                    else{
+                                                        Toast.makeText(getApplicationContext(),"successful add ..",Toast.LENGTH_LONG).show();
+                                                    } }  } });
+                                    }  } });
+
+                        }
+
+                    }
+
+
+                } }
+            else{
+
+                final Uri resultUri = ImageUri;
+
+                if(!resultUri.toString().equals("")) {
+
+                    StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
+                    final StorageReference ref = mStorageRef.child("Offers/" + UUID.randomUUID().toString());
+                    ref.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+
+                                    Map<String, Object> reservation = new HashMap<>();
+                                    String id = new Date() + "";
+                                    reservation.put("item", itemItem);
+                                    reservation.put("subItem", itemName.getText().toString());
+                                    reservation.put("image", uri.toString());
+                                    reservation.put("Ar_description", "");
+                                    reservation.put("Ar_item", "");
+                                    reservation.put("Ar_subItem", "");
+                                    reservation.put("description", descr.getText().toString());
+                                    reservation.put("point", itemPoint.getText().toString());
+                                    reservation.put("kitchen", kitchen.getText().toString());
+                                    reservation.put("price",  Double.parseDouble(itemPrice.getText().toString()));
+                                    reservation.put("itemId", id);
+
+                                    db.collection("Res_1_subItem").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                if (shared2.getString("language", "").equals("arabic")) {
+                                                    Toast.makeText(getApplicationContext(), "لقد تمت اضافة العنصر بنجاح ..", Toast.LENGTH_LONG).show();
+                                                    startActivity(new Intent(cashAddItem.this, Emppage.class));
+                                                    finish();
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(), "successful item add ..", Toast.LENGTH_LONG).show();
                                                 }
-                                            });
+                                            }
                                         }
                                     });
                                 }
                             });
                         }
+                    });
+                }
+                else{
+
+                    Map<String, Object> reservation = new HashMap<>();
+                    String id = new Date() + "";
+                    reservation.put("item", itemItem);
+                    reservation.put("subItem", itemName.getText().toString());
+                    reservation.put("image", "");
+                    reservation.put("Ar_description", "");
+                    reservation.put("Ar_item", "");
+                    reservation.put("Ar_subItem", "");
+                    reservation.put("description", descr.getText().toString());
+                    reservation.put("point", itemPoint.getText().toString());
+                    reservation.put("kitchen", kitchen.getText().toString());
+                    reservation.put("price", Double.parseDouble(itemPrice.getText().toString()));
+                    reservation.put("itemId", id);
+
+                    db.collection("Res_1_subItem").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                if (shared2.getString("language", "").equals("arabic")) {
+                                    Toast.makeText(getApplicationContext(), "لقد تمت اضافة العنصر بنجاح ..", Toast.LENGTH_LONG).show();
+                                    startActivity(new Intent(cashAddItem.this, Emppage.class));
+                                    finish();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "successful item add ..", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }
+                    });
+
+                }
+
+
+
+            }
+        }
+    }
+
+    void addar(){
+
+        if (itemName.getText().toString().isEmpty()){
+            if (HomeAct.lang==1){
+                Toast.makeText(getApplicationContext(),"الرجاء ادخال اسم العنصر",Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(getApplicationContext(),"please enter item name",Toast.LENGTH_LONG).show();
+            }
+        }
+        else if (itemPrice.getText().toString().isEmpty()){
+            if (HomeAct.lang==1){
+                Toast.makeText(getApplicationContext(),"الرجاء ادخال سعر العنصر",Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(getApplicationContext(),"please enter item price",Toast.LENGTH_LONG).show();
+            }
+        }
+        else if (itemCost.getText().toString().isEmpty()){
+            if (HomeAct.lang==1){
+                Toast.makeText(getApplicationContext(),"الرجاء ادخال سعر النكلفه للعنصر",Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(getApplicationContext(),"please enter item cost",Toast.LENGTH_LONG).show();
+            }
+        }
+        else if (itemPoint.getText().toString().isEmpty()){
+            if (HomeAct.lang==1){
+                Toast.makeText(getApplicationContext(),"الرجاء ادخال النقاط",Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(getApplicationContext(),"please enter item point",Toast.LENGTH_LONG).show();
+            }
+        }
+
+        else{
+            if (checkBox.isChecked()){
+                if (newItemName.getText().toString().isEmpty()){
+                    if (HomeAct.lang==1){
+                        Toast.makeText(getApplicationContext(),"الرجاء اختيار اسم العنصر الجديد",Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(),"please enter new item name",Toast.LENGTH_LONG).show();
+                    }
+                }
+                else{
+                    boolean x=false;
+                    for(int i=0;i<itemList.size();i++){
+                        if (itemList.get(i).itemName.equals(newItemName.getText().toString())){
+                            x=true;
+                            break;
+                        }
+                    }
+                    if (newItemName.getText().toString().isEmpty()){
+                        if (HomeAct.lang==1){
+                            Toast.makeText(getApplicationContext(),"الرجاء اختيار اسم العنصر الجديد",Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(),"please enter new item name",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else if (x){
+                        if (HomeAct.lang==1){
+                            Toast.makeText(getApplicationContext(),"العنصر موجود فعلاً بالقائمه الرجاء اختياره من القائمه",Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(),"this item found in list please choose it from list",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else{
+                        final Map<String, Object> reservation = new HashMap<>();
+                        final String id=new Date()+"";
+                        reservation.put("itemName", newItemName.getText().toString());
+
+                        final Uri resultUri = ImageUri;
+
+                        if(!resultUri.toString().equals("")){
+                            StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
+                            final StorageReference ref = mStorageRef.child("Offers/"+ UUID.randomUUID().toString());
+                            ref.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(final Uri uri) {
+
+                                            db.collection("Res_1_items").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()){
+
+                                                        if(shared2.getString("language", "").equals("arabic")) {
+                                                            Toast.makeText(getApplicationContext(),"لقد تمت اضافة العنصر بنجاح ..",Toast.LENGTH_LONG).show();
+                                                        }
+                                                        else{
+                                                            Toast.makeText(getApplicationContext(),"successful add ..",Toast.LENGTH_LONG).show();
+                                                        }
+                                                        Map<String, Object> reservation = new HashMap<>();
+                                                        String id=new Date()+"";
+                                                        reservation.put("item", newItemName.getText().toString());
+                                                        reservation.put("subItem", "" );
+                                                        reservation.put("image", uri.toString());
+                                                        reservation.put("description", "");
+                                                        reservation.put("Ar_description", descr.getText().toString());
+                                                        reservation.put("Ar_item", "");
+                                                        reservation.put("Ar_subItem", itemName.getText().toString());
+                                                        reservation.put("point", itemPoint.getText().toString());
+                                                        reservation.put("kitchen", kitchen.getText().toString());
+                                                        reservation.put("price",  Double.parseDouble(itemPrice.getText().toString()));
+                                                        reservation.put("cost",  itemCost.getText().toString());
+                                                        reservation.put("itemId", id);
+
+
+
+                                                        db.collection("Res_1_subItem").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if (task.isSuccessful()){
+                                                                    if(shared2.getString("language", "").equals("arabic")) {
+                                                                        Toast.makeText(getApplicationContext(),"لقد تمت الاضافة بنجاح ..",Toast.LENGTH_LONG).show();
+                                                                        startActivity(new Intent(cashAddItem.this, Emppage.class)); finish();}
+                                                                    else{
+                                                                        Toast.makeText(getApplicationContext(),"successful add ..",Toast.LENGTH_LONG).show();
+                                                                    } }  } });
+                                                    }  } });
+                                        }
+                                    });
+                                }
+                            }); }
                         else{
 
-                            Map<String, Object> reservation = new HashMap<>();
-                            String id = new Date() + "";
-                            reservation.put("item", itemItem);
-                            reservation.put("subItem", itemName.getText().toString());
-                            reservation.put("image", "");
-                            reservation.put("Ar_description", "");
-                            reservation.put("Ar_item", "");
-                            reservation.put("Ar_subItem", "");
-                            reservation.put("description", descr.getText().toString());
-                            reservation.put("point", itemPoint.getText().toString());
-                            reservation.put("kitchen", kitchen.getText().toString());
-                            reservation.put("price", Double.parseDouble(itemPrice.getText().toString()));
-                            reservation.put("itemId", id);
-
-                            db.collection("Res_1_subItem").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            db.collection("Res_1_items").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        if (shared2.getString("language", "").equals("arabic")) {
-                                            Toast.makeText(getApplicationContext(), "لقد تمت اضافة العنصر بنجاح ..", Toast.LENGTH_LONG).show();
-                                            startActivity(new Intent(cashAddItem.this, Emppage.class));
-                                            finish();
-                                        } else {
-                                            Toast.makeText(getApplicationContext(), "successful item add ..", Toast.LENGTH_LONG).show();
+                                    if (task.isSuccessful()){
+
+                                        if(shared2.getString("language", "").equals("arabic")) {
+                                            Toast.makeText(getApplicationContext(),"لقد تمت اضافة العنصر بنجاح ..",Toast.LENGTH_LONG).show();
                                         }
-                                    }
-                                }
-                            });
+                                        else{
+                                            Toast.makeText(getApplicationContext(),"successful add ..",Toast.LENGTH_LONG).show();
+                                        }
+                                        Map<String, Object> reservation = new HashMap<>();
+                                        String id=new Date()+"";
+                                        reservation.put("item", newItemName.getText().toString());
+                                        reservation.put("subItem", "");
+                                        reservation.put("image", "");
+                                        reservation.put("Ar_description", descr.getText().toString());
+                                        reservation.put("Ar_item", "");
+                                        reservation.put("Ar_subItem",  itemName.getText().toString());
+                                        reservation.put("description", "");
+                                        reservation.put("point", itemPoint.getText().toString());
+                                        reservation.put("kitchen", kitchen.getText().toString());
+                                        reservation.put("price",  Double.parseDouble(itemPrice.getText().toString()));
+                                        reservation.put("cost", itemCost.getText().toString());
+                                        reservation.put("itemId", id);
+
+
+
+                                        db.collection("Res_1_subItem").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()){
+                                                    if(shared2.getString("language", "").equals("arabic")) {
+                                                        Toast.makeText(getApplicationContext(),"لقد تمت الاضافة بنجاح ..",Toast.LENGTH_LONG).show();
+                                                        startActivity(new Intent(cashAddItem.this, Emppage.class)); finish();}
+                                                    else{
+                                                        Toast.makeText(getApplicationContext(),"successful add ..",Toast.LENGTH_LONG).show();
+                                                    } }  } });
+                                    }  } });
 
                         }
 
-
-
                     }
+
+
+                } }
+            else{
+
+                final Uri resultUri = ImageUri;
+
+                if(!resultUri.toString().equals("")) {
+
+                    StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
+                    final StorageReference ref = mStorageRef.child("Offers/" + UUID.randomUUID().toString());
+                    ref.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+
+                                    Map<String, Object> reservation = new HashMap<>();
+                                    String id = new Date() + "";
+                                    reservation.put("item", itemItem);
+                                    reservation.put("subItem", "");
+                                    reservation.put("image", uri.toString());
+                                    reservation.put("Ar_description", descr.getText().toString());
+                                    reservation.put("Ar_item", "");
+                                    reservation.put("Ar_subItem", itemName.getText().toString());
+                                    reservation.put("description", "");
+                                    reservation.put("point", itemPoint.getText().toString());
+                                    reservation.put("kitchen", kitchen.getText().toString());
+                                    reservation.put("price", Double.parseDouble(itemPrice.getText().toString()));
+                                    reservation.put("itemId", id);
+
+                                    db.collection("Res_1_subItem").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                if (shared2.getString("language", "").equals("arabic")) {
+                                                    Toast.makeText(getApplicationContext(), "لقد تمت اضافة العنصر بنجاح ..", Toast.LENGTH_LONG).show();
+                                                    startActivity(new Intent(cashAddItem.this, Emppage.class));
+                                                    finish();
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(), "successful item add ..", Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
                 }
+                else{
+
+                    Map<String, Object> reservation = new HashMap<>();
+                    String id = new Date() + "";
+                    reservation.put("item", itemItem);
+                    reservation.put("subItem", "");
+                    reservation.put("image", "");
+                    reservation.put("Ar_description", descr.getText().toString());
+                    reservation.put("Ar_item", "");
+                    reservation.put("Ar_subItem", itemName.getText().toString());
+                    reservation.put("description", "");
+                    reservation.put("point", itemPoint.getText().toString());
+                    reservation.put("kitchen", kitchen.getText().toString());
+                    reservation.put("price", Double.parseDouble(itemPrice.getText().toString()));
+                    reservation.put("itemId", id);
+
+                    db.collection("Res_1_subItem").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                if (shared2.getString("language", "").equals("arabic")) {
+                                    Toast.makeText(getApplicationContext(), "لقد تمت اضافة العنصر بنجاح ..", Toast.LENGTH_LONG).show();
+                                    startActivity(new Intent(cashAddItem.this, Emppage.class));
+                                    finish();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "successful item add ..", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }
+                    });
+
+                }
+
+
+
             }
-        });
+        }
     }
 
     @Override

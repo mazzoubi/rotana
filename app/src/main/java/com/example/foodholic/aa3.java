@@ -25,8 +25,8 @@ import java.util.List;
 
 public class aa3 extends AppCompatActivity {
 
-    ArrayList<classItem> item;
-    ArrayList<classSubItem> subItems;
+    public static ArrayList<classItem> item;
+    public static ArrayList<classSubItem> subItems;
     FirebaseFirestore db;
     Button button;
     ListView listView;
@@ -74,10 +74,12 @@ public class aa3 extends AppCompatActivity {
                                     }catch (Exception e){Toast.makeText(getApplicationContext(),"!!لايمكن تنفيذ هذا الاجراء",Toast.LENGTH_LONG).show();}
                                 }
                             })
-                            .setNegativeButton("الغاء", new DialogInterface.OnClickListener() {
+                            .setNegativeButton("اضافة لغه اخرى", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
+                                    Intent n=new Intent(getApplicationContext(),cashAddItemAR.class);
+                                    n.putExtra("ppos",pos);
+                                    startActivity(n);
                                 }
                             });
                     AlertDialog alert=builder.create();
@@ -99,10 +101,12 @@ public class aa3 extends AppCompatActivity {
                                     }catch (Exception e){Toast.makeText(getApplicationContext(),"This procedure cannot be performed",Toast.LENGTH_LONG).show();}
                                 }
                             })
-                            .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                            .setNegativeButton("add others language ", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
+                                    Intent n=new Intent(getApplicationContext(),cashAddItemAR.class);
+                                    n.putExtra("ppos",pos);
+                                    startActivity(n);
                                 }
                             });
                     AlertDialog alert=builder.create();
