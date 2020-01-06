@@ -241,7 +241,7 @@ public class Tabel_Res_Emp extends AppCompatActivity {
 
                                                 double p = Double.parseDouble(temp[ii].substring(temp[ii].indexOf("Price : ")+8));
                                                 int c = Integer.parseInt(temp[ii].substring(temp[ii].indexOf("X")+1, temp[ii].indexOf(" Price : ")));
-                                                sale.put("sale", String.valueOf(p*c));
+                                                sale.put("sale", p*c);
 
                                                 bill+="\nItem : "+temp[ii]+"\n";
                                                 db.collection("Res_1_sales").document().set(sale);
@@ -250,8 +250,8 @@ public class Tabel_Res_Emp extends AppCompatActivity {
                                             bill+="\nBill Value : "+info.get(position+1).substring(info.get(position+1).indexOf("مجموع : ")+8)+"\n";
                                             bill+="\n\n\nTHANK YOU FOR YOUR PURCHASE, COME AGAIN !\n\n\n";
 
-                                            Print(bill);
                                             removeData(position+1);
+                                            PrintUsingServer(bill);
 
                                         }
                                     }).setNegativeButton("الغاء", new DialogInterface.OnClickListener() {
@@ -272,6 +272,26 @@ public class Tabel_Res_Emp extends AppCompatActivity {
             return rowView;
         }
 
+    }
+
+    private void PrintUsingServer(String s) {
+
+        try {
+
+            SocketAddress socketAddress = new InetSocketAddress("192.168.14.54", 9100);
+            Socket socket = new Socket();
+
+            socket.connect(socketAddress, 5000);
+
+            OutputStreamWriter clientSocketWriter = (new OutputStreamWriter(socket.getOutputStream(), "UTF8")); //optional encoding
+            clientSocketWriter.write(s);
+            clientSocketWriter.close();
+            socket.close();
+
+        }
+        catch(Exception e){
+            Toast.makeText(this, "لا يوجد طابعة !!!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void removeData(int i) {

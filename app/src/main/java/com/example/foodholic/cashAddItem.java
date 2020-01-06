@@ -275,6 +275,9 @@ public class cashAddItem extends AppCompatActivity {
                                                                  reservation.put("subItem", itemName.getText().toString() );
                                                                  reservation.put("image", uri.toString());
                                                                  reservation.put("description", descr.getText().toString());
+                                                                 reservation.put("Ar_description", "");
+                                                                 reservation.put("Ar_item", "");
+                                                                 reservation.put("Ar_subItem", "");
                                                                  reservation.put("point", itemPoint.getText().toString());
                                                                  reservation.put("kitchen", kitchen.getText().toString());
                                                                  reservation.put("price",  Double.parseDouble(itemPrice.getText().toString()));
@@ -316,6 +319,9 @@ public class cashAddItem extends AppCompatActivity {
                                                  reservation.put("item", newItemName.getText().toString());
                                                  reservation.put("subItem", itemName.getText().toString() );
                                                  reservation.put("image", "");
+                                                 reservation.put("Ar_description", "");
+                                                 reservation.put("Ar_item", "");
+                                                 reservation.put("Ar_subItem", "");
                                                  reservation.put("description", descr.getText().toString());
                                                  reservation.put("point", itemPoint.getText().toString());
                                                  reservation.put("kitchen", kitchen.getText().toString());
@@ -363,6 +369,9 @@ public class cashAddItem extends AppCompatActivity {
                                             reservation.put("item", itemItem);
                                             reservation.put("subItem", itemName.getText().toString());
                                             reservation.put("image", uri.toString());
+                                            reservation.put("Ar_description", "");
+                                            reservation.put("Ar_item", "");
+                                            reservation.put("Ar_subItem", "");
                                             reservation.put("description", descr.getText().toString());
                                             reservation.put("point", itemPoint.getText().toString());
                                             reservation.put("kitchen", kitchen.getText().toString());
@@ -395,6 +404,9 @@ public class cashAddItem extends AppCompatActivity {
                             reservation.put("item", itemItem);
                             reservation.put("subItem", itemName.getText().toString());
                             reservation.put("image", "");
+                            reservation.put("Ar_description", "");
+                            reservation.put("Ar_item", "");
+                            reservation.put("Ar_subItem", "");
                             reservation.put("description", descr.getText().toString());
                             reservation.put("point", itemPoint.getText().toString());
                             reservation.put("kitchen", kitchen.getText().toString());
