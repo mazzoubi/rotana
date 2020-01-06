@@ -304,7 +304,7 @@ public class TakeAway_Emp extends AppCompatActivity {
 
             double p = Double.parseDouble(temp[i].substring(temp[i].indexOf("Price : ")+8));
             int c = Integer.parseInt(temp[i].substring(temp[i].indexOf("X")+1, temp[i].indexOf(" Price : ")));
-            sale.put("sale", String.valueOf(p*c));
+            sale.put("sale", p*c);
 
             bill+="\nItem : "+temp[i]+"\n";
             db.collection("Res_1_sales").document().set(sale);
@@ -316,8 +316,28 @@ public class TakeAway_Emp extends AppCompatActivity {
 
         //getPoint(e.replace("\n", ""), t);
         removeData(path);
-        Print(bill);
+        PrintUsingServer(bill);
 
+    }
+
+    private void PrintUsingServer(String s) {
+
+        try {
+
+            SocketAddress socketAddress = new InetSocketAddress("192.168.14.54", 9100);
+            Socket socket = new Socket();
+
+            socket.connect(socketAddress, 5000);
+
+            OutputStreamWriter clientSocketWriter = (new OutputStreamWriter(socket.getOutputStream(), "UTF8")); //optional encoding
+            clientSocketWriter.write(s);
+            clientSocketWriter.close();
+            socket.close();
+
+        }
+        catch(Exception e){
+            Toast.makeText(this, "لا يوجد طابعة !!!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void Print(String str) {

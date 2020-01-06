@@ -202,7 +202,12 @@ public class Emppage extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_del_emp);
+
+        if(HomeAct.lang == 1)
+            setContentView(R.layout.activity_del_emp);
+        else
+            setContentView(R.layout.activity_del_emp2);
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         String myFormat = "dd/MM/yy"; //In which you need put here
@@ -421,8 +426,6 @@ public class Emppage extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
-                PrintUsingServer("مرحيا, اسمي ,احمد يااااااااااااااااااس , يسعد الله");
-
                 if (empObj.cashWork){
 
                     final AlertDialog.Builder builder2 = new AlertDialog.Builder(Emppage.this);
@@ -616,7 +619,11 @@ public class Emppage extends AppCompatActivity
                     public void onClick(View v) {
 
                         if ((Double.parseDouble(e.getText().toString()) - sum) >= 0 && !e.getText().toString().equals("")) {
-                            AddSale(e.getText().toString(), (Double.parseDouble(e.getText().toString()) - sum)+"", ""+sum);
+
+                            if(HomeAct.lang == 1)
+                                AddSaleAra(e.getText().toString(), (Double.parseDouble(e.getText().toString()) - sum)+"", ""+sum);
+                            else
+                                AddSale(e.getText().toString(), (Double.parseDouble(e.getText().toString()) - sum)+"", ""+sum);
                             dialog2.dismiss();
                             recreate();
                         } else {
@@ -912,7 +919,12 @@ public class Emppage extends AppCompatActivity
                                                         @Override
                                                         public void onComplete(@NonNull Task<Void> task) {
                                                             if(task.isSuccessful())
-                                                                Toast.makeText(Emppage.this, "Your request is added", Toast.LENGTH_SHORT).show();
+                                                            {
+                                                                if(HomeAct.lang == 1)
+                                                                    Toast.makeText(Emppage.this, "تمت اضافة الطلب", Toast.LENGTH_SHORT).show();
+                                                                else
+                                                                    Toast.makeText(Emppage.this, "Your request is added", Toast.LENGTH_SHORT).show();
+                                                            }
                                                         }
                                                     });
 
@@ -1064,8 +1076,12 @@ public class Emppage extends AppCompatActivity
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 if(task.isSuccessful())
-                                                                    Toast.makeText(Emppage.this, "Your request is added", Toast.LENGTH_SHORT).show();
-
+                                                                {
+                                                                    if(HomeAct.lang == 1)
+                                                                        Toast.makeText(Emppage.this, "تمت اضافة الطلب", Toast.LENGTH_SHORT).show();
+                                                                    else
+                                                                        Toast.makeText(Emppage.this, "Your request is added", Toast.LENGTH_SHORT).show();
+                                                                }
                                                             }
                                                         });
 
@@ -1195,8 +1211,12 @@ public class Emppage extends AppCompatActivity
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if(task.isSuccessful())
-                                                            Toast.makeText(Emppage.this, "Your request is added", Toast.LENGTH_SHORT).show();
-
+                                                        {
+                                                            if(HomeAct.lang == 1)
+                                                                Toast.makeText(Emppage.this, "تمت اضافة الطلب", Toast.LENGTH_SHORT).show();
+                                                            else
+                                                                Toast.makeText(Emppage.this, "Your request is added", Toast.LENGTH_SHORT).show();
+                                                        }
                                                     }
                                                 });
                                     }
@@ -1438,13 +1458,21 @@ public class Emppage extends AppCompatActivity
             }
         });
 
-        loadItem();
         loadSubItem();
+
+        if(HomeAct.lang == 1)
+            loadItem2();
+        else
+            loadItem();
+
 
         itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                getSubItem(items.get(position).itemName);
+                if(HomeAct.lang == 1)
+                    getSubItem2(items.get(position).itemName);
+                else
+                    getSubItem(items.get(position).itemName);
             }
         });
 
@@ -1458,31 +1486,58 @@ public class Emppage extends AppCompatActivity
 
                 if (saleList.isEmpty()){
                     sale.count=1;
-                    sale.subItemName=subItemsAfterFilering.get(position).subItem;
+                    if(HomeAct.lang == 1)
+                        sale.subItemName=subItemsAfterFilering.get(position).Ar_subItem;
+                    else
+                        sale.subItemName=subItemsAfterFilering.get(position).subItem;
                     sale.sumPrice=subItemsAfterFilering.get(position).price;
                     sale.unitPrice=subItemsAfterFilering.get(position).price;
                     saleList.add(sale);
 
                 }
                 else{
-                    for(int i=0 ; i<saleList.size();i++){
-                        if(subItemsAfterFilering.get(position).subItem.equals(saleList.get(i).subItemName)){
-                            saleList.get(i).sumPrice+=subItemsAfterFilering.get(position).price;
-                            saleList.get(i).count++;
-                            cheack=true;
-                            break;
-                        }
 
-                    }
-                    if(cheack){
+                    if(HomeAct.lang == 1){
+                        for(int i=0 ; i<saleList.size();i++){
+                            if(subItemsAfterFilering.get(position).Ar_subItem.equals(saleList.get(i).subItemName)){
+                                saleList.get(i).sumPrice+=subItemsAfterFilering.get(position).price;
+                                saleList.get(i).count++;
+                                cheack=true;
+                                break;
+                            }
+
+                        }
+                        if(cheack){
+                        }
+                        else{
+                            sale.count=1;
+                            sale.subItemName=subItemsAfterFilering.get(position).Ar_subItem;
+                            sale.sumPrice=subItemsAfterFilering.get(position).price;
+                            sale.unitPrice=subItemsAfterFilering.get(position).price;
+                            saleList.add(sale);
+                        }
                     }
                     else{
-                        sale.count=1;
-                        sale.subItemName=subItemsAfterFilering.get(position).subItem;
-                        sale.sumPrice=subItemsAfterFilering.get(position).price;
-                        sale.unitPrice=subItemsAfterFilering.get(position).price;
-                        saleList.add(sale);
+                        for(int i=0 ; i<saleList.size();i++){
+                            if(subItemsAfterFilering.get(position).subItem.equals(saleList.get(i).subItemName)){
+                                saleList.get(i).sumPrice+=subItemsAfterFilering.get(position).price;
+                                saleList.get(i).count++;
+                                cheack=true;
+                                break;
+                            }
+
+                        }
+                        if(cheack){
+                        }
+                        else{
+                            sale.count=1;
+                            sale.subItemName=subItemsAfterFilering.get(position).subItem;
+                            sale.sumPrice=subItemsAfterFilering.get(position).price;
+                            sale.unitPrice=subItemsAfterFilering.get(position).price;
+                            saleList.add(sale);
+                        }
                     }
+
 
                 }
 
@@ -2102,12 +2157,44 @@ public class Emppage extends AppCompatActivity
         });
     }
 
+    public void loadItem2(){
+        db.collection("Res_1_Ar_Items").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                items=new ArrayList<>();
+                itemToShow=new ArrayList<>();
+                List<DocumentSnapshot>list=queryDocumentSnapshots.getDocuments();
+                for(DocumentSnapshot d:list){
+                    classItem a=d.toObject(classItem.class);
+                    items.add(a);
+                    itemToShow.add(a.itemName);
+                }
+                ArrayAdapter<String>adapter=new ArrayAdapter<>(getApplication(),R.layout.items_row, R.id.item, itemToShow);
+                itemList.setAdapter(adapter);
+
+            }
+        });
+    }
+
     public void getSubItem(String item){
         subItemToShow=new ArrayList<>();
         subItemsAfterFilering=new ArrayList<>();
         for(classSubItem d:subItems){
             if (d.item.equals(item)){
                 subItemToShow.add(d.subItem);
+                subItemsAfterFilering.add(d);
+            }
+        }
+        ArrayAdapter<String>adapter=new ArrayAdapter<>(getApplication(),R.layout.items_row, R.id.item, subItemToShow);
+        subList.setAdapter(adapter);
+    }
+
+    public void getSubItem2(String item){
+        subItemToShow=new ArrayList<>();
+        subItemsAfterFilering=new ArrayList<>();
+        for(classSubItem d:subItems){
+            if (d.Ar_item.equals(item)){
+                subItemToShow.add(d.Ar_subItem);
                 subItemsAfterFilering.add(d);
             }
         }
@@ -2140,7 +2227,7 @@ public class Emppage extends AppCompatActivity
 
         dname.clear();
 
-        db.collection("Res_1_driver")
+        db.collection("Res_1_employee")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -2148,7 +2235,8 @@ public class Emppage extends AppCompatActivity
 
                         if (task.isSuccessful())
                             for (QueryDocumentSnapshot document : task.getResult())
-                                addData(document.getId());
+                                if(document.getId().contains(".del"))
+                                    addData(document.get("Fname").toString()+" "+document.get("Lname").toString());
 
                     } });
 
@@ -2237,8 +2325,58 @@ public class Emppage extends AppCompatActivity
                     });
 
         }
-        bill+="total: "+sum+"\n\n\n"+"**********Aldakheel**********\n\n\n";
 
+
+    }
+
+    public void AddSaleAra(String paid, String change, String sum){
+
+        String bill="";
+
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
+        Date dateee = new Date();
+        String date = dateFormat.format(dateee);
+
+        String day = date.substring(0, date.indexOf(" "));
+        String time = date.substring(date.indexOf(" ")+1);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        bill+="\n"+"مرحبا بك في مطعم شاورما هايبرد";
+        bill+="\n"+"نوع الفاتورة : فاتورة كاش";
+        bill+="\n\n";
+        bill+="تاريخ : "+day+"\n";
+        bill+="وقت : "+time+"\n";
+        bill+="__________________________________________\n\n\n";
+
+        for(int i=0; i<saleList.size(); i++){
+
+            Map<String, Object> sale = new HashMap<>();
+            sale.put("date", day);
+            sale.put("time", time);
+            sale.put("subItem", saleList.get(i).subItemName);
+            sale.put("item", itemToShow.get(i));
+            sale.put("empEmail", auth.getCurrentUser().getEmail());
+            sale.put("sale", saleList.get(i).sumPrice);
+
+            bill+="\nItem : "+saleList.get(i).subItemName+" X"+saleList.get(i).count+" Price : "+saleList.get(i).sumPrice+"\n";
+
+            db.collection("Res_1_sales").document()
+
+                    .set(sale)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            recreate();
+                        }
+                    });
+        }
+
+        bill+="\nمجموع الفاتورة : "+sum+"\n";
+        bill+="\nمدفوع : "+paid+"\n";
+        bill+="\nباقي : "+change+"\n";
+        bill+="\n\n\nاهلا وسهلا زبائننا الكرام\n\n\n";
+
+        PrintUsingServer(bill);
 
     }
 
@@ -2289,9 +2427,10 @@ public class Emppage extends AppCompatActivity
         bill+="\nChange : "+change+"\n";
         bill+="\n\n\nTHANK YOU FOR YOUR PURCHASE, COME AGAIN !\n\n\n";
 
-        PrintUsingServer("مرحبا ,انا ,اسمي ,ahmad");
+        PrintUsingServer(bill);
 
     }
+
     void empLoadInfo(final String e){
         FirebaseFirestore db =FirebaseFirestore.getInstance();
         db.collection("Res_1_employee").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {

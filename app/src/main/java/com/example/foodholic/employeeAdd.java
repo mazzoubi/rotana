@@ -40,7 +40,7 @@ public class employeeAdd extends AppCompatActivity {
     SharedPreferences shared2;
 
     String date="";
-
+    classEmployee emp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -186,10 +186,10 @@ public class employeeAdd extends AppCompatActivity {
 
             }
         });
+        emp=new classEmployee();
 
         button .setOnClickListener(new View.OnClickListener() {
             String emaill = "";
-            classEmployee emp=new classEmployee();
             @Override
             public void onClick(View v) {
 
@@ -312,6 +312,7 @@ public class employeeAdd extends AppCompatActivity {
                                                                             n.putExtra("addpayment", false);
                                                                             n.putExtra("cashWork", false);
                                                                             n.putExtra("empExt", false);
+
                                                                             startActivity(n);
 
                                                                         }

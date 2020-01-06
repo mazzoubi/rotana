@@ -517,7 +517,7 @@ public class Delivery_Emp extends AppCompatActivity {
 
             double p = Double.parseDouble(temp[i].substring(temp[i].indexOf("Single Price : ")+14));
             int c = Integer.parseInt(temp[i].substring(temp[i].indexOf("X")+1, temp[i].indexOf(" Single Price : ")));
-            sale.put("sale", String.valueOf(p*c));
+            sale.put("sale", p*c);
 
             bill+="\nItem : "+temp[i]+"\n";
             db.collection("Res_1_sales").document().set(sale);
@@ -526,8 +526,29 @@ public class Delivery_Emp extends AppCompatActivity {
         bill+="\nBill Value : "+info.get(pos).substring(info.get(pos).indexOf("المجموع : ")+10)+"\n";
         bill+="\n\n\nTHANK YOU FOR YOUR PURCHASE, COME AGAIN !\n\n\n";
 
-        Print(bill);
         removeData(path, pos);
+        PrintUsingServer(bill);
+
+    }
+
+    private void PrintUsingServer(String s) {
+
+        try {
+
+            SocketAddress socketAddress = new InetSocketAddress("192.168.14.54", 9100);
+            Socket socket = new Socket();
+
+            socket.connect(socketAddress, 5000);
+
+            OutputStreamWriter clientSocketWriter = (new OutputStreamWriter(socket.getOutputStream(), "UTF8")); //optional encoding
+            clientSocketWriter.write(s);
+            clientSocketWriter.close();
+            socket.close();
+
+        }
+        catch(Exception e){
+            Toast.makeText(this, "لا يوجد طابعة !!!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void Print(String str) {
@@ -556,7 +577,7 @@ public class Delivery_Emp extends AppCompatActivity {
 
         dname.clear();
 
-        db.collection("Res_1_driver")
+        db.collection("Res_1_employee")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -564,8 +585,8 @@ public class Delivery_Emp extends AppCompatActivity {
 
                         if (task.isSuccessful())
                             for (QueryDocumentSnapshot document : task.getResult())
-                                addData(document.getId());
-
+                                if(document.getId().contains(".del"))
+                                    addData(document.get("Fname").toString()+" "+document.get("Lname").toString());
                     } });
 
     }
