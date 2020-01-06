@@ -44,7 +44,7 @@ public class statisticsMainActivity extends AppCompatActivity {
   RadioButton year,month,day;
   DatePickerDialog.OnDateSetListener date_;
   String myDatefrom=" / / ";
-
+  SharedPreferences shared2;
   String toPrint="";
   String empName="";
   @Override
@@ -126,7 +126,7 @@ public class statisticsMainActivity extends AppCompatActivity {
     button.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        if (HomeAct.lang==1){
+          if(shared2.getString("language", "").equals("arabic")){
           try{
             closeOpenAtDate=new ArrayList<>();
             ArrayList<String> arrayList=new ArrayList<>();

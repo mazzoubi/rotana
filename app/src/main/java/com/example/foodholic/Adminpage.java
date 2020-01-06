@@ -134,22 +134,44 @@ public class Adminpage extends AppCompatActivity {
                                 break;
                             case 7:
                                 final EditText edt = new EditText(Adminpage.this);
-                                edt.setHint("أدخل عدد الطاولات");
-                                new AlertDialog.Builder(Adminpage.this)
-                                        .setTitle("تنظيم الصالة")
-                                        .setView(edt)
-                                        .setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                dialogInterface.dismiss();
-                                            } })
-                                        .setPositiveButton("إدخال", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                uploadTabelNum(edt.getText().toString());
-                                                dialogInterface.dismiss();
-                                            }
-                                        }).show();
+                                if(shared2.getString("language", "").equals("arabic")) {
+                                    edt.setHint("أدخل عدد الطاولات");
+                                    new AlertDialog.Builder(Adminpage.this)
+                                            .setTitle("تنظيم الصالة")
+                                            .setView(edt)
+                                            .setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    dialogInterface.dismiss();
+                                                }
+                                            })
+                                            .setPositiveButton("إدخال", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    uploadTabelNum(edt.getText().toString());
+                                                    dialogInterface.dismiss();
+                                                }
+                                            }).show();
+                                }else{
+                                        edt.setHint("Enter number of table");
+                                        new AlertDialog.Builder(Adminpage.this)
+                                                .setTitle("hall organization")
+                                                .setView(edt)
+                                                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        dialogInterface.dismiss();
+                                                    }
+                                                })
+                                                .setPositiveButton("Enter", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        uploadTabelNum(edt.getText().toString());
+                                                        dialogInterface.dismiss();
+                                                    }
+                                                }).show();
+
+                                }
 
                                 break;
                             case 8:

@@ -1,5 +1,6 @@
 package com.example.foodholic;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +23,7 @@ public class statisticsByItem extends AppCompatActivity {
     ArrayList<classSales> list;
     ArrayList<classItem> listItem;
     ArrayList<classSubItem>listSubItem;
-
+    SharedPreferences shared2;
     TextView result ;
     Spinner month,year,item,subitem;
     Button button;
@@ -73,7 +74,7 @@ public class statisticsByItem extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 ArrayList<String> ss =new ArrayList<>();
-              if (HomeAct.lang==1){
+                if(shared2.getString("language", "").equals("arabic")){
                   ss.add("اختر عنصر");
                   ArrayAdapter<String>adapter;
                   if (i==0){
@@ -158,7 +159,7 @@ public class statisticsByItem extends AppCompatActivity {
             public void onClick(View view) {
                 double cost=0,sale=0;
                 ArrayList<classSales> ss=new ArrayList<>();
-              if (HomeAct.lang==1){
+                if(shared2.getString("language", "").equals("arabic")){
                   if (m.isEmpty()&&s.isEmpty()){
                       for (classSales d : list){
                           if (d.item.equals(it)&&d.date.contains(y)){
@@ -281,6 +282,7 @@ public class statisticsByItem extends AppCompatActivity {
     }
 
     void init(){
+        shared2 = getSharedPreferences("lang", MODE_PRIVATE);
         list=Adminpage.cSale;
         listItem();
         listSubItem();
@@ -290,7 +292,7 @@ public class statisticsByItem extends AppCompatActivity {
         subitem=findViewById(R.id.a1sunitemspinner);
         button=findViewById(R.id.a1button);
 
-        if (HomeAct.lang==1){
+        if(shared2.getString("language", "").equals("arabic")){
             button.setText("بحث");
         }
     }
@@ -303,7 +305,7 @@ public class statisticsByItem extends AppCompatActivity {
             listItem=new ArrayList<>();
                 ArrayAdapter<String> itemAdapter;
                 ArrayList<String> zz=new ArrayList<>();
-                if (HomeAct.lang==1){
+                if(shared2.getString("language", "").equals("arabic")){
                     zz.add("اختر عنصر");
                 }
                 else {
