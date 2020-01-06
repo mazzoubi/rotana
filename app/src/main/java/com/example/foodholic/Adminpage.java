@@ -108,6 +108,7 @@ public class Adminpage extends AppCompatActivity {
                                 startActivity(n);
                                 break;
                             case 1:
+
                                 Intent n1 =new Intent(getApplicationContext(),warehouse.class);
                                 startActivity(n1);
                                 break;
@@ -172,7 +173,6 @@ public class Adminpage extends AppCompatActivity {
                                                 }).show();
 
                                 }
-
                                 break;
                             case 8:
                                 Intent n6=new Intent(getApplicationContext(),ratingSystem.class);
