@@ -119,11 +119,12 @@ public class Emppage extends AppCompatActivity
 
 
     ArrayList<String> tabels = new ArrayList<String>();
-    public static String[] sites = {
-            "1", "2", "3", "4", "5",
-            "6", "7", "8","9","10", "11","12",
-            "13", "14", "15", "16", "17", "18", "19",
-            "20", "21", "22","23","24", "25","26", "27", "28", "29", "30" };
+    public static String[] sites = new String[250];
+//    public static String[] sites = {
+//            "1", "2", "3", "4", "5",
+//            "6", "7", "8","9","10", "11","12",
+//            "13", "14", "15", "16", "17", "18", "19",
+//            "20", "21", "22","23","24", "25","26", "27", "28", "29", "30" };
 
     public class CustomAdapter extends BaseAdapter {
 
@@ -134,9 +135,10 @@ public class Emppage extends AppCompatActivity
 
         public CustomAdapter(Emppage table, String[] site) {
 
+            for(int i=0; i<250; i++) sites[i] = (i+1)+"";
+
             result=sites;
             context=table;
-
             inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE); }
 
         @Override
@@ -197,6 +199,9 @@ public class Emppage extends AppCompatActivity
     String PO="";
 
     final Map<String, Object> tempMap = new HashMap<>();
+
+    boolean falafel = false;
+    boolean restart = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -438,23 +443,18 @@ public class Emppage extends AppCompatActivity
                 TextView t = dialog2.findViewById(R.id.title);
                 String s = String.valueOf(sum);
 
-                if (String.valueOf(sum).length() > 10){
-                    if(shared2.getString("language", "").equals("arabic")){
+                try{
+                    if (s.length() > 10){
+                    if(shared2.getString("language", "").equals("arabic"))
                         t.setText("مجموع الفاتورة : " + s.substring(s.indexOf("."), s.indexOf(".") + 3) + " دينار ");
-                    }
-                    else {t.setText("total bill : " + s.substring(s.indexOf("."), s.indexOf(".") + 3) + " JOD ");}
-
-                }
+                    else
+                        t.setText("total bill : " + s.substring(s.indexOf("."), s.indexOf(".") + 3) + " JOD "); }
                 else{
-                    if(shared2.getString("language", "").equals("arabic")){
+                    if(shared2.getString("language", "").equals("arabic"))
                         t.setText("مجموع الفاتورة : " + sum + " دينار ");
-                    }
-                    else {
-                        t.setText("total bill : " + sum + " JOD ");
-                    }
-
-                }
-
+                    else
+                        t.setText("total bill : " + sum + " JOD "); } }
+                catch (Exception e){}
 
                 closeOpenCash.total += sum;
 
@@ -1340,94 +1340,29 @@ public class Emppage extends AppCompatActivity
                         @Override
                         public void onClick(View view) {
 
-                            db.collection("closeOpenCash").document().set(closeOpenCash)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            new AlertDialog.Builder(Emppage.this)
+                                    .setMessage("هل ترغب بالخروج ؟")
+                                    .setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
                                         @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-
-                                            if(task.isSuccessful()){
-                                                FirebaseAuth auth = FirebaseAuth.getInstance();
-                                                auth.signOut();
-                                                if(shared2.getString("language", "").equals("arabic")){
-                                                    Toast.makeText(Emppage.this, "تسجيل خروج بنجاح", Toast.LENGTH_SHORT).show();
-                                                }
-                                                else {
-                                                    Toast.makeText(Emppage.this, "logout is successful", Toast.LENGTH_SHORT).show();
-                                                }
-
-
-                                                SharedPreferences.Editor editor = shared2.edit();
-                                                editor.putString("cash", "");
-                                                editor.apply();
-
-                                                editor = shared3.edit();
-                                                editor.putString("pay", "0.0");
-                                                editor.apply();
-
-                                                closeOpenCash = new classCloseOpenCash();
-
-                                                dialog.dismiss();
-                                                Emppage.this.finish();
-                                            }
-                                            else
-                                            if(shared2.getString("language", "").equals("arabic")){
-                                                Toast.makeText(Emppage.this, "تعذر التخزين !", Toast.LENGTH_SHORT).show();
-                                            }else {
-                                                Toast.makeText(Emppage.this, "تعذر التخزين !", Toast.LENGTH_SHORT).show();
-                                            }
-
-
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                            dialog.dismiss();
                                         }
-                                    });
+                                    }).setPositiveButton("خروج", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    Count = 1;
+                                    onBackPressed();
+
+                                }
+                            }).show();
 
                         }
                     });
                 }
                 else {
-                    new AlertDialog.Builder(Emppage.this)
-                            .setTitle("Please close the cache")
-                            .setView(ee).setCancelable(false)
-                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Emppage.this.finish(); }})
-                            .setPositiveButton("Enter", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(final DialogInterface dialog, int which) {
 
-                                    if(!ee.getText().toString().equals("")){
-
-                                        cash.put("cash", ee.getText().toString());
-
-                                        db.collection("Res_1_cash")
-                                                .document(""+new Date()).set(cash).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if(task.isSuccessful()){
-
-                                                    int prev = Integer.parseInt(shared2.getString("cash", "0"));
-                                                    int curr = Integer.parseInt(ee.getText().toString());
-
-                                                    if(curr >= prev){
-
-                                                        FirebaseAuth auth = FirebaseAuth.getInstance();
-                                                        auth.signOut();
-
-                                                        Toast.makeText(Emppage.this, "Your logout is successful", Toast.LENGTH_SHORT).show();
-
-
-                                                        dialog.dismiss();
-                                                        Emppage.this.finish();
-
-                                                    }
-                                                    else{
-                                                        Toast.makeText(Emppage.this, "Existing values do not match sales, please check your cache again", Toast.LENGTH_SHORT).show();
-                                                        dialog.dismiss(); }
-                                                } } }); }
-                                    else
-                                        dialog.dismiss();
-
-                                } }).show();
                 }
             } });
 
@@ -1480,6 +1415,9 @@ public class Emppage extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 sale=new classCashSale();
+
+                if(falafel)
+                    Redo();
 
                 boolean cheack=false;
                 int loopPosition=0;
@@ -1580,12 +1518,15 @@ public class Emppage extends AppCompatActivity
                                         sum+=saleList.get(j).sumPrice;
 
                                     String t = "";
+                                    t=String.valueOf(sum);
                                     TextView s = findViewById(R.id.tot);
 
-                                    if(String.valueOf(sum).length() > 10)
-                                        s.setText("مجموع الفاتورة : "+t.substring(t.indexOf("."), t.indexOf(".")+3)+" دينار ");
-                                    else
-                                        s.setText("مجموع الفاتورة : "+sum+" دينار ");
+                                    try{
+                                        if(t.length() > 10)
+                                            s.setText("مجموع الفاتورة : "+t.substring(0, t.indexOf(".")+3)+" دينار ");
+                                        else
+                                            s.setText("مجموع الفاتورة : "+sum+" دينار "); }
+                                    catch (Exception e) {s.setText("مجموع الفاتورة : "+sum+" دينار ");}
 
                                 }
                             }).setNegativeButton("حذف", new DialogInterface.OnClickListener() {
@@ -1600,12 +1541,15 @@ public class Emppage extends AppCompatActivity
                                         sum+=saleList.get(j).sumPrice;
 
                                     String t = "";
+                                    t=String.valueOf(sum);
                                     TextView s = findViewById(R.id.tot);
 
-                                    if(String.valueOf(sum).length() > 10)
-                                        s.setText("مجموع الفاتورة : "+t.substring(t.indexOf("."), t.indexOf(".")+3)+" دينار ");
+                                    try{
+                                        if(t.length() > 10)
+                                        s.setText("مجموع الفاتورة : "+t.substring(0, t.indexOf(".")+3)+" دينار ");
                                     else
-                                        s.setText("مجموع الفاتورة : "+sum+" دينار ");
+                                        s.setText("مجموع الفاتورة : "+sum+" دينار "); }
+                                    catch (Exception e){s.setText("مجموع الفاتورة : "+sum+" دينار ");}
 
                                     dialogInterface.dismiss();
                                 }
@@ -1638,12 +1582,15 @@ public class Emppage extends AppCompatActivity
                                         sum+=saleList.get(j).sumPrice;
 
                                     String t = "";
+                                    t=String.valueOf(sum);
                                     TextView s = findViewById(R.id.tot);
 
-                                    if(String.valueOf(sum).length() > 10)
-                                        s.setText("Total invoice : "+t.substring(t.indexOf("."), t.indexOf(".")+3)+" JOD ");
+                                    try{
+                                        if(t.length() > 10)
+                                        s.setText("Total invoice : "+t.substring(0, t.indexOf(".")+3)+" JOD ");
                                     else
-                                        s.setText("Total invoice : "+sum+" JOD ");
+                                        s.setText("Total invoice : "+sum+" JOD "); }
+                                    catch (Exception e){s.setText("Total invoice : "+sum+" JOD ");}
 
                                 }
                             }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -1658,12 +1605,15 @@ public class Emppage extends AppCompatActivity
                                         sum+=saleList.get(j).sumPrice;
 
                                     String t = "";
+                                    t=String.valueOf(sum);
                                     TextView s = findViewById(R.id.tot);
 
-                                    if(String.valueOf(sum).length() > 10)
-                                        s.setText("Total invoice : "+t.substring(t.indexOf("."), t.indexOf(".")+3)+" JOD ");
+                                    try{
+                                        if(t.length() > 10)
+                                        s.setText("Total invoice : "+t.substring(0, t.indexOf(".")+3)+" JOD ");
                                     else
-                                        s.setText("Total invoice : "+sum+" JOD ");
+                                        s.setText("Total invoice : "+sum+" JOD "); }
+                                    catch (Exception e) {s.setText("Total invoice : "+sum+" JOD ");}
                                     dialogInterface.dismiss();
                                 }
                             }).show();
@@ -1677,16 +1627,25 @@ public class Emppage extends AppCompatActivity
                     sum+=saleList.get(i).sumPrice;
 
                 String t = "";
+                t=String.valueOf(sum);
                 TextView s = findViewById(R.id.tot);
 
                 try{
-                    if(String.valueOf(sum).length() > 10){
-                        if(shared2.getString("language", "").equals("arabic")){
-                            s.setText("مجموع الفاتورة : "+t.substring(t.indexOf("."), t.indexOf(".")+3)+" دينار ");
-                        }
-                        else {
-                            s.setText("Total invoice : "+t.substring(t.indexOf("."), t.indexOf(".")+3)+" JOD ");
-                        }
+                    if(t.length() > 10){
+                        try {
+                            if(shared2.getString("language", "").equals("arabic")){
+                                s.setText("مجموع الفاتورة : "+t.substring(0, t.indexOf(".")+3)+" دينار ");
+                            }
+                            else {
+                                s.setText("Total invoice : "+t.substring(0, t.indexOf(".")+3)+" JOD ");
+                            }
+                        } catch (Exception e){
+                            if(HomeAct.lang == 1){
+                                s.setText("مجموع الفاتورة : "+sum+" دينار ");
+                            }
+                            else {
+                                s.setText("Total invoice : "+sum+" JOD ");
+                            }                        }
                     }
                     else{
                         if (HomeAct.lang==1){
@@ -1700,6 +1659,12 @@ public class Emppage extends AppCompatActivity
             }
         });
         GetTabelCount();
+
+
+
+    }
+
+    private void Redo() {
 
 
 
@@ -1740,6 +1705,66 @@ public class Emppage extends AppCompatActivity
             }
         });
 
+
+
+    }
+
+    public void closeAppUpload(){
+        try{
+            String form2 = "HH:mm dd-MM-yy";
+            SimpleDateFormat sdf2 = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+            Date parsedDate2 = sdf2.parse(new Date().toString());
+            SimpleDateFormat print2 = new SimpleDateFormat(form2);
+            closeOpenCash.dateAndTimeClose = print2.format(parsedDate2);}
+        catch(Exception e){}
+
+        db.collection("closeOpenCash").document().set(closeOpenCash)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        if(restart){
+                            if(task.isSuccessful()){
+                                FirebaseAuth auth = FirebaseAuth.getInstance();
+                                auth.signOut();
+                                if(shared2.getString("language", "").equals("arabic")){
+                                    Toast.makeText(Emppage.this, "تسجيل خروج بنجاح", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Toast.makeText(Emppage.this, "logout is successful", Toast.LENGTH_SHORT).show();
+                                }
+
+
+                                SharedPreferences.Editor editor = shared2.edit();
+                                editor.putString("cash", "");
+                                editor.apply();
+
+                                editor = shared3.edit();
+                                editor.putString("pay", "0.0");
+                                editor.apply();
+
+                                closeOpenCash = new classCloseOpenCash();
+                                Emppage.this.finish();
+                            }
+                            else
+                            if(shared2.getString("language", "").equals("arabic")){
+                                Toast.makeText(Emppage.this, "تعذر التخزين !", Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(Emppage.this, "تعذر التخزين !", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+
+                    }
+                });
+    Emppage.this.finish(); }
+
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+
+        closeAppUpload();
 
 
     }
@@ -1867,8 +1892,9 @@ public class Emppage extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if(++Count == 2)
-                super.onBackPressed();
+            if(++Count == 2){
+                restart = true;
+                super.onBackPressed(); }
             else
                 Toast.makeText(this, "Press Back Again To Exit", Toast.LENGTH_SHORT).show();
         }
@@ -2412,7 +2438,7 @@ public class Emppage extends AppCompatActivity
             bill+="\nItem : "+saleList.get(i).subItemName+" X"+saleList.get(i).count+" Price : "+saleList.get(i).sumPrice+"\n";
 
             db.collection("Res_1_sales").document()
-                    
+
                     .set(sale)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override

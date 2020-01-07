@@ -114,6 +114,7 @@
             android:parentActivityName=".Emppage" />
         <activity
             android:name=".Emppage"
+            android:stopWithTask="true"
             android:label="@string/title_activity_del_emp"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
