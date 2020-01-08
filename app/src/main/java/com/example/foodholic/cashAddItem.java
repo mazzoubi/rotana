@@ -43,12 +43,13 @@ public class cashAddItem extends AppCompatActivity {
     CheckBox checkBox;
     ImageView imageView;
     Button add, addimg;
-    Spinner currentItem;
+    Spinner currentItem, currentItem2;
     SharedPreferences shared2;
-    ArrayList<classItem>itemList;
+    ArrayList<classItem>itemList, itemList2;
     ArrayList<classSubItem> subItems;
-    ArrayList<String>spinerIten;
+    ArrayList<String>spinerIten, spinerIten2;
     String itemItem="";
+    String itemItem2="";
     Uri ImageUri=Uri.parse("");
 
     @Override
@@ -80,6 +81,7 @@ public class cashAddItem extends AppCompatActivity {
 
         kitchen=findViewById(R.id.kitchenNo);
         currentItem=findViewById(R.id.spinner_correntItem);
+        currentItem2=findViewById(R.id.spinner_correntItem2);
 
         checkBox.setChecked(true);
 
@@ -128,12 +130,51 @@ public class cashAddItem extends AppCompatActivity {
             }
         });
 
+        db.collection("Res_1_Ar_Items").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot>list=queryDocumentSnapshots.getDocuments();
+                itemList2=new ArrayList<>();
+                spinerIten2=new ArrayList<>();
+                spinerIten2.add("اختر عنصر");
+                for(DocumentSnapshot d:list){
+                    classItem a=d.toObject(classItem.class);
+                    itemList2.add(a);
+                    spinerIten2.add(a.itemName);
+                }
+
+                ArrayAdapter<String> adapter=new ArrayAdapter<>(getApplicationContext(), R.layout.items_row3, R.id.item,spinerIten2);
+                currentItem2.setAdapter(adapter);
+                if (itemList2.isEmpty()){
+                    checkBox.setChecked(true);
+                    newItemName.setEnabled(true);
+                    newItemName2.setEnabled(true);
+                    currentItem2.setEnabled(false);
+                }
+            }
+        });
+
         currentItem.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position==0){}
                 else {
                     itemItem=itemList.get(position-1).itemName;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        currentItem2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position==0){}
+                else {
+                    itemItem2=itemList2.get(position-1).itemName;
                 }
             }
 
@@ -159,6 +200,7 @@ public class cashAddItem extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     currentItem.setEnabled(!isChecked);
+                    currentItem2.setEnabled(!isChecked);
                     newItemName.setEnabled(isChecked);
                     newItemName2.setEnabled(isChecked);
             }
@@ -233,6 +275,12 @@ public class cashAddItem extends AppCompatActivity {
                     boolean x=false;
                     for(int i=0;i<itemList.size();i++){
                         if (itemList.get(i).itemName.equals(newItemName.getText().toString())){
+                            x=true;
+                            break;
+                        }
+                    }
+                    for(int i=0;i<itemList2.size();i++){
+                        if (itemList2.get(i).itemName.equals(newItemName2.getText().toString())){
                             x=true;
                             break;
                         }
@@ -399,7 +447,7 @@ public class cashAddItem extends AppCompatActivity {
                                     reservation.put("subItem", itemName.getText().toString());
                                     reservation.put("image", uri.toString());
                                     reservation.put("Ar_description", descr2.getText().toString());
-                                    reservation.put("Ar_item", newItemName2.getText().toString());
+                                    reservation.put("Ar_item", itemItem2);
                                     reservation.put("Ar_subItem", itemName2.getText().toString());
                                     reservation.put("description", descr.getText().toString());
                                     reservation.put("point", itemPoint.getText().toString());
@@ -434,7 +482,7 @@ public class cashAddItem extends AppCompatActivity {
                     reservation.put("subItem", itemName.getText().toString());
                     reservation.put("image", "");
                     reservation.put("Ar_description", descr2.getText().toString());
-                    reservation.put("Ar_item", newItemName2.getText().toString());
+                    reservation.put("Ar_item", itemItem2);
                     reservation.put("Ar_subItem", itemName2.getText().toString());
                     reservation.put("description", descr.getText().toString());
                     reservation.put("point", itemPoint.getText().toString());
@@ -514,6 +562,12 @@ public class cashAddItem extends AppCompatActivity {
                     boolean x=false;
                     for(int i=0;i<itemList.size();i++){
                         if (itemList.get(i).itemName.equals(newItemName.getText().toString())){
+                            x=true;
+                            break;
+                        }
+                    }
+                    for(int i=0;i<itemList2.size();i++){
+                        if (itemList2.get(i).itemName.equals(newItemName2.getText().toString())){
                             x=true;
                             break;
                         }

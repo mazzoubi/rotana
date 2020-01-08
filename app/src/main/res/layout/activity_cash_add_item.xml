@@ -132,6 +132,14 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/shape" />
 
+                <Spinner
+                    android:id="@+id/spinner_correntItem2"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/shape" />
+
                 <EditText
                     android:id="@+id/itemNewItem"
                     android:layout_width="match_parent"
