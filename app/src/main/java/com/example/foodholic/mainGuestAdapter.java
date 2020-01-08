@@ -38,12 +38,13 @@ public class mainGuestAdapter extends ArrayAdapter<classSubItem> {
 
         Sales=getItem(position);
 
-        if (HomeAct.lang==1){
-            neme.setText(Sales.subItem+"");
-            des.setText(Sales.description+"");
+        if (HomeAct.lang==1 && !aa3.eng){
+            neme.setText(Sales.Ar_subItem+"");
+            des.setText(Sales.Ar_description+"");
             point.setText("النقاط : "+Sales.point);
             priceAfter.setText("السعر : "+Sales.price+" دينار ");
         }
+
         else {
             neme.setText(Sales.subItem+"");
             des.setText(Sales.description+"");

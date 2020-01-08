@@ -32,33 +32,23 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-
-                    <RadioButton
-                        android:id="@+id/radioButtonAR"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="عربي" />
-
-                    <RadioButton
-                        android:id="@+id/radioButtonEN"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="En" />
-                </RadioGroup>
-
-
                 <EditText
                     android:id="@+id/itemSubItem"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_marginTop="15dp"
                     android:textSize="18sp"
                     android:background="@drawable/shape2"
                     android:gravity="center"
                     android:hint="Item name"
+                    android:inputType="textPersonName" />
+                <EditText
+                    android:id="@+id/itemSubItem2"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:textSize="18sp"
+                    android:background="@drawable/shape2"
+                    android:gravity="center"
+                    android:hint="Arabic Item name"
                     android:inputType="textPersonName" />
 
                 <EditText
@@ -70,6 +60,16 @@
                     android:background="@drawable/shape2"
                     android:gravity="center"
                     android:hint="Item description"
+                    android:inputType="textPersonName" />
+                <EditText
+                    android:id="@+id/descr2"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:textSize="18sp"
+                    android:background="@drawable/shape2"
+                    android:gravity="center"
+                    android:hint="Arabic Item description"
                     android:inputType="textPersonName" />
 
                 <EditText
@@ -141,6 +141,16 @@
                     android:gravity="center"
                     android:textSize="18sp"
                     android:hint="New item name"
+                    android:inputType="textPersonName" />
+                <EditText
+                    android:id="@+id/itemNewItem2"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/shape2"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:hint="Arabic New item name"
                     android:inputType="textPersonName" />
 
                 <Button

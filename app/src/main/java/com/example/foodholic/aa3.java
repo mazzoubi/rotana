@@ -8,10 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -32,9 +35,13 @@ public class aa3 extends AppCompatActivity {
     ListView listView;
     Spinner spinner;
     int lang=0;
+
+    public static boolean eng=true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_aa3);
 
         Toolbar bar = findViewById(R.id.tool);
@@ -43,11 +50,47 @@ public class aa3 extends AppCompatActivity {
 
         init();
 
+        RadioGroup rg = findViewById(R.id.rg);
+        final RadioButton rb1 = findViewById(R.id.radioButtonAR);
+        final RadioButton rb2 = findViewById(R.id.radioButtonEN);
+
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+
+                if(rb1.isChecked())
+                    eng = false;
+                if(rb2.isChecked())
+                    eng = true;
+
+                if(!eng)
+                    loadItem2();
+                else
+                    loadItem();
+
+                if (eng){
+                    button.setText(" + add item + ");
+                }
+                else{
+                    button.setText(" + أضافة مادة + ");
+                }
+
+
+
+                ArrayAdapter<classSubItem>adapter=new mainGuestAdapter(getApplicationContext(),R.layout.row_guest,subItems);
+                listView.setAdapter(adapter);
+
+            }
+        });
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String s=adapterView.getItemAtPosition(i).toString();
-                loadSubItem(s);
+                if(eng)
+                    loadSubItem(s);
+                else
+                    loadSubItem2(s);
             }
 
             @Override
@@ -74,12 +117,13 @@ public class aa3 extends AppCompatActivity {
                                     }catch (Exception e){Toast.makeText(getApplicationContext(),"!!لايمكن تنفيذ هذا الاجراء",Toast.LENGTH_LONG).show();}
                                 }
                             })
-                            .setNegativeButton("اضافة لغه اخرى", new DialogInterface.OnClickListener() {
+                            .setNegativeButton("الغاء", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent n=new Intent(getApplicationContext(),cashAddItemAR.class);
-                                    n.putExtra("ppos",pos);
-                                    startActivity(n);
+                                    dialog.dismiss();
+//                                    Intent n=new Intent(getApplicationContext(),cashAddItemAR.class);
+//                                    n.putExtra("ppos",pos);
+//                                    startActivity(n);
                                 }
                             });
                     AlertDialog alert=builder.create();
@@ -137,11 +181,11 @@ public class aa3 extends AppCompatActivity {
         button=findViewById(R.id.button911);
         listView=findViewById(R.id.listView911);
         spinner=findViewById(R.id.spinner911);
-        if (lang==1){
-            button.setText(" + اضافة عنصر + ");
+        if (eng){
+            button.setText(" + add item + ");
         }
         else{
-            button.setText("add item");
+            button.setText(" + أضافة مادة + ");
         }
         loadItem();
 
@@ -160,6 +204,40 @@ public class aa3 extends AppCompatActivity {
                 }
                 ArrayAdapter<classSubItem>adapter=new mainGuestAdapter(getApplicationContext(),R.layout.row_guest,subItems);
                 listView.setAdapter(adapter);
+            }
+        });
+    }
+
+    void loadSubItem2(final String s){
+        subItems=new ArrayList<>();
+        db.collection("Res_1_subItem").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot>list=queryDocumentSnapshots.getDocuments();
+                for(DocumentSnapshot d :list){
+                    if (d.toObject(classSubItem.class).Ar_item.equals(s)) {
+                        subItems.add(d.toObject(classSubItem.class));
+                    }
+                }
+                ArrayAdapter<classSubItem>adapter=new mainGuestAdapter(getApplicationContext(),R.layout.row_guest,subItems);
+                listView.setAdapter(adapter);
+            }
+        });
+    }
+
+    void loadItem2(){
+        item=new ArrayList<>();
+        final ArrayList<String> ii=new ArrayList<>();
+        db.collection("Res_1_Ar_Items").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot>list=queryDocumentSnapshots.getDocuments();
+                for(DocumentSnapshot d :list){
+                    item.add(d.toObject(classItem.class));
+                    ii.add(d.toObject(classItem.class).itemName);
+                }
+                ArrayAdapter<String> adapter=new ArrayAdapter<>(getApplicationContext(),R.layout.items_row3, R.id.item,ii);
+                spinner.setAdapter(adapter);
             }
         });
     }

@@ -39,7 +39,7 @@ import java.util.UUID;
 public class cashAddItem extends AppCompatActivity {
 
     FirebaseFirestore db;
-    EditText itemName,itemPrice,itemCost,itemPoint,newItemName,kitchen, descr;
+    EditText itemName,itemName2, itemPrice,itemCost,itemPoint,newItemName,newItemName2, kitchen, descr, descr2;
     CheckBox checkBox;
     ImageView imageView;
     Button add, addimg;
@@ -51,7 +51,6 @@ public class cashAddItem extends AppCompatActivity {
     String itemItem="";
     Uri ImageUri=Uri.parse("");
 
-    RadioButton ar,en;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,18 +64,17 @@ public class cashAddItem extends AppCompatActivity {
 
         shared2 = getSharedPreferences("lang", MODE_PRIVATE);
         itemName=findViewById(R.id.itemSubItem);
+        itemName2=findViewById(R.id.itemSubItem2);
         itemPrice=findViewById(R.id.itemPrice);
         itemCost=findViewById(R.id.itemCost);
         itemPoint=findViewById(R.id.itemPoint);
         newItemName=findViewById(R.id.itemNewItem);
+        newItemName2=findViewById(R.id.itemNewItem2);
         descr=findViewById(R.id.descr);
+        descr2=findViewById(R.id.descr2);
         addimg=findViewById(R.id.addimg);
-        ar=findViewById(R.id.radioButtonAR);
-        en=findViewById(R.id.radioButtonEN);
-
 
         checkBox=findViewById(R.id.itemCheckBox);
-
 
         add=findViewById(R.id.buttonItemAdd);
 
@@ -86,14 +84,17 @@ public class cashAddItem extends AppCompatActivity {
         checkBox.setChecked(true);
 
         if (HomeAct.lang==1){
-            itemName.setHint("إسم المادة");
+            itemName.setHint("إسم المادة بالانجليزي");
+            itemName2.setHint("إسم المادة بالعربي");
             itemPrice.setHint("سعر المادة");
             itemCost.setHint("سعر التكلفة");
             itemPoint.setHint("النقاط");
-            newItemName.setHint("إسم التصنيف");
+            newItemName.setHint("إسم التصنيف بالانجليزي");
+            newItemName2.setHint("إسم التصنيف بالعربي");
             checkBox.setText("تصنيف جديد؟");
             kitchen.setHint("رقم المطبخ");
-            descr.setHint("وصف المادة");
+            descr.setHint("وصف المادة بالانجليزي");
+            descr2.setHint("وصف المادة بالعربي");
             add.setText("+ إضافة +");
             addimg.setText("+ إضافة صورة +");
             bar.setTitle("الرجوع");
@@ -121,6 +122,7 @@ public class cashAddItem extends AppCompatActivity {
                 if (itemList.isEmpty()){
                     checkBox.setChecked(true);
                     newItemName.setEnabled(true);
+                    newItemName2.setEnabled(true);
                     currentItem.setEnabled(false);
                 }
             }
@@ -158,6 +160,7 @@ public class cashAddItem extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     currentItem.setEnabled(!isChecked);
                     newItemName.setEnabled(isChecked);
+                    newItemName2.setEnabled(isChecked);
             }
         });
 
@@ -176,20 +179,7 @@ public class cashAddItem extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ar.isChecked()){
-                    addar();
-                }
-                else if (en.isChecked()){
-                    adden();
-                }
-                else {
-                    if (HomeAct.lang==1){
-                        Toast.makeText(cashAddItem.this, "الرجاء اختيار اللغه", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        Toast.makeText(cashAddItem.this, "please choose language", Toast.LENGTH_SHORT).show();
-                    }
-                }
+                adden();
             }
         });
     }
@@ -280,7 +270,13 @@ public class cashAddItem extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(final Uri uri) {
 
+                                            if(!newItemName2.getText().toString().equals("")){
+                                                final Map<String, Object> rrr = new HashMap<>();
+                                                rrr.put("itemName", newItemName2.getText().toString());
+                                                db.collection("Res_1_Ar_Items").document().set(rrr); }
+
                                             db.collection("Res_1_items").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()){
@@ -297,16 +293,14 @@ public class cashAddItem extends AppCompatActivity {
                                                         reservation.put("subItem", itemName.getText().toString() );
                                                         reservation.put("image", uri.toString());
                                                         reservation.put("description", descr.getText().toString());
-                                                        reservation.put("Ar_description", "");
-                                                        reservation.put("Ar_item", "");
-                                                        reservation.put("Ar_subItem", "");
+                                                        reservation.put("Ar_description", descr2.getText().toString());
+                                                        reservation.put("Ar_item", newItemName2.getText().toString());
+                                                        reservation.put("Ar_subItem", itemName2.getText().toString());
                                                         reservation.put("point", itemPoint.getText().toString());
                                                         reservation.put("kitchen", kitchen.getText().toString());
                                                         reservation.put("price",   Double.parseDouble(itemPrice.getText().toString()));
                                                         reservation.put("cost",  itemCost.getText().toString());
                                                         reservation.put("itemId", id);
-
-
 
                                                         db.collection("Res_1_subItem").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                             @Override
@@ -317,13 +311,23 @@ public class cashAddItem extends AppCompatActivity {
                                                                         startActivity(new Intent(cashAddItem.this, Emppage.class)); finish();}
                                                                     else{
                                                                         Toast.makeText(getApplicationContext(),"successful add ..",Toast.LENGTH_LONG).show();
-                                                                    } }  } });
-                                                    }  } });
+                                                                    }
+
+                                                                     }  } });
+                                                    }  }
+
+
+                                            });
                                         }
                                     });
                                 }
                             }); }
                         else{
+
+                            if(!newItemName2.getText().toString().equals("")){
+                                final Map<String, Object> rrr = new HashMap<>();
+                                rrr.put("itemName", newItemName2.getText().toString());
+                                db.collection("Res_1_Ar_Items").document().set(rrr); }
 
                             db.collection("Res_1_items").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -341,9 +345,9 @@ public class cashAddItem extends AppCompatActivity {
                                         reservation.put("item", newItemName.getText().toString());
                                         reservation.put("subItem", itemName.getText().toString() );
                                         reservation.put("image", "");
-                                        reservation.put("Ar_description", "");
-                                        reservation.put("Ar_item", "");
-                                        reservation.put("Ar_subItem", "");
+                                        reservation.put("Ar_description", descr2.getText().toString());
+                                        reservation.put("Ar_item", newItemName2.getText().toString());
+                                        reservation.put("Ar_subItem", itemName2.getText().toString());
                                         reservation.put("description", descr.getText().toString());
                                         reservation.put("point", itemPoint.getText().toString());
                                         reservation.put("kitchen", kitchen.getText().toString());
@@ -362,7 +366,10 @@ public class cashAddItem extends AppCompatActivity {
                                                         startActivity(new Intent(cashAddItem.this, Emppage.class)); finish();}
                                                     else{
                                                         Toast.makeText(getApplicationContext(),"successful add ..",Toast.LENGTH_LONG).show();
-                                                    } }  } });
+                                                    }
+
+
+                                                     }  } });
                                     }  } });
 
                         }
@@ -391,9 +398,9 @@ public class cashAddItem extends AppCompatActivity {
                                     reservation.put("item", itemItem);
                                     reservation.put("subItem", itemName.getText().toString());
                                     reservation.put("image", uri.toString());
-                                    reservation.put("Ar_description", "");
-                                    reservation.put("Ar_item", "");
-                                    reservation.put("Ar_subItem", "");
+                                    reservation.put("Ar_description", descr2.getText().toString());
+                                    reservation.put("Ar_item", newItemName2.getText().toString());
+                                    reservation.put("Ar_subItem", itemName2.getText().toString());
                                     reservation.put("description", descr.getText().toString());
                                     reservation.put("point", itemPoint.getText().toString());
                                     reservation.put("kitchen", kitchen.getText().toString());
@@ -426,9 +433,9 @@ public class cashAddItem extends AppCompatActivity {
                     reservation.put("item", itemItem);
                     reservation.put("subItem", itemName.getText().toString());
                     reservation.put("image", "");
-                    reservation.put("Ar_description", "");
-                    reservation.put("Ar_item", "");
-                    reservation.put("Ar_subItem", "");
+                    reservation.put("Ar_description", descr2.getText().toString());
+                    reservation.put("Ar_item", newItemName2.getText().toString());
+                    reservation.put("Ar_subItem", itemName2.getText().toString());
                     reservation.put("description", descr.getText().toString());
                     reservation.put("point", itemPoint.getText().toString());
                     reservation.put("kitchen", kitchen.getText().toString());

@@ -22,6 +22,34 @@
         android:layout_below="@+id/tool"
         android:orientation="vertical" >
 
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:id="@+id/rg"
+            android:gravity="center"
+            android:layout_height="40dp" >
+
+            <RadioButton
+                android:id="@+id/radioButtonAR"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:buttonTint="@color/colorPrimary"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="عربي" />
+
+            <RadioButton
+                android:id="@+id/radioButtonEN"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:buttonTint="@color/colorPrimary"
+                android:checked="true"
+                android:layout_height="wrap_content"
+                android:text="English" />
+        </RadioGroup>
+
         <Button
             android:id="@+id/button911"
             android:layout_width="match_parent"
