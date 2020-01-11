@@ -625,7 +625,7 @@ public class Emppage extends AppCompatActivity
                             else
                                 AddSale(e.getText().toString(), (Double.parseDouble(e.getText().toString()) - sum)+"", ""+sum);
                             dialog2.dismiss();
-                            recreate();
+                            //recreate();
                         } else {
                             if(shared2.getString("language", "").equals("arabic")){
                                 Toast.makeText(Emppage.this, "الرجاء ادخال مبلغ صحيح", Toast.LENGTH_SHORT).show();
@@ -1684,6 +1684,7 @@ public class Emppage extends AppCompatActivity
             clientSocketWriter.close();
             socket.close();
 
+
         }
         catch(Exception e){
             Toast.makeText(this, "لا يوجد طابعة !!!", Toast.LENGTH_SHORT).show();
@@ -2367,24 +2368,24 @@ public class Emppage extends AppCompatActivity
         String time = date.substring(date.indexOf(" ")+1);
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
-        bill+="\n"+"مرحبا بك في مطعم شاورما هايبرد";
-        bill+="\n"+"نوع الفاتورة : فاتورة كاش";
-        bill+="\n\n";
-        bill+="تاريخ : "+day+"\n";
-        bill+="وقت : "+time+"\n";
-        bill+="__________________________________________\n\n\n";
+        bill+="\n"+"مرحبا بك في مطعم شاورما هايبرد"+",";
+        bill+="\n"+"نوع الفاتورة : فاتورة كاش"+",";
+        bill+="\n\n"+",";
+        bill+="تاريخ : "+day+"\n"+",";
+        bill+="وقت : "+time+"\n"+",";
+        bill+="__________________________________________\n\n\n"+",";
 
         for(int i=0; i<saleList.size(); i++){
 
             Map<String, Object> sale = new HashMap<>();
-            sale.put("date", day);
-            sale.put("time", time);
-            sale.put("subItem", saleList.get(i).subItemName);
-            sale.put("item", itemToShow.get(i));
-            sale.put("empEmail", auth.getCurrentUser().getEmail());
-            sale.put("sale", saleList.get(i).sumPrice);
+            sale.put("date", day+",");
+            sale.put("time", time+",");
+            sale.put("subItem", saleList.get(i).subItemName+",");
+            sale.put("item", itemToShow.get(i)+",");
+            sale.put("empEmail", auth.getCurrentUser().getEmail()+",");
+            sale.put("sale", saleList.get(i).sumPrice+",");
 
-            bill+="\nItem : "+saleList.get(i).subItemName+" X"+saleList.get(i).count+" Price : "+saleList.get(i).sumPrice+"\n";
+            bill+="\nitem : "+saleList.get(i).subItemName+" X"+saleList.get(i).count+" price : "+saleList.get(i).sumPrice+"\n"+",";
 
             db.collection("Res_1_sales").document()
 
@@ -2392,15 +2393,15 @@ public class Emppage extends AppCompatActivity
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            recreate();
+                            Toast.makeText(Emppage.this, "تم", Toast.LENGTH_SHORT).show();
                         }
                     });
         }
 
-        bill+="\nمجموع الفاتورة : "+sum+"\n";
-        bill+="\nمدفوع : "+paid+"\n";
-        bill+="\nباقي : "+change+"\n";
-        bill+="\n\n\nاهلا وسهلا زبائننا الكرام\n\n\n";
+        bill+="\n\nمجموع الفاتورة : "+sum+"\n"+",";
+        bill+="\n\n\n\nمدفوع : "+paid+"\n"+",";
+        bill+="\n\n\n\nباقي : "+change+"\n"+",";
+        bill+="\n\n\n\nاهلا وسهلا زبائننا الكرام\n\n\n"+",";
 
         PrintUsingServer(bill);
 
