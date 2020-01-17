@@ -63,9 +63,11 @@ public class Delivery_Emp extends AppCompatActivity {
 
     String p="";
     int lang=0 ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_delivery__emp);
         SharedPreferences shared2;
         shared2 = getSharedPreferences("lang", MODE_PRIVATE);
@@ -147,11 +149,17 @@ public class Delivery_Emp extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
 
-                            getLngLat();
+                            if(!latlng.isEmpty()){
 
-                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                                    Uri.parse("http://maps.google.com/maps?daddr="+latlng.get(position)));
-                            startActivity(intent);
+                                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                        Uri.parse(latlng.get(position)));
+                                startActivity(intent);
+                            }
+                            else{
+
+                                Toast.makeText(Delivery_Emp.this, "لا يوجد عنوان !", Toast.LENGTH_LONG).show();
+                            }
+
 
                         }
                     });
@@ -194,10 +202,16 @@ public class Delivery_Emp extends AppCompatActivity {
                             adapterSpin = new ArrayAdapter<String>(Delivery_Emp.this, R.layout.items_row3, R.id.item, dname);
                             sp2.setAdapter(adapterSpin);
 
+                            getLngLat();
+
                             Button bbb = dialog2.findViewById(R.id.call);
                             bbb.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
+
+                                    String ll = "";
+                                    if(!latlng.isEmpty())
+                                        ll = latlng.get(position).substring(latlng.get(position).indexOf("daddr=")+6);
 
                                     String temp = info.get(position);
                                     HashMap<String, String> map = new HashMap<>();
@@ -209,8 +223,9 @@ public class Delivery_Emp extends AppCompatActivity {
                                     map.put("point_sum", temp.substring(temp.indexOf("النقاط : ")+9, temp.indexOf("ملاحظات : ")).replace("\n", ""));
                                     map.put("d_price", temp.substring(temp.indexOf("سعر توصيل : ")+12, temp.indexOf("العنوان : ")).replace("\n", ""));
                                     map.put("email", "");
-                                    map.put("lat", "");
-                                    map.put("lng", "");
+                                    try{map.put("lat", ll.substring(0, ll.indexOf(",")));
+                                        map.put("lng", ll.substring(ll.indexOf(",")+1));}
+                                    catch (Exception e){}
 
                                     db.collection("Res_1_Delivery")
                                             .document(sp2.getSelectedItem().toString())
@@ -277,9 +292,18 @@ public class Delivery_Emp extends AppCompatActivity {
 
                             getLngLat();
 
-                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                                    Uri.parse("http://maps.google.com/maps?daddr="+latlng.get(position)));
-                            startActivity(intent);
+                            if(!latlng.isEmpty()){
+
+                                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                        Uri.parse(latlng.get(position)));
+                                startActivity(intent);
+                            }
+                            else{
+
+                                Toast.makeText(Delivery_Emp.this, "لا يوجد عنوان !", Toast.LENGTH_LONG).show();
+                            }
+
+
 
                         }
                     });
@@ -376,9 +400,18 @@ public class Delivery_Emp extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 for(QueryDocumentSnapshot document : task.getResult())
-                    latlng.add(document.get("lat").toString()+","+document.get("lng").toString());
+                    AddCoar(document.get("lat").toString()+","+document.get("lng").toString());
+
             }
         });
+
+
+
+    }
+
+    private void AddCoar(String add) {
+
+        latlng.add("http://maps.google.com/maps?daddr="+add);
 
     }
 
@@ -439,7 +472,7 @@ public class Delivery_Emp extends AppCompatActivity {
             }
         });
 
-    }
+        getLngLat(); }
 
     public void removeData(String path, int pos){
 
@@ -507,11 +540,11 @@ public class Delivery_Emp extends AppCompatActivity {
 
         Map<String, Object> sale = new HashMap<>();
 
-        for(int i=0; i<temp.length; i++){
+        for(int i=0; i<temp.length-1; i++){
 
             sale.put("date", day);
             sale.put("time", time);
-            sale.put("subItem", temp[i].substring(0, temp[i].indexOf(" X")));
+            sale.put("subItem", temp[i].substring(0, temp[i].indexOf("X")));
             sale.put("item", "");
             sale.put("empEmail", auth.getCurrentUser().getEmail());
 

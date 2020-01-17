@@ -9,7 +9,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -56,9 +58,12 @@ public class TakeAway_Emp extends AppCompatActivity {
 
     ArrayAdapter<String> adapterSpin;
 
+    boolean flag = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_take_away__emp);
 
         db = FirebaseFirestore.getInstance();
@@ -87,6 +92,7 @@ public class TakeAway_Emp extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 downloadData();
+                flag = false;
             }
         });
 
@@ -94,6 +100,7 @@ public class TakeAway_Emp extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 downloadData(sp.getSelectedItem().toString());
+                flag = true;
             }
 
             @Override
@@ -108,44 +115,58 @@ public class TakeAway_Emp extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long ido) {
 
-                new AlertDialog.Builder(TakeAway_Emp.this)
-                        .setMessage("تأكيد أم حذف الطلب ؟")
-                        .setNegativeButton("حذف", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                removeData(sp.getSelectedItem().toString()); }
-                        })
-                        .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                AddSale(sp.getSelectedItem().toString(), position);
-                            }
-                        }).create().show();
-            }
-        });
+                final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(TakeAway_Emp.this);
+                LayoutInflater inflater = TakeAway_Emp.this.getLayoutInflater();
+                builder.setView(inflater.inflate(R.layout.dialog_redirect3, null));
+                final android.support.v7.app.AlertDialog dialog = builder.create();
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                dialog.show();
+                dialog.getWindow().setAttributes(lp);
 
-                new AlertDialog.Builder(TakeAway_Emp.this)
-                        .setMessage("هل ترغب بالأتصال ؟")
-                        .setNegativeButton("لا", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).setPositiveButton("أتصال", new DialogInterface.OnClickListener() {
+                Button b1, b4, b5;
+
+                b1 = dialog.findViewById(R.id.call);
+                b4 = dialog.findViewById(R.id.confirm);
+                b5 = dialog.findViewById(R.id.remove);
+
+                b1.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View view) {
                         String str = info.get(position);
                         String num = str.substring(str.indexOf("الهاتف : ")+9, str.indexOf("العنوان : "));
                         num = RemoveSpace(num);
                         startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", num, null)));
-                    }
-                }).show();
 
-                return true;
+                    }
+                });
+
+                b4.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(flag || dname.size() == 1)
+                            AddSale(sp.getSelectedItem().toString(), position);
+                        else
+                            Toast.makeText(TakeAway_Emp.this, "الرجاء الاختيار من لائحة الوقت .", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+                b5.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(flag)
+                            removeData(sp.getSelectedItem().toString());
+                        else
+                            Toast.makeText(TakeAway_Emp.this, "الرجاء الاختيار من لائحة الوقت .", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+
             }
         });
 
@@ -154,6 +175,7 @@ public class TakeAway_Emp extends AppCompatActivity {
     public void downloadData(){
 
         info.clear();
+        adapter.notifyDataSetChanged();
 
         db.collection("Res_1_TakeAway")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -185,6 +207,7 @@ public class TakeAway_Emp extends AppCompatActivity {
     public void downloadData(String path){
 
         info.clear();
+        adapter.notifyDataSetChanged();
 
         db.collection("Res_1_TakeAway")
                 .document(path).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -209,18 +232,17 @@ public class TakeAway_Emp extends AppCompatActivity {
 
     public void removeData(String path){
 
-        db.collection("Res_1_TakeAway").document(path).delete()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+            db.collection("Res_1_TakeAway").document(path).delete()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
 
-                        info.clear();
-                        adapter.clear();
+                            info.clear();
+                            adapter.clear();
 
-                        adapter.notifyDataSetChanged();
-                        Toast.makeText(TakeAway_Emp.this, "تم", Toast.LENGTH_SHORT).show();
-                        recreate(); } });
-
+                            adapter.notifyDataSetChanged();
+                            Toast.makeText(TakeAway_Emp.this, "تم", Toast.LENGTH_SHORT).show();
+                            recreate(); } });
     }
 
     public String RemoveSpace(String str){
