@@ -60,7 +60,7 @@ public class adminEmpAccess extends AppCompatActivity {
         Date a=new Date();
         String aa=a+"";
         String[] aaa=aa.split(" ");
-        String day =(a.getDay()+1)+"";
+        String day =(a.getDate())+"";
         String month =(a.getMonth()+1)+"";
         date=day+"-"+month+"-"+aaa[5];
         myDatefrom=month+"-"+aaa[5];

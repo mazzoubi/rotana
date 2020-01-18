@@ -9,21 +9,25 @@
     <Spinner
         android:id="@+id/zspinnerYear"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginTop="50dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@android:drawable/editbox_background_normal"
         android:entries="@array/year"
-        android:background="@drawable/shape2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <Spinner
         android:id="@+id/zspinnerMonth"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:background="@android:drawable/editbox_background_normal"
         android:entries="@array/month"
-        android:background="@drawable/shape2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/zspinnerYear" />
@@ -79,4 +83,13 @@
             android:textColor="#ffffff"
             android:text="month report" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:background="@drawable/side_nav_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
