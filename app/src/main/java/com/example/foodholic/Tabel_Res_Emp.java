@@ -316,16 +316,16 @@ public class Tabel_Res_Emp extends AppCompatActivity {
 
                 if(task.isSuccessful()){
 
-                    info.set(pos,
+                    try{info.set(pos,
                             "تاريخ : "+task.getResult().get("date").toString()+"\n"+
                                     "وقت : "+task.getResult().get("time").toString()+"\n"+
                                     "الاسم : "+task.getResult().get("name").toString()+"\n"+
                                     "هاتف : "+task.getResult().get("mobile").toString()+"\n"+
                                     "اشخاص : "+task.getResult().get("people").toString()+"\n"+
                                     "الطلب : "+task.getResult().get("order").toString()+"\n"+
-                                    "مجموع : "+task.getResult().get("sum").toString()+"\n"
+                                    "مجموع : "+task.getResult().get("sum").toString()+" دينار\n"
 
-                    );
+                    );}catch (Exception e){}
 
                 }
 
@@ -366,6 +366,7 @@ public class Tabel_Res_Emp extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_tabel__res__emp);
 
         Toolbar toolbar = findViewById(R.id.tool);
