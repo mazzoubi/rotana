@@ -19,10 +19,13 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
-        <activity android:name=".cashAddItemAR"></activity>
+        <activity android:name=".supplierAddOne"></activity>
+        <activity android:name=".suppliersItem" />
+        <activity android:name=".suppliers" />
+        <activity android:name=".cashAddItemAR" />
         <activity
             android:name=".aa3"
-            android:parentActivityName=".Adminpage"></activity>
+            android:parentActivityName=".Adminpage" />
         <activity android:name=".zzStringToBitmap" />
         <activity android:name=".VisaReport" />
         <activity
@@ -114,8 +117,8 @@
             android:parentActivityName=".Emppage" />
         <activity
             android:name=".Emppage"
-            android:stopWithTask="true"
             android:label="@string/title_activity_del_emp"
+            android:stopWithTask="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".TakeAway"

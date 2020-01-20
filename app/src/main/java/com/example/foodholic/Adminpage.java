@@ -189,7 +189,8 @@ public class Adminpage extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "قريبا !!!", Toast.LENGTH_SHORT).show();
                                 break;
                             case 12:
-                                Toast.makeText(getApplicationContext(), "قريبا !!!", Toast.LENGTH_SHORT).show();
+                                Intent n11=new Intent(getApplicationContext(),suppliers.class);
+                                startActivity(n11);
                                 break;
                             case 13:
                                 Intent n13=new Intent(getApplicationContext(),Job_Apps.class);

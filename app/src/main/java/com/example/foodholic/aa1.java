@@ -6,26 +6,36 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.foodholic.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class aa1 extends AppCompatActivity {
 
     EditText item , qant , quantType;
     Button button;
-
+    Spinner spinner;
     FirebaseFirestore db ;
     //
     SharedPreferences shared2;
+    String suppl="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +47,7 @@ public class aa1 extends AppCompatActivity {
         item =findViewById(R.id.aaItem);
         qant =findViewById(R.id.aaquantity);
         quantType =findViewById(R.id.aaqantitytype);
-
+        spinner=findViewById(R.id.spinner);
 
         shared2 = getSharedPreferences("lang", MODE_PRIVATE);
         if(shared2.getString("language", "").equals("arabic")){
@@ -50,8 +60,25 @@ public class aa1 extends AppCompatActivity {
 
 
         db=FirebaseFirestore.getInstance();
+        loadSupplier();
 
 
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position==0){
+
+                }
+                else {
+                    suppl=parent.getItemAtPosition(position).toString();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,6 +111,7 @@ public class aa1 extends AppCompatActivity {
                     reservation.put("item", item.getText().toString());
                     reservation.put("quantity", qant.getText().toString());
                     reservation.put("quantityType", quantType.getText().toString());
+                    reservation.put("supplier", suppl);
 
                     boolean ch=false;
 
@@ -139,5 +167,26 @@ public class aa1 extends AppCompatActivity {
 
 
 
+    }
+    void loadSupplier(){
+        db.collection("Res_1_suppliers").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                //ArrayList<classSupplier> suppliers=new ArrayList<>();
+                ArrayList<String> ss =new ArrayList<>();
+                if(shared2.getString("language", "").equals("arabic")){
+                    ss.add("اختار مورد");
+                }
+                else {
+                    ss.add("select supplier");
+                }
+                List<DocumentSnapshot>list=queryDocumentSnapshots.getDocuments();
+                for(DocumentSnapshot d : list){
+                    ss.add(d.toObject(classSupplier.class).name);
+                }
+                ArrayAdapter adapter=new ArrayAdapter(getApplicationContext(),android.R.layout.simple_list_item_1,ss);
+                spinner.setAdapter(adapter);
+            }
+        });
     }
 }

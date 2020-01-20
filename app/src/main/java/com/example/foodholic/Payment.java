@@ -172,10 +172,20 @@ public class Payment extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         //     progressBar.setVisibility(View.GONE);
                         if(task.isSuccessful()){
+                            if(shared2.getString("language", "").equals("arabic")) {
+                                Toast.makeText(getApplicationContext(), "تمت العمليه بنجاح", Toast.LENGTH_SHORT).show();
+                            }
+                            else
                             Toast.makeText(getApplicationContext(), "Operation Successful", Toast.LENGTH_SHORT).show();
                             onBackPressed();}
-                        else
-                            Toast.makeText(getApplicationContext(), "Error, Please Try Again !", Toast.LENGTH_SHORT).show();
+                        else{
+                            if(shared2.getString("language", "").equals("arabic")) {
+                                Toast.makeText(getApplicationContext(), "خطأ غير متوقع, الرجاء اعادة المحاوله", Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                                Toast.makeText(getApplicationContext(), "Error, Please Try Again !", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 });
 
