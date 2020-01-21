@@ -10,6 +10,10 @@ import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Pie;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +25,7 @@ public class statistics_chart extends AppCompatActivity {
     double pay;
     TextView textView;
     SharedPreferences shared2;
+    classCurrencyAndTax currencyAndTax=Adminpage.currencyAndTax;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,8 +35,6 @@ public class statistics_chart extends AppCompatActivity {
 
 
         shared2 = getSharedPreferences("lang", MODE_PRIVATE);
-
-
         sal = getIntent().getDoubleExtra("sale",0);
         pay = getIntent().getDoubleExtra("pay",0);
 
@@ -44,16 +47,19 @@ public class statistics_chart extends AppCompatActivity {
         if(shared2.getString("language", "").equals("arabic")) {
             data.add(new ValueDataEntry("المبيعات", sal));
             data.add(new ValueDataEntry("التكاليف", pay));
-            textView.setText("مجموع الارباح : "+(sal-pay));
+            data.add(new ValueDataEntry("قيمة الضريبه", (sal-(currencyAndTax.tax/100*sal))));
+            textView.setText("مجموع الارباح : "+(sal-(sal-(currencyAndTax.tax/100*sal))-pay));
         }
         else {
             data.add(new ValueDataEntry("sales", sal));
             data.add(new ValueDataEntry("payment", pay));
-            textView.setText("the porfits is : "+(sal-pay));
+            data.add(new ValueDataEntry("tax ammount", (sal-(currencyAndTax.tax/100*sal))));
+            textView.setText("the porfits is : "+(sal-(sal-(currencyAndTax.tax/100*sal))-pay));
         }
         pie.data(data);
 
         AnyChartView anyChartView = (AnyChartView) findViewById(R.id.any_chart_view);
         anyChartView.setChart(pie);
     }
+
 }

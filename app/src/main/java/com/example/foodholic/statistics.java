@@ -44,6 +44,8 @@ public class statistics extends AppCompatActivity {
     Spinner spinner;
     int spinnerpos=0;
     boolean ch=false;
+    classCurrencyAndTax currencyAndTax=Adminpage.currencyAndTax;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -203,10 +205,16 @@ public class statistics extends AppCompatActivity {
                     }
 
                     if(shared2.getString("language", "").equals("arabic")) {
-                        monyResult.setText("التكاليف: " + payCost + " JD      | " + "المبيعات: " + salCost + " JD     \n\n" + "     الارباح: " + (salCost - payCost) + " JD     ");
+                        monyResult.setText("التكاليف: " + payCost +" "+currencyAndTax.currency + "      | " + "المبيعات: " + salCost + " "+
+                                currencyAndTax.currency +"     \n\n"+"الضريبه: "+currencyAndTax.tax+
+                                "%"+"    قيمة الضريبه: "+(salCost-(currencyAndTax.tax/100*salCost)) + "\n     الارباح: " +
+                                (salCost - payCost) + " "+currencyAndTax.currency +"     ");
                     }
                     else {
-                        monyResult.setText("costs: " + payCost + " JD      | " + "sales: " + salCost + " JD     \n\n" + "     profit: " + (salCost - payCost) + " JD     ");
+                        monyResult.setText("costs: " + payCost +" "+currencyAndTax.currency + "      | " + "sales: " + salCost + " "+
+                                currencyAndTax.currency +"     \n\n"+"tax: "+currencyAndTax.tax+
+                                "%"+"    tax ammount: "+(salCost-(currencyAndTax.tax/100*salCost)) + "\n     profit: " +
+                                (salCost - payCost) + " "+currencyAndTax.currency +"     ");
                     }
                 } else if (spinnerpos == 2) {
                     ch = true;
@@ -246,9 +254,15 @@ public class statistics extends AppCompatActivity {
                     }
 
                     if (shared2.getString("language", "").equals("arabic")) {
-                        monyResult.setText("التكاليف: " + payCost + " JD      | " + "المبيعات: " + salCost + " JD     \n\n" + "     الارباح: " + (salCost - payCost) + " JD     ");
+                        monyResult.setText("التكاليف: " + payCost +" "+currencyAndTax.currency + "      | " + "المبيعات: " + salCost + " "+
+                                currencyAndTax.currency +"     \n\n"+"الضريبه: "+currencyAndTax.tax+
+                                "%"+"    قيمة الضريبه: "+(salCost-(currencyAndTax.tax/100*salCost)) + "\n     الارباح: " +
+                                (salCost - payCost) + " "+currencyAndTax.currency +"     ");
                     } else {
-                        monyResult.setText("costs: " + payCost + " JD      | " + "sales: " + salCost + " JD     \n\n" + "     profit: " + (salCost - payCost) + " JD     ");
+                        monyResult.setText("costs: " + payCost +" "+currencyAndTax.currency + "      | " + "sales: " + salCost + " "+
+                                currencyAndTax.currency +"     \n\n"+"tax: "+currencyAndTax.tax+
+                                "%"+"    tax ammount: "+(salCost-(currencyAndTax.tax/100*salCost)) + "\n     profit: " +
+                                (salCost - payCost) + " "+currencyAndTax.currency +"     ");
                     }
                 }else if (spinnerpos==3){
 
@@ -287,10 +301,16 @@ public class statistics extends AppCompatActivity {
                     }
 
                     if(shared2.getString("language", "").equals("arabic")) {
-                        monyResult.setText("التكاليف: " + payCost + " JD      | " + "المبيعات: " + salCost + " JD     \n\n" + "     الارباح: " + (salCost - payCost) + " JD     ");
+                        monyResult.setText("التكاليف: " + payCost +" "+currencyAndTax.currency + "      | " + "المبيعات: " + salCost + " "+
+                                currencyAndTax.currency +"     \n\n"+"الضريبه: "+currencyAndTax.tax+
+                                "%"+"    قيمة الضريبه: "+(salCost-(currencyAndTax.tax/100*salCost)) + "\n     الارباح: " +
+                                (salCost - payCost) + " "+currencyAndTax.currency +"     ");
                     }
                     else {
-                        monyResult.setText("costs: " + payCost + " JD      | " + "sales: " + salCost + " JD     \n\n" + "     profit: " + (salCost - payCost) + " JD     ");
+                        monyResult.setText("costs: " + payCost +" "+currencyAndTax.currency + "      | " + "sales: " + salCost + " "+
+                                currencyAndTax.currency +"     \n\n"+"tax: "+currencyAndTax.tax+
+                                "%"+"    tax ammount: "+(salCost-(currencyAndTax.tax/100*salCost)) + "\n     profit: " +
+                                (salCost - payCost) + " "+currencyAndTax.currency +"     ");
                     }
                 }else if(spinnerpos==4){
                     if(shared2.getString("language", "").equals("arabic")) {
@@ -313,9 +333,7 @@ public class statistics extends AppCompatActivity {
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent n =new Intent(getApplicationContext(),statistics.class);
-                onBackPressed();
-                startActivity(n);
+               recreate();
 
             }
         });
@@ -338,11 +356,7 @@ public class statistics extends AppCompatActivity {
                 }
             }
         });
-        // String s= DateFormat.getDateInstance().format(calendar.getTime());
-
-
-
-        //textView.setText(s);
 
     }
+
 }

@@ -55,12 +55,13 @@ public class Adminpage extends AppCompatActivity {
                 R.drawable.ic_vip,
                 R.drawable.ic_suppliers,
                 R.drawable.ic_job,
-                R.drawable.ic_support};
+                R.drawable.ic_z,
+                R.drawable.ic_support,};
 
         //public String[] mThumbNames = {"Human Resources", "Storage", "Reports", "Payments", "Cash Drawer", "Taxes", "Delivery Drivers", "Ratings" };
-        public String[] mThumbNames = {"Human Resources","Storage" ,"Reports", "Payments","Cash Drawer",  "Taxes" ,"Delivery Drivers" , "Tables Management" , "Ratings", "Points", "VISA", "VIP", "Suppliers", "Job Req.", "Contact Us" };
+        public String[] mThumbNames = {"Human Resources","Storage" ,"Reports", "Payments","Cash Drawer",  "Taxes" ,"Delivery Drivers" , "Tables Management" , "Ratings", "Points", "VISA", "VIP", "Suppliers", "Job Req.","tax change", "Contact Us" };
         //public String[] mThumbNames2 = {"تقارير جودة","سائقين التوصيل", "ضرائب", "صندوق الكاش","مصروفات", "تقارير", "مستودعات", "شؤون موظفين" };
-        public String[] mThumbNames2 = {"شؤون موظفين","مستودعات", "تقارير", "مصروفات","صندوق الكاش", "ضرائب", "سائقين التوصيل", "تنظيم الصالة","تقارير جودة", "نقاط", "فيزا", "أهم العملاء", "موردين", "طلبات توظيف", "تواصل معنا" };
+        public String[] mThumbNames2 = {"شؤون موظفين","مستودعات", "تقارير", "مصروفات","صندوق الكاش", "ضرائب", "سائقين التوصيل", "تنظيم الصالة","تقارير جودة", "نقاط", "فيزا", "أهم العملاء", "موردين", "طلبات توظيف", "تعديل الضريبه","تواصل معنا" };
 
         private Context mContext;
 
@@ -197,8 +198,12 @@ public class Adminpage extends AppCompatActivity {
                                 startActivity(n13);
                                 break;
                             case 14:
-                                Intent n14=new Intent(getApplicationContext(),Contact.class);
+                                Intent n14=new Intent(getApplicationContext(),taxChange.class);
                                 startActivity(n14);
+                                break;
+                            case 15:
+                                Intent n15=new Intent(getApplicationContext(),Contact.class);
+                                startActivity(n15);
                                 break;
                         }
 
@@ -258,7 +263,7 @@ public class Adminpage extends AppCompatActivity {
 
     public static ArrayList<classSales> cSale=new ArrayList<>();
     public static ArrayList<classPayment> cPyment=new ArrayList<>();
-
+    public static classCurrencyAndTax currencyAndTax=new classCurrencyAndTax();
     boolean a=false,b=false;
     ArrayAdapter<String> adapter;
 
@@ -330,8 +335,18 @@ public class Adminpage extends AppCompatActivity {
             }
         });
 
-
-
+        db=FirebaseFirestore.getInstance();
+        db.collection("Res_1_currencyAndTax").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> list =queryDocumentSnapshots.getDocuments();
+                for(DocumentSnapshot d : list){
+                    currencyAndTax=d.toObject(classCurrencyAndTax.class);
+                }
+            }
+        });
+    }
+    void downloadCurrncy(){
 
     }
 

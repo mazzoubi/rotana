@@ -191,10 +191,16 @@ public class VisaReport extends AppCompatActivity {
             }
         }
         if(shared2.getString("language", "").equals("arabic")) {
-            result.setText("   مبيعات الفيزا= "+sum+" د.ا   ");
+            result.setText("   مبيعات الفيزا= "+sum+Adminpage.currencyAndTax.currency +"   \n" +
+                    "الضريبه= "+Adminpage.currencyAndTax.tax+"%" +
+                    "\nقيمة الضريبه= "+(Adminpage.currencyAndTax.tax/100*sum)
+                    +"\nالمجموع مع الضريبه = "+(sum-(Adminpage.currencyAndTax.tax/100*sum)));
         }
         else {
-            result.setText("   visa sales= "+sum+" JOD   ");
+            result.setText("   visa sales= "+sum+Adminpage.currencyAndTax.currency +"   \n" +
+                    "tax= "+Adminpage.currencyAndTax.tax+"%" +
+                    "\ntax ammount= "+(Adminpage.currencyAndTax.tax/100*sum)
+                    +"\nsum with taxs = "+(sum-(Adminpage.currencyAndTax.tax/100*sum)));
         }
         ArrayAdapter<classPayment> adapter=new adminAdapterPayment(getApplicationContext(),R.layout.row,list);
         listView.setAdapter(adapter);

@@ -19,7 +19,8 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
-        <activity android:name=".supplierAddOne"></activity>
+        <activity android:name=".taxChange"></activity>
+        <activity android:name=".supplierAddOne" />
         <activity android:name=".suppliersItem" />
         <activity android:name=".suppliers" />
         <activity android:name=".cashAddItemAR" />

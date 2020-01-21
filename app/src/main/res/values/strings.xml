@@ -114,5 +114,19 @@
         <item>11</item>
         <item>12</item>
     </string-array>
+    <string-array name="crrency">
+
+        <item>JOR</item>
+        <item>AED</item>
+        <item>USD</item>
+
+    </string-array>
+    <string-array name="crrencyAr">
+
+        <item>دينار أ</item>
+        <item>درهم إ</item>
+        <item>دولار أ</item>
+
+    </string-array>
 
 </resources>

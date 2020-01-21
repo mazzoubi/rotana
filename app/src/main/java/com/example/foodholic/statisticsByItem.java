@@ -28,6 +28,7 @@ public class statisticsByItem extends AppCompatActivity {
     Spinner month,year,item,subitem;
     Button button;
     String m="",y="",it="",s="";
+    classCurrencyAndTax currencyAndTax=Adminpage.currencyAndTax;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,7 +172,9 @@ public class statisticsByItem extends AppCompatActivity {
                       result.setText("\n\n\n\n العنصر : "+it+"\n" +
                               "العنصر الفرعي : "+s+"\n\n" +
                               "التكلفه = "+cost+"\n" +
-                              "الربح = "+(sale-cost)+"\n" +
+                              "الضريبه = "+currencyAndTax.tax+"%"+"\n"+
+                              "قيمة الضريبه = "+ (sale-(currencyAndTax.tax/100*sale))+" "+currencyAndTax.currency +"\n"+
+                              "الربح = "+(sale-(sale-(currencyAndTax.tax/100*sale))-cost)+"\n" +"\n"+
                               "المجموع = "+sale);
                   }
                   else if (!m.isEmpty()&&s.isEmpty()){
@@ -185,7 +188,9 @@ public class statisticsByItem extends AppCompatActivity {
                       result.setText("\n\n\n\n العنصر : "+it+"\n" +
                               "العنصر الفرعي : "+s+"\n\n" +
                               "التكلفه = "+cost+"\n" +
-                              "الربح = "+(sale-cost)+"\n" +
+                              "الضريبه = "+currencyAndTax.tax+"%"+"\n"+
+                              "قيمة الضريبه = "+ (sale-(currencyAndTax.tax/100*sale))+" "+currencyAndTax.currency +"\n"+
+                              "الربح = "+(sale-(sale-(currencyAndTax.tax/100*sale))-cost)+"\n" +"\n"+
                               "المجموع = "+sale);
                   }
                   else if (m.isEmpty()&&!s.isEmpty()){
@@ -199,7 +204,9 @@ public class statisticsByItem extends AppCompatActivity {
                       result.setText("\n\n\n\n العنصر : "+it+"\n" +
                               "العنصر الفرعي : "+s+"\n\n" +
                               "التكلفه = "+cost+"\n" +
-                              "الربح = "+(sale-cost)+"\n" +
+                              "الضريبه = "+currencyAndTax.tax+"%"+"\n"+
+                              "قيمة الضريبه = "+ (sale-(currencyAndTax.tax/100*sale))+" "+currencyAndTax.currency +"\n"+
+                              "الربح = "+(sale-(sale-(currencyAndTax.tax/100*sale))-cost)+"\n" +"\n"+
                               "المجموع = "+sale);
                   }
                   else if (!m.isEmpty()&&!s.isEmpty()){
@@ -213,7 +220,9 @@ public class statisticsByItem extends AppCompatActivity {
                       result.setText("\n\n\n\n العنصر : "+it+"\n" +
                               "العنصر الفرعي : "+s+"\n\n" +
                               "التكلفه = "+cost+"\n" +
-                              "الربح = "+(sale-cost)+"\n" +
+                              "الضريبه = "+currencyAndTax.tax+"%"+"\n"+
+                              "قيمة الضريبه = "+ (sale-(currencyAndTax.tax/100*sale))+" "+currencyAndTax.currency +"\n"+
+                              "الربح = "+(sale-(sale-(currencyAndTax.tax/100*sale))-cost)+"\n" +"\n"+
                               "المجموع = "+sale);
                   }
               }
@@ -229,7 +238,9 @@ public class statisticsByItem extends AppCompatActivity {
                       result.setText("\n\n\n\n Item : "+it+"\n" +
                               "Sub Item : "+s+"\n\n" +
                               "Costs = "+cost+"\n" +
-                              "profit = "+(sale-cost)+"\n" +
+                              "tax = "+currencyAndTax.tax+"%"+"\n"+
+                              "tax Ammount = "+ (sale-(currencyAndTax.tax/100*sale))+" "+currencyAndTax.currency +"\n"+
+                              "profit = "+(sale-(sale-(currencyAndTax.tax/100*sale))-cost)+"\n" +"\n"+
                               "Total = "+sale);
                   }
                   else if (!m.isEmpty()&&s.isEmpty()){
@@ -243,7 +254,9 @@ public class statisticsByItem extends AppCompatActivity {
                       result.setText("\n\n\n\n Item : "+it+"\n" +
                               "Sub Item : "+s+"\n\n" +
                               "Costs = "+cost+"\n" +
-                              "profit = "+(sale-cost)+"\n" +
+                              "tax = "+currencyAndTax.tax+"%"+"\n"+
+                              "tax Ammount = "+ (sale-(currencyAndTax.tax/100*sale))+" "+currencyAndTax.currency +"\n"+
+                              "profit = "+(sale-(sale-(currencyAndTax.tax/100*sale))-cost)+"\n" +"\n"+
                               "Total = "+sale);
                   }
                   else if (m.isEmpty()&&!s.isEmpty()){
@@ -257,7 +270,9 @@ public class statisticsByItem extends AppCompatActivity {
                       result.setText("\n\n\n\n Item : "+it+"\n" +
                               "Sub Item : "+s+"\n\n" +
                               "Costs = "+cost+"\n" +
-                              "profit = "+(sale-cost)+"\n" +
+                              "tax = "+currencyAndTax.tax+"%"+"\n"+
+                              "tax Ammount = "+ (sale-(currencyAndTax.tax/100*sale))+" "+currencyAndTax.currency +"\n"+
+                              "profit = "+(sale-(sale-(currencyAndTax.tax/100*sale))-cost)+"\n" +"\n"+
                               "Total = "+sale);
                   }
                   else if (!m.isEmpty()&&!s.isEmpty()){
@@ -271,7 +286,9 @@ public class statisticsByItem extends AppCompatActivity {
                       result.setText("\n\n\n\n Item : "+it+"\n" +
                               "Sub Item : "+s+"\n\n" +
                               "Costs = "+cost+"\n" +
-                              "profit = "+(sale-cost)+"\n" +
+                              "tax = "+currencyAndTax.tax+"%"+"\n"+
+                              "tax Ammount = "+ (sale-(currencyAndTax.tax/100*sale))+" "+currencyAndTax.currency +"\n"+
+                              "profit = "+(sale-(sale-(currencyAndTax.tax/100*sale))-cost)+"\n" +"\n"+
                               "Total = "+sale);
                   }
               }
@@ -334,4 +351,5 @@ public class statisticsByItem extends AppCompatActivity {
             }
         });
     }
+
 }

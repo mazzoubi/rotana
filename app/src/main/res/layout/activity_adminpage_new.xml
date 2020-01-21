@@ -42,13 +42,13 @@
             android:id="@+id/gridViewCustom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:horizontalSpacing="3dp"
-            android:verticalSpacing="3dp"
-            android:background="#e5e5e5"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:background="#e5e5e5"
             android:gravity="center"
-            android:numColumns="3" />
+            android:horizontalSpacing="3dp"
+            android:numColumns="3"
+            android:verticalSpacing="3dp" />
 
     </android.support.v7.widget.CardView>
 

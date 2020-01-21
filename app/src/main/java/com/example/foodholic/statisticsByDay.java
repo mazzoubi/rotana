@@ -38,14 +38,11 @@ public class statisticsByDay extends AppCompatActivity {
     SharedPreferences shared2;
     TextView t1,t2,monyResult;
     boolean ch=false;
+    classCurrencyAndTax currencyAndTax=Adminpage.currencyAndTax;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics_by_day);
-
-
-
-
 
 
 
@@ -72,7 +69,7 @@ public class statisticsByDay extends AppCompatActivity {
             moredetale.setText("تفاصيل اكثر");
             t1.setText("المبيعات");
             t2.setText("التكاليف");
-            monyResult.setText("التكاليف: " + 0 + " JD      | " + "المبيعات: " + 0 + " JD     \n\n" + "     الارباح: " + 0 + " JD     "); }
+            monyResult.setText("التكاليف: " + 0 + " "+currencyAndTax.currency +"      | " + "المبيعات: " + 0 + " "+currencyAndTax.currency +"     \n\n" + "     الارباح: " + 0 + " "+currencyAndTax.currency +"     "); }
 
 
         moredetale .setOnClickListener(new View.OnClickListener() {
@@ -160,10 +157,16 @@ public class statisticsByDay extends AppCompatActivity {
                 }
 
                 if(shared2.getString("language", "").equals("arabic")) {
-                    monyResult.setText("التكاليف: " + payCost + " JD      | " + "المبيعات: " + salCost + " JD     \n\n" + "     الارباح: " + (salCost - payCost) + " JD     ");
+                    monyResult.setText("التكاليف: " + payCost +" "+currencyAndTax.currency + "      | " + "المبيعات: " + salCost + " "+
+                            currencyAndTax.currency +"     \n\n"+"الضريبه: "+currencyAndTax.tax+
+                            "%"+"    قيمة الضريبه: "+(salCost-(currencyAndTax.tax/100*salCost)) + "\n     الارباح: " +
+                            (salCost - payCost) + " "+currencyAndTax.currency +"     ");
                 }
                 else {
-                    monyResult.setText("costs: " + payCost + " JD      | " + "sales: " + salCost + " JD     \n\n" + "     profit: " + (salCost - payCost) + " JD     ");
+                    monyResult.setText("costs: " + payCost +" "+currencyAndTax.currency + "      | " + "sales: " + salCost + " "+
+                            currencyAndTax.currency +"     \n\n"+"tax: "+currencyAndTax.tax+
+                            "%"+"    tax ammount: "+(salCost-(currencyAndTax.tax/100*salCost)) + "\n     profit: " +
+                            (salCost - payCost) + " "+currencyAndTax.currency +"     ");
                 }
             }
         });
@@ -172,9 +175,7 @@ public class statisticsByDay extends AppCompatActivity {
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent n =new Intent(getApplicationContext(),statisticsByDay.class);
-                onBackPressed();
-                startActivity(n);
+               recreate();
 
             }
         });
@@ -197,11 +198,6 @@ public class statisticsByDay extends AppCompatActivity {
                 }
             }
         });
-        // String s= DateFormat.getDateInstance().format(calendar.getTime());
-
-
-
-        //textView.setText(s);
 
     }
 }

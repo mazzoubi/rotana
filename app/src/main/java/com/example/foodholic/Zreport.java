@@ -1,7 +1,6 @@
 package com.example.foodholic;
 
 import android.graphics.Color;
-import android.printservice.PrintService;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -144,7 +143,8 @@ public class Zreport extends AppCompatActivity {
                         z=0;
                     }
                     syear.add("\n\t-----------------------\n");
-                    syear.add("total at : "+year+"="+bb+"\n" +
+                    syear.add("total at : "+year+"="+bb+Adminpage.currencyAndTax.currency +"\n" +
+                            "tax ammount : "+((bb*Adminpage.currencyAndTax.tax/100))+Adminpage.currencyAndTax.currency +"\n"+
                             "\n\t-----------------------\n");
                     syear.add("\t**** Aldahkeel 0798056383 ****\t");
 
@@ -192,8 +192,9 @@ public class Zreport extends AppCompatActivity {
                             bb+=cSale.get(i).sale;
                         }
                     }
-                    smonth.add("total at : "+month+"-"+year+"="+bb+"\n" +
-                            "\n-----------------------\n");
+                    smonth.add("total at : "+month+"-"+year+"="+bb+Adminpage.currencyAndTax.currency +"\n" +
+                            "tax ammount : "+((bb*Adminpage.currencyAndTax.tax/100))+Adminpage.currencyAndTax.currency +"\n"
+                            +"\n-----------------------\n");
                     smonth.add("\t**** Aldahkeel 0798056383 ****\t");
 
                     adapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,smonth);
