@@ -289,6 +289,51 @@ public class Emppage extends AppCompatActivity
         btn6 = findViewById(R.id.btn6);
         btn7 = findViewById(R.id.btn7);
 
+        Button tcount = findViewById(R.id.counter);
+        tcount.setText("رقم الفاتورة : "+shared3.getInt("count", 0)+"");
+
+        Button sup = findViewById(R.id.btnnew4);
+        sup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent n11=new Intent(getApplicationContext(),suppliers.class);
+                startActivity(n11);
+
+            }
+        });
+
+        Button plus = findViewById(R.id.counter);
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int c = shared3.getInt("count", 0);
+                SharedPreferences.Editor editor = shared3.edit();
+                editor.putInt("count" ,++c);
+                editor.apply();
+
+                Button tcount = findViewById(R.id.counter);
+                tcount.setText("رقم الفاتورة : "+shared3.getInt("count", 0)+"");
+
+            }
+        });
+
+        Button zeroC = findViewById(R.id.btnnew3);
+        zeroC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                SharedPreferences.Editor editor = shared3.edit();
+                editor.putInt("count" , 0);
+                editor.apply();
+
+                Button tcount = findViewById(R.id.counter);
+                tcount.setText("رقم الفاتورة : 0");
+
+            }
+        });
+
         try{
             if(getIntent().getStringExtra("empemail").contains(".cap")){
                 btn2.setVisibility(View.GONE);
@@ -635,8 +680,34 @@ public class Emppage extends AppCompatActivity
                         }
 
 
+
+
                     }
                 });
+
+                    Button vbtn = dialog2.findViewById(R.id.visa);
+                    vbtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            if ((Double.parseDouble(e.getText().toString()) - sum) >= 0 && !e.getText().toString().equals("")) {
+
+                                if(HomeAct.lang == 1)
+                                    AddVisaSaleAra(e.getText().toString(), (Double.parseDouble(e.getText().toString()) - sum)+"", ""+sum);
+                                else
+                                    AddVisaSale(e.getText().toString(), (Double.parseDouble(e.getText().toString()) - sum)+"", ""+sum);
+                                dialog2.dismiss();
+                                recreate();
+                            } else {
+                                if(shared2.getString("language", "").equals("arabic")){
+                                    Toast.makeText(Emppage.this, "الرجاء ادخال مبلغ صحيح", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(Emppage.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                        }
+                    });
 
             } else {
                     if(shared2.getString("language", "").equals("arabic"))
@@ -1379,6 +1450,11 @@ public class Emppage extends AppCompatActivity
 
     private void PrintUsingServer(String s) {
 
+        int c = shared3.getInt("count", 0);
+        SharedPreferences.Editor editor = shared3.edit();
+        editor.putInt("count" ,++c);
+        editor.apply();
+
         try {
 
             SocketAddress socketAddress = new InetSocketAddress("192.168.14.54", 9100);
@@ -2097,6 +2173,106 @@ public class Emppage extends AppCompatActivity
         bill+="\n\n\n\nمدفوع : "+paid+"\n"+",";
         bill+="\n\n\n\nباقي : "+change+"\n"+",";
         bill+="\n\n\n\nاهلا وسهلا زبائننا الكرام\n\n\n"+",";
+
+        PrintUsingServer(bill);
+
+    }
+
+    public void AddVisaSaleAra(String paid, String change, String sum){
+
+        String bill="";
+
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
+        Date dateee = new Date();
+        String date = dateFormat.format(dateee);
+
+        String day = date.substring(0, date.indexOf(" "));
+        String time = date.substring(date.indexOf(" ")+1);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        bill+="\n"+"مرحبا بك في مطعم شاورما هايبرد"+",";
+        bill+="\n"+"نوع الفاتورة : فاتورة كاش"+",";
+        bill+="\n\n"+",";
+        bill+="تاريخ : "+day+"\n"+",";
+        bill+="وقت : "+time+"\n"+",";
+        bill+="__________________________________________\n\n\n"+",";
+
+        for(int i=0; i<saleList.size(); i++){
+
+            Map<String, Object> sale = new HashMap<>();
+            sale.put("date", day);
+            sale.put("time", time);
+            sale.put("description", saleList.get(i).subItemName);
+            sale.put("emp", auth.getCurrentUser().getEmail());
+            sale.put("pay", saleList.get(i).sumPrice);
+
+            bill+="\nitem : "+saleList.get(i).subItemName+" X"+saleList.get(i).count+" price : "+saleList.get(i).sumPrice+"\n"+",";
+
+            db.collection("Res_1_visa").document()
+
+                    .set(sale)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(Emppage.this, "تم", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+
+        bill+="\n\nمجموع الفاتورة : "+sum+"\n"+",";
+        bill+="\n\n\n\nمدفوع : "+paid+"\n"+",";
+        bill+="\n\n\n\nباقي : "+change+"\n"+",";
+        bill+="\n\n\n\nاهلا وسهلا زبائننا الكرام\n\n\n"+",";
+
+        PrintUsingServer(bill);
+
+    }
+
+    public void AddVisaSale(String paid, String change, String sum){
+
+        String bill="";
+
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
+        Date dateee = new Date();
+        String date = dateFormat.format(dateee);
+
+        String day = date.substring(0, date.indexOf(" "));
+        String time = date.substring(date.indexOf(" ")+1);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        bill+="WELCOME TO HYBRID RESTAURANT\n";
+        bill+="Bill Type : Cash\n";
+        bill+="\n\n";
+        bill+="Date : "+day+"\n";
+        bill+="Time : "+time+"\n";
+        bill+="__________________________________________\n\n\n";
+
+        for(int i=0; i<saleList.size(); i++){
+
+            Map<String, Object> sale = new HashMap<>();
+            sale.put("date", day);
+            sale.put("time", time);
+            sale.put("description", saleList.get(i).subItemName);
+            sale.put("emp", auth.getCurrentUser().getEmail());
+            sale.put("pay", saleList.get(i).sumPrice);
+
+            bill+="\nItem : "+saleList.get(i).subItemName+" X"+saleList.get(i).count+" Price : "+saleList.get(i).sumPrice+"\n";
+
+            db.collection("Res_1_sales").document()
+
+                    .set(sale)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            recreate();
+                        }
+                    });
+        }
+
+        bill+="\nBill Value : "+sum+"\n";
+        bill+="\nPaid : "+paid+"\n";
+        bill+="\nChange : "+change+"\n";
+        bill+="\n\n\nTHANK YOU FOR YOUR PURCHASE, COME AGAIN !\n\n\n";
 
         PrintUsingServer(bill);
 

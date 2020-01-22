@@ -66,18 +66,6 @@ public class SplashAct extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.INTERNET}, 7);
 
-        if(!checker()){
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(SplashAct.this);
-            builder.setTitle("تنبيه").setMessage("الرجاء تفعيل ال GPS و الانترنت")
-                    .setCancelable(false).setPositiveButton("حسنا", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                } });
-
-            builder.create().show(); }
-
         shared = getSharedPreferences("lang", MODE_PRIVATE);
 
         if(!shared.getString("language", "").equals("")){

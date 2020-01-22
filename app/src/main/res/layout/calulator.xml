@@ -57,11 +57,25 @@
            android:layout_marginLeft="15dp"
            android:layout_marginTop="15dp"
            android:layout_marginRight="15dp"
-           android:weightSum="2"
+           android:weightSum="3"
            android:layout_marginBottom="15dp"
            android:layout_below="@+id/change"
            android:layout_centerHorizontal="true"
            android:layout_height="wrap_content">
+
+           <Button
+               android:layout_width="match_parent"
+               android:text="دفع فيزا"
+               android:id="@+id/visa"
+               android:textSize="24dp"
+               android:background="@drawable/shape"
+               android:layout_weight="1"
+               android:layout_marginRight="15dp"
+               android:backgroundTint="@color/colorPrimary"
+               android:textStyle="bold"
+               android:padding="15dp"
+               android:textColor="@color/colorPrimaryDark"
+               android:layout_height="wrap_content" />
 
            <Button
                android:layout_width="match_parent"
@@ -70,7 +84,6 @@
                android:textSize="24dp"
                android:background="@drawable/shape"
                android:layout_weight="1"
-               android:layout_marginRight="15dp"
                android:backgroundTint="@color/colorPrimary"
                android:textStyle="bold"
                android:padding="15dp"

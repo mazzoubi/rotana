@@ -139,7 +139,7 @@ public class VisaReport extends AppCompatActivity {
     }
     ArrayList<classPayment> loadPayments(){
         final ArrayList<classPayment> li=new ArrayList<>();
-        db.collection("Res_1_payment").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        db.collection("Res_1_visa").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
