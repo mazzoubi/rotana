@@ -8,6 +8,9 @@
         android:id="@+id/offer"
         android:title="ضبط العروض" />
     <item
+        android:id="@+id/cont"
+        android:title="ضبط المسابقات" />
+    <item
         android:id="@+id/out"
         android:title="تسجيل خروج" />
 </menu>

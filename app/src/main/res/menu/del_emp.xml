@@ -8,6 +8,9 @@
         android:id="@+id/offer"
         android:title="Offer" />
     <item
+        android:id="@+id/cont"
+        android:title="Contests" />
+    <item
         android:id="@+id/out"
         android:title="Log Out" />
 </menu>

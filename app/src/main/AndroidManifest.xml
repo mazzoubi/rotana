@@ -19,7 +19,11 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
-        <activity android:name=".taxChange"></activity>
+        <activity android:name=".DriveCustom"></activity>
+        <activity
+            android:name=".ContestsActiivty"
+            android:parentActivityName=".Emppage" />
+        <activity android:name=".taxChange" />
         <activity android:name=".supplierAddOne" />
         <activity android:name=".suppliersItem" />
         <activity android:name=".suppliers" />

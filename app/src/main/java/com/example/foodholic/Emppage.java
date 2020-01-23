@@ -39,6 +39,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -330,6 +331,17 @@ public class Emppage extends AppCompatActivity
 
                 Button tcount = findViewById(R.id.counter);
                 tcount.setText("رقم الفاتورة : 0");
+
+            }
+        });
+
+        Button serv = findViewById(R.id.btn51996);
+        serv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent n11=new Intent(getApplicationContext(), DriveCustom.class);
+                startActivity(n11);
 
             }
         });
@@ -1803,6 +1815,16 @@ public class Emppage extends AppCompatActivity
         else if (id == R.id.offer){
 
             startActivity(new Intent(Emppage.this, offer.class));
+
+        }
+
+        else if (id == R.id.cont){
+
+            TextClock tc = findViewById(R.id.tc);
+            String da = tc.getText().toString();
+
+            startActivity(new Intent(Emppage.this, ContestsActiivty.class)
+            .putExtra("date", da));
 
         }
 

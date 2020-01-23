@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DriveCustom">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        app:title="الرجوع"
+        android:id="@+id/tool"
+        android:layout_alignParentTop="true"
+        app:titleTextColor="@color/colorPrimaryDark"
+        android:layout_height="40dp"/>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_below="@+id/tool"
+        android:layout_margin="10dp"
+        android:elevation="10dp"
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:id="@+id/list"
+            android:layout_height="match_parent"/>
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>
