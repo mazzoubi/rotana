@@ -140,7 +140,9 @@ public class Delivery_Emp extends AppCompatActivity {
                             String str = info.get(position);
                             String num = str.substring(str.indexOf("الهاتف : ")+9, str.indexOf("قائمة : "));
                             num = RemoveSpace(num);
-                            startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", num, null)));
+                            Intent intent = new Intent((Intent.ACTION_DIAL));
+                            intent.setData(Uri.parse("tel:"+num));
+                            startActivity(intent);
 
                         }
                     });
