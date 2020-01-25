@@ -1,12 +1,19 @@
 package com.example.foodholic;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -47,6 +54,96 @@ public class DriveCustom extends AppCompatActivity {
 
         getData();
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(DriveCustom.this);
+                LayoutInflater inflater = DriveCustom.this.getLayoutInflater();
+                builder.setView(inflater.inflate(R.layout.dialog_redirect4, null));
+                final android.support.v7.app.AlertDialog dialog = builder.create();
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                dialog.show();
+                dialog.getWindow().setAttributes(lp);
+
+                Button b1, b2, b4, b5;
+
+                b1 = dialog.findViewById(R.id.call);
+                b2 = dialog.findViewById(R.id.go);
+                b4 = dialog.findViewById(R.id.confirm);
+                b5 = dialog.findViewById(R.id.remove);
+
+                b1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        String str = DataToShow.get(position);
+                        String num = str.substring(str.indexOf("الهاتف : ")+9, str.indexOf("الوقت : "));
+                        num = RemoveSpace(num);
+                        Intent intent = new Intent((Intent.ACTION_DIAL));
+                        intent.setData(Uri.parse("tel:"+num));
+                        startActivity(intent);
+                    } });
+
+                b2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                Uri.parse(DataToGo.get(position)));
+                        startActivity(intent);
+                    } });
+
+                b4.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        removeData(DataId.get(position));
+
+                    }
+                });
+
+                b5.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        removeData(DataId.get(position));
+
+                    }
+                });
+
+            }
+        });
+
+    }
+
+    public void removeData(String path){
+
+        db.collection("Res_1_CustomerDrive").document(path)
+                .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                Toast.makeText(DriveCustom.this, "تمت العملية بنجاح !", Toast.LENGTH_LONG).show();
+                recreate();
+            }
+        });
+
+    }
+
+    public String RemoveSpace(String str){
+
+        char [] arr = str.toCharArray();
+        String temp = "";
+
+        for(int i=0; i<arr.length; i++)
+            if(Character.isDigit(arr[i]) || arr[i] == '.')
+                temp+=arr[i];
+
+        return temp;
     }
 
     private void getData() {

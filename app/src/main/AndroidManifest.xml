@@ -19,7 +19,8 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
-        <activity android:name=".DriveCustom"></activity>
+        <activity android:name=".DriveCustom"
+            android:parentActivityName=".Emppage"/>
         <activity
             android:name=".ContestsActiivty"
             android:parentActivityName=".Emppage" />
