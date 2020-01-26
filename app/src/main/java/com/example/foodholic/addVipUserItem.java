@@ -151,6 +151,8 @@ public class addVipUserItem extends AppCompatActivity {
                             +"------------------------------\n";
                     sumPrice+=d.sumPrice;
                 }
+
+
                 salesString+="------------------------------\n" +
                         sumPrice+" "+vipActivity.currencyAndTax.currency;
 
@@ -228,6 +230,8 @@ public class addVipUserItem extends AppCompatActivity {
         reservation.put("email", email);
         reservation.put("desc", salesString);
 
+        vipInfo.tdesc.setText(salesString);
+        vipInfo.tphone.setText(phone);
         db.collection("Res_1_vipUsers").document(id).set(reservation)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
