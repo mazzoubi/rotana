@@ -88,7 +88,7 @@ public class statistics extends AppCompatActivity {
 //            moredetale.setText("تفاصيل اكثر");
             t1.setText("المبيعات");
             t2.setText("التكاليف");
-            monyResult.setText("التكاليف : " + 0 + " دينار" + " | المبيعات : " + 0 + " دينار" + " | الارباح : " + 0 + " دينار");
+            monyResult.setText("التكاليف : " + 0 + " " + " | المبيعات : " + 0 + " " + " | الارباح : " + 0 + " ");
             adda=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item,m);
             spinner.setAdapter(adda);
         }
