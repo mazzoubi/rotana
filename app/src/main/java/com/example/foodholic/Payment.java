@@ -165,7 +165,7 @@ public class Payment extends AppCompatActivity {
         reservation.put("time", time[3]);
         reservation.put("emp", email+"");
 
-
+        addNotification(date,time[3],desc,email,pay);
         db.collection("Res_1_payment").document(""+new Date()).set(reservation)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -189,8 +189,39 @@ public class Payment extends AppCompatActivity {
                     }
                 });
 
+        }
+        void addNotification(String date,String time,String desc,String emp,double pyment){
+          String id =System.currentTimeMillis()+"";
+            Map<String, Object> reservation = new HashMap<>();
+            reservation.put("title","اشعارات نظام المصروفات");
+            reservation.put("date", date);
+            reservation.put("time", time);
+            reservation.put("desc", "تمت اضافة مصرفات جديده بواسطة : "+emp+"\nقيمة الدفعه: "+pyment+"\nوصف عملية الدفع: \n"+desc);
+            reservation.put("state", "1");
+            reservation.put("id", id);
 
+            Map<String, Object> reservation1 = new HashMap<>();
+            reservation1.put("title","Payments System notification");
+            reservation1.put("date", date);
+            reservation1.put("time", time);
+            reservation1.put("desc", "Batch added by : "+emp+"\npayment amount: "+pyment+"\npayment description: \n"+desc);
+            reservation1.put("state", "1");
+            reservation1.put("id", id);
 
+            db.collection("Res_1_adminNotificationsAr").document(id).set(reservation)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            //     progressBar.setVisibility(View.GONE);
+                        }
+                    });
+            db.collection("Res_1_adminNotificationsEn").document(id).set(reservation1)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            //     progressBar.setVisibility(View.GONE);
+                        }
+                    });
         }
 
 }

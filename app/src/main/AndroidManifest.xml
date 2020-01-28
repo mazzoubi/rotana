@@ -19,7 +19,9 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
-        <activity android:name=".vipInfo"></activity>
+        <activity android:name=".notificationInfo"></activity>
+        <activity android:name=".notificationActivity" />
+        <activity android:name=".vipInfo" />
         <activity android:name=".addVipUserItem" />
         <activity android:name=".vipAdd" />
         <activity android:name=".vipActivity" />

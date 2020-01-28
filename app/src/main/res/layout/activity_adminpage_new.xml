@@ -29,14 +29,17 @@
         android:textStyle="bold"/>
 
     <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
         android:id="@+id/lay"
-        app:cardElevation="15dp"
-        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textView6"
         android:layout_centerHorizontal="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
         android:background="@color/colorPrimary"
-        android:layout_margin="15dp"
-        android:layout_height="wrap_content">
+        app:cardElevation="15dp">
 
         <GridView
             android:id="@+id/gridViewCustom"
@@ -51,5 +54,12 @@
             android:verticalSpacing="3dp" />
 
     </android.support.v7.widget.CardView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:srcCompat="@drawable/anoti" />
 
 </RelativeLayout>

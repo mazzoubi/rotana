@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -265,6 +266,7 @@ public class Adminpage extends AppCompatActivity {
     public static ArrayList<classSales> cSale=new ArrayList<>();
     public static ArrayList<classPayment> cPyment=new ArrayList<>();
     public static classCurrencyAndTax currencyAndTax=new classCurrencyAndTax();
+    int noteCount=0;
     boolean a=false,b=false;
     ArrayAdapter<String> adapter;
 
@@ -272,12 +274,21 @@ public class Adminpage extends AppCompatActivity {
     SharedPreferences shared2;
 
    public static String email;
+   FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adminpage_new);
 
+        floatingActionButton=findViewById(R.id.floatingActionButton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent n =new Intent(getApplicationContext(),notificationActivity.class);
+                startActivity(n);
+            }
+        });
         final ProgressBar progressBar=(ProgressBar)findViewById(R.id.progressBar);
         shared2 = getSharedPreferences("lang", MODE_PRIVATE);
 
@@ -346,9 +357,9 @@ public class Adminpage extends AppCompatActivity {
                 }
             }
         });
-    }
-    void downloadCurrncy(){
+
 
     }
+
 
 }

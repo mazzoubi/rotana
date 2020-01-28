@@ -152,7 +152,7 @@ public class employeeSalaryDiscount extends AppCompatActivity {
                     reservation.put("value", Double.parseDouble(value.getText().toString()));
                     reservation.put("empEmail", employeeCreatInformation.emp.get(pos).email);
 
-
+                    addNotification(desc.getText().toString(),employeeCreatInformation.emp.get(pos).email,Double.parseDouble(value.getText().toString()));
 
                     db.collection("Res_1_salDiscount").document(id).set(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -171,5 +171,43 @@ public class employeeSalaryDiscount extends AppCompatActivity {
             }
         });
 
+    }
+    void addNotification(String desc,String emp,double pyment){
+        String d=new Date()+"";
+        String[] tim=d.split(" ");
+        int dd=new Date().getDate();
+        int mm=new Date().getMonth()+1;
+        int yy=new Date().getYear();
+        String id =System.currentTimeMillis()+"";
+        Map<String, Object> reservation = new HashMap<>();
+        reservation.put("title","اشعارات شؤون الموظفين");
+        reservation.put("date", dd+"-"+mm+"-"+tim[5]);
+        reservation.put("time", tim[3]);
+        reservation.put("desc", "تمت اضافة حسم على الموظف : "+emp+"\nقيمة الحسم: "+pyment+"\nوصف عملية الحسم: \n"+desc);
+        reservation.put("state", "1");
+        reservation.put("id", id);
+
+        Map<String, Object> reservation1 = new HashMap<>();
+        reservation1.put("title","HR notification");
+        reservation1.put("date", dd+"-"+mm+"-"+tim[5]);
+        reservation1.put("time", tim[3]);
+        reservation1.put("desc", "Salary discount has been added to th employee : "+emp+"\nsalary discount amount: "+pyment+"\nsalary discount description: \n"+desc);
+        reservation1.put("state", "1");
+        reservation1.put("id", id);
+
+        db.collection("Res_1_adminNotificationsAr").document(id).set(reservation)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        //     progressBar.setVisibility(View.GONE);
+                    }
+                });
+        db.collection("Res_1_adminNotificationsEn").document(id).set(reservation1)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        //     progressBar.setVisibility(View.GONE);
+                    }
+                });
     }
 }
