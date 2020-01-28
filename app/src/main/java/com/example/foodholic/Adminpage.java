@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -21,7 +22,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +36,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Adminpage extends AppCompatActivity {
 
@@ -56,13 +58,16 @@ public class Adminpage extends AppCompatActivity {
                 R.drawable.ic_vip,
                 R.drawable.ic_suppliers,
                 R.drawable.ic_job,
+                R.drawable.ic_noti,
                 R.drawable.ic_z,
-                R.drawable.ic_support,};
+                R.drawable.ic_support,
+                R.drawable.ic_exit
+        };
 
         //public String[] mThumbNames = {"Human Resources", "Storage", "Reports", "Payments", "Cash Drawer", "Taxes", "Delivery Drivers", "Ratings" };
-        public String[] mThumbNames = {"Human Resources","Storage" ,"Reports", "Payments","Cash Drawer",  "Taxes" ,"Delivery Drivers" , "Tables Management" , "Ratings", "Points", "VISA", "VIP", "Suppliers", "Job Req.","tax change", "Contact Us" };
+        public String[] mThumbNames = {"Human Resources","Storage" ,"Reports", "Payments","Cash Drawer",  "Taxes" ,"Delivery Drivers" , "Tables Management" , "Ratings", "Points", "VISA", "VIP", "Suppliers", "Job Req.","Alerts" , "tax change", "Contact Us", "Exit" };
         //public String[] mThumbNames2 = {"تقارير جودة","سائقين التوصيل", "ضرائب", "صندوق الكاش","مصروفات", "تقارير", "مستودعات", "شؤون موظفين" };
-        public String[] mThumbNames2 = {"شؤون موظفين","مستودعات", "تقارير", "مصروفات","صندوق الكاش", "ضرائب", "سائقين التوصيل", "تنظيم الصالة","تقارير جودة", "نقاط", "فيزا", "أهم العملاء", "موردين", "طلبات توظيف", "تعديل الضريبه","تواصل معنا" };
+        public String[] mThumbNames2 = {"شؤون موظفين","مستودعات", "تقارير", "مصروفات","صندوق الكاش", "ضرائب", "سائقين التوصيل", "تنظيم الصالة","تقارير جودة", "نقاط", "فيزا", "أهم العملاء", "موردين", "طلبات توظيف", "تنبيهات","تعديل الضريبه", "تواصل معنا" , "خروج"};
 
         private Context mContext;
 
@@ -200,12 +205,19 @@ public class Adminpage extends AppCompatActivity {
                                 startActivity(n13);
                                 break;
                             case 14:
-                                Intent n14=new Intent(getApplicationContext(),taxChange.class);
+                                Intent n14 =new Intent(getApplicationContext(),notificationActivity.class);
                                 startActivity(n14);
                                 break;
                             case 15:
-                                Intent n15=new Intent(getApplicationContext(),Contact.class);
+                                Intent n15=new Intent(getApplicationContext(),taxChange.class);
                                 startActivity(n15);
+                                break;
+                            case 16:
+                                Intent n16=new Intent(getApplicationContext(),Contact.class);
+                                startActivity(n16);
+                                break;
+                            case 17:
+                                Adminpage.this.finish();
                                 break;
                         }
 
@@ -225,6 +237,7 @@ public class Adminpage extends AppCompatActivity {
             viewHolder.textViewItem.setTag(position);
 
             viewHolder.imageViewItem.setImageResource(mThumbIds[position]);
+            viewHolder.imageViewItem.setBackground(getResources().getDrawable(R.drawable.shape5));
 
 
             return convertView; }
@@ -274,22 +287,12 @@ public class Adminpage extends AppCompatActivity {
     SharedPreferences shared2;
 
    public static String email;
-   FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_adminpage_new);
-
-        floatingActionButton=findViewById(R.id.floatingActionButton);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent n =new Intent(getApplicationContext(),notificationActivity.class);
-                startActivity(n);
-            }
-        });
-        final ProgressBar progressBar=(ProgressBar)findViewById(R.id.progressBar);
         shared2 = getSharedPreferences("lang", MODE_PRIVATE);
 
         textView = findViewById(R.id.textView6);
@@ -305,7 +308,6 @@ public class Adminpage extends AppCompatActivity {
         db.collection("Res_1_payment").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                progressBar.setVisibility(View.GONE);
 
                 cPyment=new ArrayList<>();
                 List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
@@ -330,7 +332,6 @@ public class Adminpage extends AppCompatActivity {
         dbs.collection("Res_1_sales").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                progressBar.setVisibility(View.GONE);
                 cSale=new ArrayList<>() ;
                 List<DocumentSnapshot>list=queryDocumentSnapshots.getDocuments();
                 classSales a =new classSales();

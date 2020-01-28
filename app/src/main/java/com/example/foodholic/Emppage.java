@@ -304,6 +304,28 @@ public class Emppage extends AppCompatActivity
             }
         });
 
+        Button vip = findViewById(R.id.btnnew1);
+        vip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent n11=new Intent(getApplicationContext(),vipActivity.class);
+                startActivity(n11);
+
+            }
+        });
+
+        Button not = findViewById(R.id.btnnew2);
+        not.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent n11=new Intent(getApplicationContext(), notificationActivity.class);
+                startActivity(n11);
+
+            }
+        });
+
         Button plus = findViewById(R.id.counter);
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
