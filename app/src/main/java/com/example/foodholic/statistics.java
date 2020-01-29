@@ -207,13 +207,13 @@ public class statistics extends AppCompatActivity {
                     if(shared2.getString("language", "").equals("arabic")) {
                         monyResult.setText("التكاليف: " + payCost +" "+currencyAndTax.currency + "      | " + "المبيعات: " + salCost + " "+
                                 currencyAndTax.currency +"     \n\n"+"الضريبه: "+currencyAndTax.tax+
-                                "%"+"    قيمة الضريبه: "+(salCost-(currencyAndTax.tax/100*salCost)) + "\n     الارباح: " +
+                                "%"+"    قيمة الضريبه: "+((currencyAndTax.tax/100*salCost)) + "\n     الارباح: " +
                                 (salCost - payCost) + " "+currencyAndTax.currency +"     ");
                     }
                     else {
                         monyResult.setText("costs: " + payCost +" "+currencyAndTax.currency + "      | " + "sales: " + salCost + " "+
                                 currencyAndTax.currency +"     \n\n"+"tax: "+currencyAndTax.tax+
-                                "%"+"    tax ammount: "+(salCost-(currencyAndTax.tax/100*salCost)) + "\n     profit: " +
+                                "%"+"    tax ammount: "+((currencyAndTax.tax/100*salCost)) + "\n     profit: " +
                                 (salCost - payCost) + " "+currencyAndTax.currency +"     ");
                     }
                 } else if (spinnerpos == 2) {
@@ -256,12 +256,12 @@ public class statistics extends AppCompatActivity {
                     if (shared2.getString("language", "").equals("arabic")) {
                         monyResult.setText("التكاليف: " + payCost +" "+currencyAndTax.currency + "      | " + "المبيعات: " + salCost + " "+
                                 currencyAndTax.currency +"     \n\n"+"الضريبه: "+currencyAndTax.tax+
-                                "%"+"    قيمة الضريبه: "+(salCost-(currencyAndTax.tax/100*salCost)) + "\n     الارباح: " +
+                                "%"+"    قيمة الضريبه: "+((currencyAndTax.tax/100*salCost)) + "\n     الارباح: " +
                                 (salCost - payCost) + " "+currencyAndTax.currency +"     ");
                     } else {
                         monyResult.setText("costs: " + payCost +" "+currencyAndTax.currency + "      | " + "sales: " + salCost + " "+
                                 currencyAndTax.currency +"     \n\n"+"tax: "+currencyAndTax.tax+
-                                "%"+"    tax ammount: "+(salCost-(currencyAndTax.tax/100*salCost)) + "\n     profit: " +
+                                "%"+"    tax ammount: "+((currencyAndTax.tax/100*salCost)) + "\n     profit: " +
                                 (salCost - payCost) + " "+currencyAndTax.currency +"     ");
                     }
                 }else if (spinnerpos==3){
@@ -303,13 +303,13 @@ public class statistics extends AppCompatActivity {
                     if(shared2.getString("language", "").equals("arabic")) {
                         monyResult.setText("التكاليف: " + payCost +" "+currencyAndTax.currency + "      | " + "المبيعات: " + salCost + " "+
                                 currencyAndTax.currency +"     \n\n"+"الضريبه: "+currencyAndTax.tax+
-                                "%"+"    قيمة الضريبه: "+(salCost-(currencyAndTax.tax/100*salCost)) + "\n     الارباح: " +
+                                "%"+"    قيمة الضريبه: "+((currencyAndTax.tax/100*salCost)) + "\n     الارباح: " +
                                 (salCost - payCost) + " "+currencyAndTax.currency +"     ");
                     }
                     else {
                         monyResult.setText("costs: " + payCost +" "+currencyAndTax.currency + "      | " + "sales: " + salCost + " "+
                                 currencyAndTax.currency +"     \n\n"+"tax: "+currencyAndTax.tax+
-                                "%"+"    tax ammount: "+(salCost-(currencyAndTax.tax/100*salCost)) + "\n     profit: " +
+                                "%"+"    tax ammount: "+((currencyAndTax.tax/100*salCost)) + "\n     profit: " +
                                 (salCost - payCost) + " "+currencyAndTax.currency +"     ");
                     }
                 }else if(spinnerpos==4){
