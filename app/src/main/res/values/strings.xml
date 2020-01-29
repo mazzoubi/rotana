@@ -32,6 +32,14 @@
         <item>هيفاء</item>
     </string-array>
 
+    <string-array name="custom2">
+        <item>Choose</item>
+        <item>Ibrahim</item>
+        <item>Ahmad</item>
+        <item>Osama</item>
+        <item>Latifa</item>
+    </string-array>
+
     <string-array name="jop_type">
         <item>jop type</item>
         <item>Manager</item>

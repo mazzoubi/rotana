@@ -72,6 +72,16 @@ public class TakeAway_Emp extends AppCompatActivity {
         setSupportActionBar(bar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Button bt = findViewById(R.id.btn);
+        if(HomeAct.lang == 1) {
+            getSupportActionBar().setTitle("الرجوع");
+            bt.setText("عرض جميع الطلبات");
+        }
+        else {
+            getSupportActionBar().setTitle("Go Back");
+            bt.setText("View All Orders");
+        }
+
         list=findViewById(R.id.list);
 
         id = new ArrayList<String>();
@@ -91,7 +101,12 @@ public class TakeAway_Emp extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                downloadData();
+
+                if(HomeAct.lang == 1)
+                    downloadData();
+                else
+                    downloadDataAr();
+
                 flag = false;
             }
         });
@@ -99,7 +114,12 @@ public class TakeAway_Emp extends AppCompatActivity {
         sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                downloadData(sp.getSelectedItem().toString());
+
+                if(HomeAct.lang == 1)
+                    downloadData(sp.getSelectedItem().toString());
+                else
+                    downloadDataAr(sp.getSelectedItem().toString());
+
                 flag = true;
             }
 
@@ -115,56 +135,110 @@ public class TakeAway_Emp extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long ido) {
 
-                final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(TakeAway_Emp.this);
-                LayoutInflater inflater = TakeAway_Emp.this.getLayoutInflater();
-                builder.setView(inflater.inflate(R.layout.dialog_redirect3, null));
-                final android.support.v7.app.AlertDialog dialog = builder.create();
-                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-                lp.copyFrom(dialog.getWindow().getAttributes());
-                lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                if(HomeAct.lang == 1){
+                    final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(TakeAway_Emp.this);
+                    LayoutInflater inflater = TakeAway_Emp.this.getLayoutInflater();
+                    builder.setView(inflater.inflate(R.layout.dialog_redirect3, null));
+                    final android.support.v7.app.AlertDialog dialog = builder.create();
+                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                    lp.copyFrom(dialog.getWindow().getAttributes());
+                    lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-                dialog.show();
-                dialog.getWindow().setAttributes(lp);
+                    dialog.show();
+                    dialog.getWindow().setAttributes(lp);
 
-                Button b1, b4, b5;
+                    Button b1, b4, b5;
 
-                b1 = dialog.findViewById(R.id.call);
-                b4 = dialog.findViewById(R.id.confirm);
-                b5 = dialog.findViewById(R.id.remove);
+                    b1 = dialog.findViewById(R.id.call);
+                    b4 = dialog.findViewById(R.id.confirm);
+                    b5 = dialog.findViewById(R.id.remove);
 
-                b1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String str = info.get(position);
-                        String num = str.substring(str.indexOf("الهاتف : ")+9, str.indexOf("العنوان : "));
-                        num = RemoveSpace(num);
-                        startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", num, null)));
+                    b1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String str = info.get(position);
+                            String num = str.substring(str.indexOf("الهاتف : ")+9, str.indexOf("الملاحظات : "));
+                            num = RemoveSpace(num);
+                            startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", num, null)));
 
-                    }
-                });
+                        }
+                    });
 
-                b4.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(flag || dname.size() == 1)
-                            AddSale(sp.getSelectedItem().toString(), position);
-                        else
-                            Toast.makeText(TakeAway_Emp.this, "الرجاء الاختيار من لائحة الوقت .", Toast.LENGTH_LONG).show();
+                    b4.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if(flag || dname.size() == 1)
+                                AddSale(sp.getSelectedItem().toString(), position);
+                            else
+                                Toast.makeText(TakeAway_Emp.this, "الرجاء الاختيار من لائحة الوقت .", Toast.LENGTH_LONG).show();
 
-                    }
-                });
+                        }
+                    });
 
-                b5.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(flag)
-                            removeData(sp.getSelectedItem().toString());
-                        else
-                            Toast.makeText(TakeAway_Emp.this, "الرجاء الاختيار من لائحة الوقت .", Toast.LENGTH_LONG).show();
+                    b5.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if(flag)
+                                removeData(sp.getSelectedItem().toString());
+                            else
+                                Toast.makeText(TakeAway_Emp.this, "الرجاء الاختيار من لائحة الوقت .", Toast.LENGTH_LONG).show();
 
-                    }
-                });
+                        }
+                    });
+                }
+                else{
+                    final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(TakeAway_Emp.this);
+                    LayoutInflater inflater = TakeAway_Emp.this.getLayoutInflater();
+                    builder.setView(inflater.inflate(R.layout.dialog_redirect3a, null));
+                    final android.support.v7.app.AlertDialog dialog = builder.create();
+                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                    lp.copyFrom(dialog.getWindow().getAttributes());
+                    lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                    dialog.show();
+                    dialog.getWindow().setAttributes(lp);
+
+                    Button b1, b4, b5;
+
+                    b1 = dialog.findViewById(R.id.call);
+                    b4 = dialog.findViewById(R.id.confirm);
+                    b5 = dialog.findViewById(R.id.remove);
+
+                    b1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String str = info.get(position);
+                            String num = str.substring(str.indexOf("Mobile : ")+9, str.indexOf("Notes : "));
+                            num = RemoveSpace(num);
+                            startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", num, null)));
+
+                        }
+                    });
+
+                    b4.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if(flag || dname.size() == 1)
+                                AddSale(sp.getSelectedItem().toString(), position);
+                            else
+                                Toast.makeText(TakeAway_Emp.this, "Please Pick A Time From List", Toast.LENGTH_LONG).show();
+
+                        }
+                    });
+
+                    b5.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if(flag)
+                                removeData(sp.getSelectedItem().toString());
+                            else
+                                Toast.makeText(TakeAway_Emp.this, "Please Pick A Time From List", Toast.LENGTH_LONG).show();
+
+                        }
+                    });
+                }
 
 
             }
@@ -188,7 +262,7 @@ public class TakeAway_Emp extends AppCompatActivity {
                         info.add("الأسم : "+document.get("user_name").toString()+"\n"
                                 +"الهاتف : "+document.get("user_mobile").toString()+"\n"
                                 +"بريد : "+document.get("email").toString()+"\n"
-                                +"العنوان : "+document.get("user_loc").toString()+"\n"
+                                +"الملاحظات : "+document.get("user_loc").toString()+"\n"
                                 +"الطلب : "+document.get("item_list").toString()+"\n"
                                 +"مجموع النقاط : "+document.get("point_sum").toString()+" نقطة"+"\n"
                                 +"مجموع المبلغ : "+document.get("item_sum_price").toString()+" دينار"+"\n" );
@@ -199,6 +273,38 @@ public class TakeAway_Emp extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                     if(info.isEmpty())
                         Toast.makeText(TakeAway_Emp.this, "لايوجد طلبات سفري", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void downloadDataAr(){
+
+        info.clear();
+        adapter.notifyDataSetChanged();
+
+        db.collection("Res_1_TakeAway")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    for(QueryDocumentSnapshot document : task.getResult()){
+
+                        info.add("Name : "+document.get("user_name").toString()+"\n"
+                                +"Mobile : "+document.get("user_mobile").toString()+"\n"
+                                +"Email : "+document.get("email").toString()+"\n"
+                                +"Notes : "+document.get("user_loc").toString()+"\n"
+                                +"Order : "+document.get("item_list").toString()+"\n"
+                                +"Point Sum : "+document.get("point_sum").toString()+" Point"+"\n"
+                                +"Bill Sum : "+document.get("item_sum_price").toString()+" JOD"+"\n" );
+
+                    }
+
+
+                    adapter.notifyDataSetChanged();
+                    if(info.isEmpty())
+                        Toast.makeText(TakeAway_Emp.this, "You Have No TakeAway's", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -217,7 +323,7 @@ public class TakeAway_Emp extends AppCompatActivity {
                     info.add("الأسم : "+task.getResult().get("user_name").toString()+"\n"
                             +"الهاتف : "+task.getResult().get("user_mobile").toString()+"\n"
                             +"بريد : "+task.getResult().get("email").toString()+"\n"
-                            +"العنوان : "+task.getResult().get("user_loc").toString()+"\n"
+                            +"الملاحظات : "+task.getResult().get("user_loc").toString()+"\n"
                             +"الطلب : "+task.getResult().get("item_list").toString()+"\n"
                             +"مجموع النقاط : "+task.getResult().get("point_sum").toString()+" نقطة"+"\n"
                             +"مجموع المبلغ : "+task.getResult().get("item_sum_price").toString()+" دينار"+"\n" );
@@ -225,6 +331,32 @@ public class TakeAway_Emp extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                     if(info.isEmpty())
                         Toast.makeText(TakeAway_Emp.this, "لايوجد طلبات سفري", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void downloadDataAr(String path){
+
+        info.clear();
+        adapter.notifyDataSetChanged();
+
+        db.collection("Res_1_TakeAway")
+                .document(path).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    info.add("Name : "+task.getResult().get("user_name").toString()+"\n"
+                            +"Mobile : "+task.getResult().get("user_mobile").toString()+"\n"
+                            +"Email : "+task.getResult().get("email").toString()+"\n"
+                            +"Notes : "+task.getResult().get("user_loc").toString()+"\n"
+                            +"Order : "+task.getResult().get("item_list").toString()+"\n"
+                            +"Point Sum : "+task.getResult().get("point_sum").toString()+" Point"+"\n"
+                            +"Bill Sum : "+task.getResult().get("item_sum_price").toString()+" JOD"+"\n" );
+
+                    adapter.notifyDataSetChanged();
+                    if(info.isEmpty())
+                        Toast.makeText(TakeAway_Emp.this, "You Have No TakeAway's", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -241,7 +373,10 @@ public class TakeAway_Emp extends AppCompatActivity {
                             adapter.clear();
 
                             adapter.notifyDataSetChanged();
-                            Toast.makeText(TakeAway_Emp.this, "تم", Toast.LENGTH_SHORT).show();
+                            if(HomeAct.lang == 1)
+                                Toast.makeText(TakeAway_Emp.this, "تم", Toast.LENGTH_SHORT).show();
+                            else
+                                Toast.makeText(TakeAway_Emp.this, "Done", Toast.LENGTH_SHORT).show();
                             recreate(); } });
     }
 
@@ -296,10 +431,18 @@ public class TakeAway_Emp extends AppCompatActivity {
 
         ArrayList<String> ttt = info;
 
-        String [] temp = info.get(pos).substring(info.get(pos)
-                .indexOf("الطلب : ")+8, info.get(pos).indexOf("مجموع النقاط :"))
-                .replaceAll("= ", "X").replaceAll(":", "Price : ").replaceAll("\n", "")
-                .split(",");
+        String [] temp;
+
+        if(HomeAct.lang == 1){
+            temp = info.get(pos).substring(info.get(pos)
+                    .indexOf("الطلب : ")+8, info.get(pos).indexOf("مجموع النقاط :"))
+                    .replaceAll("= ", "X").replaceAll(":", "Price : ").replaceAll("\n", "")
+                    .split(","); }
+        else{
+            temp = info.get(pos).substring(info.get(pos)
+                    .indexOf("Order : ")+8, info.get(pos).indexOf("Point Sum :"))
+                    .replaceAll("= ", "X").replaceAll(":", "Price : ").replaceAll("\n", "")
+                    .split(","); }
 
         if(temp[temp.length-1].equals(" ")){
             String [] temp2 = temp;

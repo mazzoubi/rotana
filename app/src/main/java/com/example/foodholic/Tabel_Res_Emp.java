@@ -123,7 +123,9 @@ public class Tabel_Res_Emp extends AppCompatActivity {
                     final TextView date, time;
                     final Button reserve, cancle;
                     final EditText name, mobile, people;
+                    final Toolbar tool;
 
+                    tool = dialog.findViewById(R.id.tool);
                     date = dialog.findViewById(R.id.date);
                     time = dialog.findViewById(R.id.time);
                     reserve = dialog.findViewById(R.id.reserv);
@@ -131,6 +133,17 @@ public class Tabel_Res_Emp extends AppCompatActivity {
                     name = dialog.findViewById(R.id.name);
                     mobile = dialog.findViewById(R.id.mobile);
                     people = dialog.findViewById(R.id.people);
+
+                    if(HomeAct.lang != 1){
+                        tool.setTitle("Reservation Information");
+                        date.setText("Pick A Date");
+                        time.setText("Pick A Time");
+                        reserve.setText("Reserve");
+                        cancle.setText("View Bill");
+                        name.setHint("Customer Name");
+                        mobile.setHint("Customer Mobile");
+                        people.setHint("People Count");
+                    }
 
                     final Calendar myCalendar = Calendar.getInstance();
                     date_ = new DatePickerDialog.OnDateSetListener() {
@@ -195,66 +208,87 @@ public class Tabel_Res_Emp extends AppCompatActivity {
                             editor.putInt("pos", 0);
                             editor.apply();
 
+                            String s1, s2, s3;
+                            if(HomeAct.lang == 1){
+                                s1="الفاتورة";
+                                s3="إلغاء";
+                                s2="طباعة"; }
+                            else{
+                                s1="Bill";
+                                s3="Cancel";
+                                s2="Print"; }
+
                             new AlertDialog.Builder(Tabel_Res_Emp.this)
-                                    .setTitle("الفاتورة").setMessage(info.get(position+1))
-                                    .setPositiveButton("طباعة", new DialogInterface.OnClickListener() {
+                                    .setTitle(s1).setMessage(info.get(position+1))
+                                    .setPositiveButton(s2, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
 
-                                            String bill="";
-                                            FirebaseAuth auth = FirebaseAuth.getInstance();
-
-                                            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
-                                            Date dateee = new Date();
-                                            String date = dateFormat.format(dateee);
-
-                                            String day = date.substring(0, date.indexOf(" "));
-                                            String time = date.substring(date.indexOf(" ")+1);
-
-                                            String [] temp = info.get(position+1).substring(info.get(position+1)
-                                                    .indexOf("الطلب : ")+8, info.get(position+1).indexOf("مجموع"))
-                                                    .replaceAll("= ", "X").replaceAll(":", "Price : ").replaceAll("\n", "")
-                                                    .split(",");
-
-                                            if(temp[temp.length-1].equals(" ")){
-                                                String [] temp2 = temp;
-                                                temp = new String[temp2.length-1];
-                                                for(int d=0; d<temp.length; d++)
-                                                    temp[d] = temp2[d]; }
-
-                                            bill+="WELCOME TO HYBRID RESTAURANT\n";
-                                            bill+="Bill Type : Cash\n";
-                                            bill+="\n\n";
-                                            bill+="Date : "+day+"\n";
-                                            bill+="Time : "+time+"\n";
-                                            bill+="__________________________________________\n\n\n";
-
-                                            Map<String, Object> sale = new HashMap<>();
-
-                                            for(int ii=0; ii<temp.length; ii++){
-
-                                                sale.put("date", day);
-                                                sale.put("time", time);
-                                                sale.put("subItem", temp[ii].substring(0, temp[ii].indexOf(" X")));
-                                                sale.put("item", "");
-                                                sale.put("empEmail", auth.getCurrentUser().getEmail());
-
-                                                double p = Double.parseDouble(temp[ii].substring(temp[ii].indexOf("Price : ")+8));
-                                                int c = Integer.parseInt(temp[ii].substring(temp[ii].indexOf("X")+1, temp[ii].indexOf(" Price : ")));
-                                                sale.put("sale", p*c);
-
-                                                bill+="\nItem : "+temp[ii]+"\n";
-                                                db.collection("Res_1_sales").document().set(sale);
-                                            }
-
-                                            bill+="\nBill Value : "+info.get(position+1).substring(info.get(position+1).indexOf("مجموع : ")+8)+"\n";
-                                            bill+="\n\n\nTHANK YOU FOR YOUR PURCHASE, COME AGAIN !\n\n\n";
-
-                                            removeData(position+1);
-                                            PrintUsingServer(bill);
+//                                            String bill="";
+//                                            FirebaseAuth auth = FirebaseAuth.getInstance();
+//
+//                                            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
+//                                            Date dateee = new Date();
+//                                            String date = dateFormat.format(dateee);
+//
+//                                            String day = date.substring(0, date.indexOf(" "));
+//                                            String time = date.substring(date.indexOf(" ")+1);
+//
+//                                            String [] temp;
+//
+//                                            if(HomeAct.lang == 1){
+//                                                temp = info.get(position+1).substring(info.get(position+1)
+//                                                        .indexOf("الطلب : ")+8, info.get(position+1).indexOf("مجموع"))
+//                                                        .replaceAll("= ", "X").replaceAll(":", "Price : ").replaceAll("\n", "")
+//                                                        .split(",");
+//                                            }
+//                                            else{
+//                                                temp = info.get(position+1).substring(info.get(position+1)
+//                                                        .indexOf("Menu : ")+8, info.get(position+1).indexOf("Total"))
+//                                                        .replaceAll("= ", "X").replaceAll(":", "Price : ").replaceAll("\n", "")
+//                                                        .split(",");
+//
+//                                            }
+//
+//                                            if(temp[temp.length-1].equals(" ")){
+//                                                String [] temp2 = temp;
+//                                                temp = new String[temp2.length-1];
+//                                                for(int d=0; d<temp.length; d++)
+//                                                    temp[d] = temp2[d]; }
+//
+//                                            bill+="WELCOME TO HYBRID RESTAURANT\n";
+//                                            bill+="Bill Type : Cash\n";
+//                                            bill+="\n\n";
+//                                            bill+="Date : "+day+"\n";
+//                                            bill+="Time : "+time+"\n";
+//                                            bill+="__________________________________________\n\n\n";
+//
+//                                            Map<String, Object> sale = new HashMap<>();
+//
+//                                            for(int ii=0; ii<temp.length; ii++){
+////findme
+//                                                sale.put("date", day);
+//                                                sale.put("time", time);
+//                                                sale.put("subItem", temp[ii].substring(0, temp[ii].indexOf(" X")));
+//                                                sale.put("item", "");
+//                                                sale.put("empEmail", auth.getCurrentUser().getEmail());
+//
+//                                                double p = Double.parseDouble(temp[ii].substring(temp[ii].indexOf("Price : ")+8));
+//                                                int c = Integer.parseInt(temp[ii].substring(temp[ii].indexOf("X")+1, temp[ii].indexOf(" Price : ")));
+//                                                sale.put("sale", p*c);
+//
+//                                                bill+="\nItem : "+temp[ii]+"\n";
+//                                                db.collection("Res_1_sales").document().set(sale);
+//                                            }
+//
+//                                            bill+="\nBill Value : "+info.get(position+1).substring(info.get(position+1).indexOf("مجموع : ")+8)+"\n";
+//                                            bill+="\n\n\nTHANK YOU FOR YOUR PURCHASE, COME AGAIN !\n\n\n";
+//
+//                                            removeData(position+1);
+//                                            PrintUsingServer(bill);
 
                                         }
-                                    }).setNegativeButton("الغاء", new DialogInterface.OnClickListener() {
+                                    }).setNegativeButton(s3, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     dialog.dismiss();
@@ -290,7 +324,10 @@ public class Tabel_Res_Emp extends AppCompatActivity {
 
         }
         catch(Exception e){
-            Toast.makeText(this, "لا يوجد طابعة !!!", Toast.LENGTH_SHORT).show();
+            if(HomeAct.lang == 1)
+                Toast.makeText(this, "لا يوجد طابعة !!!", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this, "No Printer Found !!!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -305,8 +342,11 @@ public class Tabel_Res_Emp extends AppCompatActivity {
 
         info.clear();
 
-        for(int i=0; i<tabels.size(); i++)
+        for(int i=0; i<tabels.size(); i++){
+            if(HomeAct.lang == 1)
             info.add("لا يوجد فاتورة");
+            else
+            info.add("No Bill");}
 
         FirebaseFirestore fb = FirebaseFirestore.getInstance();
         fb.collection("Res_1_Table_Res_").document(""+pos)
@@ -316,16 +356,30 @@ public class Tabel_Res_Emp extends AppCompatActivity {
 
                 if(task.isSuccessful()){
 
-                    try{info.set(pos,
-                            "تاريخ : "+task.getResult().get("date").toString()+"\n"+
-                                    "وقت : "+task.getResult().get("time").toString()+"\n"+
-                                    "الاسم : "+task.getResult().get("name").toString()+"\n"+
-                                    "هاتف : "+task.getResult().get("mobile").toString()+"\n"+
-                                    "اشخاص : "+task.getResult().get("people").toString()+"\n"+
-                                    "الطلب : "+task.getResult().get("order").toString()+"\n"+
-                                    "مجموع : "+task.getResult().get("sum").toString()+" دينار\n"
+                   if(HomeAct.lang == 1){
+                       try{info.set(pos,
+                               "تاريخ : "+task.getResult().get("date").toString()+"\n"+
+                                       "وقت : "+task.getResult().get("time").toString()+"\n"+
+                                       "الاسم : "+task.getResult().get("name").toString()+"\n"+
+                                       "هاتف : "+task.getResult().get("mobile").toString()+"\n"+
+                                       "اشخاص : "+task.getResult().get("people").toString()+"\n"+
+                                       "الطلب : "+task.getResult().get("order").toString()+"\n"+
+                                       "مجموع : "+task.getResult().get("sum").toString()+" دينار\n"
 
-                    );}catch (Exception e){}
+                       );}catch (Exception e){}
+                   }
+                   else{
+                       try{info.set(pos,
+                               "Date : "+task.getResult().get("date").toString()+"\n"+
+                                       "Time : "+task.getResult().get("time").toString()+"\n"+
+                                       "Name : "+task.getResult().get("name").toString()+"\n"+
+                                       "Mobile : "+task.getResult().get("mobile").toString()+"\n"+
+                                       "People : "+task.getResult().get("people").toString()+"\n"+
+                                       "Menu : "+task.getResult().get("order").toString()+"\n"+
+                                       "Total : "+task.getResult().get("sum").toString()+" JOD\n"
+
+                       );}catch (Exception e){}
+                   }
 
                 }
 
@@ -370,7 +424,11 @@ public class Tabel_Res_Emp extends AppCompatActivity {
         setContentView(R.layout.activity_tabel__res__emp);
 
         Toolbar toolbar = findViewById(R.id.tool);
-        toolbar.setTitle("حجز الطاولة");
+        if(HomeAct.lang == 1)
+            toolbar.setTitle("الرجوع");
+        else
+            toolbar.setTitle("Go Back");
+
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -387,6 +445,22 @@ public class Tabel_Res_Emp extends AppCompatActivity {
                 getDateTime();
             }
         });
+
+        if(HomeAct.lang == 1)
+            b.setText("إختيار و عرض الحجوزات بالتاريخ والوقت");
+        else
+            b.setText("Re-View Reser. Based On Date-Time");
+
+        TextView t1, t2;
+        t1 = findViewById(R.id.not);
+        t2 = findViewById(R.id.yes);
+
+        if(HomeAct.lang != 1){
+            t1.setText("Not Reserved");
+            t2.setText("Reserved"); }
+        else{
+            t1.setText("غير محجوزة");
+            t2.setText("محجوزة"); }
 
         db = FirebaseFirestore.getInstance();
         gridview = (GridView) findViewById(R.id.customgrid);
@@ -491,8 +565,14 @@ public class Tabel_Res_Emp extends AppCompatActivity {
 //            editor.putInt("pos", p);
 //            editor.apply();
 
-            if(date.contains("تاريخ") || time.contains("وقت"))
-                Toast.makeText(Tabel_Res_Emp.this, "اختر وقت و تاريخ رجائا", Toast.LENGTH_SHORT).show();
+            if(date.contains("تاريخ") || time.contains("وقت") ||
+                    date.contains("Date") || time.contains("Time")) {
+                if (HomeAct.lang == 1)
+                    Toast.makeText(Tabel_Res_Emp.this, "اختر و وقت و تاريخ رجائا", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(Tabel_Res_Emp.this, "Please Pick Date And Time", Toast.LENGTH_SHORT).show();
+            }
+
             else{
                 if(getIntent().getStringExtra("order") != null){
                     if(!getIntent().getStringExtra("order").equals("")){
@@ -510,10 +590,18 @@ public class Tabel_Res_Emp extends AppCompatActivity {
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        if(task.isSuccessful())
-                                            Toast.makeText(Tabel_Res_Emp.this, "تم اضافة الحجز", Toast.LENGTH_SHORT).show();
-                                        else
-                                            Toast.makeText(Tabel_Res_Emp.this, "حاول مجددا", Toast.LENGTH_SHORT).show();
+                                        if(HomeAct.lang == 1){
+                                            if(task.isSuccessful())
+                                                Toast.makeText(Tabel_Res_Emp.this, "تم اضافة الحجز", Toast.LENGTH_SHORT).show();
+                                            else
+                                                Toast.makeText(Tabel_Res_Emp.this, "حاول مجددا", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else{
+                                            if(task.isSuccessful())
+                                                Toast.makeText(Tabel_Res_Emp.this, "Reserved Successfully !", Toast.LENGTH_SHORT).show();
+                                            else
+                                                Toast.makeText(Tabel_Res_Emp.this, "Try Again Please !", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
                                 });
                     }
@@ -532,11 +620,21 @@ public class Tabel_Res_Emp extends AppCompatActivity {
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful())
-                                        Toast.makeText(Tabel_Res_Emp.this, "تم اضافة الحجز", Toast.LENGTH_SHORT).show();
-                                    else
-                                        Toast.makeText(Tabel_Res_Emp.this, "حاول مجددا", Toast.LENGTH_SHORT).show();
-                                }
+
+                                    if(HomeAct.lang == 1){
+                                        if(task.isSuccessful())
+                                            Toast.makeText(Tabel_Res_Emp.this, "تم اضافة الحجز", Toast.LENGTH_SHORT).show();
+                                        else
+                                            Toast.makeText(Tabel_Res_Emp.this, "حاول مجددا", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else{
+                                        if(task.isSuccessful())
+                                            Toast.makeText(Tabel_Res_Emp.this, "Reserved Successfully !", Toast.LENGTH_SHORT).show();
+                                        else
+                                            Toast.makeText(Tabel_Res_Emp.this, "Try Again Please !", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                        }
                             });
 
                 }

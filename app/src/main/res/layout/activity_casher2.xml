@@ -13,18 +13,51 @@
         android:weightSum="5"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.CardView
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_margin="7dp"
             android:layout_weight="1"
-            android:elevation="15dp"
             android:layout_height="match_parent">
-            <GridView
-                android:id="@+id/customgrid"
+
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:numColumns="2" />
-        </android.support.v7.widget.CardView>
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="55dp"
+                android:elevation="15dp"
+                android:layout_height="wrap_content">
+
+                <GridView
+                    android:id="@+id/customgrid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:numColumns="2" />
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:id="@+id/countcard"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:elevation="15dp"
+                android:layout_height="50dp">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:background="@drawable/shape4"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_height="50dp"
+                    android:textSize="18dp"
+                    android:id="@+id/counter"
+                    android:text="Bill ID : "/>
+
+            </android.support.v7.widget.CardView>
+
+        </RelativeLayout>
 
         <android.support.v7.widget.CardView
             android:layout_width="0dp"

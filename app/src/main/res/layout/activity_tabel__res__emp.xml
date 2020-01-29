@@ -76,6 +76,7 @@
                 android:textSize="16sp"
                 android:gravity="center"
                 android:layout_weight="1"
+                android:id="@+id/yes"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 android:layout_height="wrap_content"/>
@@ -86,6 +87,7 @@
                 android:textSize="16sp"
                 android:gravity="center"
                 android:layout_weight="1"
+                android:id="@+id/not"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 android:layout_height="wrap_content"/>

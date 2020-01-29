@@ -70,9 +70,11 @@ public class aa3 extends AppCompatActivity {
 
                 if (eng){
                     button.setText(" + add item + ");
+                    getSupportActionBar().setTitle("Go Back");
                 }
                 else{
                     button.setText(" + أضافة مادة + ");
+                    getSupportActionBar().setTitle("الرجوع");
                 }
 
 

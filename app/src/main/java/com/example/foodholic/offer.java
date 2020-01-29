@@ -151,6 +151,7 @@ public class offer extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_offer);
         SharedPreferences shared2;
         shared2 = getSharedPreferences("lang", MODE_PRIVATE);
@@ -176,7 +177,7 @@ public class offer extends AppCompatActivity {
         getOffers();
 
         Button btn = findViewById(R.id.btn);
-        if (lang==1){
+        if (HomeAct.lang != 1){
             btn.setText("show all");
         }
         btn.setOnClickListener(new View.OnClickListener() {
@@ -206,8 +207,11 @@ public class offer extends AppCompatActivity {
                         startActivityForResult(galleryIntent, 1996); } });
 
                 final EditText et = dialog.findViewById(R.id.desc);
-
+                if(HomeAct.lang != 1)
+                    et.setHint("Offer Description");
                 Button btn = dialog.findViewById(R.id.add);
+                if(HomeAct.lang != 1)
+                    btn.setText("Add Offer");
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

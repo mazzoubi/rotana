@@ -43,7 +43,11 @@ public class ContestsActiivty extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_contests_actiivty);
+
+        if(HomeAct.lang == 1)
+            setContentView(R.layout.activity_contests_actiivty);
+        else
+            setContentView(R.layout.activity_contests_actiivty2);
 
         db = FirebaseFirestore.getInstance();
 
@@ -69,22 +73,42 @@ public class ContestsActiivty extends AppCompatActivity {
                 edt.setTextSize(16);
                 edt.setTextColor(Color.parseColor("#000000"));
 
-                new AlertDialog.Builder(ContestsActiivty.this)
-                        .setTitle("يرجى كتابة موضوع المسابقة مع القواعد والشرح المراد عرضه للزبائن")
-                        .setView(edt)
-                        .setPositiveButton("نشر", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                if(HomeAct.lang == 1){
+                    new AlertDialog.Builder(ContestsActiivty.this)
+                            .setTitle("يرجى كتابة موضوع المسابقة مع القواعد والشرح المراد عرضه للزبائن")
+                            .setView(edt)
+                            .setPositiveButton("نشر", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                                UploadData(edt.getText().toString());
-                                dialog.dismiss();
-                            }
-                        }).setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
+                                    UploadData(edt.getText().toString());
+                                    dialog.dismiss();
+                                }
+                            }).setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+                }
+                else{
+                    new AlertDialog.Builder(ContestsActiivty.this)
+                            .setTitle("Fill Information For The Customers To Read, Include Dates If Possible")
+                            .setView(edt)
+                            .setPositiveButton("Share", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    UploadData(edt.getText().toString());
+                                    dialog.dismiss();
+                                }
+                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+                }
 
             }
         });
@@ -93,37 +117,72 @@ public class ContestsActiivty extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
-                new AlertDialog.Builder(ContestsActiivty.this)
-                        .setTitle("يرجى التأكيد")
-                        .setMessage("هل ترغب بحذف هذه المسابقة ؟ ")
-                        .setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).setPositiveButton("حذف", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                if(HomeAct.lang == 1){
+                    new AlertDialog.Builder(ContestsActiivty.this)
+                            .setTitle("يرجى التأكيد")
+                            .setMessage("هل ترغب بحذف هذه المسابقة ؟ ")
+                            .setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).setPositiveButton("حذف", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                        String s = data.get(position);
+                            String s = data.get(position);
 
-                        db.collection("Res_1_Contest")
-                                .document(s.substring(s.indexOf("@@@")+3))
-                                .delete()
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
+                            db.collection("Res_1_Contest")
+                                    .document(s.substring(s.indexOf("@@@")+3))
+                                    .delete()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
 
-                                        if(task.isSuccessful()){
-                                            Toast.makeText(ContestsActiivty.this, "تم الحذف بنجاح !", Toast.LENGTH_LONG).show();
-                                            recreate();
+                                            if(task.isSuccessful()){
+                                                Toast.makeText(ContestsActiivty.this, "تم الحذف بنجاح !", Toast.LENGTH_LONG).show();
+                                                recreate();
+                                            }
+
                                         }
+                                    });
 
-                                    }
-                                });
+                        }
+                    }).show();
+                }
+                else{
+                    new AlertDialog.Builder(ContestsActiivty.this)
+                            .setTitle("Alert !")
+                            .setMessage("Delete This Contest/Info ?")
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                    }
-                }).show();
+                            String s = data.get(position);
+
+                            db.collection("Res_1_Contest")
+                                    .document(s.substring(s.indexOf("@@@")+3))
+                                    .delete()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+
+                                            if(task.isSuccessful()){
+                                                Toast.makeText(ContestsActiivty.this, "Removed !", Toast.LENGTH_LONG).show();
+                                                recreate();
+                                            }
+
+                                        }
+                                    });
+
+                        }
+                    }).show();
+                }
 
             }
         });
@@ -142,7 +201,10 @@ public class ContestsActiivty extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {
                 if(task.isSuccessful()) {
+                    if(HomeAct.lang == 1)
                     Toast.makeText(ContestsActiivty.this, "تم النشر بنجاح !", Toast.LENGTH_LONG).show();
+                   else
+                    Toast.makeText(ContestsActiivty.this, "Done !", Toast.LENGTH_LONG).show();
                     recreate(); }
             }
         });

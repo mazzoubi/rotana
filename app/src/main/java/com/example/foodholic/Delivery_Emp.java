@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -79,6 +80,11 @@ public class Delivery_Emp extends AppCompatActivity {
         Toolbar bar = findViewById(R.id.tool);
         setSupportActionBar(bar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if(HomeAct.lang == 1)
+            getSupportActionBar().setTitle("الرجوع");
+        else
+            getSupportActionBar().setTitle("Go Back");
 
         list=findViewById(R.id.list);
 
@@ -264,6 +270,7 @@ public class Delivery_Emp extends AppCompatActivity {
                     dialog.getWindow().setAttributes(lp);
 
                     Button b1, b2, b3, b4, b5;
+                    TextView t = dialog.findViewById(R.id.title);
 
                     b1 = dialog.findViewById(R.id.call);
                     b2 = dialog.findViewById(R.id.go);
@@ -271,7 +278,8 @@ public class Delivery_Emp extends AppCompatActivity {
                     b4 = dialog.findViewById(R.id.confirm);
                     b5 = dialog.findViewById(R.id.remove);
 
-                    b1.setText("contact with customer");
+                    t.setText("You Can Pick To...");
+                    b1.setText("contact The customer");
                     b2.setText("show customer address");
                     b3.setText("transfer the order to another driver");
                     b4.setText("receipt confirmation");
@@ -281,7 +289,7 @@ public class Delivery_Emp extends AppCompatActivity {
                         public void onClick(View view) {
 
                             String str = info.get(position);
-                            String num = str.substring(str.indexOf("phone : ")+9, str.indexOf("menu : "));
+                            String num = str.substring(str.indexOf("Phone : ")+8, str.indexOf("Menu : "));
                             num = RemoveSpace(num);
                             startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", num, null)));
 
@@ -292,8 +300,6 @@ public class Delivery_Emp extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
 
-                            getLngLat();
-
                             if(!latlng.isEmpty()){
 
                                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
@@ -301,8 +307,8 @@ public class Delivery_Emp extends AppCompatActivity {
                                 startActivity(intent);
                             }
                             else{
-
-                                Toast.makeText(Delivery_Emp.this, "لا يوجد عنوان !", Toast.LENGTH_LONG).show();
+                                getLngLat();
+                                Toast.makeText(Delivery_Emp.this, "No Address !", Toast.LENGTH_LONG).show();
                             }
 
 
@@ -349,23 +355,31 @@ public class Delivery_Emp extends AppCompatActivity {
                             sp2.setAdapter(adapterSpin);
 
                             Button bbb = dialog2.findViewById(R.id.call);
-                            bbb.setText("contact with customer");
+                            TextView t = dialog2.findViewById(R.id.title);
+                            t.setText("Transfer Order to Another Driver");
+                            bbb.setText("Transfer");
+
                             bbb.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
 
+                                    String ll = "";
+                                    if(!latlng.isEmpty())
+                                        ll = latlng.get(position).substring(latlng.get(position).indexOf("daddr=")+6);
+
                                     String temp = info.get(position);
                                     HashMap<String, String> map = new HashMap<>();
-                                    map.put("user_name", temp.substring(temp.indexOf("الأسم : ")+8, temp.indexOf("الهاتف : ")).replace("\n", ""));
-                                    map.put("user_mobile", temp.substring(temp.indexOf("الهاتف : ")+9, temp.indexOf("قائمة : ")).replace("\n", ""));
-                                    map.put("user_desc", temp.substring(temp.indexOf("ملاحظات : ")+10, temp.indexOf("سعر توصيل : ")).replace("\n", ""));
-                                    map.put("item_list",temp.substring(temp.indexOf("قائمة : ")+8, temp.indexOf("النقاط : ")).replace("\n", ""));
-                                    map.put("item_sum_price", temp.substring(temp.indexOf("المجموع : ")+10).replace("\n", ""));
-                                    map.put("point_sum", temp.substring(temp.indexOf("النقاط : ")+9, temp.indexOf("ملاحظات : ")).replace("\n", ""));
-                                    map.put("d_price", temp.substring(temp.indexOf("سعر توصيل : ")+12, temp.indexOf("العنوان : ")).replace("\n", ""));
+                                    map.put("user_name", temp.substring(temp.indexOf("Name : ")+7, temp.indexOf("Phone : ")).replace("\n", ""));
+                                    map.put("user_mobile", temp.substring(temp.indexOf("Phone : ")+8, temp.indexOf("Menu : ")).replace("\n", ""));
+                                    map.put("user_desc", temp.substring(temp.indexOf("Notes : ")+8, temp.indexOf("Delivery")).replace("\n", ""));
+                                    map.put("item_list",temp.substring(temp.indexOf("Menu : ")+7, temp.indexOf("Points : ")).replace("\n", ""));
+                                    map.put("item_sum_price", temp.substring(temp.indexOf("Total : ")+8).replace("\n", ""));
+                                    map.put("point_sum", temp.substring(temp.indexOf("Points : ")+9, temp.indexOf("Notes : ")).replace("\n", ""));
+                                    map.put("d_price", temp.substring(temp.indexOf("Delivery Price : ")+17, temp.indexOf("Address : ")).replace("\n", ""));
                                     map.put("email", "");
-                                    map.put("lat", "");
-                                    map.put("lng", "");
+                                    try{map.put("lat", ll.substring(0, ll.indexOf(",")));
+                                        map.put("lng", ll.substring(ll.indexOf(",")+1));}
+                                    catch (Exception e){}
 
                                     db.collection("Res_1_Delivery")
                                             .document(sp2.getSelectedItem().toString())
@@ -375,7 +389,7 @@ public class Delivery_Emp extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if(task.isSuccessful()){
-                                                        Toast.makeText(Delivery_Emp.this, "delivery is done", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(Delivery_Emp.this, "Done", Toast.LENGTH_SHORT).show();
                                                         removeData(sp.getSelectedItem().toString(), position); }
                                                 }
                                             });
@@ -478,7 +492,13 @@ public class Delivery_Emp extends AppCompatActivity {
 
     public void removeData(String path, int pos){
 
-        String temp = info.get(pos).substring(info.get(pos).indexOf(" : ")+3, info.get(pos).indexOf("الهاتف : "));
+        String temp="";
+
+        if(HomeAct.lang != 1)
+            temp = info.get(pos).substring(info.get(pos).indexOf(" : ")+3, info.get(pos).indexOf("Phone : "));
+        else
+            temp = info.get(pos).substring(info.get(pos).indexOf(" : ")+3, info.get(pos).indexOf("الهاتف : "));
+
         db.collection("Res_1_Delivery").document(path).collection("1").document(temp.replaceAll("\n","")).delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -528,10 +548,19 @@ public class Delivery_Emp extends AppCompatActivity {
         String day = date.substring(0, date.indexOf(" "));
         String time = date.substring(date.indexOf(" ")+1);
 
-        String [] temp = info.get(pos).substring(info.get(pos)
-                .indexOf("قائمة : ")+8, info.get(pos).indexOf("النقاط"))
-                .replaceAll("= ", "X").replaceAll(":", "Single Price : ").replaceAll("\n", "")
-                .split(",");
+        String [] temp;
+
+        if(HomeAct.lang == 1){
+            temp = info.get(pos).substring(info.get(pos)
+                    .indexOf("قائمة : ")+8, info.get(pos).indexOf("النقاط"))
+                    .replaceAll("= ", "X").replaceAll(":", "Single Price : ").replaceAll("\n", "")
+                    .split(",");
+        }else{
+            temp = info.get(pos).substring(info.get(pos)
+                    .indexOf("Menu : ")+7, info.get(pos).indexOf("Points"))
+                    .replaceAll("= ", "X").replaceAll(":", "Single Price : ").replaceAll("\n", "")
+                    .split(",");
+        }
 
         bill+="WELCOME TO HYBRID RESTAURANT\n";
         bill+="Bill Type : Delivery\n";
@@ -582,7 +611,10 @@ public class Delivery_Emp extends AppCompatActivity {
 
         }
         catch(Exception e){
-            Toast.makeText(this, "لا يوجد طابعة !!!", Toast.LENGTH_SHORT).show();
+            if(HomeAct.lang == 1)
+                Toast.makeText(this, "لا يوجد طابعة !!!", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(this, "No Printer Attached !!!", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -603,7 +635,10 @@ public class Delivery_Emp extends AppCompatActivity {
 
         }
         catch(Exception e){
-            Toast.makeText(this, "لا يوجد طابعة !!!", Toast.LENGTH_SHORT).show();
+            if(HomeAct.lang == 1)
+                Toast.makeText(this, "لا يوجد طابعة !!!", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(this, "No Printer Attached !!!", Toast.LENGTH_LONG).show();
         }
 
     }
