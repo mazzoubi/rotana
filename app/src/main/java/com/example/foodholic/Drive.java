@@ -259,16 +259,16 @@ public class Drive extends AppCompatActivity {
                 if(lang==1){
                     t1.setText("عدد الطلبيات : "+info.size()+" طلب");
 
-                    t2.setText("مجموع مبلغ الوجبات : "+getRecieteSum()+" دينار");
+                    t2.setText("مجموع مبلغ الوجبات : "+getRecieteSum()+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));
 
-                    t3.setText("مجموع مبلغ التوصيل : "+getpriceSum()+" دينار");
+                    t3.setText("مجموع مبلغ التوصيل : "+getpriceSum()+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));
                 }
                 else {
                     t1.setText("orders count : "+info.size()+" order");
 
-                    t2.setText("sum of meals amount : "+getRecieteSum()+" دينار");
+                    t2.setText("sum of meals amount : "+getRecieteSum()+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));
 
-                    t3.setText("sum of delivery amount : "+getpriceSum()+" دينار");
+                    t3.setText("sum of delivery amount : "+getpriceSum()+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));
                 }
 
 

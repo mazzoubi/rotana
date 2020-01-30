@@ -364,7 +364,7 @@ public class Tabel_Res_Emp extends AppCompatActivity {
                                        "هاتف : "+task.getResult().get("mobile").toString()+"\n"+
                                        "اشخاص : "+task.getResult().get("people").toString()+"\n"+
                                        "الطلب : "+task.getResult().get("order").toString()+"\n"+
-                                       "مجموع : "+task.getResult().get("sum").toString()+" دينار\n"
+                                       "مجموع : "+task.getResult().get("sum").toString()+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار")+" \n"
 
                        );}catch (Exception e){}
                    }

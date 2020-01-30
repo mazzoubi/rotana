@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -143,6 +144,38 @@ public class Login extends AppCompatActivity {
             et1.setHint("البريد الالكتروني");
             ppass.setHint("كلمة السر");
             llogin.setText("تسجيل دخول"); }
+
+        GetCurrency();
+
+    }
+
+    private void GetCurrency(){
+
+        FirebaseFirestore fb = FirebaseFirestore.getInstance();
+        fb.collection("Res_1_currencyAndTax")
+                .document("onlyOne").get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                        if(task.isSuccessful())
+                            AddData(task.getResult().get("currency").toString(),
+                                    task.getResult().get("tax").toString());
+
+                    }
+                });
+
+    }
+
+    private void AddData(String currency, String tax) {
+
+        SharedPreferences sha = getSharedPreferences("Finance", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sha.edit();
+
+        editor.putString("cur", currency);
+        editor.putString("tax", tax);
+
+        editor.apply();
 
     }
 

@@ -185,7 +185,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:text="Bill Sum : 0.0 JOD"
+                android:text="Bill Sum : 0.0"
                 android:textSize="24sp"
                 android:padding="4dp"
                 android:id="@+id/tot"

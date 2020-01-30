@@ -147,14 +147,14 @@ public class driverReport extends AppCompatActivity {
                     delRepoet.add(d.toObject(classDelReport.class));
                     if (lang == 1) {
                         aa.add( "التاريخ : "+d.toObject(classDelReport.class).date_time+"\n" +
-                                "مجموع الطلبيات للمطعم: "+d.toObject(classDelReport.class).delivery_sum+" دينار"+"\n" +
-                                "مجموع التوصيل   : "+d.toObject(classDelReport.class).order_sum+" دينار"+"\n"+
+                                "مجموع الطلبيات للمطعم: "+d.toObject(classDelReport.class).delivery_sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار")+"\n" +
+                                "مجموع التوصيل   : "+d.toObject(classDelReport.class).order_sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار")+"\n"+
                                 "عدد الطلبيات   : "+d.toObject(classDelReport.class).order_num+"\n");
                     }
                     else {
                         aa.add( "date : "+d.toObject(classDelReport.class).date_time+"\n" +
-                                "sum of restaurant order: "+d.toObject(classDelReport.class).delivery_sum+" JOD"+"\n" +
-                                "sum of delivery   : "+d.toObject(classDelReport.class).order_sum+" JOD"+"\n"+
+                                "sum of restaurant order: "+d.toObject(classDelReport.class).delivery_sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD")+"\n" +
+                                "sum of delivery   : "+d.toObject(classDelReport.class).order_sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD")+"\n"+
                                 "sum of order   : "+d.toObject(classDelReport.class).order_num+"\n");
                     }
 

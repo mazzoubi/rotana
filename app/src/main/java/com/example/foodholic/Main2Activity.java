@@ -236,7 +236,7 @@ public class Main2Activity extends AppCompatActivity
                 list.setAdapter(arr);
 
                 if (HomeAct.lang == 1) {
-                    new AlertDialog.Builder(Main2Activity.this).setTitle("مجموع الفاتورة : " + sum + " دينار")
+                    new AlertDialog.Builder(Main2Activity.this).setTitle("مجموع الفاتورة : " + sum + getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"))
                             .setMessage("عند تاكيد طلبك يرجى تعبائة بعض المعلومات...").setPositiveButton("طلب", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(final DialogInterface dialogInterface, int i) {
@@ -254,7 +254,7 @@ public class Main2Activity extends AppCompatActivity
                             dialog.getWindow().setAttributes(lp);
 
                             TextView est = dialog.findViewById(R.id.est);
-                            est.setText("أجرة توصيل : "+getEst()+" دينار");
+                            est.setText("أجرة توصيل : "+getEst()+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));
 
                             final TextView time = dialog.findViewById(R.id.time);
                             time.setOnClickListener(new View.OnClickListener() {
@@ -325,7 +325,7 @@ public class Main2Activity extends AppCompatActivity
                     }).show();
                 }
                 else{
-                    new AlertDialog.Builder(Main2Activity.this).setTitle("Total : "+sum+" JOD")
+                    new AlertDialog.Builder(Main2Activity.this).setTitle("Total : "+sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD"))
                             .setPositiveButton("Request", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(final DialogInterface dialogInterface, int i) {
@@ -400,7 +400,7 @@ public class Main2Activity extends AppCompatActivity
                         list.setAdapter(arr);
 
                         if (HomeAct.lang==1){
-                            new AlertDialog.Builder(Main2Activity.this).setTitle("مجموع الفاتورة : "+sum+" دينار")
+                            new AlertDialog.Builder(Main2Activity.this).setTitle("مجموع الفاتورة : "+sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"))
                                     .setView(list).show();
 
                             ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) list.getLayoutParams();
@@ -408,7 +408,7 @@ public class Main2Activity extends AppCompatActivity
                             list.requestLayout();
                         }
                         else{
-                            new AlertDialog.Builder(Main2Activity.this).setTitle("Total : "+sum+" JOD")
+                            new AlertDialog.Builder(Main2Activity.this).setTitle("Total : "+sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD"))
                                     .setView(list).show();
 
                             ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) list.getLayoutParams();
@@ -450,7 +450,7 @@ public class Main2Activity extends AppCompatActivity
                         list.setAdapter(arr);
 
                         if (HomeAct.lang==1){
-                            new AlertDialog.Builder(Main2Activity.this).setTitle("المجموع : "+sum+" دينار")
+                            new AlertDialog.Builder(Main2Activity.this).setTitle("المجموع : "+sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"))
                                     .setView(list).show();
 
                             ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) list.getLayoutParams();
@@ -458,7 +458,7 @@ public class Main2Activity extends AppCompatActivity
                             list.requestLayout();
                         }
                         else{
-                            new AlertDialog.Builder(Main2Activity.this).setTitle("Total : "+sum+" JOD")
+                            new AlertDialog.Builder(Main2Activity.this).setTitle("Total : "+sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD"))
                                     .setView(list).show();
 
                             ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) list.getLayoutParams();
@@ -543,7 +543,7 @@ public class Main2Activity extends AppCompatActivity
 
     public void uploadDelivery(String user_name, String user_mobile, String user_desc, double la, double lo, String d){
 
-        d=d.replace(" دينار", "");
+        d=d.replace(getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"), "");
         d=d.replace("أجرة توصيل : ", "");
 
         String temp = "";

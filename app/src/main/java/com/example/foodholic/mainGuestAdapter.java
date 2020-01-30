@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class mainGuestAdapter extends ArrayAdapter<classSubItem> {
@@ -42,14 +43,14 @@ public class mainGuestAdapter extends ArrayAdapter<classSubItem> {
             neme.setText(Sales.Ar_subItem+"");
             des.setText(Sales.Ar_description+"");
             point.setText("النقاط : "+Sales.point);
-            priceAfter.setText("السعر : "+Sales.price+" دينار ");
+            priceAfter.setText("السعر : "+Sales.price+context.getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));
         }
 
         else {
             neme.setText(Sales.subItem+"");
             des.setText(Sales.description+"");
             point.setText("Point : "+Sales.point);
-            priceAfter.setText("Price : "+Sales.price+" JOD ");
+            priceAfter.setText("Price : "+Sales.price+context.getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD "));
         }
 
         Glide.with(context).load(Sales.image).into(imageView);

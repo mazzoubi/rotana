@@ -172,12 +172,12 @@ public class adminEmpAccess extends AppCompatActivity {
                             +"\n\n"+"jop type : "+employeeCreatInformation.emp.get(position).jopType
                             +"\n\n"+"employee email :   "+employeeCreatInformation.emp.get(position).email+"\n\n"
                             +"employee register date :  "+employeeCreatInformation.emp.get(position).regisetDate+"\n\n"+
-                            "employee salary : "+employeeCreatInformation.emp.get(position).sal+" JOD"
+                            "employee salary : "+employeeCreatInformation.emp.get(position).sal+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD")
                             +"\n\n"+"num of discount :   "+numDis+"\n\n"+
                             "discount value :   "+disVal+"\n\n"+
                             "num of loans :   "+numloan+"\n\n"+
                             "loans value :   "+disLoan+"\n\n"+
-                            "salary after discount & load :   "+sal+" JOD"+"\n\n"+
+                            "salary after discount & load :   "+sal+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD")+"\n\n"+
                             "dates of sal payment :   "+datesOfSal
                     );
                 }
@@ -249,12 +249,12 @@ public class adminEmpAccess extends AppCompatActivity {
                             +"\n\n"+"jop type : "+employeeCreatInformation.emp.get(position).jopType
                             +"\n\n"+"employee email :   "+employeeCreatInformation.emp.get(position).email+"\n\n"
                             +"employee register date :  "+employeeCreatInformation.emp.get(position).regisetDate+"\n\n"+
-                            "employee salary : "+employeeCreatInformation.emp.get(position).sal+" JOD"
+                            "employee salary : "+employeeCreatInformation.emp.get(position).sal+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD")
                             +"\n\n"+"num of discount :   "+numDis+"\n\n"+
                             "discount value :   "+disVal+"\n\n"+
                             "num of loans :   "+numloan+"\n\n"+
                             "loans value :   "+disLoan+"\n\n"+
-                            "salary after discount & load :   "+sal+" JOD"+"\n\n"+
+                            "salary after discount & load :   "+sal+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD")+"\n\n"+
                             "dates of sal payment :   "+datesOfSal
                     );
                 }
@@ -320,7 +320,7 @@ public class adminEmpAccess extends AppCompatActivity {
                 +"\n\n"+"jop type : "+employeeCreatInformation.emp.get(position).jopType
                 +"\n\n"+"employee email :   "+employeeCreatInformation.emp.get(position).email+"\n\n"
                 +"employee register date :  "+employeeCreatInformation.emp.get(position).regisetDate+"\n\n"+
-                "employee salary : "+employeeCreatInformation.emp.get(position).sal+" JOD"
+                "employee salary : "+employeeCreatInformation.emp.get(position).sal+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD")
                 +"\n\n"+"num of discount :   "+numDis+"\n\n"+
                 "discount value :   "+disVal+"\n\n"+
                 "num of loans :   "+numloan+"\n\n"+

@@ -548,14 +548,14 @@ public class Emppage extends AppCompatActivity
                 try{
                     if (s.length() > 10){
                     if(shared2.getString("language", "").equals("arabic"))
-                        t.setText("مجموع الفاتورة : " + s.substring(s.indexOf("."), s.indexOf(".") + 3) + " دينار ");
+                        t.setText("مجموع الفاتورة : " + s.substring(s.indexOf("."), s.indexOf(".") + 3) + getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));
                     else
-                        t.setText("Total Bill : " + s.substring(s.indexOf("."), s.indexOf(".") + 3) + " JOD "); }
+                        t.setText("Total Bill : " + s.substring(s.indexOf("."), s.indexOf(".") + 3) + getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD ")); }
                 else{
                     if(shared2.getString("language", "").equals("arabic"))
-                        t.setText("مجموع الفاتورة : " + sum + " دينار ");
+                        t.setText("مجموع الفاتورة : " + sum + getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));
                     else
-                        t.setText("Total Bill : " + sum + " JOD "); } }
+                        t.setText("Total Bill : " + sum + getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD ")); } }
                 catch (Exception e){}
 
                 closeOpenCash.total += sum;
@@ -577,15 +577,15 @@ public class Emppage extends AppCompatActivity
                             String temp = String.valueOf((Double.parseDouble(e.getText().toString()) - sum));
                             try {
                                 if(shared2.getString("language", "").equals("arabic")){
-                                    t2.setText("الباقي : " + temp.substring(0, temp.indexOf(".") + 3) + " دينار ");
+                                    t2.setText("الباقي : " + temp.substring(0, temp.indexOf(".") + 3) + getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));
                                 } else {
                                     t2.setText("The rest : " + temp.substring(0, temp.indexOf(".") + 3) + "  ");
                                 }
                             } catch (Exception ex) {
                                 if(shared2.getString("language", "").equals("arabic")){
-                                    t2.setText("الباقي : " + temp + " دينار ");
+                                    t2.setText("الباقي : " + temp + getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));
                                 } else {
-                                    t2.setText("The rest : " + temp + " JOD ");
+                                    t2.setText("The rest : " + temp + getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD "));
                                 }
 
                             }
@@ -1619,10 +1619,10 @@ public class Emppage extends AppCompatActivity
 
                                     try{
                                         if(t.length() > 10)
-                                            s.setText("مجموع الفاتورة : "+t.substring(0, t.indexOf(".")+3)+" دينار ");
+                                            s.setText("مجموع الفاتورة : "+t.substring(0, t.indexOf(".")+3)+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));
                                         else
-                                            s.setText("مجموع الفاتورة : "+sum+" دينار "); }
-                                    catch (Exception e) {s.setText("مجموع الفاتورة : "+sum+" دينار ");}
+                                            s.setText("مجموع الفاتورة : "+sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار")); }
+                                    catch (Exception e) {s.setText("مجموع الفاتورة : "+sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));}
 
                                 }
                             }).setNegativeButton("حذف", new DialogInterface.OnClickListener() {
@@ -1642,10 +1642,10 @@ public class Emppage extends AppCompatActivity
 
                                     try{
                                         if(t.length() > 10)
-                                        s.setText("مجموع الفاتورة : "+t.substring(0, t.indexOf(".")+3)+" دينار ");
+                                        s.setText("مجموع الفاتورة : "+t.substring(0, t.indexOf(".")+3)+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));
                                     else
-                                        s.setText("مجموع الفاتورة : "+sum+" دينار "); }
-                                    catch (Exception e){s.setText("مجموع الفاتورة : "+sum+" دينار ");}
+                                        s.setText("مجموع الفاتورة : "+sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار")); }
+                                    catch (Exception e){s.setText("مجموع الفاتورة : "+sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));}
 
                                     dialogInterface.dismiss();
                                 }
@@ -1683,10 +1683,10 @@ public class Emppage extends AppCompatActivity
 
                                     try{
                                         if(t.length() > 10)
-                                        s.setText("Bill Sum : "+t.substring(0, t.indexOf(".")+3)+" JOD ");
+                                        s.setText("Bill Sum : "+t.substring(0, t.indexOf(".")+3)+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD "));
                                     else
-                                        s.setText("Bill Sum : "+sum+" JOD "); }
-                                    catch (Exception e){s.setText("Bill Sum : "+sum+" JOD ");}
+                                        s.setText("Bill Sum : "+sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD ")); }
+                                    catch (Exception e){s.setText("Bill Sum : "+sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD "));}
 
                                 }
                             }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -1706,10 +1706,10 @@ public class Emppage extends AppCompatActivity
 
                                     try{
                                         if(t.length() > 10)
-                                        s.setText("Bill Sum : "+t.substring(0, t.indexOf(".")+3)+" JOD ");
+                                        s.setText("Bill Sum : "+t.substring(0, t.indexOf(".")+3)+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD "));
                                     else
-                                        s.setText("Bill Sum : "+sum+" JOD "); }
-                                    catch (Exception e) {s.setText("Bill Sum : "+sum+" JOD ");}
+                                        s.setText("Bill Sum : "+sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD ")); }
+                                    catch (Exception e) {s.setText("Bill Sum : "+sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD "));}
                                     dialogInterface.dismiss();
                                 }
                             }).show();
@@ -1730,25 +1730,25 @@ public class Emppage extends AppCompatActivity
                     if(t.length() > 10){
                         try {
                             if(shared2.getString("language", "").equals("arabic")){
-                                s.setText("مجموع الفاتورة : "+t.substring(0, t.indexOf(".")+3)+" دينار ");
+                                s.setText("مجموع الفاتورة : "+t.substring(0, t.indexOf(".")+3)+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));
                             }
                             else {
-                                s.setText("Bill Sum : "+t.substring(0, t.indexOf(".")+3)+" JOD ");
+                                s.setText("Bill Sum : "+t.substring(0, t.indexOf(".")+3)+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD "));
                             }
                         } catch (Exception e){
                             if(HomeAct.lang == 1){
-                                s.setText("مجموع الفاتورة : "+sum+" دينار ");
+                                s.setText("مجموع الفاتورة : "+sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));
                             }
                             else {
-                                s.setText("Bill Sum : "+sum+" JOD ");
+                                s.setText("Bill Sum : "+sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD "));
                             }                        }
                     }
                     else{
                         if (HomeAct.lang==1){
-                            s.setText("مجموع الفاتورة : "+sum+" دينار ");
+                            s.setText("مجموع الفاتورة : "+sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));
                         }
                         else {
-                            s.setText("Bill Sum : "+sum+" JOD ");
+                            s.setText("Bill Sum : "+sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD "));
                         }
                     }
                 } catch(Exception e){}
@@ -2032,7 +2032,7 @@ public class Emppage extends AppCompatActivity
                 dialog.getWindow().setAttributes(lp);
 
                 final EditText et1, et2, et3, et4, et5;
-                final Button b1, b2;//
+                final Button b1, b2;
 
                 et1 = dialog.findViewById(R.id.name);
                 et2 = dialog.findViewById(R.id.mobile);

@@ -265,7 +265,7 @@ public class TakeAway_Emp extends AppCompatActivity {
                                 +"الملاحظات : "+document.get("user_loc").toString()+"\n"
                                 +"الطلب : "+document.get("item_list").toString()+"\n"
                                 +"مجموع النقاط : "+document.get("point_sum").toString()+" نقطة"+"\n"
-                                +"مجموع المبلغ : "+document.get("item_sum_price").toString()+" دينار"+"\n" );
+                                +"مجموع المبلغ : "+document.get("item_sum_price").toString()+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار")+"\n" );
 
                     }
 
@@ -297,7 +297,7 @@ public class TakeAway_Emp extends AppCompatActivity {
                                 +"Notes : "+document.get("user_loc").toString()+"\n"
                                 +"Order : "+document.get("item_list").toString()+"\n"
                                 +"Point Sum : "+document.get("point_sum").toString()+" Point"+"\n"
-                                +"Bill Sum : "+document.get("item_sum_price").toString()+" JOD"+"\n" );
+                                +"Bill Sum : "+document.get("item_sum_price").toString()+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD")+"\n" );
 
                     }
 
@@ -326,7 +326,7 @@ public class TakeAway_Emp extends AppCompatActivity {
                             +"الملاحظات : "+task.getResult().get("user_loc").toString()+"\n"
                             +"الطلب : "+task.getResult().get("item_list").toString()+"\n"
                             +"مجموع النقاط : "+task.getResult().get("point_sum").toString()+" نقطة"+"\n"
-                            +"مجموع المبلغ : "+task.getResult().get("item_sum_price").toString()+" دينار"+"\n" );
+                            +"مجموع المبلغ : "+task.getResult().get("item_sum_price").toString()+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار")+"\n" );
 
                     adapter.notifyDataSetChanged();
                     if(info.isEmpty())
@@ -352,7 +352,7 @@ public class TakeAway_Emp extends AppCompatActivity {
                             +"Notes : "+task.getResult().get("user_loc").toString()+"\n"
                             +"Order : "+task.getResult().get("item_list").toString()+"\n"
                             +"Point Sum : "+task.getResult().get("point_sum").toString()+" Point"+"\n"
-                            +"Bill Sum : "+task.getResult().get("item_sum_price").toString()+" JOD"+"\n" );
+                            +"Bill Sum : "+task.getResult().get("item_sum_price").toString()+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD")+"\n" );
 
                     adapter.notifyDataSetChanged();
                     if(info.isEmpty())
