@@ -2032,7 +2032,7 @@ public class Emppage extends AppCompatActivity
                 dialog.getWindow().setAttributes(lp);
 
                 final EditText et1, et2, et3, et4, et5;
-                final Button b1, b2;
+                final Button b1, b2;//
 
                 et1 = dialog.findViewById(R.id.name);
                 et2 = dialog.findViewById(R.id.mobile);
