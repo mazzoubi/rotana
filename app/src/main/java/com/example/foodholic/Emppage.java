@@ -1336,17 +1336,9 @@ public class Emppage extends AppCompatActivity
 
                             et1.setText(closeOpenCash.empEmail);
                             et2.setText(closeOpenCash.dateAndTimeOpen);
-                            if(shared2.getString("language", "").equals("arabic")){
                                 et5.setText("مبيعات : "+(closeOpenCash.total)+"   ارضية : "+closeOpenCash.floor+
                                         "   مصروفات : "+ shared3.getString("pay", "0.0")+"\n");
                                 et5.setText(et5.getText().toString()+"   مجموع : "+nu);
-                            }
-                            else {
-                                et5.setText("sales : "+closeOpenCash.total+"   floor : "+closeOpenCash.floor+
-                                        "   payment : "+ shared3.getString("pay", "0.0")+"\n");
-                                et5.setText(et5.getText().toString()+"   sum : "+nu);
-                            }
-
 
                             closeOpenCash.total = nu;
 
@@ -1390,7 +1382,83 @@ public class Emppage extends AppCompatActivity
                     });
                 }
                 else {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(Emppage.this);
+                    LayoutInflater inflater = Emppage.this.getLayoutInflater();
+                    builder.setView(inflater.inflate(R.layout.dialog_close2, null));
+                    final AlertDialog dialog = builder.create();
+                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                    lp.copyFrom(dialog.getWindow().getAttributes());
+                    lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
+                    dialog.show();
+                    dialog.getWindow().setAttributes(lp);
+
+                    final EditText et1, et2, et3, et4, et5;
+                    final Button b1, b2;
+
+                    et1 = dialog.findViewById(R.id.name);
+                    et2 = dialog.findViewById(R.id.mobile);
+                    et3 = dialog.findViewById(R.id.pric);
+                    et4 = dialog.findViewById(R.id.desc);
+                    et5 = dialog.findViewById(R.id.tot);
+
+                    b1 = dialog.findViewById(R.id.takeaway);
+                    b2 = dialog.findViewById(R.id.deliv);
+
+                    b1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            Double nu = ((closeOpenCash.total+closeOpenCash.floor)-Double.parseDouble(shared3.getString("pay", "0.0")));
+
+                            et1.setText(closeOpenCash.empEmail);
+                            et2.setText(closeOpenCash.dateAndTimeOpen);
+
+                            et5.setText("sales : "+closeOpenCash.total+"   floor : "+closeOpenCash.floor+
+                                    "   payment : "+ shared3.getString("pay", "0.0")+"\n");
+                            et5.setText(et5.getText().toString()+"   sum : "+nu);
+
+                            closeOpenCash.total = nu;
+
+                            String form = "HH:mm dd-MM-yy";
+                            SimpleDateFormat sdf = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+
+                            try {
+                                Date parsedDate = sdf.parse(new Date().toString());
+                                SimpleDateFormat print = new SimpleDateFormat(form);
+                                closeOpenCash.dateAndTimeClose = print.format(parsedDate);
+                                et3.setText(closeOpenCash.dateAndTimeClose); }
+                            catch (Exception e){}
+                        }
+                    });
+
+                    b2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            closeAppUpload();
+
+                            new AlertDialog.Builder(Emppage.this)
+                                    .setMessage("Do You Want To LogOut ?")
+                                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                            dialog.dismiss();
+                                        }
+                                    }).setPositiveButton("LogOut", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    Count = 1;
+                                    onBackPressed();
+
+                                }
+                            }).show();
+
+                        }
+                    });
                 }
             } });
 
@@ -1743,13 +1811,19 @@ public class Emppage extends AppCompatActivity
 
     }
 
+    @Override
+    protected void onDestroy() {
+
+        closeAppUpload();
+        super.onDestroy(); }
+
     public void closeAppUpload(){
         try{
             String form2 = "HH:mm dd-MM-yy";
             SimpleDateFormat sdf2 = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
             Date parsedDate2 = sdf2.parse(new Date().toString());
             SimpleDateFormat print2 = new SimpleDateFormat(form2);
-            closeOpenCash.dateAndTimeClose = print2.format(parsedDate2);}
+            closeOpenCash.dateAndTimeClose = print2.format(parsedDate2); }
         catch(Exception e){}
 
         db.collection("closeOpenCash").document().set(closeOpenCash)
@@ -1783,7 +1857,7 @@ public class Emppage extends AppCompatActivity
                             if(shared2.getString("language", "").equals("arabic")){
                                 Toast.makeText(Emppage.this, "تعذر التخزين !", Toast.LENGTH_SHORT).show();
                             }else {
-                                Toast.makeText(Emppage.this, "تعذر التخزين !", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Emppage.this, "Error !", Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -1943,112 +2017,163 @@ public class Emppage extends AppCompatActivity
             if(ee.getParent()!=null)
                 ((ViewGroup)ee.getParent()).removeView(ee);
 
-            ee.setText("");
-            if(shared2.getString("language", "").equals("arabic")){
-                new AlertDialog.Builder(Emppage.this)
-                        .setTitle("الرجاء إغلاق درج الكاش")
-                        .setView(ee).setCancelable(false)
-                        .setNegativeButton("الغاء", new DialogInterface.OnClickListener() {
+            if (HomeAct.lang==1){
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(Emppage.this);
+                LayoutInflater inflater = Emppage.this.getLayoutInflater();
+                builder.setView(inflater.inflate(R.layout.dialog_close, null));
+                final AlertDialog dialog = builder.create();
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                dialog.show();
+                dialog.getWindow().setAttributes(lp);
+
+                final EditText et1, et2, et3, et4, et5;
+                final Button b1, b2;
+
+                et1 = dialog.findViewById(R.id.name);
+                et2 = dialog.findViewById(R.id.mobile);
+                et3 = dialog.findViewById(R.id.pric);
+                et4 = dialog.findViewById(R.id.desc);
+                et5 = dialog.findViewById(R.id.tot);
+
+                b1 = dialog.findViewById(R.id.takeaway);
+                b2 = dialog.findViewById(R.id.deliv);
+
+                b1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Double nu = ((closeOpenCash.total+closeOpenCash.floor)-Double.parseDouble(shared3.getString("pay", "0.0")));
+
+                        et1.setText(closeOpenCash.empEmail);
+                        et2.setText(closeOpenCash.dateAndTimeOpen);
+                        et5.setText("مبيعات : "+(closeOpenCash.total)+"   ارضية : "+closeOpenCash.floor+
+                                "   مصروفات : "+ shared3.getString("pay", "0.0")+"\n");
+                        et5.setText(et5.getText().toString()+"   مجموع : "+nu);
+
+                        closeOpenCash.total = nu;
+
+                        String form = "HH:mm dd-MM-yy";
+                        SimpleDateFormat sdf = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+
+                        try {
+                            Date parsedDate = sdf.parse(new Date().toString());
+                            SimpleDateFormat print = new SimpleDateFormat(form);
+                            closeOpenCash.dateAndTimeClose = print.format(parsedDate);
+                            et3.setText(closeOpenCash.dateAndTimeClose); }
+                        catch (Exception e){}
+                    }
+                });
+
+                b2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        closeAppUpload();
+
+                        new AlertDialog.Builder(Emppage.this)
+                                .setMessage("هل ترغب بالخروج ؟")
+                                .setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                        dialog.dismiss();
+                                    }
+                                }).setPositiveButton("خروج", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Emppage.this.finish(); }})
-                        .setPositiveButton("ادخال", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog, int which) {
+                            public void onClick(DialogInterface dialogInterface, int i) {
 
-                                if(!ee.getText().toString().equals("")){
+                                Count = 1;
+                                onBackPressed();
 
-                                    cash.put("cash", ee.getText().toString());
+                            }
+                        }).show();
 
-                                    db.collection("Res_1_cash")
-                                            .document(""+new Date()).set(cash).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
-
-                                                int prev = Integer.parseInt(shared2.getString("cash", "0"));
-                                                int curr = Integer.parseInt(ee.getText().toString());
-
-                                                if(curr >= prev){
-
-                                                    SharedPreferences.Editor editor = shared2.edit();
-                                                    editor.putString("cash", "");
-                                                    editor.apply();
-
-                                                    dialog.dismiss();
-                                                    Emppage.this.finish();
-
-                                                }
-                                                else{
-                                                    Toast.makeText(Emppage.this, "القيم الموجودة غير مطابقة للمبيعات, الرجاء التأكد من الكاش مرة أخرى", Toast.LENGTH_SHORT).show();
-                                                    dialog.dismiss(); }
-                                            } } }); }
-                                else
-                                    dialog.dismiss();
-
-                            } }).show();
-
-                FirebaseAuth auth = FirebaseAuth.getInstance();
-                auth.signOut();
-
-                Toast.makeText(this, "تسجيل خروج بنجاح", Toast.LENGTH_SHORT).show();
-
-                Intent intent = new Intent(Emppage.this, Login.class);
-                startActivity(intent);
-                finish();
+                    }
+                });
             }
             else {
-                new AlertDialog.Builder(Emppage.this)
-                        .setTitle("Please close the cash drawer")
-                        .setView(ee).setCancelable(false)
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(Emppage.this);
+                LayoutInflater inflater = Emppage.this.getLayoutInflater();
+                builder.setView(inflater.inflate(R.layout.dialog_close2, null));
+                final AlertDialog dialog = builder.create();
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(dialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+                dialog.show();
+                dialog.getWindow().setAttributes(lp);
+
+                final EditText et1, et2, et3, et4, et5;
+                final Button b1, b2;
+
+                et1 = dialog.findViewById(R.id.name);
+                et2 = dialog.findViewById(R.id.mobile);
+                et3 = dialog.findViewById(R.id.pric);
+                et4 = dialog.findViewById(R.id.desc);
+                et5 = dialog.findViewById(R.id.tot);
+
+                b1 = dialog.findViewById(R.id.takeaway);
+                b2 = dialog.findViewById(R.id.deliv);
+
+                b1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Double nu = ((closeOpenCash.total+closeOpenCash.floor)-Double.parseDouble(shared3.getString("pay", "0.0")));
+
+                        et1.setText(closeOpenCash.empEmail);
+                        et2.setText(closeOpenCash.dateAndTimeOpen);
+
+                        et5.setText("sales : "+closeOpenCash.total+"   floor : "+closeOpenCash.floor+
+                                "   payment : "+ shared3.getString("pay", "0.0")+"\n");
+                        et5.setText(et5.getText().toString()+"   sum : "+nu);
+
+                        closeOpenCash.total = nu;
+
+                        String form = "HH:mm dd-MM-yy";
+                        SimpleDateFormat sdf = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+
+                        try {
+                            Date parsedDate = sdf.parse(new Date().toString());
+                            SimpleDateFormat print = new SimpleDateFormat(form);
+                            closeOpenCash.dateAndTimeClose = print.format(parsedDate);
+                            et3.setText(closeOpenCash.dateAndTimeClose); }
+                        catch (Exception e){}
+                    }
+                });
+
+                b2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        closeAppUpload();
+
+                        new AlertDialog.Builder(Emppage.this)
+                                .setMessage("Do You Want To LogOut ?")
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                        dialog.dismiss();
+                                    }
+                                }).setPositiveButton("LogOut", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Emppage.this.finish(); }})
-                        .setPositiveButton("Enter", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog, int which) {
+                            public void onClick(DialogInterface dialogInterface, int i) {
 
-                                if(!ee.getText().toString().equals("")){
+                                Count = 1;
+                                onBackPressed();
 
-                                    cash.put("cash", ee.getText().toString());
+                            }
+                        }).show();
 
-                                    db.collection("Res_1_cash")
-                                            .document(""+new Date()).set(cash).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
-
-                                                int prev = Integer.parseInt(shared2.getString("cash", "0"));
-                                                int curr = Integer.parseInt(ee.getText().toString());
-
-                                                if(curr >= prev){
-
-                                                    SharedPreferences.Editor editor = shared2.edit();
-                                                    editor.putString("cash", "");
-                                                    editor.apply();
-
-                                                    dialog.dismiss();
-                                                    Emppage.this.finish();
-
-                                                }
-                                                else{
-                                                    Toast.makeText(Emppage.this, "Existing values do not match sales, please check your cache again", Toast.LENGTH_SHORT).show();
-                                                    dialog.dismiss(); }
-                                            } } }); }
-                                else
-                                    dialog.dismiss();
-
-                            } }).show();
-
-                FirebaseAuth auth = FirebaseAuth.getInstance();
-                auth.signOut();
-
-                Toast.makeText(this, "Your logout is successful", Toast.LENGTH_SHORT).show();
-
-                Intent intent = new Intent(Emppage.this, Login.class);
-                startActivity(intent);
-                finish();
+                    }
+                });
             }
 
         }

@@ -50,6 +50,7 @@ dependencies {
     implementation 'com.daimajia.slider:library:1.1.5@aar'
 
     implementation 'id.zelory:compressor:2.1.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
