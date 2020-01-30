@@ -1526,6 +1526,7 @@ public class Emppage extends AppCompatActivity
                         sale.subItemName=subItemsAfterFilering.get(position).subItem;
                     sale.sumPrice=subItemsAfterFilering.get(position).price;
                     sale.unitPrice=subItemsAfterFilering.get(position).price;
+                    sale.kitchen=subItemsAfterFilering.get(position).kitchen;
                     saleList.add(sale);
 
                 }
@@ -1548,6 +1549,7 @@ public class Emppage extends AppCompatActivity
                             sale.subItemName=subItemsAfterFilering.get(position).Ar_subItem;
                             sale.sumPrice=subItemsAfterFilering.get(position).price;
                             sale.unitPrice=subItemsAfterFilering.get(position).price;
+                            sale.kitchen=subItemsAfterFilering.get(position).kitchen;
                             saleList.add(sale);
                         }
                     }
@@ -1568,6 +1570,7 @@ public class Emppage extends AppCompatActivity
                             sale.subItemName=subItemsAfterFilering.get(position).subItem;
                             sale.sumPrice=subItemsAfterFilering.get(position).price;
                             sale.unitPrice=subItemsAfterFilering.get(position).price;
+                            sale.kitchen=subItemsAfterFilering.get(position).kitchen;
                             saleList.add(sale);
                         }
                     }
@@ -1773,9 +1776,19 @@ public class Emppage extends AppCompatActivity
         editor.putInt("count" ,++c);
         editor.apply();
 
+        String temp="[";
+        for(int i=0; i<saleList.size(); i++)
+            temp+=saleList.get(i).kitchen+",";
+        temp+="]";
+
+        s = s+temp;
+
         try {
 
-            SocketAddress socketAddress = new InetSocketAddress("192.168.14.54", 9100);
+            String ip = getSharedPreferences("IPS", MODE_PRIVATE).getString("ip", "192.168.1.1");
+            int port = getSharedPreferences("IPS", MODE_PRIVATE).getInt("port", 9100);
+
+            SocketAddress socketAddress = new InetSocketAddress(ip, port);
             Socket socket = new Socket();
 
             socket.connect(socketAddress, 5000);
@@ -1788,7 +1801,10 @@ public class Emppage extends AppCompatActivity
 
         }
         catch(Exception e){
-            Toast.makeText(this, "لا يوجد طابعة !!!", Toast.LENGTH_SHORT).show();
+            if(HomeAct.lang == 1)
+                Toast.makeText(this, "لا يوجد طابعة !!!", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this, "No Printer Attached !!!", Toast.LENGTH_SHORT).show();
         }
     }
 

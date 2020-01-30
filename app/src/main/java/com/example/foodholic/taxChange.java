@@ -85,10 +85,12 @@ public class taxChange extends AppCompatActivity {
     }
     void upload (){
 
+        String [] temp = curr.split(",");
 
         Map<String, Object> reservation = new HashMap<>();
         reservation.put("tax", tax);
-        reservation.put("currency",curr);
+        reservation.put("currencyAr",temp[1]);
+        reservation.put("currency",temp[0]);
 
         Adminpage.currencyAndTax.tax=tax;
         Adminpage.currencyAndTax.currency=curr;

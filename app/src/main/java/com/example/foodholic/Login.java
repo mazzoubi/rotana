@@ -160,6 +160,7 @@ public class Login extends AppCompatActivity {
 
                         if(task.isSuccessful())
                             AddData(task.getResult().get("currency").toString(),
+                                    task.getResult().get("currencyAr").toString(),
                                     task.getResult().get("tax").toString());
 
                     }
@@ -167,14 +168,17 @@ public class Login extends AppCompatActivity {
 
     }
 
-    private void AddData(String currency, String tax) {
+    private void AddData(String currency, String currencyAr, String tax) {
 
         SharedPreferences sha = getSharedPreferences("Finance", MODE_PRIVATE);
         SharedPreferences.Editor editor = sha.edit();
 
+        if(HomeAct.lang == 1)
+        editor.putString("cur", currencyAr);
+        else
         editor.putString("cur", currency);
-        editor.putString("tax", tax);
 
+        editor.putString("tax", tax);
         editor.apply();
 
     }

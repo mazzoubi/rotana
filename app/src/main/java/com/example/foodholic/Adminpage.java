@@ -61,13 +61,13 @@ public class Adminpage extends AppCompatActivity {
                 R.drawable.ic_noti,
                 R.drawable.ic_z,
                 R.drawable.ic_support,
-                R.drawable.ic_exit
+                R.drawable.ic_adb
         };
 
         //public String[] mThumbNames = {"Human Resources", "Storage", "Reports", "Payments", "Cash Drawer", "Taxes", "Delivery Drivers", "Ratings" };
-        public String[] mThumbNames = {"Human Resources","Storage" ,"Reports", "Payments","Cash Drawer",  "Taxes" ,"Delivery Drivers" , "Tables Management" , "Ratings", "Points", "VISA", "VIP", "Suppliers", "Job Req.","Alerts" , "tax change", "Contact Us", "Exit" };
+        public String[] mThumbNames = {"Human Resources","Storage" ,"Reports", "Payments","Cash Drawer",  "Taxes" ,"Delivery Drivers" , "Tables Management" , "Ratings", "Points", "VISA", "VIP", "Suppliers", "Job Req.","Alerts" , "tax change", "Contact Us", "Config" };
         //public String[] mThumbNames2 = {"تقارير جودة","سائقين التوصيل", "ضرائب", "صندوق الكاش","مصروفات", "تقارير", "مستودعات", "شؤون موظفين" };
-        public String[] mThumbNames2 = {"شؤون موظفين","مستودعات", "تقارير", "مصروفات","صندوق الكاش", "ضرائب", "سائقين التوصيل", "تنظيم الصالة","تقارير جودة", "نقاط", "فيزا", "أهم العملاء", "موردين", "طلبات توظيف", "تنبيهات","تعديل الضريبه", "تواصل معنا" , "خروج"};
+        public String[] mThumbNames2 = {"شؤون موظفين","مستودعات", "تقارير", "مصروفات","صندوق الكاش", "ضرائب", "سائقين التوصيل", "تنظيم الصالة","تقارير جودة", "نقاط", "فيزا", "أهم العملاء", "موردين", "طلبات توظيف", "تنبيهات","تعديل الضريبه", "تواصل معنا" , "ضبط"};
 
         private Context mContext;
 
@@ -217,7 +217,54 @@ public class Adminpage extends AppCompatActivity {
                                 startActivity(n16);
                                 break;
                             case 17:
-                                Adminpage.this.finish();
+                                final EditText e = new EditText(Adminpage.this);
+                                e.setHint("!!! كلمة السر !!!");
+                                new AlertDialog.Builder(Adminpage.this)
+                                        .setTitle("يرجى عدم العبث بهذا الخيار")
+                                        .setView(e)
+                                        .setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.dismiss();
+                                            }
+                                        })
+                                        .setPositiveButton("إدخال", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                                if(e.getText().toString().equals("Animeotaku691996!!!")){
+                                                    final EditText ed = new EditText(Adminpage.this);
+                                                    ed.setHint("IP");
+                                                    new AlertDialog.Builder(Adminpage.this)
+                                                            .setTitle("Admin @OverRide")
+                                                            .setView(ed)
+                                                            .setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                                    dialogInterface.dismiss();
+                                                                }
+                                                            })
+                                                            .setPositiveButton("إدخال", new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                                                    SharedPreferences shasha = getSharedPreferences("IPS", MODE_PRIVATE);
+                                                                    SharedPreferences.Editor editor = shasha.edit();
+
+                                                                    String [] ipp = ed.getText().toString().split(",");
+
+                                                                    editor.putString("ip", ipp[0]);
+                                                                    editor.putInt("port", Integer.parseInt(ipp[1]));
+
+                                                                    editor.apply();
+
+                                                                    dialogInterface.dismiss();
+                                                                }
+                                                            }).show();
+                                                }
+
+                                            }
+                                        }).show();
                                 break;
                         }
 

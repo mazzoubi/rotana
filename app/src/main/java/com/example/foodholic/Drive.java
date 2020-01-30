@@ -266,9 +266,9 @@ public class Drive extends AppCompatActivity {
                 else {
                     t1.setText("orders count : "+info.size()+" order");
 
-                    t2.setText("sum of meals amount : "+getRecieteSum()+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));
+                    t2.setText("sum of meals amount : "+getRecieteSum()+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD"));
 
-                    t3.setText("sum of delivery amount : "+getpriceSum()+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));
+                    t3.setText("sum of delivery amount : "+getpriceSum()+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD"));
                 }
 
 
