@@ -208,13 +208,13 @@ public class statistics extends AppCompatActivity {
                         monyResult.setText("التكاليف: " + payCost +" "+currencyAndTax.currency + "      | " + "المبيعات: " + salCost + " "+
                                 currencyAndTax.currency +"     \n\n"+"الضريبه: "+currencyAndTax.tax+
                                 "%"+"    قيمة الضريبه: "+((currencyAndTax.tax/100*salCost)) + "\n     الارباح: " +
-                                (salCost - payCost) + " "+currencyAndTax.currency +"     ");
+                                (salCost - payCost-((currencyAndTax.tax/100*salCost))) + " "+currencyAndTax.currency +"     ");
                     }
                     else {
                         monyResult.setText("costs: " + payCost +" "+currencyAndTax.currency + "      | " + "sales: " + salCost + " "+
                                 currencyAndTax.currency +"     \n\n"+"tax: "+currencyAndTax.tax+
                                 "%"+"    tax ammount: "+((currencyAndTax.tax/100*salCost)) + "\n     profit: " +
-                                (salCost - payCost) + " "+currencyAndTax.currency +"     ");
+                                (salCost - payCost-((currencyAndTax.tax/100*salCost))) + " "+currencyAndTax.currency +"     ");
                     }
                 } else if (spinnerpos == 2) {
                     ch = true;
@@ -257,12 +257,12 @@ public class statistics extends AppCompatActivity {
                         monyResult.setText("التكاليف: " + payCost +" "+currencyAndTax.currency + "      | " + "المبيعات: " + salCost + " "+
                                 currencyAndTax.currency +"     \n\n"+"الضريبه: "+currencyAndTax.tax+
                                 "%"+"    قيمة الضريبه: "+((currencyAndTax.tax/100*salCost)) + "\n     الارباح: " +
-                                (salCost - payCost) + " "+currencyAndTax.currency +"     ");
+                                (salCost - payCost-((currencyAndTax.tax/100*salCost))) + " "+currencyAndTax.currency +"     ");
                     } else {
                         monyResult.setText("costs: " + payCost +" "+currencyAndTax.currency + "      | " + "sales: " + salCost + " "+
                                 currencyAndTax.currency +"     \n\n"+"tax: "+currencyAndTax.tax+
                                 "%"+"    tax ammount: "+((currencyAndTax.tax/100*salCost)) + "\n     profit: " +
-                                (salCost - payCost) + " "+currencyAndTax.currency +"     ");
+                                (salCost - payCost-((currencyAndTax.tax/100*salCost))) + " "+currencyAndTax.currency +"     ");
                     }
                 }else if (spinnerpos==3){
 
@@ -304,13 +304,13 @@ public class statistics extends AppCompatActivity {
                         monyResult.setText("التكاليف: " + payCost +" "+currencyAndTax.currency + "      | " + "المبيعات: " + salCost + " "+
                                 currencyAndTax.currency +"     \n\n"+"الضريبه: "+currencyAndTax.tax+
                                 "%"+"    قيمة الضريبه: "+((currencyAndTax.tax/100*salCost)) + "\n     الارباح: " +
-                                (salCost - payCost) + " "+currencyAndTax.currency +"     ");
+                                (salCost - payCost-((currencyAndTax.tax/100*salCost))) + " "+currencyAndTax.currency +"     ");
                     }
                     else {
                         monyResult.setText("costs: " + payCost +" "+currencyAndTax.currency + "      | " + "sales: " + salCost + " "+
                                 currencyAndTax.currency +"     \n\n"+"tax: "+currencyAndTax.tax+
                                 "%"+"    tax ammount: "+((currencyAndTax.tax/100*salCost)) + "\n     profit: " +
-                                (salCost - payCost) + " "+currencyAndTax.currency +"     ");
+                                (salCost - payCost-((currencyAndTax.tax/100*salCost))) + " "+currencyAndTax.currency +"     ");
                     }
                 }else if(spinnerpos==4){
                     if(shared2.getString("language", "").equals("arabic")) {

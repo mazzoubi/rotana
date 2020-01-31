@@ -6,14 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".notificationActivity">
 
-    <TextView
-        android:id="@+id/textView56"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tool"
         android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:background="@drawable/side_nav_bar"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.538"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@color/colorPrimaryDark" />
 
     <ListView
         android:id="@+id/listView"
@@ -26,7 +28,7 @@
         app:layout_constraintBottom_toTopOf="@+id/button6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView56" />
+        app:layout_constraintTop_toBottomOf="@+id/tool" />
 
     <Button
         android:id="@+id/button6"

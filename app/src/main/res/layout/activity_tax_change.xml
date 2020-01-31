@@ -16,14 +16,15 @@
         app:layout_constraintTop_toBottomOf="@+id/button"
         app:srcCompat="@drawable/dakhel" />
 
-    <TextView
-        android:id="@+id/textView22"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:background="@drawable/side_nav_bar"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tool"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/currentTax"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@color/colorPrimaryDark" />
 
     <TextView
         android:id="@+id/currentTax"
@@ -33,7 +34,7 @@
         android:layout_marginTop="32dp"
         android:background="@drawable/shape2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView22" />
+        app:layout_constraintTop_toBottomOf="@+id/tool" />
 
     <Spinner
         android:id="@+id/spinner2"

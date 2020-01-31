@@ -47,14 +47,14 @@ public class statistics_chart extends AppCompatActivity {
         if(shared2.getString("language", "").equals("arabic")) {
             data.add(new ValueDataEntry("المبيعات", sal));
             data.add(new ValueDataEntry("التكاليف", pay));
-            data.add(new ValueDataEntry("قيمة الضريبه", (sal-(currencyAndTax.tax/100*sal))));
-            textView.setText("مجموع الارباح : "+(sal-(sal-(currencyAndTax.tax/100*sal))-pay));
+            data.add(new ValueDataEntry("قيمة الضريبه", ((currencyAndTax.tax/100*sal))));
+            textView.setText("مجموع الارباح : "+(sal-((currencyAndTax.tax/100*sal))-pay));
         }
         else {
             data.add(new ValueDataEntry("sales", sal));
             data.add(new ValueDataEntry("payment", pay));
-            data.add(new ValueDataEntry("tax ammount", (sal-(currencyAndTax.tax/100*sal))));
-            textView.setText("the porfits is : "+(sal-(sal-(currencyAndTax.tax/100*sal))-pay));
+            data.add(new ValueDataEntry("tax ammount", ((currencyAndTax.tax/100*sal))));
+            textView.setText("the porfits is : "+(sal-((currencyAndTax.tax/100*sal))-pay));
         }
         pie.data(data);
 

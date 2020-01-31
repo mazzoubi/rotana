@@ -9,8 +9,8 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool8"
         android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:background="@drawable/side_nav_bar"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.538"
         app:layout_constraintStart_toStartOf="parent"
