@@ -421,7 +421,6 @@ public class Emppage extends AppCompatActivity
                             closeOpenCash.floor = Double.parseDouble(ee.getText().toString());
 
 
-
                             String form = "dd-MM-yy";
                             String form2 = "HH:mm dd-MM-yy";
                             SimpleDateFormat sdf = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
@@ -476,24 +475,38 @@ public class Emppage extends AppCompatActivity
 
                         if(!ee.getText().toString().equals("")){
 
+                            SharedPreferences.Editor editor = shared2.edit();
+                            editor.putString("cash", ee.getText().toString());
+                            editor.apply();
+
                             cash.put("cash", ee.getText().toString());
+                            closeOpenCash.floor = Double.parseDouble(ee.getText().toString());
 
-                            db.collection("Res_1_cash")
-                                    .document(""+new Date()).set(cash).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
 
-                                        SharedPreferences.Editor editor = shared2.edit();
-                                        editor.putString("cash", ee.getText().toString());
-                                        editor.apply();
+                            String form = "dd-MM-yy";
+                            String form2 = "HH:mm dd-MM-yy";
+                            SimpleDateFormat sdf = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+                            SimpleDateFormat sdf2 = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
 
-                                        dialog.dismiss();
+                            try {
 
-                                    }
+                                Date parsedDate = sdf.parse(new Date().toString());
+                                Date parsedDate2 = sdf2.parse(new Date().toString());
 
-                                }
-                            });
+                                SimpleDateFormat print = new SimpleDateFormat(form);
+                                SimpleDateFormat print2 = new SimpleDateFormat(form2);
+
+                                closeOpenCash.dateOpen = print.format(parsedDate);
+                                closeOpenCash.dateAndTimeOpen = print2.format(parsedDate2);
+
+                            }
+                            catch (ParseException e) {
+                                new AlertDialog.Builder(Emppage.this).setMessage(e+"").show();
+                            }
+
+                            closeOpenCash.empEmail = getIntent().getStringExtra("empemail");
+
+
 
                         }
                         else{
@@ -548,7 +561,7 @@ public class Emppage extends AppCompatActivity
                 try{
                     if (s.length() > 10){
                     if(shared2.getString("language", "").equals("arabic"))
-                        t.setText("مجموع الفاتورة : " + s.substring(s.indexOf("."), s.indexOf(".") + 3) + getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));
+                        t.setText("مجموع الفاتورة : " + s.substring(s.indexOf("."), s.indexOf(".") + 3) + getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " ``"));
                     else
                         t.setText("Total Bill : " + s.substring(s.indexOf("."), s.indexOf(".") + 3) + getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD ")); }
                 else{
@@ -742,7 +755,7 @@ public class Emppage extends AppCompatActivity
                         if(e.getText().toString().equals(""))
                             e.setText("0");
 
-                            if ((Double.parseDouble(e.getText().toString()) - sum) > 0 && !e.getText().toString().equals("")) {
+                            if ((Double.parseDouble(e.getText().toString()) - sum) >= 0 && !e.getText().toString().equals("")) {
 
                             if(HomeAct.lang == 1)
                                 AddSaleAra(e.getText().toString(), (Double.parseDouble(e.getText().toString()) - sum)+"", ""+sum);
@@ -1328,19 +1341,17 @@ public class Emppage extends AppCompatActivity
                     b1 = dialog.findViewById(R.id.takeaway);
                     b2 = dialog.findViewById(R.id.deliv);
 
+                    final Double nu = ((closeOpenCash.total+closeOpenCash.floor)-Double.parseDouble(shared3.getString("pay", "0.0")));
+
                     b1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-
-                            Double nu = ((closeOpenCash.total+closeOpenCash.floor)-Double.parseDouble(shared3.getString("pay", "0.0")));
 
                             et1.setText(closeOpenCash.empEmail);
                             et2.setText(closeOpenCash.dateAndTimeOpen);
                                 et5.setText("مبيعات : "+(closeOpenCash.total)+"   ارضية : "+closeOpenCash.floor+
                                         "   مصروفات : "+ shared3.getString("pay", "0.0")+"\n");
                                 et5.setText(et5.getText().toString()+"   مجموع : "+nu);
-
-                            closeOpenCash.total = nu;
 
                             String form = "HH:mm dd-MM-yy";
                             SimpleDateFormat sdf = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
@@ -1406,20 +1417,17 @@ public class Emppage extends AppCompatActivity
                     b1 = dialog.findViewById(R.id.takeaway);
                     b2 = dialog.findViewById(R.id.deliv);
 
+                    final Double nu = ((closeOpenCash.total+closeOpenCash.floor)-Double.parseDouble(shared3.getString("pay", "0.0")));
+
                     b1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
 
-                            Double nu = ((closeOpenCash.total+closeOpenCash.floor)-Double.parseDouble(shared3.getString("pay", "0.0")));
-
                             et1.setText(closeOpenCash.empEmail);
                             et2.setText(closeOpenCash.dateAndTimeOpen);
-
-                            et5.setText("sales : "+closeOpenCash.total+"   floor : "+closeOpenCash.floor+
-                                    "   payment : "+ shared3.getString("pay", "0.0")+"\n");
-                            et5.setText(et5.getText().toString()+"   sum : "+nu);
-
-                            closeOpenCash.total = nu;
+                            et5.setText("Sale : "+(closeOpenCash.total)+"   Floor : "+closeOpenCash.floor+
+                                    "   Payment : "+ shared3.getString("pay", "0.0")+"\n");
+                            et5.setText(et5.getText().toString()+"   Total : "+nu);
 
                             String form = "HH:mm dd-MM-yy";
                             SimpleDateFormat sdf = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
@@ -1440,14 +1448,14 @@ public class Emppage extends AppCompatActivity
                             closeAppUpload();
 
                             new AlertDialog.Builder(Emppage.this)
-                                    .setMessage("Do You Want To LogOut ?")
+                                    .setMessage("Do You Want To Exit ?")
                                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             dialogInterface.dismiss();
                                             dialog.dismiss();
                                         }
-                                    }).setPositiveButton("LogOut", new DialogInterface.OnClickListener() {
+                                    }).setPositiveButton("Exit", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -2033,6 +2041,8 @@ public class Emppage extends AppCompatActivity
             if(ee.getParent()!=null)
                 ((ViewGroup)ee.getParent()).removeView(ee);
 
+            ee.setText("");
+
             if (HomeAct.lang==1){
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(Emppage.this);
@@ -2059,19 +2069,17 @@ public class Emppage extends AppCompatActivity
                 b1 = dialog.findViewById(R.id.takeaway);
                 b2 = dialog.findViewById(R.id.deliv);
 
+                final Double nu = ((closeOpenCash.total+closeOpenCash.floor)-Double.parseDouble(shared3.getString("pay", "0.0")));
+
                 b1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-                        Double nu = ((closeOpenCash.total+closeOpenCash.floor)-Double.parseDouble(shared3.getString("pay", "0.0")));
 
                         et1.setText(closeOpenCash.empEmail);
                         et2.setText(closeOpenCash.dateAndTimeOpen);
                         et5.setText("مبيعات : "+(closeOpenCash.total)+"   ارضية : "+closeOpenCash.floor+
                                 "   مصروفات : "+ shared3.getString("pay", "0.0")+"\n");
                         et5.setText(et5.getText().toString()+"   مجموع : "+nu);
-
-                        closeOpenCash.total = nu;
 
                         String form = "HH:mm dd-MM-yy";
                         SimpleDateFormat sdf = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
@@ -2137,20 +2145,17 @@ public class Emppage extends AppCompatActivity
                 b1 = dialog.findViewById(R.id.takeaway);
                 b2 = dialog.findViewById(R.id.deliv);
 
+                final Double nu = ((closeOpenCash.total+closeOpenCash.floor)-Double.parseDouble(shared3.getString("pay", "0.0")));
+
                 b1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
-                        Double nu = ((closeOpenCash.total+closeOpenCash.floor)-Double.parseDouble(shared3.getString("pay", "0.0")));
-
                         et1.setText(closeOpenCash.empEmail);
                         et2.setText(closeOpenCash.dateAndTimeOpen);
-
-                        et5.setText("sales : "+closeOpenCash.total+"   floor : "+closeOpenCash.floor+
-                                "   payment : "+ shared3.getString("pay", "0.0")+"\n");
-                        et5.setText(et5.getText().toString()+"   sum : "+nu);
-
-                        closeOpenCash.total = nu;
+                        et5.setText("Sale : "+(closeOpenCash.total)+"   Floor : "+closeOpenCash.floor+
+                                "   Payment : "+ shared3.getString("pay", "0.0")+"\n");
+                        et5.setText(et5.getText().toString()+"   Total : "+nu);
 
                         String form = "HH:mm dd-MM-yy";
                         SimpleDateFormat sdf = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
@@ -2171,14 +2176,14 @@ public class Emppage extends AppCompatActivity
                         closeAppUpload();
 
                         new AlertDialog.Builder(Emppage.this)
-                                .setMessage("Do You Want To LogOut ?")
+                                .setMessage("Do You Want To Exit ?")
                                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         dialogInterface.dismiss();
                                         dialog.dismiss();
                                     }
-                                }).setPositiveButton("LogOut", new DialogInterface.OnClickListener() {
+                                }).setPositiveButton("Exit", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
