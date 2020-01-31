@@ -80,7 +80,7 @@ public class Delivery_Emp extends AppCompatActivity {
         Toolbar bar = findViewById(R.id.tool);
         setSupportActionBar(bar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+//
         if(HomeAct.lang == 1)
             getSupportActionBar().setTitle("الرجوع");
         else
