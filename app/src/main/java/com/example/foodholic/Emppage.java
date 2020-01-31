@@ -2000,7 +2000,10 @@ public class Emppage extends AppCompatActivity
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        AddSale2();
+                        if(HomeAct.lang == 1)
+                            AddSale2();
+                        else
+                            AddSale2Eng();
                     }
                 });
 
@@ -2524,17 +2527,23 @@ public class Emppage extends AppCompatActivity
     public void AddSale2(){
 
         String bill="";
-        int sum=0;
+
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
+        Date dateee = new Date();
+        String date = dateFormat.format(dateee);
+
+        String day = date.substring(0, date.indexOf(" "));
+        String time = date.substring(date.indexOf(" ")+1);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        bill+="\n"+"مرحبا بك في مطعم شاورما هايبرد"+",";
+        bill+="\n"+"نوع الفاتورة : فاتورة كاش نقاط"+",";
+        bill+="\n\n"+",";
+        bill+="تاريخ : "+day+"\n"+",";
+        bill+="وقت : "+time+"\n"+",";
+        bill+="__________________________________________\n\n\n"+",";
 
         for(int i=0; i<saleList.size(); i++){
-
-            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
-            Date dateee = new Date();
-            String date = dateFormat.format(dateee);
-
-            String day = date.substring(0, date.indexOf(" "));
-            String time = date.substring(date.indexOf(" ")+1);
-            FirebaseAuth auth = FirebaseAuth.getInstance();
 
             Map<String, Object> sale = new HashMap<>();
             sale.put("date", day);
@@ -2544,12 +2553,8 @@ public class Emppage extends AppCompatActivity
             sale.put("empEmail", auth.getCurrentUser().getEmail());
             sale.put("sale", saleList.get(i).sumPrice);
 
-            sum+=saleList.get(i).sumPrice;
-            bill+="date: "+day+"\n" +
-                    "time: "+time + "\n" +
-                    "sub item: "+saleList.get(i).subItemName+"\n" +
-                    "sum price: "+ saleList.get(i).sumPrice+"\n" +
-                    "-------------------------------------------\n" ;
+            bill+="\nالعنصر : "+saleList.get(i).subItemName+" X"+saleList.get(i).count+" السعر : "+saleList.get(i).sumPrice+"\n"+",";
+
 
             db.collection("Res_1_point_sales").document()
 
@@ -2563,7 +2568,61 @@ public class Emppage extends AppCompatActivity
                     });
 
         }
+        bill+="\n\nمجموع الفاتورة : "+sum+"\n"+",";
+        bill+="\n\n\n\nاهلا وسهلا زبائننا الكرام\n\n\n"+",";
 
+        PrintUsingServer(bill);
+
+    }
+
+    public void AddSale2Eng(){
+
+        String bill="";
+
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
+        Date dateee = new Date();
+        String date = dateFormat.format(dateee);
+
+        String day = date.substring(0, date.indexOf(" "));
+        String time = date.substring(date.indexOf(" ")+1);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        bill+="\n"+"Welcome To Hybrid Shawarma"+",";
+        bill+="\n"+"Bill Type : Cash Bill Points"+",";
+        bill+="\n\n"+",";
+        bill+="Date : "+day+"\n"+",";
+        bill+="Time : "+time+"\n"+",";
+        bill+="__________________________________________\n\n\n"+",";
+
+        for(int i=0; i<saleList.size(); i++){
+
+            Map<String, Object> sale = new HashMap<>();
+            sale.put("date", day);
+            sale.put("time", time);
+            sale.put("subItem", saleList.get(i).subItemName);
+            sale.put("item", itemToShow.get(i));
+            sale.put("empEmail", auth.getCurrentUser().getEmail());
+            sale.put("sale", saleList.get(i).sumPrice);
+
+            bill+="\nItem : "+saleList.get(i).subItemName+" X"+saleList.get(i).count+" Price : "+saleList.get(i).sumPrice+"\n"+",";
+
+
+            db.collection("Res_1_point_sales").document()
+
+                    .set(sale)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(Emppage.this, "Done", Toast.LENGTH_SHORT).show();
+                            recreate();
+                        }
+                    });
+
+        }
+        bill+="\n\nBill Total : "+sum+"\n"+",";
+        bill+="\n\n\n\nCome Again Soon !\n\n\n"+",";
+
+        PrintUsingServer(bill);
 
     }
 
@@ -2596,7 +2655,7 @@ public class Emppage extends AppCompatActivity
             sale.put("empEmail", auth.getCurrentUser().getEmail());
             sale.put("sale", saleList.get(i).sumPrice);
 
-            bill+="\nitem : "+saleList.get(i).subItemName+" X"+saleList.get(i).count+" price : "+saleList.get(i).sumPrice+"\n"+",";
+            bill+="\nالعنصر : "+saleList.get(i).subItemName+" X"+saleList.get(i).count+" السعر : "+saleList.get(i).sumPrice+"\n"+",";
 
             db.collection("Res_1_sales").document()
 
@@ -2631,7 +2690,7 @@ public class Emppage extends AppCompatActivity
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
         bill+="\n"+"مرحبا بك في مطعم شاورما هايبرد"+",";
-        bill+="\n"+"نوع الفاتورة : فاتورة كاش"+",";
+        bill+="\n"+"نوع الفاتورة : فاتورة كاش فيزا"+",";
         bill+="\n\n"+",";
         bill+="تاريخ : "+day+"\n"+",";
         bill+="وقت : "+time+"\n"+",";
@@ -2646,7 +2705,7 @@ public class Emppage extends AppCompatActivity
             sale.put("emp", auth.getCurrentUser().getEmail());
             sale.put("pay", saleList.get(i).sumPrice);
 
-            bill+="\nitem : "+saleList.get(i).subItemName+" X"+saleList.get(i).count+" price : "+saleList.get(i).sumPrice+"\n"+",";
+            bill+="\nالعنصر : "+saleList.get(i).subItemName+" X"+saleList.get(i).count+" السعر : "+saleList.get(i).sumPrice+"\n"+",";
 
             db.collection("Res_1_visa").document()
 
@@ -2680,23 +2739,24 @@ public class Emppage extends AppCompatActivity
         String time = date.substring(date.indexOf(" ")+1);
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
-        bill+="WELCOME TO HYBRID RESTAURANT\n";
-        bill+="Bill Type : Cash\n";
-        bill+="\n\n";
-        bill+="Date : "+day+"\n";
-        bill+="Time : "+time+"\n";
-        bill+="__________________________________________\n\n\n";
+        bill+="\n"+"Welcome To Hybrid Shawarma Restaurant"+",";
+        bill+="\n"+"Bill Type : Cash Bill Visa"+",";
+        bill+="\n\n"+",";
+        bill+="Date : "+day+"\n"+",";
+        bill+="Time : "+time+"\n"+",";
+        bill+="__________________________________________\n\n\n"+",";
 
         for(int i=0; i<saleList.size(); i++){
 
             Map<String, Object> sale = new HashMap<>();
             sale.put("date", day);
             sale.put("time", time);
-            sale.put("description", saleList.get(i).subItemName);
-            sale.put("emp", auth.getCurrentUser().getEmail());
-            sale.put("pay", saleList.get(i).sumPrice);
+            sale.put("subItem", saleList.get(i).subItemName);
+            sale.put("item", itemToShow.get(i));
+            sale.put("empEmail", auth.getCurrentUser().getEmail());
+            sale.put("sale", saleList.get(i).sumPrice);
 
-            bill+="\nItem : "+saleList.get(i).subItemName+" X"+saleList.get(i).count+" Price : "+saleList.get(i).sumPrice+"\n";
+            bill+="\nitem : "+saleList.get(i).subItemName+" X"+saleList.get(i).count+" price : "+saleList.get(i).sumPrice+"\n"+",";
 
             db.collection("Res_1_sales").document()
 
@@ -2709,10 +2769,10 @@ public class Emppage extends AppCompatActivity
                     });
         }
 
-        bill+="\nBill Value : "+sum+"\n";
-        bill+="\nPaid : "+paid+"\n";
-        bill+="\nChange : "+change+"\n";
-        bill+="\n\n\nTHANK YOU FOR YOUR PURCHASE, COME AGAIN !\n\n\n";
+        bill+="\n\nBill Total : "+sum+"\n"+",";
+        bill+="\n\n\n\nPaid Amount : "+paid+"\n"+",";
+        bill+="\n\n\n\nChange Amount : "+change+"\n"+",";
+        bill+="\n\n\n\nWelcome To The Restaurant, Come Again Soon !\n\n\n"+",";
 
         PrintUsingServer(bill);
 
@@ -2730,12 +2790,12 @@ public class Emppage extends AppCompatActivity
         String time = date.substring(date.indexOf(" ")+1);
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
-        bill+="WELCOME TO HYBRID RESTAURANT\n";
-        bill+="Bill Type : Cash\n";
-        bill+="\n\n";
-        bill+="Date : "+day+"\n";
-        bill+="Time : "+time+"\n";
-        bill+="__________________________________________\n\n\n";
+        bill+="\n"+"Welcome To Hybrid Shawarma Restaurant"+",";
+        bill+="\n"+"Bill Type : Cash Bill"+",";
+        bill+="\n\n"+",";
+        bill+="Date : "+day+"\n"+",";
+        bill+="Time : "+time+"\n"+",";
+        bill+="__________________________________________\n\n\n"+",";
 
         for(int i=0; i<saleList.size(); i++){
 
@@ -2747,7 +2807,7 @@ public class Emppage extends AppCompatActivity
             sale.put("empEmail", auth.getCurrentUser().getEmail());
             sale.put("sale", saleList.get(i).sumPrice);
 
-            bill+="\nItem : "+saleList.get(i).subItemName+" X"+saleList.get(i).count+" Price : "+saleList.get(i).sumPrice+"\n";
+            bill+="\nitem : "+saleList.get(i).subItemName+" X"+saleList.get(i).count+" price : "+saleList.get(i).sumPrice+"\n"+",";
 
             db.collection("Res_1_sales").document()
 
@@ -2755,15 +2815,15 @@ public class Emppage extends AppCompatActivity
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            recreate();
+                            Toast.makeText(Emppage.this, "Done", Toast.LENGTH_SHORT).show();
                         }
                     });
         }
 
-        bill+="\nBill Value : "+sum+"\n";
-        bill+="\nPaid : "+paid+"\n";
-        bill+="\nChange : "+change+"\n";
-        bill+="\n\n\nTHANK YOU FOR YOUR PURCHASE, COME AGAIN !\n\n\n";
+        bill+="\n\nBill Total : "+sum+"\n"+",";
+        bill+="\n\n\n\nPaid Amount : "+paid+"\n"+",";
+        bill+="\n\n\n\nChange Amount : "+change+"\n"+",";
+        bill+="\n\n\n\nWelcome To The Restaurant, Come Again Soon !\n\n\n"+",";
 
         PrintUsingServer(bill);
 
