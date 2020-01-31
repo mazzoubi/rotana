@@ -1,6 +1,14 @@
 package com.example.foodholic;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
+import android.os.Environment;
+import android.print.pdf.PrintedPdfDocument;
+import android.printservice.PrintDocument;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,10 +23,16 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Zreport extends AppCompatActivity {
 
@@ -35,7 +49,10 @@ public class Zreport extends AppCompatActivity {
    ArrayList<String> smonth;
    ArrayList<String> syear;
 
+   classCurrencyAndTax currencyAndTax;
    ArrayAdapter<String> adapter;
+   private static final int STORAGE_CODE=1000;
+   String pdfTex="";
 
    int m=0;
    int y=0;
@@ -44,6 +61,7 @@ public class Zreport extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zreport);
+
         init();
 
         monthreport.setBackgroundColor(Color.GRAY);
@@ -110,11 +128,11 @@ public class Zreport extends AppCompatActivity {
                            list.add(cSale.get(i));
                         }
                     }
-                    syear.add("\n\n\n\n\t\t\t\tyearly report " +
+                    syear.add("\n\n\t\t\t\t[-- yearly report --]" +
                             "\nRes : "+HomeAct.resName+"\n" +
                             "pill date : "+new Date()+"\n" +
-                            "\t-----------------------\n" +
-                            "\n\n");
+                            "\t________________________________________________\n" +
+                            "\n");
                     double z=0;
                     int y=0;
                     int i=1;
@@ -142,11 +160,12 @@ public class Zreport extends AppCompatActivity {
                         y=0;
                         z=0;
                     }
-                    syear.add("\n\t-----------------------\n");
-                    syear.add("total at : "+year+"="+bb+Adminpage.currencyAndTax.currency +"\n" +
-                            "tax ammount : "+((bb*Adminpage.currencyAndTax.tax/100))+Adminpage.currencyAndTax.currency +"\n"+
-                            "\n\t-----------------------\n");
-                    syear.add("\t**** Aldahkeel 0798056383 ****\t");
+                    syear.add("\n\t---------------------------------\n");
+                    syear.add("total at : "+year+"="+bb+" "+currencyAndTax.currency +"\n" +
+                            "tax : "+currencyAndTax.tax+"%\n"+
+                            "tax ammount : "+((bb*currencyAndTax.tax/100))+" "+currencyAndTax.currency +"\n"+
+                            "\n\t________________________________________________\n");
+                    syear.add("\t**** Aldahkeel +962798056383 ****\t");
 
                     adapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,syear);
                     listView.setAdapter(adapter);
@@ -180,10 +199,10 @@ public class Zreport extends AppCompatActivity {
                     y=0;
                     double bb=0;
                     smonth=new ArrayList<>();
-                    smonth.add("\n\n\n\n\t\t\t\tmonthly report " +
+                    smonth.add("\n\n\t\t\t\t[-- monthly report --]" +
                             "\nRes : "+HomeAct.resName+"\n" +
                             "pill dat : "+new Date()+"\n" +
-                            "\t-----------------------\n" +
+                            "\t________________________________________________\n" +
                             "\n\n");
                     yearReport.setBackgroundColor(Color.GRAY);
                     monthreport.setBackgroundColor(Color.GREEN);
@@ -192,10 +211,11 @@ public class Zreport extends AppCompatActivity {
                             bb+=cSale.get(i).sale;
                         }
                     }
-                    smonth.add("total at : "+month+"-"+year+"="+bb+Adminpage.currencyAndTax.currency +"\n" +
-                            "tax ammount : "+((bb*Adminpage.currencyAndTax.tax/100))+Adminpage.currencyAndTax.currency +"\n"
-                            +"\n-----------------------\n");
-                    smonth.add("\t**** Aldahkeel 0798056383 ****\t");
+                    smonth.add("total at : "+month+"-"+year+"="+bb+" "+currencyAndTax.currency +"\n" +
+                            "tax : "+currencyAndTax.tax+"%\n"+
+                            "tax ammount : "+((bb*currencyAndTax.tax/100))+" "+currencyAndTax.currency +"\n"
+                            +"\n________________________________________________\n");
+                    smonth.add("\t**** Aldahkeel +962798056383 ****\t");
 
                     adapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,smonth);
                     listView.setAdapter(adapter);
@@ -227,6 +247,7 @@ public class Zreport extends AppCompatActivity {
                     for (int i=0; i< smonth.size();i++){
                         s+=smonth.get(i)+"\n";
                     }
+                    pdfTex=s;
                     print(s);
                 }
             }
@@ -242,6 +263,18 @@ public class Zreport extends AppCompatActivity {
         monthreport = findViewById(R.id.monthReport);
         print=findViewById(R.id.button_printReport);
         listView=findViewById(R.id.reportList);
+
+        currencyAndTax=new classCurrencyAndTax();
+
+        db.collection("Res_1_currencyAndTax").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> list =queryDocumentSnapshots.getDocuments();
+                for(DocumentSnapshot d : list){
+                    currencyAndTax=d.toObject(classCurrencyAndTax.class);
+                }
+            }
+        });
 
         if (HomeAct.lang==1){
             yearReport.setText("تقرير سنوي");
@@ -265,8 +298,62 @@ public class Zreport extends AppCompatActivity {
     }
 
     void print(String s){
-        Toast.makeText(Zreport.this, s, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(Zreport.this, s, Toast.LENGTH_SHORT).show();
+
+
+                Document mDoc=new Document();
+                String mfileName= "tax_report_"+System.currentTimeMillis();
+                String mfilepath = Environment.getExternalStorageDirectory()+"/"+mfileName+".pdf";
+                try{
+                   PdfWriter writer= PdfWriter.getInstance(mDoc, new FileOutputStream(mfilepath));
+                    mDoc.open();
+
+                    mDoc.add(new Paragraph(s));
+
+                    mDoc.close();
+                    writer.close();
+                    Toast.makeText(this, mfileName+".pdf file is saved\n"+mfilepath, Toast.LENGTH_SHORT).show();
+
+                }catch (Exception e){
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                //savePDF();
+
+
+
+    }
+    void savePDF(){
+        Document mDoc=new Document();
+        String mfileName= new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis());
+        String mfilepath = Environment.getExternalStorageDirectory()+"/"+mfileName+".pdf";
+        try{
+            PdfWriter.getInstance(mDoc, new FileOutputStream(mfilepath));
+            mDoc.open();
+            mDoc.addAuthor("mohammad");
+            mDoc.add(new Paragraph(pdfTex));
+            mDoc.close();
+            Toast.makeText(this, mfileName+".pdf file is saved\n"+mfilepath, Toast.LENGTH_SHORT).show();
+
+        }catch (Exception e){
+
+        }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case STORAGE_CODE:{
+                if (grantResults.length>0&&grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    savePDF();
+                }
+                else {
 
+                }
+
+
+            }
+
+        }
+    }
 }

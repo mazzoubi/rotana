@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -22,7 +23,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -498,7 +503,24 @@ public class statisticsMainActivity extends AppCompatActivity {
     });
   }
 
-  void print(String p){
-    Toast.makeText(this, p, Toast.LENGTH_LONG).show();
+  void print(String s){
+    Document mDoc=new Document();
+    String mfileName= "cash_drawer_"+System.currentTimeMillis();
+    String mfilepath = Environment.getExternalStorageDirectory()+"/"+mfileName+".pdf";
+    try{
+      PdfWriter writer= PdfWriter.getInstance(mDoc, new FileOutputStream(mfilepath));
+      mDoc.open();
+
+      mDoc.add(new Paragraph(s));
+
+      mDoc.close();
+      writer.close();
+      Toast.makeText(this, mfileName+".pdf file is saved\n"+mfilepath, Toast.LENGTH_SHORT).show();
+
+    }catch (Exception e){
+      Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+    //Toast.makeText(this, s, Toast.LENGTH_LONG).show();
   }
+
 }

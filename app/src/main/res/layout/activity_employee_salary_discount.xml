@@ -9,8 +9,8 @@
     <TextView
         android:id="@+id/disTitle"
         android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:background="@drawable/side_nav_bar"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
         android:text="Salary discount "
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"

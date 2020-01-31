@@ -6,14 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".VisaReport">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:background="@drawable/side_nav_bar"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tool"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/currentTax"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@color/colorPrimaryDark" />
 
     <TextView
         android:id="@+id/date"
@@ -24,7 +25,7 @@
         android:background="@android:drawable/editbox_background_normal"
         android:text="date"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/tool" />
 
     <Button
         android:id="@+id/search"
@@ -34,7 +35,7 @@
         android:layout_marginTop="24dp"
         android:background="@android:drawable/ic_menu_search"
         app:layout_constraintStart_toEndOf="@+id/date"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/tool" />
 
     <TextView
         android:id="@+id/resulte"
@@ -66,7 +67,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toEndOf="@+id/search"
-        app:layout_constraintTop_toBottomOf="@+id/textView4">
+        app:layout_constraintTop_toBottomOf="@+id/tool">
 
         <RadioButton
             android:id="@+id/radioButtonDay"
