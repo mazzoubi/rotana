@@ -224,68 +224,7 @@ public class Tabel_Res_Emp extends AppCompatActivity {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
 
-//                                            String bill="";
-//                                            FirebaseAuth auth = FirebaseAuth.getInstance();
-//
-//                                            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
-//                                            Date dateee = new Date();
-//                                            String date = dateFormat.format(dateee);
-//
-//                                            String day = date.substring(0, date.indexOf(" "));
-//                                            String time = date.substring(date.indexOf(" ")+1);
-//
-//                                            String [] temp;
-//
-//                                            if(HomeAct.lang == 1){
-//                                                temp = info.get(position+1).substring(info.get(position+1)
-//                                                        .indexOf("الطلب : ")+8, info.get(position+1).indexOf("مجموع"))
-//                                                        .replaceAll("= ", "X").replaceAll(":", "Price : ").replaceAll("\n", "")
-//                                                        .split(",");
-//                                            }
-//                                            else{
-//                                                temp = info.get(position+1).substring(info.get(position+1)
-//                                                        .indexOf("Menu : ")+8, info.get(position+1).indexOf("Total"))
-//                                                        .replaceAll("= ", "X").replaceAll(":", "Price : ").replaceAll("\n", "")
-//                                                        .split(",");
-//
-//                                            }
-//
-//                                            if(temp[temp.length-1].equals(" ")){
-//                                                String [] temp2 = temp;
-//                                                temp = new String[temp2.length-1];
-//                                                for(int d=0; d<temp.length; d++)
-//                                                    temp[d] = temp2[d]; }
-//
-//                                            bill+="WELCOME TO HYBRID RESTAURANT\n";
-//                                            bill+="Bill Type : Cash\n";
-//                                            bill+="\n\n";
-//                                            bill+="Date : "+day+"\n";
-//                                            bill+="Time : "+time+"\n";
-//                                            bill+="__________________________________________\n\n\n";
-//
-//                                            Map<String, Object> sale = new HashMap<>();
-//
-//                                            for(int ii=0; ii<temp.length; ii++){
-////findme
-//                                                sale.put("date", day);
-//                                                sale.put("time", time);
-//                                                sale.put("subItem", temp[ii].substring(0, temp[ii].indexOf(" X")));
-//                                                sale.put("item", "");
-//                                                sale.put("empEmail", auth.getCurrentUser().getEmail());
-//
-//                                                double p = Double.parseDouble(temp[ii].substring(temp[ii].indexOf("Price : ")+8));
-//                                                int c = Integer.parseInt(temp[ii].substring(temp[ii].indexOf("X")+1, temp[ii].indexOf(" Price : ")));
-//                                                sale.put("sale", p*c);
-//
-//                                                bill+="\nItem : "+temp[ii]+"\n";
-//                                                db.collection("Res_1_sales").document().set(sale);
-//                                            }
-//
-//                                            bill+="\nBill Value : "+info.get(position+1).substring(info.get(position+1).indexOf("مجموع : ")+8)+"\n";
-//                                            bill+="\n\n\nTHANK YOU FOR YOUR PURCHASE, COME AGAIN !\n\n\n";
-//
-//                                            removeData(position+1);
-//                                            PrintUsingServer(bill);
+                                            AddSale(position+1);
 
                                         }
                                     }).setNegativeButton(s3, new DialogInterface.OnClickListener() {
@@ -308,11 +247,83 @@ public class Tabel_Res_Emp extends AppCompatActivity {
 
     }
 
+    public void AddSale(final int pos){
+
+        //findme
+
+        String bill="";
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
+        Date dateee = new Date();
+        String date = dateFormat.format(dateee);
+
+        String day = date.substring(0, date.indexOf(" "));
+        String time = date.substring(date.indexOf(" ")+1);
+
+        ArrayList<String> ttt = info;
+
+        String [] temp, temp2;
+        temp = info.get(pos).substring(info.get(pos)
+                .indexOf("الطلب : ")+8, info.get(pos).indexOf("مجموع :"))
+                .replaceAll("= ", "X").replaceAll(":", "السعر : ").replaceAll("\n", "")
+                .split(",");
+        temp2 = temp;
+        if(temp[temp.length-1].equals(" ")){
+            temp2 = temp;
+            temp = new String[temp2.length-1];
+            for(int i=0; i<temp.length; i++) {
+                temp[i] = temp2[i];
+                temp2[i] = temp[i]+"\n,";
+            }
+        }
+
+        bill+="\n"+"مرحبا بك في مطعم شاورما هايبرد"+",";
+        bill+="\n"+"نوع الفاتورة : فاتورة طاولة"+",";
+        bill+="\n\n"+",";
+        bill+="تاريخ : "+day+"\n"+",";
+        bill+="وقت : "+time+"\n"+",";
+        bill+="__________________________________________\n\n\n"+",";
+
+        Map<String, Object> sale = new HashMap<>();
+
+        for(int i=0; i<temp.length; i++){
+
+            sale.put("date", day);
+            sale.put("time", time);
+            sale.put("subItem", temp[i].substring(0, temp[i].indexOf(" X")));
+            sale.put("item", "");
+            sale.put("empEmail", auth.getCurrentUser().getEmail());
+
+            double p = Double.parseDouble(temp[i].substring(temp[i].indexOf("السعر : ")+8));
+            int c = Integer.parseInt(temp[i].substring(temp[i].indexOf("X")+1, temp[i].indexOf(" السعر : ")));
+            sale.put("sale", p*c);
+
+            bill+="\nالمادة : "+temp2[i];
+            db.collection("Res_1_sales").document().set(sale);
+        }
+
+        bill+="\n\nمجموع الفاتورة : "+info.get(pos).substring(info.get(pos).indexOf("مجموع : ")+8)+",";
+        bill+="\n\n\nأهلا و سهلا زبائننا الكرام\n\n\n";
+
+        removeData(pos);
+        PrintUsingServer(bill);
+
+    }
+
     private void PrintUsingServer(String s) {
+
+        int c = shared3.getInt("count", 0);
+        SharedPreferences.Editor editor = shared3.edit();
+        editor.putInt("count" ,++c);
+        editor.apply();
 
         try {
 
-            SocketAddress socketAddress = new InetSocketAddress("192.168.14.54", 9100);
+            String ip = getSharedPreferences("IPS", MODE_PRIVATE).getString("ip", "192.168.1.1");
+            int port = getSharedPreferences("IPS", MODE_PRIVATE).getInt("port", 9100);
+
+            SocketAddress socketAddress = new InetSocketAddress(ip, port);
             Socket socket = new Socket();
 
             socket.connect(socketAddress, 5000);
@@ -322,12 +333,13 @@ public class Tabel_Res_Emp extends AppCompatActivity {
             clientSocketWriter.close();
             socket.close();
 
+
         }
         catch(Exception e){
             if(HomeAct.lang == 1)
                 Toast.makeText(this, "لا يوجد طابعة !!!", Toast.LENGTH_SHORT).show();
             else
-                Toast.makeText(this, "No Printer Found !!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "No Printer Attached !!!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -416,7 +428,7 @@ public class Tabel_Res_Emp extends AppCompatActivity {
     String da, ta;
     String temp = "";
     ArrayList<String> info = new ArrayList<>();
-
+    SharedPreferences shared3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -429,6 +441,7 @@ public class Tabel_Res_Emp extends AppCompatActivity {
         else
             toolbar.setTitle("Go Back");
 
+        shared3 = getSharedPreferences("cash", MODE_PRIVATE);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
