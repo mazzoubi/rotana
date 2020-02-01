@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:background="@android:drawable/editbox_background_normal"
+        android:background="@drawable/shape2"
         android:text="date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tool" />
@@ -73,18 +73,24 @@
             android:id="@+id/radioButtonDay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/shape2"
+            android:textColor="@color/colorPrimary"
             android:text="by day" />
 
         <RadioButton
             android:id="@+id/radioButtonmonth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/shape2"
+            android:textColor="@color/colorPrimary"
             android:text="by month" />
 
         <RadioButton
             android:id="@+id/radioButtonyear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/shape2"
+            android:textColor="@color/colorPrimary"
             android:text="by year" />
     </RadioGroup>
 

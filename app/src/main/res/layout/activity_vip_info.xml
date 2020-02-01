@@ -24,7 +24,7 @@
         android:background="@drawable/shape2"
         android:text="TextView"
         android:textAlignment="center"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/phone"
         app:layout_constraintHorizontal_bias="0.497"
@@ -39,7 +39,7 @@
         android:background="@drawable/shape2"
         android:text="TextView"
         android:textAlignment="center"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/name"
         app:layout_constraintHorizontal_bias="0.497"
@@ -53,6 +53,7 @@
         android:layout_marginTop="16dp"
         android:background="@android:drawable/editbox_dropdown_light_frame"
         android:ems="10"
+        android:textColor="@color/colorPrimary"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -95,7 +96,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:text="TextView"
-                android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textColor="@color/colorPrimary"
+                android:background="@drawable/shape2"
                 android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>

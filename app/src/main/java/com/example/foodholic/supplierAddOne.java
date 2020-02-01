@@ -71,9 +71,9 @@ public class supplierAddOne extends AppCompatActivity {
         email=findViewById(R.id.aaqantitytype);
         if(shared2.getString("language", "").equals("arabic")) {
             button.setText("اضافة المورد");
-            name.setHint("                            اسم المورد");
-            phone.setHint("                                   رقم الهاتف");
-            email.setHint("                                   البريد الالكتروني");
+            name.setHint("اسم المورد");
+            phone.setHint("رقم الهاتف");
+            email.setHint("البريد الالكتروني");
         }
     }
     void upload(){

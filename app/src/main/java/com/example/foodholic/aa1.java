@@ -23,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -138,6 +139,7 @@ public class aa1 extends AppCompatActivity {
                                             if(shared2.getString("language", "").equals("arabic")){
                                                 Toast.makeText(aa1.this, "تمت العمليه بنجاح", Toast.LENGTH_SHORT).show();
                                                 Intent n =new Intent(getApplicationContext(),warehouse.class);
+                                                addNotification(suppl,item.getText().toString(),qant.getText().toString(),quantType.getText().toString());
                                                 onBackPressed();
                                                 startActivity(n);
                                             }
@@ -188,5 +190,38 @@ public class aa1 extends AppCompatActivity {
                 spinner.setAdapter(adapter);
             }
         });
+    }
+    void addNotification(String sup,String item,String cuant,String cuantt){
+        String id =System.currentTimeMillis()+"";
+        Map<String, Object> reservation = new HashMap<>();
+        reservation.put("title","اشعارات نظام المستودع");
+        reservation.put("date", "");
+        reservation.put("time", new Date()+"");
+        reservation.put("desc", "تمت اضافة عنصر جديد على المستودع : "+"\nالعنصر: "+item+"\nالكميه: "+cuant+" "+cuantt+"\nالمورد: "+sup);
+        reservation.put("state", "1");
+        reservation.put("id", id);
+
+        Map<String, Object> reservation1 = new HashMap<>();
+        reservation1.put("title","Stock System notification");
+        reservation1.put("date", "");
+        reservation1.put("time", new Date()+"");
+        reservation1.put("desc", "new item added in the stock : "+"\nthe item : "+item+"\n quantity: "+cuant+" "+cuantt+"\nsupplier: "+sup);
+        reservation1.put("state", "1");
+        reservation1.put("id", id);
+
+        db.collection("Res_1_adminNotificationsAr").document(id).set(reservation)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        //     progressBar.setVisibility(View.GONE);
+                    }
+                });
+        db.collection("Res_1_adminNotificationsEn").document(id).set(reservation1)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        //     progressBar.setVisibility(View.GONE);
+                    }
+                });
     }
 }

@@ -162,18 +162,38 @@ public class statisticsMainActivity extends AppCompatActivity {
                   sale+=allCloseOpen.get(i).total-allCloseOpen.get(i).floor;
                   total+=allCloseOpen.get(i).total;
                   closeOpenAtDate.add(allCloseOpen.get(i));
-                  arrayList.add("\n\n التاريخ: "+allCloseOpen.get(i).dateOpen+"\n" +
-                          "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
-                          "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
-                          "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
-                          "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
-                          "المجموع الكلي   = "+allCloseOpen.get(i).total);
-                  toPrint+="\n\n التارخ: "+allCloseOpen.get(i).dateOpen+"\n" +
-                          "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
-                          "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
-                          "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
-                          "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
-                          "المجموع الكلي   = "+allCloseOpen.get(i).total;
+
+                  if ((allCloseOpen.get(i).total)<(allCloseOpen.get(i).floor)){
+                    arrayList.add("\n\n *************************************\n التاريخ: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
+                            "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                            "المجموع الكلي   = "+allCloseOpen.get(i).total+"\n*************************************\n");
+                    toPrint+="\n\n*************************************";
+                    toPrint+="\n التارخ: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
+                            "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                            "المجموع الكلي   = "+allCloseOpen.get(i).total;
+                    toPrint+="\n*************************************\n";
+                  }
+                  else {
+                    arrayList.add("\n\n التاريخ: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
+                            "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                            "المجموع الكلي   = "+allCloseOpen.get(i).total);
+                    toPrint+="\n\n التارخ: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
+                            "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                            "المجموع الكلي   = "+allCloseOpen.get(i).total+"\n";
+                  }
+
                 }
               }
               arrayList.add("\n\n\n" +
@@ -205,18 +225,37 @@ public class statisticsMainActivity extends AppCompatActivity {
                   sale+=allCloseOpen.get(i).total-allCloseOpen.get(i).floor;
                   total+=allCloseOpen.get(i).total;
                   closeOpenAtDate.add(allCloseOpen.get(i));
-                  arrayList.add("\n\n التاريخ: "+allCloseOpen.get(i).dateOpen+"\n" +
-                          "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
-                          "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
-                          "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
-                          "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
-                          "المجموع الكلي   = "+allCloseOpen.get(i).total);
-                  toPrint+="\n\n التارخ: "+allCloseOpen.get(i).dateOpen+"\n" +
-                          "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
-                          "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
-                          "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
-                          "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
-                          "المجموع الكلي   = "+allCloseOpen.get(i).total;
+
+                  if ((allCloseOpen.get(i).total)<(allCloseOpen.get(i).floor)){
+                    arrayList.add("\n\n *************************************\n التاريخ: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
+                            "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                            "المجموع الكلي   = "+allCloseOpen.get(i).total+"\n*************************************\n");
+                    toPrint+="\n\n*************************************";
+                    toPrint+="\n التارخ: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
+                            "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                            "المجموع الكلي   = "+allCloseOpen.get(i).total;
+                    toPrint+="\n*************************************\n";
+                  }
+                  else {
+                    arrayList.add("\n\n التاريخ: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
+                            "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                            "المجموع الكلي   = "+allCloseOpen.get(i).total);
+                    toPrint+="\n\n التارخ: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
+                            "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                            "المجموع الكلي   = "+allCloseOpen.get(i).total+"\n";
+                  }
                 }
               }
               arrayList.add("\n\n\n" +
@@ -246,19 +285,36 @@ public class statisticsMainActivity extends AppCompatActivity {
                   sale+=allCloseOpen.get(i).total-allCloseOpen.get(i).floor;
                   total+=allCloseOpen.get(i).total;
                   closeOpenAtDate.add(allCloseOpen.get(i));
-                  arrayList.add("\n\n التاريخ: "+allCloseOpen.get(i).dateOpen+"\n" +
-                          "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
-                          "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
-                          "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
-                          "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
-                          "المجموع الكلي   = "+allCloseOpen.get(i).total);
-
-                  toPrint+="\n\n التارخ: "+allCloseOpen.get(i).dateOpen+"\n" +
-                          "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
-                          "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
-                          "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
-                          "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
-                          "المجموع الكلي   = "+allCloseOpen.get(i).total;
+                  if ((allCloseOpen.get(i).total)<(allCloseOpen.get(i).floor)){
+                    arrayList.add("\n\n *************************************\n التاريخ: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
+                            "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                            "المجموع الكلي   = "+allCloseOpen.get(i).total+"\n*************************************\n");
+                    toPrint+="\n\n*************************************";
+                    toPrint+="\n التارخ: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
+                            "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                            "المجموع الكلي   = "+allCloseOpen.get(i).total;
+                    toPrint+="\n*************************************\n";
+                  }
+                  else {
+                    arrayList.add("\n\n التاريخ: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
+                            "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                            "المجموع الكلي   = "+allCloseOpen.get(i).total);
+                    toPrint+="\n\n التارخ: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
+                            "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
+                            "المجموع الكلي   = "+allCloseOpen.get(i).total+"\n";
+                  }
 
                 }
               }
@@ -311,18 +367,38 @@ public class statisticsMainActivity extends AppCompatActivity {
                   sale+=allCloseOpen.get(i).total-allCloseOpen.get(i).floor;
                   total+=allCloseOpen.get(i).total;
                   closeOpenAtDate.add(allCloseOpen.get(i));
-                  arrayList.add("\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
-                          "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
-                          "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
-                          "floor   = "+allCloseOpen.get(i).floor+"\n" +
-                          "sale    = "+(allCloseOpen.get(i).total)+"\n" +
-                          "total   = "+allCloseOpen.get(i).total+allCloseOpen.get(i).floor);
-                  toPrint+="\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
-                          "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
-                          "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
-                          "floor   = "+allCloseOpen.get(i).floor+"\n" +
-                          "sale    = "+(allCloseOpen.get(i).total)+"\n" +
-                          "total   = "+(allCloseOpen.get(i).total+allCloseOpen.get(i).floor);
+
+
+                  if ((allCloseOpen.get(i).total)<(allCloseOpen.get(i).floor)){
+                    arrayList.add("\n\n *************************************\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "floor   = "+allCloseOpen.get(i).floor+"\n" +
+                            "sale    = "+(allCloseOpen.get(i).total)+"\n" +
+                            "total   = "+allCloseOpen.get(i).total+allCloseOpen.get(i).floor+"\n*************************************\n");
+                    toPrint+="\n\n*************************************";
+                    toPrint+="\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "floor   = "+allCloseOpen.get(i).floor+"\n" +
+                            "sale    = "+(allCloseOpen.get(i).total)+"\n" +
+                            "total   = "+(allCloseOpen.get(i).total+allCloseOpen.get(i).floor);
+                    toPrint+="\n*************************************\n";
+                  }
+                  else {
+                    arrayList.add("\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "floor   = "+allCloseOpen.get(i).floor+"\n" +
+                            "sale    = "+(allCloseOpen.get(i).total)+"\n" +
+                            "total   = "+allCloseOpen.get(i).total+allCloseOpen.get(i).floor);
+                    toPrint+="\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "floor   = "+allCloseOpen.get(i).floor+"\n" +
+                            "sale    = "+(allCloseOpen.get(i).total)+"\n" +
+                            "total   = "+(allCloseOpen.get(i).total+allCloseOpen.get(i).floor);
+                  }
                 }
               }
               arrayList.add("\n\n\n" +
@@ -354,19 +430,36 @@ public class statisticsMainActivity extends AppCompatActivity {
                   sale+=allCloseOpen.get(i).total-allCloseOpen.get(i).floor;
                   total+=allCloseOpen.get(i).total;
                   closeOpenAtDate.add(allCloseOpen.get(i));
-                  arrayList.add(
-                          "\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
-                                  "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
-                                  "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
-                                  "floor   = "+allCloseOpen.get(i).floor+"\n" +
-                                  "sale    = "+(allCloseOpen.get(i).total)+"\n" +
-                                  "total   = "+allCloseOpen.get(i).total+allCloseOpen.get(i).floor);
-                  toPrint+="\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
-                          "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
-                          "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
-                          "floor   = "+allCloseOpen.get(i).floor+"\n" +
-                          "sale    = "+(allCloseOpen.get(i).total)+"\n" +
-                          "total   = "+(allCloseOpen.get(i).total+allCloseOpen.get(i).floor);
+                  if ((allCloseOpen.get(i).total)<(allCloseOpen.get(i).floor)){
+                    arrayList.add("\n\n *************************************\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "floor   = "+allCloseOpen.get(i).floor+"\n" +
+                            "sale    = "+(allCloseOpen.get(i).total)+"\n" +
+                            "total   = "+allCloseOpen.get(i).total+allCloseOpen.get(i).floor+"\n*************************************\n");
+                    toPrint+="\n\n*************************************";
+                    toPrint+="\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "floor   = "+allCloseOpen.get(i).floor+"\n" +
+                            "sale    = "+(allCloseOpen.get(i).total)+"\n" +
+                            "total   = "+(allCloseOpen.get(i).total+allCloseOpen.get(i).floor);
+                    toPrint+="\n*************************************\n";
+                  }
+                  else {
+                    arrayList.add("\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "floor   = "+allCloseOpen.get(i).floor+"\n" +
+                            "sale    = "+(allCloseOpen.get(i).total)+"\n" +
+                            "total   = "+allCloseOpen.get(i).total+allCloseOpen.get(i).floor);
+                    toPrint+="\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "floor   = "+allCloseOpen.get(i).floor+"\n" +
+                            "sale    = "+(allCloseOpen.get(i).total)+"\n" +
+                            "total   = "+(allCloseOpen.get(i).total+allCloseOpen.get(i).floor);
+                  }
                 }
               }
               arrayList.add("\n\n\n" +
@@ -396,19 +489,36 @@ public class statisticsMainActivity extends AppCompatActivity {
                   sale+=allCloseOpen.get(i).total-allCloseOpen.get(i).floor;
                   total+=allCloseOpen.get(i).total;
                   closeOpenAtDate.add(allCloseOpen.get(i));
-                  arrayList.add(
-                          "\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
-                                  "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
-                                  "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
-                                  "floor   = "+allCloseOpen.get(i).floor+"\n" +
-                                  "sale    = "+(allCloseOpen.get(i).total)+"\n" +
-                                  "total   = "+allCloseOpen.get(i).total+allCloseOpen.get(i).floor);
-                  toPrint+="\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
-                          "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
-                          "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
-                          "floor   = "+allCloseOpen.get(i).floor+"\n" +
-                          "sale    = "+(allCloseOpen.get(i).total)+"\n" +
-                          "total   = "+(allCloseOpen.get(i).total+allCloseOpen.get(i).floor);
+                  if ((allCloseOpen.get(i).total)<(allCloseOpen.get(i).floor)){
+                    arrayList.add("\n\n *************************************\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "floor   = "+allCloseOpen.get(i).floor+"\n" +
+                            "sale    = "+(allCloseOpen.get(i).total)+"\n" +
+                            "total   = "+allCloseOpen.get(i).total+allCloseOpen.get(i).floor+"\n*************************************\n");
+                    toPrint+="\n\n*************************************";
+                    toPrint+="\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "floor   = "+allCloseOpen.get(i).floor+"\n" +
+                            "sale    = "+(allCloseOpen.get(i).total)+"\n" +
+                            "total   = "+(allCloseOpen.get(i).total+allCloseOpen.get(i).floor);
+                    toPrint+="\n*************************************\n";
+                  }
+                  else {
+                    arrayList.add("\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "floor   = "+allCloseOpen.get(i).floor+"\n" +
+                            "sale    = "+(allCloseOpen.get(i).total)+"\n" +
+                            "total   = "+allCloseOpen.get(i).total+allCloseOpen.get(i).floor);
+                    toPrint+="\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
+                            "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
+                            "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
+                            "floor   = "+allCloseOpen.get(i).floor+"\n" +
+                            "sale    = "+(allCloseOpen.get(i).total)+"\n" +
+                            "total   = "+(allCloseOpen.get(i).total+allCloseOpen.get(i).floor);
+                  }
 
                 }
               }
