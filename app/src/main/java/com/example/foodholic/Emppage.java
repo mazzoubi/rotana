@@ -387,6 +387,12 @@ public class Emppage extends AppCompatActivity
                 close.setVisibility(View.GONE);
                 re.setVisibility(View.GONE);
 
+                sup.setVisibility(View.GONE);
+                vip.setVisibility(View.GONE);
+                not.setVisibility(View.GONE);
+                plus.setVisibility(View.GONE);
+                zeroC.setVisibility(View.GONE);
+                serv.setVisibility(View.GONE);
                 btn5.setWidth(2500); }
         } catch (Exception e){}
 
@@ -395,7 +401,7 @@ public class Emppage extends AppCompatActivity
         editor.apply();
 
         if(shared2.getString("cash", "").equals("")){
-            if (HomeAct.lang==1){
+            if (HomeAct.lang==1 && (!getIntent().getStringExtra("empemail").contains(".cap"))){
 
                 if(ee.getParent()!=null)
                     ((ViewGroup)ee.getParent()).removeView(ee);
@@ -459,65 +465,68 @@ public class Emppage extends AppCompatActivity
             }
             else {
 
-                if(ee.getParent()!=null)
-                    ((ViewGroup)ee.getParent()).removeView(ee);
+                if((!getIntent().getStringExtra("empemail").contains(".cap"))){
 
-                new AlertDialog.Builder(Emppage.this)
-                        .setTitle("Please open cash")
-                        .setView(ee).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Emppage.this.finish();
-                    }
-                }).setPositiveButton("Enter", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(final DialogInterface dialog, int which) {
+                    if(ee.getParent()!=null)
+                        ((ViewGroup)ee.getParent()).removeView(ee);
 
-                        if(!ee.getText().toString().equals("")){
-
-                            SharedPreferences.Editor editor = shared2.edit();
-                            editor.putString("cash", ee.getText().toString());
-                            editor.apply();
-
-                            cash.put("cash", ee.getText().toString());
-                            closeOpenCash.floor = Double.parseDouble(ee.getText().toString());
-
-
-                            String form = "dd-MM-yy";
-                            String form2 = "HH:mm dd-MM-yy";
-                            SimpleDateFormat sdf = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
-                            SimpleDateFormat sdf2 = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
-
-                            try {
-
-                                Date parsedDate = sdf.parse(new Date().toString());
-                                Date parsedDate2 = sdf2.parse(new Date().toString());
-
-                                SimpleDateFormat print = new SimpleDateFormat(form);
-                                SimpleDateFormat print2 = new SimpleDateFormat(form2);
-
-                                closeOpenCash.dateOpen = print.format(parsedDate);
-                                closeOpenCash.dateAndTimeOpen = print2.format(parsedDate2);
-
-                            }
-                            catch (ParseException e) {
-                                new AlertDialog.Builder(Emppage.this).setMessage(e+"").show();
-                            }
-
-                            closeOpenCash.empEmail = getIntent().getStringExtra("empemail");
-
-
-
-                        }
-                        else{
-                            dialog.dismiss();
+                    new AlertDialog.Builder(Emppage.this)
+                            .setTitle("Please open cash")
+                            .setView(ee).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
                             Emppage.this.finish();
                         }
+                    }).setPositiveButton("Enter", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(final DialogInterface dialog, int which) {
+
+                            if(!ee.getText().toString().equals("")){
+
+                                SharedPreferences.Editor editor = shared2.edit();
+                                editor.putString("cash", ee.getText().toString());
+                                editor.apply();
+
+                                cash.put("cash", ee.getText().toString());
+                                closeOpenCash.floor = Double.parseDouble(ee.getText().toString());
 
 
-                    }
-                }).setCancelable(false).show();
+                                String form = "dd-MM-yy";
+                                String form2 = "HH:mm dd-MM-yy";
+                                SimpleDateFormat sdf = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+                                SimpleDateFormat sdf2 = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
 
+                                try {
+
+                                    Date parsedDate = sdf.parse(new Date().toString());
+                                    Date parsedDate2 = sdf2.parse(new Date().toString());
+
+                                    SimpleDateFormat print = new SimpleDateFormat(form);
+                                    SimpleDateFormat print2 = new SimpleDateFormat(form2);
+
+                                    closeOpenCash.dateOpen = print.format(parsedDate);
+                                    closeOpenCash.dateAndTimeOpen = print2.format(parsedDate2);
+
+                                }
+                                catch (ParseException e) {
+                                    new AlertDialog.Builder(Emppage.this).setMessage(e+"").show();
+                                }
+
+                                closeOpenCash.empEmail = getIntent().getStringExtra("empemail");
+
+
+
+                            }
+                            else{
+                                dialog.dismiss();
+                                Emppage.this.finish();
+                            }
+
+
+                        }
+                    }).setCancelable(false).show();
+
+                }
             }
         }
 
@@ -1838,7 +1847,8 @@ public class Emppage extends AppCompatActivity
     @Override
     protected void onDestroy() {
 
-        closeAppUpload();
+        if((!getIntent().getStringExtra("empemail").contains(".cap")))
+            closeAppUpload();
         super.onDestroy(); }
 
     public void closeAppUpload(){

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -39,6 +40,8 @@ public class taxChange extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_tax_change);
     init();
     button.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +81,7 @@ public class taxChange extends AppCompatActivity {
         currency=findViewById(R.id.spinner2);
         if(shared2.getString("language", "").equals("arabic")){
             button.setText("حفظ");
-            currentTax.setText("الضريبه = "+currencyAndTax.tax+"%");
+            currentTax.setText("الضريبه الحالية = "+currencyAndTax.tax+"%");
             taxdes.setText("قيمة الضريبه");
 
         }

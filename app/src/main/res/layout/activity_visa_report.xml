@@ -20,6 +20,7 @@
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="5dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/shape2"
@@ -41,6 +42,7 @@
         android:id="@+id/resulte"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="5dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/shape2"
@@ -63,10 +65,9 @@
 
     <RadioGroup
         android:layout_width="wrap_content"
+        android:layout_marginTop="15dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toEndOf="@+id/search"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tool">
 
         <RadioButton
@@ -74,24 +75,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape2"
-            android:textColor="@color/colorPrimary"
-            android:text="by day" />
+            android:text="by day"
+            android:textColor="@color/colorPrimary" />
 
         <RadioButton
             android:id="@+id/radioButtonmonth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape2"
-            android:textColor="@color/colorPrimary"
-            android:text="by month" />
+            android:text="by month"
+            android:textColor="@color/colorPrimary" />
 
         <RadioButton
             android:id="@+id/radioButtonyear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape2"
-            android:textColor="@color/colorPrimary"
-            android:text="by year" />
+            android:text="by year"
+            android:textColor="@color/colorPrimary" />
     </RadioGroup>
 
 
