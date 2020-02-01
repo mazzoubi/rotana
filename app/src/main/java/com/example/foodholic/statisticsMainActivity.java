@@ -483,6 +483,7 @@ public class statisticsMainActivity extends AppCompatActivity {
                       "\nemp email: "+allCloseOpen.get(0).empEmail+"\n" +
                       "date of this opreation: "+new Date()+"" +
                       "\n\n";
+
               for (int i=0 ; i< allCloseOpen.size();i++){
                 if (allCloseOpen.get(i).dateOpen.contains(myDatefrom)){
                   floor+=allCloseOpen.get(i).floor;
