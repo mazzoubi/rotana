@@ -590,7 +590,10 @@ public class Delivery_Emp extends AppCompatActivity {
             db.collection("Res_1_sales").document().set(sale);
         }
 
-        bill+="\n\nمجموع الفاتورة : "+info.get(pos).substring(info.get(pos).indexOf("المجموع : ")+10)+",";
+        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"));
+        bill+="\n\nمجموع الفاتورة : "+(Double.parseDouble(info.get(pos).substring(info.get(pos).indexOf("المجموع : ")+10))-taxValue)+",";
+        bill+="\n\nقيمة الضريبة : "+getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0")+" %"+"\n"+",";
+        bill+="\n\nمجموع كلي : "+info.get(pos).substring(info.get(pos).indexOf("المجموع : ")+10)+"\n"+",";
         bill+="\n\n\nأهلا و سهلا زبائننا الكرام\n\n\n";
 
         removeData(path, pos);
@@ -652,7 +655,10 @@ public class Delivery_Emp extends AppCompatActivity {
             db.collection("Res_1_sales").document().set(sale);
         }
 
-        bill+="\n\nBill Total : "+info.get(pos).substring(info.get(pos).indexOf("Total : ")+8)+",";
+        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"));
+        bill+="\n\nBill Value : "+(Double.parseDouble(info.get(pos).substring(info.get(pos).indexOf("Total : ")+8))-taxValue)+",";
+        bill+="\n\nTax Value: "+getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0")+" %"+"\n"+",";
+        bill+="\n\nTotal Bill : "+info.get(pos).substring(info.get(pos).indexOf("Total : ")+8)+"\n"+",";
         bill+="\n\n\nThank You, Please Come Again Soon !\n\n\n";
 
         removeData(path, pos);

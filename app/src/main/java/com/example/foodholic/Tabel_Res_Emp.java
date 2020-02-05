@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -108,135 +109,194 @@ public class Tabel_Res_Emp extends AppCompatActivity {
 
                     getResData(position+1);
 
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(Tabel_Res_Emp.this);
-                    LayoutInflater inflater = Tabel_Res_Emp.this.getLayoutInflater();
-                    builder.setView(inflater.inflate(R.layout.activity_tabel__resss2, null));
-                    final AlertDialog dialog = builder.create();
-                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-                    lp.copyFrom(dialog.getWindow().getAttributes());
-                    lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-                    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                    if(getIntent().getStringExtra("empemail").contains(".cap")){
 
-                    dialog.show();
-                    dialog.getWindow().setAttributes(lp);
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(Tabel_Res_Emp.this);
+                        LayoutInflater inflater = Tabel_Res_Emp.this.getLayoutInflater();
+                        builder.setView(inflater.inflate(R.layout.activity_tabel_order, null));
+                        final AlertDialog dialog = builder.create();
+                        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                        lp.copyFrom(dialog.getWindow().getAttributes());
+                        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-                    final TextView date, time;
-                    final Button reserve, cancle;
-                    final EditText name, mobile, people;
-                    final Toolbar tool;
+                        dialog.show();
+                        dialog.getWindow().setAttributes(lp);
 
-                    tool = dialog.findViewById(R.id.tool);
-                    date = dialog.findViewById(R.id.date);
-                    time = dialog.findViewById(R.id.time);
-                    reserve = dialog.findViewById(R.id.reserv);
-                    cancle = dialog.findViewById(R.id.cancle);
-                    name = dialog.findViewById(R.id.name);
-                    mobile = dialog.findViewById(R.id.mobile);
-                    people = dialog.findViewById(R.id.people);
+                        final Button reserve, cancle;
 
-                    if(HomeAct.lang != 1){
-                        tool.setTitle("Reservation Information");
-                        date.setText("Pick A Date");
-                        time.setText("Pick A Time");
-                        reserve.setText("Reserve");
-                        cancle.setText("View Bill");
-                        name.setHint("Customer Name");
-                        mobile.setHint("Customer Mobile");
-                        people.setHint("People Count");
+                        reserve = dialog.findViewById(R.id.reserv);
+                        cancle = dialog.findViewById(R.id.cancle);
+
+                        if(HomeAct.lang != 1){
+                            reserve.setText("Reserve");
+                            cancle.setText("View Bill");
+                        }
+
+                        reserve.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                String myFormat = "dd/MM/yy"; //In which you need put here
+                                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                                da = sdf.format(new Date());
+
+                                myFormat = "HH:mm";
+                                sdf = new SimpleDateFormat(myFormat, Locale.US);
+                                ta = sdf.format(new Date());
+
+                                ReserveClick(position, v, "", "", "", da, ta);
+                                dialog.dismiss();
+                                recreate();
+
+                                dialog.dismiss();
+                                recreate();
+                            }
+                        });
+                        cancle.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                getInsta(position+1);
+
+                            }
+                        });
+
                     }
 
-                    final Calendar myCalendar = Calendar.getInstance();
-                    date_ = new DatePickerDialog.OnDateSetListener() {
+                    else{
 
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                            myCalendar.set(Calendar.YEAR, year);
-                            myCalendar.set(Calendar.MONTH, monthOfYear);
-                            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(Tabel_Res_Emp.this);
+                        LayoutInflater inflater = Tabel_Res_Emp.this.getLayoutInflater();
+                        builder.setView(inflater.inflate(R.layout.activity_tabel__resss2, null));
+                        final AlertDialog dialog = builder.create();
+                        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                        lp.copyFrom(dialog.getWindow().getAttributes());
+                        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-                            String myFormat = "dd/MM/yy"; //In which you need put here
-                            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                        dialog.show();
+                        dialog.getWindow().setAttributes(lp);
 
-                            date.setText(sdf.format(myCalendar.getTime())); } };
+                        final TextView date, time;
+                        final Button reserve, cancle;
+                        final EditText name, mobile, people;
+                        final Toolbar tool;
 
-                    date.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+                        tool = dialog.findViewById(R.id.tool);
+                        date = dialog.findViewById(R.id.date);
+                        time = dialog.findViewById(R.id.time);
+                        reserve = dialog.findViewById(R.id.reserv);
+                        cancle = dialog.findViewById(R.id.cancle);
+                        name = dialog.findViewById(R.id.name);
+                        mobile = dialog.findViewById(R.id.mobile);
+                        people = dialog.findViewById(R.id.people);
 
-                            new DatePickerDialog(Tabel_Res_Emp.this, date_, myCalendar
-                                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                                    myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-
+                        if(HomeAct.lang != 1){
+                            tool.setTitle("Reservation Information");
+                            date.setText("Pick A Date");
+                            time.setText("Pick A Time");
+                            reserve.setText("Reserve");
+                            cancle.setText("View Bill");
+                            name.setHint("Customer Name");
+                            mobile.setHint("Customer Mobile");
+                            people.setHint("People Count");
                         }
-                    });
 
-                    time.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+                        final Calendar myCalendar = Calendar.getInstance();
+                        date_ = new DatePickerDialog.OnDateSetListener() {
 
-                            final Calendar c = Calendar.getInstance();
-                            int hour = c.get(Calendar.HOUR_OF_DAY);
-                            int minute = c.get(Calendar.MINUTE);
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                myCalendar.set(Calendar.YEAR, year);
+                                myCalendar.set(Calendar.MONTH, monthOfYear);
+                                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                            TimePickerDialog timePickerDialog = new TimePickerDialog(Tabel_Res_Emp.this,
-                                    new TimePickerDialog.OnTimeSetListener() {
+                                String myFormat = "dd/MM/yy"; //In which you need put here
+                                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
-                                        @Override
-                                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                date.setText(sdf.format(myCalendar.getTime())); } };
 
-                                            time.setText(hourOfDay + ":" + minute);
-                                        }
-                                    }, hour, minute, false);
-                            timePickerDialog.show();
+                        date.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
 
-                        }
-                    });
+                                new DatePickerDialog(Tabel_Res_Emp.this, date_, myCalendar
+                                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
 
-                    reserve.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            ReserveClick(position, rowView, name.getText().toString(), mobile.getText().toString(),
-                                    people.getText().toString(), date.getText().toString(), time.getText().toString());
-                            dialog.dismiss();
-                            recreate();
-                        }
-                    });
-                    cancle.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            SharedPreferences.Editor editor = shared.edit();
-                            editor.putInt("pos", 0);
-                            editor.apply();
+                            }
+                        });
 
-                            String s1, s2, s3;
-                            if(HomeAct.lang == 1){
-                                s1="الفاتورة";
-                                s3="إلغاء";
-                                s2="طباعة"; }
-                            else{
-                                s1="Bill";
-                                s3="Cancel";
-                                s2="Print"; }
+                        time.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
 
-                            new AlertDialog.Builder(Tabel_Res_Emp.this)
-                                    .setTitle(s1).setMessage(info.get(position+1))
-                                    .setPositiveButton(s2, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                final Calendar c = Calendar.getInstance();
+                                int hour = c.get(Calendar.HOUR_OF_DAY);
+                                int minute = c.get(Calendar.MINUTE);
 
-                                            AddSale(position+1);
+                                TimePickerDialog timePickerDialog = new TimePickerDialog(Tabel_Res_Emp.this,
+                                        new TimePickerDialog.OnTimeSetListener() {
 
-                                        }
-                                    }).setNegativeButton(s3, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialog.dismiss();
-                                }
-                            }).show();
+                                            @Override
+                                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+                                                time.setText(hourOfDay + ":" + minute);
+                                            }
+                                        }, hour, minute, false);
+                                timePickerDialog.show();
+
+                            }
+                        });
+
+                        reserve.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                ReserveClick(position, rowView, name.getText().toString(), mobile.getText().toString(),
+                                        people.getText().toString(), date.getText().toString(), time.getText().toString());
+                                dialog.dismiss();
+                                recreate();
+                            }
+                        });
+                        cancle.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                SharedPreferences.Editor editor = shared.edit();
+                                editor.putInt("pos", 0);
+                                editor.apply();
+
+                                String s1, s2, s3;
+                                if(HomeAct.lang == 1){
+                                    s1="الفاتورة";
+                                    s3="إلغاء";
+                                    s2="طباعة"; }
+                                else{
+                                    s1="Bill";
+                                    s3="Cancel";
+                                    s2="Print"; }
+
+                                new AlertDialog.Builder(Tabel_Res_Emp.this)
+                                        .setTitle(s1).setMessage(info.get(position+1))
+                                        .setPositiveButton(s2, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                                AddSale(position+1);
+
+                                            }
+                                        }).setNegativeButton(s3, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialog.dismiss();
+                                    }
+                                }).show();
 //view the fatoorah and print it ____________________________________________
 
-                        }
-                    });
+                            }
+                        });
+                    }
 
 
                 }
@@ -244,6 +304,43 @@ public class Tabel_Res_Emp extends AppCompatActivity {
 
             return rowView;
         }
+
+    }
+
+    private void getInsta(final int psn) {
+
+        SharedPreferences.Editor editor = shared.edit();
+        editor.putInt("pos", 0);
+        editor.apply();
+
+        String s1, s2, s3, s4;
+        if(HomeAct.lang == 1){
+            s1="الفاتورة";
+            s3="إلغاء";
+            s4="حجز";
+            s2="طباعة"; }
+        else{
+            s1="Bill";
+            s3="Cancel";
+            s4="Reserve";
+            s2="Print"; }
+
+        new AlertDialog.Builder(Tabel_Res_Emp.this)
+                .setTitle(s1).setMessage(info.get(psn))
+                .setPositiveButton(s2, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        AddSale(psn);
+                        recreate();
+
+                    }
+                }).setNegativeButton(s3, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss(); }
+
+                }).show();
 
     }
 
@@ -280,6 +377,7 @@ public class Tabel_Res_Emp extends AppCompatActivity {
 
         bill+="\n"+"مرحبا بك في مطعم شاورما هايبرد"+",";
         bill+="\n"+"نوع الفاتورة : فاتورة طاولة"+",";
+        bill+="\n"+"رقم الطاولة : "+pos+",";
         bill+="\n\n"+",";
         bill+="تاريخ : "+day+"\n"+",";
         bill+="وقت : "+time+"\n"+",";
@@ -303,7 +401,10 @@ public class Tabel_Res_Emp extends AppCompatActivity {
             db.collection("Res_1_sales").document().set(sale);
         }
 
-        bill+="\n\nمجموع الفاتورة : "+info.get(pos).substring(info.get(pos).indexOf("مجموع : ")+8)+",";
+        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"));
+        bill+="\n\nمجموع الفاتورة : "+(Double.parseDouble(info.get(pos).substring(info.get(pos).indexOf("مجموع : ")+8))-taxValue)+",";
+        bill+="\n\nقيمة الضريبة : "+getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0")+" %"+"\n"+",";
+        bill+="\n\nمجموع كلي : "+info.get(pos).substring(info.get(pos).indexOf("مجموع : ")+8)+"\n"+",";
         bill+="\n\n\nأهلا و سهلا زبائننا الكرام\n\n\n";
 
         removeData(pos);
@@ -444,7 +545,7 @@ public class Tabel_Res_Emp extends AppCompatActivity {
         shared3 = getSharedPreferences("cash", MODE_PRIVATE);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         shared = getSharedPreferences("order", MODE_PRIVATE);
         shared2 = getSharedPreferences("color", MODE_PRIVATE);
@@ -479,6 +580,7 @@ public class Tabel_Res_Emp extends AppCompatActivity {
         gridview = (GridView) findViewById(R.id.customgrid);
 
         GetTabelCount();
+        instaGet();
          }
 
     private void GetTabelCount() {
@@ -497,6 +599,16 @@ public class Tabel_Res_Emp extends AppCompatActivity {
         });
 
 
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        startActivity(new Intent(Tabel_Res_Emp.this, Emppage.class)
+                .putExtra("empemail", getIntent().getStringExtra("empemail")));
+
+        finish();
 
     }
 
@@ -566,6 +678,20 @@ public class Tabel_Res_Emp extends AppCompatActivity {
                 }, hour, minute, false);
         lsn.show();
 
+
+    }
+
+    public void instaGet(){
+
+        String myFormat = "dd/MM/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        da = sdf.format(new Date());
+
+        myFormat = "HH:mm";
+        sdf = new SimpleDateFormat(myFormat, Locale.US);
+        ta = sdf.format(new Date());
+
+        CheckTabels();
 
     }
 

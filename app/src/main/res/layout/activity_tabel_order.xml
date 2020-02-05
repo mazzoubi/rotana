@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="2"
+    tools:context=".Tabel_Res">
+
+    <Button
+        android:id="@+id/cancle"
+        android:layout_width="0dp"
+        android:layout_marginRight="15dp"
+        android:layout_weight="1"
+        android:layout_height="60dp"
+        android:fontFamily="serif"
+        android:textSize="18dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:textStyle="bold"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginBottom="15dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape"
+        android:text="عرض الفاتورة" />
+
+    <Button
+        android:id="@+id/reserv"
+        android:layout_width="0dp"
+        android:layout_marginRight="15dp"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:fontFamily="serif"
+        android:textSize="18dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="إحجز"
+        android:backgroundTint="@color/colorPrimary"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape" />
+
+</LinearLayout>

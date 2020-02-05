@@ -371,8 +371,13 @@ public class Emppage extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                Intent n11=new Intent(getApplicationContext(), DriveCustom.class);
-                startActivity(n11);
+                if(HomeAct.lang == 1)
+                    Toast.makeText(Emppage.this, "قريبا !!!", Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(Emppage.this, "Coming Soon !!!", Toast.LENGTH_LONG).show();
+
+//                Intent n11=new Intent(getApplicationContext(), DriveCustom.class);
+//                startActivity(n11);
 
             }
         });
@@ -767,9 +772,9 @@ public class Emppage extends AppCompatActivity
                             if ((Double.parseDouble(e.getText().toString()) - sum) >= 0 && !e.getText().toString().equals("")) {
 
                             if(HomeAct.lang == 1)
-                                AddSaleAra(e.getText().toString(), (Double.parseDouble(e.getText().toString()) - sum)+"", ""+sum);
+                                AddSaleAra(Double.parseDouble(e.getText().toString()), (Double.parseDouble(e.getText().toString()) - sum), sum);
                             else
-                                AddSale(e.getText().toString(), (Double.parseDouble(e.getText().toString()) - sum)+"", ""+sum);
+                                AddSale(Double.parseDouble(e.getText().toString()), (Double.parseDouble(e.getText().toString()) - sum), sum);
                             dialog2.dismiss();
                             recreate();
                         } else {
@@ -794,9 +799,9 @@ public class Emppage extends AppCompatActivity
                             if ((Double.parseDouble(e.getText().toString()) - sum) >= 0 && !e.getText().toString().equals("")) {
 
                                 if(HomeAct.lang == 1)
-                                    AddVisaSaleAra(e.getText().toString(), (Double.parseDouble(e.getText().toString()) - sum)+"", ""+sum);
+                                    AddVisaSaleAra(Double.parseDouble(e.getText().toString()), (Double.parseDouble(e.getText().toString()) - sum), sum);
                                 else
-                                    AddVisaSale(e.getText().toString(), (Double.parseDouble(e.getText().toString()) - sum)+"", ""+sum);
+                                    AddVisaSale(Double.parseDouble(e.getText().toString()), (Double.parseDouble(e.getText().toString()) - sum), sum);
                                 dialog2.dismiss();
                                 recreate();
                             } else {
@@ -1287,7 +1292,8 @@ public class Emppage extends AppCompatActivity
                 if(empObj.onlineReservation){
 
                 if (saleList.isEmpty())
-                    startActivity(new Intent(Emppage.this, Tabel_Res_Emp.class));
+                    startActivity(new Intent(Emppage.this, Tabel_Res_Emp.class)
+                    .putExtra("empemail", getIntent().getStringExtra("empemail")));
                 else{
                     if (HomeAct.lang==1){
                         Toast.makeText(Emppage.this, "اختر الطاولة الان", Toast.LENGTH_LONG).show();
@@ -1304,6 +1310,7 @@ public class Emppage extends AppCompatActivity
 
                     Intent intent = new Intent(Emppage.this, Tabel_Res_Emp.class);
                     intent.putExtra("order", temp);
+                    intent.putExtra("empemail", getIntent().getStringExtra("empemail"));
                     intent.putExtra("orderSum", s+"");
                     startActivity(intent);
                 }
@@ -1792,6 +1799,8 @@ public class Emppage extends AppCompatActivity
         SharedPreferences.Editor editor = shared3.edit();
         editor.putInt("count" ,++c);
         editor.apply();
+
+
 
         String temp="[";
         for(int i=0; i<saleList.size(); i++)
@@ -2578,7 +2587,11 @@ public class Emppage extends AppCompatActivity
                     });
 
         }
-        bill+="\n\nمجموع الفاتورة : "+sum+"\n"+",";
+
+        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"));
+        bill+="\n\nمجموع الفاتورة : "+(sum-taxValue)+"\n"+",";
+        bill+="\n\nقيمة الضريبة : "+getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0")+" %"+"\n"+",";
+        bill+="\n\nمجموع كلي : "+sum+"\n"+",";
         bill+="\n\n\n\nاهلا وسهلا زبائننا الكرام\n\n\n"+",";
 
         PrintUsingServer(bill);
@@ -2629,14 +2642,17 @@ public class Emppage extends AppCompatActivity
                     });
 
         }
-        bill+="\n\nBill Total : "+sum+"\n"+",";
-        bill+="\n\n\n\nCome Again Soon !\n\n\n"+",";
+        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"));
+        bill+="\n\nBill value : "+(sum-taxValue)+"\n"+",";
+        bill+="\n\nTax Value : "+getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0")+" %"+"\n"+",";
+        bill+="\n\nTotal Value : "+sum+"\n"+",";
+        bill+="\n\n\n\nWelcome Dear customer !\n\n\n"+",";
 
         PrintUsingServer(bill);
 
     }
 
-    public void AddSaleAra(String paid, String change, String sum){
+    public void AddSaleAra(double paid, double change, double sum){
 
         String bill="";
 
@@ -2678,16 +2694,17 @@ public class Emppage extends AppCompatActivity
                     });
         }
 
-        bill+="\n\nمجموع الفاتورة : "+sum+"\n"+",";
-        bill+="\n\n\n\nمدفوع : "+paid+"\n"+",";
-        bill+="\n\n\n\nباقي : "+change+"\n"+",";
+        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"));
+        bill+="\n\nمجموع الفاتورة : "+(sum-taxValue)+"\n"+",";
+        bill+="\n\nقيمة الضريبة : "+getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0")+" %"+"\n"+",";
+        bill+="\n\nمجموع كلي : "+sum+"\n"+",";
         bill+="\n\n\n\nاهلا وسهلا زبائننا الكرام\n\n\n"+",";
 
         PrintUsingServer(bill);
 
     }
 
-    public void AddVisaSaleAra(String paid, String change, String sum){
+    public void AddVisaSaleAra(double paid, double change, double sum){
 
         String bill="";
 
@@ -2728,7 +2745,9 @@ public class Emppage extends AppCompatActivity
                     });
         }
 
-        bill+="\n\nمجموع الفاتورة : "+sum+"\n"+",";
+        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"));
+        bill+="\n\nمجموع الفاتورة : "+(sum-taxValue)+"\n"+",";
+        bill+="\n\nقيمة الضريبة : "+getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0")+" %"+"\n"+",";
         bill+="\n\n\n\nمدفوع : "+paid+"\n"+",";
         bill+="\n\n\n\nباقي : "+change+"\n"+",";
         bill+="\n\n\n\nاهلا وسهلا زبائننا الكرام\n\n\n"+",";
@@ -2737,7 +2756,7 @@ public class Emppage extends AppCompatActivity
 
     }
 
-    public void AddVisaSale(String paid, String change, String sum){
+    public void AddVisaSale(double paid, double change, double sum){
 
         String bill="";
 
@@ -2779,7 +2798,9 @@ public class Emppage extends AppCompatActivity
                     });
         }
 
-        bill+="\n\nBill Total : "+sum+"\n"+",";
+        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"));
+        bill+="\n\nBill Total : "+(sum-taxValue)+"\n"+",";
+        bill+="\n\nTax Value : "+getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0")+" %"+"\n"+",";
         bill+="\n\n\n\nPaid Amount : "+paid+"\n"+",";
         bill+="\n\n\n\nChange Amount : "+change+"\n"+",";
         bill+="\n\n\n\nWelcome To The Restaurant, Come Again Soon !\n\n\n"+",";
@@ -2788,7 +2809,7 @@ public class Emppage extends AppCompatActivity
 
     }
 
-    public void AddSale(String paid, String change, String sum){
+    public void AddSale(double paid, double change, double sum){
 
         String bill="";
 
@@ -2830,7 +2851,9 @@ public class Emppage extends AppCompatActivity
                     });
         }
 
-        bill+="\n\nBill Total : "+sum+"\n"+",";
+        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"));
+        bill+="\n\nBill Total : "+(sum-taxValue)+"\n"+",";
+        bill+="\n\nTax Value : "+getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0")+" %"+"\n"+",";
         bill+="\n\n\n\nPaid Amount : "+paid+"\n"+",";
         bill+="\n\n\n\nChange Amount : "+change+"\n"+",";
         bill+="\n\n\n\nWelcome To The Restaurant, Come Again Soon !\n\n\n"+",";
