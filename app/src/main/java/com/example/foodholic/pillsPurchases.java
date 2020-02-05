@@ -2,11 +2,9 @@ package com.example.foodholic;
 
 import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
-import android.provider.DocumentsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,6 +12,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +27,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class suppliersItem extends AppCompatActivity {
+public class pillsPurchases extends AppCompatActivity {
     SharedPreferences shared2;
     ListView listView;
     FirebaseFirestore db;
@@ -36,17 +35,25 @@ public class suppliersItem extends AppCompatActivity {
     Button button;
     EditText editText;
     RadioButton day,month,year;
-    TextView textView;
+    TextView textView,pilljoin;
     String myDatefrom=" / / ";
     ArrayList<classPaymentCreatPill> paymentCreatPills;
     ArrayList<classPaymentCreatPill> paymentCreatPillsAfterformatting;
     public static classPaymentCreatPill pp =new classPaymentCreatPill();
     DatePickerDialog.OnDateSetListener date_;
+
+
+    ArrayList<classSupplier> suppliers;
+    ArrayList<String>supplierString;
+    ArrayList<classWarehouseItem> item;
+    ArrayList<String>itemString;
+
+    Spinner supp,iteem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_suppliers_item);
+        setContentView(R.layout.activity_pills_purchases);
+
         init();
 
         final Calendar myCalendar = Calendar.getInstance();
@@ -69,7 +76,7 @@ public class suppliersItem extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                new DatePickerDialog(suppliersItem.this, date_, myCalendar
+                new DatePickerDialog(pillsPurchases.this, date_, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
                 //Toast.makeText(getApplicationContext(),"chose the dd/mm/yyyy in month you want add exit",Toast.LENGTH_LONG).show();
@@ -89,10 +96,10 @@ public class suppliersItem extends AppCompatActivity {
                 if (editText.getText().toString().isEmpty()){
                     if (myDatefrom.equals(" / / ")){
                         if(shared2.getString("language", "").equals("arabic")) {
-                            Toast.makeText(suppliersItem.this, "الرجاء ادخال التاريخ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(pillsPurchases.this, "الرجاء ادخال التاريخ", Toast.LENGTH_SHORT).show();
                         }
                         else {
-                            Toast.makeText(suppliersItem.this, "pleas enter the date", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(pillsPurchases.this, "pleas enter the date", Toast.LENGTH_SHORT).show();
                         }
                     }else {
                         if (year.isChecked()){
@@ -134,10 +141,10 @@ public class suppliersItem extends AppCompatActivity {
                         }
                         else {
                             if(shared2.getString("language", "").equals("arabic")) {
-                                Toast.makeText(suppliersItem.this, "الرجاء اختيار طريقة البحث", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(pillsPurchases.this, "الرجاء اختيار طريقة البحث", Toast.LENGTH_SHORT).show();
                             }
                             else {
-                                Toast.makeText(suppliersItem.this, "pleas choose type of search", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(pillsPurchases.this, "pleas choose type of search", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -212,6 +219,29 @@ public class suppliersItem extends AppCompatActivity {
                 }
             }
         });
+
+        pilljoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (editText.getText().toString().isEmpty()){
+                    if(shared2.getString("language", "").equals("arabic")) {
+                        Toast.makeText(pillsPurchases.this, "الرجاء ادخال رقم الفاتورة", Toast.LENGTH_SHORT).show();
+                    }
+                    else {Toast.makeText(pillsPurchases.this, "please enter the pill number", Toast.LENGTH_SHORT).show();}
+                }
+                else {
+                    paymentCreatPillsAfterformatting=new ArrayList<>();
+                    for (int i=0 ; i<paymentCreatPills.size();i++){
+                        if (paymentCreatPills.get(i).pillNumber.equals(editText.getText().toString())){
+                            paymentCreatPillsAfterformatting.add(paymentCreatPills.get(i));
+                        }
+                    }
+                    ArrayAdapter adapter=new adapterPurchases(getApplicationContext(),R.layout.row,paymentCreatPillsAfterformatting);
+                    listView.setAdapter(adapter);
+
+                }
+            }
+        });
     }
     void init(){
         supplier=getIntent().getStringExtra("sup");
@@ -223,34 +253,88 @@ public class suppliersItem extends AppCompatActivity {
         year=findViewById(R.id.radioButton);
         textView=findViewById(R.id.textView4);
         editText=findViewById(R.id.editText3);
+        supp=findViewById(R.id.supplier);
+        iteem=findViewById(R.id.item);
+        pilljoin=findViewById(R.id.textView5);
         if(shared2.getString("language", "").equals("arabic")) {
             day.setText("اليوم");
             month.setText("الشهر");
             year.setText("السنه");
             textView.setText("التاريخ");
             editText.setHint("رقم الفاتورة,(اختياري)");
+            pilljoin.setText("دمج تقارير");
         }
 
         listView=findViewById(R.id.listView);
-        loaditem();
+        loadpill();
+        loaditems();
+        loadSupplier();
     }
 
-    void loaditem(){
+    void loadpill(){
         paymentCreatPills=new ArrayList<>();
         paymentCreatPillsAfterformatting=new ArrayList<>();
-
         db.collection("Res_1_purchases").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
                 for (DocumentSnapshot d : list){
-                    if (d.toObject(classWarehouseItem.class).supplier.equals(supplier)){
+
                         paymentCreatPills.add(0,d.toObject(classPaymentCreatPill.class));
                         paymentCreatPillsAfterformatting.add(0,d.toObject(classPaymentCreatPill.class));
-                    }
+
                 }
                 ArrayAdapter adapter=new adapterPurchases(getApplicationContext(),R.layout.row,paymentCreatPills);
                 listView.setAdapter(adapter);
+            }
+        });
+    }
+    void loadSupplier(){
+        supplierString=new ArrayList<>();
+        suppliers = new ArrayList<>();
+        if(shared2.getString("language", "").equals("arabic")) {
+            supplierString.add("اختر مورد");
+        }
+        else {
+            supplierString.add("select supplier");
+        }
+        db.collection("Res_1_suppliers").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
+                for (DocumentSnapshot d : list){
+                    suppliers.add(d.toObject(classSupplier.class));
+                    supplierString.add(d.toObject(classSupplier.class).name);
+                }
+                ArrayAdapter<String>adapter=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_list_item_1,supplierString);
+                supp.setAdapter(adapter);
+            }
+
+        });
+    }
+
+    void loaditems(){
+        item=new ArrayList<>();
+        itemString=new ArrayList<>();
+        if(shared2.getString("language", "").equals("arabic")) {
+            itemString.add("اختر عنصر");
+        }
+        else {
+            itemString.add("select item");
+        }
+        db.collection("Res_1_warehouse").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                for(DocumentSnapshot d : list){
+                    classWarehouseItem a = d.toObject(classWarehouseItem.class);
+                    item.add(a);
+                    itemString.add(a.item);
+                }
+                ArrayAdapter<String> adapter=new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_list_item_1,itemString);
+                iteem.setAdapter(adapter);
+
             }
         });
     }

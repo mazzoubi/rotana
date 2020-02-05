@@ -57,6 +57,7 @@ public class Adminpage extends AppCompatActivity {
                 R.drawable.ic_visa,
                 R.drawable.ic_vip,
                 R.drawable.ic_suppliers,
+                R.drawable.aaareport,
                 R.drawable.ic_job,
                 R.drawable.ic_noti,
                 R.drawable.ic_z,
@@ -65,9 +66,9 @@ public class Adminpage extends AppCompatActivity {
         };
 
         //public String[] mThumbNames = {"Human Resources", "Storage", "Reports", "Payments", "Cash Drawer", "Taxes", "Delivery Drivers", "Ratings" };
-        public String[] mThumbNames = {"Human Resources","Storage" ,"Reports", "Payments","Cash Drawer",  "Taxes" ,"Delivery Drivers" , "Tables Management" , "Ratings", "Points", "VISA", "VIP", "Suppliers", "Job Req.","Alerts" , "tax change", "Contact Us", "Config" };
+        public String[] mThumbNames = {"Human Resources","Storage" ,"Reports", "Payments","Cash Drawer",  "Taxes" ,"Delivery Drivers" , "Tables Management" , "Ratings", "Points", "VISA", "VIP", "Suppliers","purchases report", "Job Req.","Alerts" , "tax change", "Contact Us", "Config" };
         //public String[] mThumbNames2 = {"تقارير جودة","سائقين التوصيل", "ضرائب", "صندوق الكاش","مصروفات", "تقارير", "مستودعات", "شؤون موظفين" };
-        public String[] mThumbNames2 = {"شؤون موظفين","مستودعات", "تقارير", "مصروفات","صندوق الكاش", "ضرائب", "سائقين التوصيل", "تنظيم الصالة","تقارير جودة", "نقاط", "فيزا", "أهم العملاء", "موردين", "طلبات توظيف", "تنبيهات","تعديل الضريبه", "تواصل معنا" , "ضبط"};
+        public String[] mThumbNames2 = {"شؤون موظفين","مستودعات", "تقارير", "مصروفات","صندوق الكاش", "ضرائب", "سائقين التوصيل", "تنظيم الصالة","تقارير جودة", "نقاط", "فيزا", "أهم العملاء", "موردين","تقارير المشتريات", "طلبات توظيف", "تنبيهات","تعديل الضريبه", "تواصل معنا" , "ضبط"};
 
         private Context mContext;
 
@@ -201,22 +202,26 @@ public class Adminpage extends AppCompatActivity {
                                 startActivity(n11);
                                 break;
                             case 13:
-                                Intent n13=new Intent(getApplicationContext(),Job_Apps.class);
+                                Intent n13=new Intent(getApplicationContext(),pillsPurchases.class);
                                 startActivity(n13);
                                 break;
                             case 14:
-                                Intent n14 =new Intent(getApplicationContext(),notificationActivity.class);
-                                startActivity(n14);
+                                Intent n143=new Intent(getApplicationContext(),Job_Apps.class);
+                                startActivity(n143);
                                 break;
                             case 15:
-                                Intent n15=new Intent(getApplicationContext(),taxChange.class);
-                                startActivity(n15);
+                                Intent n154 =new Intent(getApplicationContext(),notificationActivity.class);
+                                startActivity(n154);
                                 break;
                             case 16:
-                                Intent n16=new Intent(getApplicationContext(),Contact.class);
-                                startActivity(n16);
+                                Intent n165=new Intent(getApplicationContext(),taxChange.class);
+                                startActivity(n165);
                                 break;
                             case 17:
+                                Intent n176=new Intent(getApplicationContext(),Contact.class);
+                                startActivity(n176);
+                                break;
+                            case 18:
                                 final EditText e = new EditText(Adminpage.this);
                                 e.setHint("!!! كلمة السر !!!");
                                 new AlertDialog.Builder(Adminpage.this)

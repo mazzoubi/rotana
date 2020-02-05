@@ -24,7 +24,7 @@ public class aa2 extends AppCompatActivity {
 
     int position;
 
-    Button button, button2;
+    Button button, button2, addPurchasesR;
     TextView textView;
     EditText editText;
 
@@ -47,12 +47,19 @@ public class aa2 extends AppCompatActivity {
         button=findViewById(R.id.aaGet);
         button2=findViewById(R.id.aaAdd);
         editText=findViewById(R.id.aachosequant);
+        addPurchasesR=findViewById(R.id.aaGet1);
 
-
+        addPurchasesR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent n =new Intent(getApplicationContext(),pymentsCreatPill.class);
+                startActivity(n);
+            }
+        });
         shared2 = getSharedPreferences("lang", MODE_PRIVATE);
         if(shared2.getString("language", "").equals("arabic")){
 
-
+            addPurchasesR.setText("اضافة فاتورة مشتريات");
             button.setText("سحب");
             button2.setText("اضافه");
             editText.setHint("الكميه");

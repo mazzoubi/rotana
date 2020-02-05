@@ -86,8 +86,12 @@ public class cashAddItem extends AppCompatActivity {
         currentItem=findViewById(R.id.spinner_correntItem);
         currentItem2=findViewById(R.id.spinner_correntItem2);
 
-        checkBox.setChecked(true);
-
+       // checkBox.setChecked(true);
+        if (checkBox.isChecked()==false){
+            newItemName.setEnabled(false);
+            newItemName2.setEnabled(false);
+            currentItem.setEnabled(true);
+        }
         if (HomeAct.lang==1){
             itemName.setHint("إسم المادة بالانجليزي");
             itemName2.setHint("إسم المادة بالعربي");

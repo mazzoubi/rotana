@@ -39,6 +39,17 @@
         android:text="get from warehouse"/>
 
     <Button
+        android:id="@+id/aaGet1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_below="@id/aaGet"
+        android:background="@drawable/shape"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="add purchases report"/>
+
+    <Button
         android:id="@+id/aaAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
