@@ -1,6 +1,7 @@
 package com.example.foodholic;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.provider.DocumentsContract;
 import android.support.v7.app.AppCompatActivity;
@@ -79,7 +80,10 @@ public class suppliersItem extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                pp=paymentCreatPillsAfterformatting.get(position);
+                Intent n=new Intent(getApplicationContext(),supplierPillinfo.class);
+                n.putExtra("flag",3);
+                startActivity(n);
             }
         });
 

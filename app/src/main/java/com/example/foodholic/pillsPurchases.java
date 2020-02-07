@@ -1,6 +1,7 @@
 package com.example.foodholic;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,7 +48,7 @@ public class pillsPurchases extends AppCompatActivity {
     ArrayList<String>supplierString;
     ArrayList<classWarehouseItem> item;
     ArrayList<String>itemString;
-
+    public  static ArrayList<sss> yy;
     Spinner supp,iteem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,10 +84,14 @@ public class pillsPurchases extends AppCompatActivity {
             }
         });
 
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                pp=paymentCreatPillsAfterformatting.get(position);
+                Intent n=new Intent(getApplicationContext(),supplierPillinfo.class);
+                n.putExtra("flag",2);
+                startActivity(n);
             }
         });
 
@@ -94,60 +99,233 @@ public class pillsPurchases extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (editText.getText().toString().isEmpty()){
-                    if (myDatefrom.equals(" / / ")){
-                        if(shared2.getString("language", "").equals("arabic")) {
-                            Toast.makeText(pillsPurchases.this, "الرجاء ادخال التاريخ", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            Toast.makeText(pillsPurchases.this, "pleas enter the date", Toast.LENGTH_SHORT).show();
-                        }
-                    }else {
-                        if (year.isChecked()){
-                            paymentCreatPillsAfterformatting=new ArrayList<>();
-                            String [] date = myDatefrom.split("-");
-                            for (int i=0 ; i<paymentCreatPills.size();i++){
-                                if (paymentCreatPills.get(i).date.contains(date[2])){
-                                    paymentCreatPillsAfterformatting.add(paymentCreatPills.get(i));
-                                }
-                            }
-                            ArrayAdapter adapter=new adapterPurchases(getApplicationContext(),R.layout.row,paymentCreatPillsAfterformatting);
-                            listView.setAdapter(adapter);
-                        }
-                        else if (month.isChecked()){
-                            paymentCreatPillsAfterformatting=new ArrayList<>();
-                            String [] date = myDatefrom.split("-");
-                            String []s ;
-                            String ss ="";
-                            for (int i=0 ; i<paymentCreatPills.size();i++){
-                                s=paymentCreatPills.get(i).date.split("-");
-                                ss=s[1]+"-"+ s[2];
-                                if (ss.equals(date[1]+"-"+date[2])){
-                                    paymentCreatPillsAfterformatting.add(paymentCreatPills.get(i));
-                                }
-                            }
-                            ArrayAdapter adapter=new adapterPurchases(getApplicationContext(),R.layout.row,paymentCreatPillsAfterformatting);
-                            listView.setAdapter(adapter);
 
-                        }
-                        else if (day.isChecked()){
-                            paymentCreatPillsAfterformatting=new ArrayList<>();
-                            for (int i=0 ; i<paymentCreatPills.size();i++){
-                                if (paymentCreatPills.get(i).date.equals(myDatefrom)){
-                                    paymentCreatPillsAfterformatting.add(paymentCreatPills.get(i));
-                                }
-                            }
-                            ArrayAdapter adapter=new adapterPurchases(getApplicationContext(),R.layout.row,paymentCreatPillsAfterformatting);
-                            listView.setAdapter(adapter);
-                        }
-                        else {
+                    if (supp.getSelectedItemId()==0&&iteem.getSelectedItemId()==0){
+                        if (myDatefrom.equals(" / / ")){
                             if(shared2.getString("language", "").equals("arabic")) {
-                                Toast.makeText(pillsPurchases.this, "الرجاء اختيار طريقة البحث", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(pillsPurchases.this, "الرجاء ادخال التاريخ", Toast.LENGTH_SHORT).show();
                             }
                             else {
-                                Toast.makeText(pillsPurchases.this, "pleas choose type of search", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(pillsPurchases.this, "pleas enter the date", Toast.LENGTH_SHORT).show();
+                            }
+                        }else {
+                            if (year.isChecked()){
+                                paymentCreatPillsAfterformatting=new ArrayList<>();
+                                String [] date = myDatefrom.split("-");
+                                for (int i=0 ; i<paymentCreatPills.size();i++){
+                                    if (paymentCreatPills.get(i).date.contains(date[2])){
+                                        paymentCreatPillsAfterformatting.add(paymentCreatPills.get(i));
+                                    }
+                                }
+                                ArrayAdapter adapter=new adapterPurchases(getApplicationContext(),R.layout.row,paymentCreatPillsAfterformatting);
+                                listView.setAdapter(adapter);
+                            }
+                            else if (month.isChecked()){
+                                paymentCreatPillsAfterformatting=new ArrayList<>();
+                                String [] date = myDatefrom.split("-");
+                                String []s ;
+                                String ss ="";
+                                for (int i=0 ; i<paymentCreatPills.size();i++){
+                                    s=paymentCreatPills.get(i).date.split("-");
+                                    ss=s[1]+"-"+ s[2];
+                                    if (ss.equals(date[1]+"-"+date[2])){
+                                        paymentCreatPillsAfterformatting.add(paymentCreatPills.get(i));
+                                    }
+                                }
+                                ArrayAdapter adapter=new adapterPurchases(getApplicationContext(),R.layout.row,paymentCreatPillsAfterformatting);
+                                listView.setAdapter(adapter);
+
+                            }
+                            else if (day.isChecked()){
+                                paymentCreatPillsAfterformatting=new ArrayList<>();
+                                for (int i=0 ; i<paymentCreatPills.size();i++){
+                                    if (paymentCreatPills.get(i).date.equals(myDatefrom)){
+                                        paymentCreatPillsAfterformatting.add(paymentCreatPills.get(i));
+                                    }
+                                }
+                                ArrayAdapter adapter=new adapterPurchases(getApplicationContext(),R.layout.row,paymentCreatPillsAfterformatting);
+                                listView.setAdapter(adapter);
+                            }
+                            else {
+                                if(shared2.getString("language", "").equals("arabic")) {
+                                    Toast.makeText(pillsPurchases.this, "الرجاء اختيار طريقة البحث", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Toast.makeText(pillsPurchases.this, "pleas choose type of search", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
                     }
+                    else if (supp.getSelectedItemId()>0&&iteem.getSelectedItemId()==0){
+                        if (myDatefrom.equals(" / / ")){
+                            if(shared2.getString("language", "").equals("arabic")) {
+                                Toast.makeText(pillsPurchases.this, "الرجاء ادخال التاريخ", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(pillsPurchases.this, "pleas enter the date", Toast.LENGTH_SHORT).show();
+                            }
+                        }else {
+                            if (year.isChecked()){
+                                paymentCreatPillsAfterformatting=new ArrayList<>();
+                                String [] date = myDatefrom.split("-");
+                                for (int i=0 ; i<paymentCreatPills.size();i++){
+                                    if (paymentCreatPills.get(i).date.contains(date[2])&&paymentCreatPills.get(i).supplier.equals(supp.getSelectedItem())){
+                                        paymentCreatPillsAfterformatting.add(paymentCreatPills.get(i));
+                                    }
+                                }
+                                ArrayAdapter adapter=new adapterPurchases(getApplicationContext(),R.layout.row,paymentCreatPillsAfterformatting);
+                                listView.setAdapter(adapter);
+                            }
+                            else if (month.isChecked()){
+                                paymentCreatPillsAfterformatting=new ArrayList<>();
+                                String [] date = myDatefrom.split("-");
+                                String []s ;
+                                String ss ="";
+                                for (int i=0 ; i<paymentCreatPills.size();i++){
+                                    s=paymentCreatPills.get(i).date.split("-");
+                                    ss=s[1]+"-"+ s[2];
+                                    if (ss.equals(date[1]+"-"+date[2])&&paymentCreatPills.get(i).supplier.equals(supp.getSelectedItem())){
+                                        paymentCreatPillsAfterformatting.add(paymentCreatPills.get(i));
+                                    }
+                                }
+                                ArrayAdapter adapter=new adapterPurchases(getApplicationContext(),R.layout.row,paymentCreatPillsAfterformatting);
+                                listView.setAdapter(adapter);
+
+                            }
+                            else if (day.isChecked()){
+                                paymentCreatPillsAfterformatting=new ArrayList<>();
+                                for (int i=0 ; i<paymentCreatPills.size();i++){
+                                    if (paymentCreatPills.get(i).date.equals(myDatefrom)&&paymentCreatPills.get(i).supplier.equals(supp.getSelectedItem())){
+                                        paymentCreatPillsAfterformatting.add(paymentCreatPills.get(i));
+                                    }
+                                }
+                                ArrayAdapter adapter=new adapterPurchases(getApplicationContext(),R.layout.row,paymentCreatPillsAfterformatting);
+                                listView.setAdapter(adapter);
+                            }
+                            else {
+                                if(shared2.getString("language", "").equals("arabic")) {
+                                    Toast.makeText(pillsPurchases.this, "الرجاء اختيار طريقة البحث", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Toast.makeText(pillsPurchases.this, "pleas choose type of search", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    }
+                    else if (supp.getSelectedItemId()==0&&iteem.getSelectedItemId()>0){
+                        if (myDatefrom.equals(" / / ")){
+                            if(shared2.getString("language", "").equals("arabic")) {
+                                Toast.makeText(pillsPurchases.this, "الرجاء ادخال التاريخ", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(pillsPurchases.this, "pleas enter the date", Toast.LENGTH_SHORT).show();
+                            }
+                        }else {
+                            if (year.isChecked()){
+                                paymentCreatPillsAfterformatting=new ArrayList<>();
+                                String [] date = myDatefrom.split("-");
+                                for (int i=0 ; i<paymentCreatPills.size();i++){
+                                    if (paymentCreatPills.get(i).date.contains(date[2])&&paymentCreatPills.get(i).items.equals(iteem.getSelectedItem())){
+                                        paymentCreatPillsAfterformatting.add(paymentCreatPills.get(i));
+                                    }
+                                }
+                                ArrayAdapter adapter=new adapterPurchases(getApplicationContext(),R.layout.row,paymentCreatPillsAfterformatting);
+                                listView.setAdapter(adapter);
+                            }
+                            else if (month.isChecked()){
+                                paymentCreatPillsAfterformatting=new ArrayList<>();
+                                String [] date = myDatefrom.split("-");
+                                String []s ;
+                                String ss ="";
+                                for (int i=0 ; i<paymentCreatPills.size();i++){
+                                    s=paymentCreatPills.get(i).date.split("-");
+                                    ss=s[1]+"-"+ s[2];
+                                    if (ss.equals(date[1]+"-"+date[2])&&paymentCreatPills.get(i).items.equals(iteem.getSelectedItem())){
+                                        paymentCreatPillsAfterformatting.add(paymentCreatPills.get(i));
+                                    }
+                                }
+                                ArrayAdapter adapter=new adapterPurchases(getApplicationContext(),R.layout.row,paymentCreatPillsAfterformatting);
+                                listView.setAdapter(adapter);
+
+                            }
+                            else if (day.isChecked()){
+                                paymentCreatPillsAfterformatting=new ArrayList<>();
+                                for (int i=0 ; i<paymentCreatPills.size();i++){
+                                    if (paymentCreatPills.get(i).date.equals(myDatefrom)&&paymentCreatPills.get(i).items.equals(iteem.getSelectedItem())){
+                                        paymentCreatPillsAfterformatting.add(paymentCreatPills.get(i));
+                                    }
+                                }
+                                ArrayAdapter adapter=new adapterPurchases(getApplicationContext(),R.layout.row,paymentCreatPillsAfterformatting);
+                                listView.setAdapter(adapter);
+                            }
+                            else {
+                                if(shared2.getString("language", "").equals("arabic")) {
+                                    Toast.makeText(pillsPurchases.this, "الرجاء اختيار طريقة البحث", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Toast.makeText(pillsPurchases.this, "pleas choose type of search", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    }
+                    else if (supp.getSelectedItemId()>0&&iteem.getSelectedItemId()>0){
+                        if (myDatefrom.equals(" / / ")){
+                            if(shared2.getString("language", "").equals("arabic")) {
+                                Toast.makeText(pillsPurchases.this, "الرجاء ادخال التاريخ", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(pillsPurchases.this, "pleas enter the date", Toast.LENGTH_SHORT).show();
+                            }
+                        }else {
+                            if (year.isChecked()){
+                                paymentCreatPillsAfterformatting=new ArrayList<>();
+                                String [] date = myDatefrom.split("-");
+                                for (int i=0 ; i<paymentCreatPills.size();i++){
+                                    if (paymentCreatPills.get(i).date.contains(date[2])&&paymentCreatPills.get(i).supplier.equals(supp.getSelectedItem())&&paymentCreatPills.get(i).items.equals(iteem.getSelectedItem())){
+                                        paymentCreatPillsAfterformatting.add(paymentCreatPills.get(i));
+                                    }
+                                }
+                                ArrayAdapter adapter=new adapterPurchases(getApplicationContext(),R.layout.row,paymentCreatPillsAfterformatting);
+                                listView.setAdapter(adapter);
+                            }
+                            else if (month.isChecked()){
+                                paymentCreatPillsAfterformatting=new ArrayList<>();
+                                String [] date = myDatefrom.split("-");
+                                String []s ;
+                                String ss ="";
+                                for (int i=0 ; i<paymentCreatPills.size();i++){
+                                    s=paymentCreatPills.get(i).date.split("-");
+                                    ss=s[1]+"-"+ s[2];
+                                    if (ss.equals(date[1]+"-"+date[2])&&paymentCreatPills.get(i).supplier.equals(supp.getSelectedItem())&&paymentCreatPills.get(i).items.equals(iteem.getSelectedItem())){
+                                        paymentCreatPillsAfterformatting.add(paymentCreatPills.get(i));
+                                    }
+                                }
+                                ArrayAdapter adapter=new adapterPurchases(getApplicationContext(),R.layout.row,paymentCreatPillsAfterformatting);
+                                listView.setAdapter(adapter);
+
+                            }
+                            else if (day.isChecked()){
+                                paymentCreatPillsAfterformatting=new ArrayList<>();
+                                for (int i=0 ; i<paymentCreatPills.size();i++){
+                                    if (paymentCreatPills.get(i).date.equals(myDatefrom)&&paymentCreatPills.get(i).supplier.equals(supp.getSelectedItem())&&paymentCreatPills.get(i).items.equals(iteem.getSelectedItem())){
+                                        paymentCreatPillsAfterformatting.add(paymentCreatPills.get(i));
+                                    }
+                                }
+                                ArrayAdapter adapter=new adapterPurchases(getApplicationContext(),R.layout.row,paymentCreatPillsAfterformatting);
+                                listView.setAdapter(adapter);
+                            }
+                            else {
+                                if(shared2.getString("language", "").equals("arabic")) {
+                                    Toast.makeText(pillsPurchases.this, "الرجاء اختيار طريقة البحث", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Toast.makeText(pillsPurchases.this, "pleas choose type of search", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    }
+
+
 
                 }
                 else {
@@ -156,14 +334,24 @@ public class pillsPurchases extends AppCompatActivity {
 
                     }
                     else {
-                        paymentCreatPillsAfterformatting=new ArrayList<>();
-                        for (int i=0 ; i<paymentCreatPills.size();i++){
-                            if (paymentCreatPills.get(i).pillNumber.equals(editText.getText().toString())){
-                                paymentCreatPillsAfterformatting.add(paymentCreatPills.get(i));
+                        if (supp.getSelectedItemId()==0){
+                            if(shared2.getString("language", "").equals("arabic")) {
+                                Toast.makeText(pillsPurchases.this, "الرجاء اختيار المورد", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(pillsPurchases.this, "pleas choose the supplier", Toast.LENGTH_SHORT).show();
                             }
                         }
-                        ArrayAdapter adapter=new adapterPurchases(getApplicationContext(),R.layout.row,paymentCreatPillsAfterformatting);
-                        listView.setAdapter(adapter);
+                        else {
+                            paymentCreatPillsAfterformatting=new ArrayList<>();
+                            for (int i=0 ; i<paymentCreatPills.size();i++){
+                                if (paymentCreatPills.get(i).pillNumber.equals(editText.getText().toString())){
+                                    paymentCreatPillsAfterformatting.add(paymentCreatPills.get(i));
+                                }
+                            }
+                            ArrayAdapter adapter=new adapterPurchases(getApplicationContext(),R.layout.row,paymentCreatPillsAfterformatting);
+                            listView.setAdapter(adapter);
+                        }
 
                     }
 
@@ -230,18 +418,66 @@ public class pillsPurchases extends AppCompatActivity {
                     else {Toast.makeText(pillsPurchases.this, "please enter the pill number", Toast.LENGTH_SHORT).show();}
                 }
                 else {
-                    paymentCreatPillsAfterformatting=new ArrayList<>();
-                    for (int i=0 ; i<paymentCreatPills.size();i++){
-                        if (paymentCreatPills.get(i).pillNumber.equals(editText.getText().toString())){
-                            paymentCreatPillsAfterformatting.add(paymentCreatPills.get(i));
+                    if (supp.getSelectedItemId()==0){
+                        if(shared2.getString("language", "").equals("arabic")) {
+                            Toast.makeText(pillsPurchases.this, "الرجاء اختيار المورد", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(pillsPurchases.this, "pleas choose the supplier", Toast.LENGTH_SHORT).show();
                         }
                     }
-                    ArrayAdapter adapter=new adapterPurchases(getApplicationContext(),R.layout.row,paymentCreatPillsAfterformatting);
-                    listView.setAdapter(adapter);
+                    else {
+                        Intent n=new Intent(getApplicationContext(),supplierPillinfo.class);
+                        n.putExtra("flag",1);
+                        startActivity(n);
+                        sss y=new sss();
+                        yy =new ArrayList<>();
+                        paymentCreatPillsAfterformatting=new ArrayList<>();
+
+                        if(shared2.getString("language", "").equals("arabic")) {
+                            for (int i=0 ; i<paymentCreatPills.size();i++){
+                                if (paymentCreatPills.get(i).pillNumber.equals(editText.getText().toString())&&supp.getSelectedItem().equals(paymentCreatPills.get(i).supplier)){
+                                    paymentCreatPillsAfterformatting.add(paymentCreatPills.get(i));
+                                    y.head ="المورد: "+paymentCreatPills.get(i).supplier;
+                                    y.head1="الموظف الذي ادخل الفاتورة: "+paymentCreatPills.get(i).empEmail;
+                                    y.head3="رقم الفاتورة: "+paymentCreatPills.get(i).pillNumber;
+                                    y.body =paymentCreatPills.get(i).items+" "+paymentCreatPills.get(i).numberOfElement+"   \tالسعر: "+paymentCreatPills.get(i).coast+"\n";
+                                    y.rear =paymentCreatPills.get(i).desc;
+                                    y.date= "تاريخ الفاتورة: "+paymentCreatPills.get(i).date+"\n";
+                                    y.price=paymentCreatPills.get(i).coast;
+                                    yy.add(y);
+                                    y=new sss();
+                                }
+                            }
+
+                        }
+                        else {
+                            for (int i=0 ; i<paymentCreatPills.size();i++){
+                                if (paymentCreatPills.get(i).pillNumber.equals(editText.getText().toString())&&supp.getSelectedItem().equals(paymentCreatPills.get(i).supplier)){
+                                    paymentCreatPillsAfterformatting.add(paymentCreatPills.get(i));
+                                    y.head ="the supplier: "+paymentCreatPills.get(i).supplier;
+                                    y.head1="the employee who enter the pill: "+paymentCreatPills.get(i).empEmail;
+                                    y.head3="pill number: "+paymentCreatPills.get(i).pillNumber;
+                                    y.body =paymentCreatPills.get(i).items+" "+paymentCreatPills.get(i).numberOfElement+"   \tالسعر: "+paymentCreatPills.get(i).coast+"\n";
+                                    y.rear =paymentCreatPills.get(i).desc;
+                                    y.date= "pill date: "+paymentCreatPills.get(i).date+"\n";
+                                    y.price=paymentCreatPills.get(i).coast;
+                                    yy.add(y);
+                                    y=new sss();
+                                }
+                            }
+
+                        }
+
+
+                    }
 
                 }
             }
         });
+    }
+    public class sss{
+        public String head="",head1="",head3="",date="",body="",rear="",price="";
     }
     void init(){
         supplier=getIntent().getStringExtra("sup");

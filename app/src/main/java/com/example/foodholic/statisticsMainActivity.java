@@ -53,6 +53,8 @@ public class statisticsMainActivity extends AppCompatActivity {
   SharedPreferences shared2;
   String toPrint="";
   String empName="";
+
+  public static ArrayList<String> cheak;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -135,6 +137,7 @@ public class statisticsMainActivity extends AppCompatActivity {
       public void onClick(View view) {
           if(HomeAct.lang == 1){
           try{
+            cheak=new ArrayList<>();
             closeOpenAtDate=new ArrayList<>();
             ArrayList<String> arrayList=new ArrayList<>();
             double floor=0;
@@ -148,6 +151,7 @@ public class statisticsMainActivity extends AppCompatActivity {
               toPrint="";
               String []s =myDatefrom.split("-");
               String ss=s[2];
+              cheak.add("1");
               arrayList.add("اسم الموظف: "+empName+"" +
                       "\nالبريد الالكتروني: "+allCloseOpen.get(0).empEmail+"\n" +
                       "تاريخ هذه العمليه: "+new Date()+"" +
@@ -164,12 +168,13 @@ public class statisticsMainActivity extends AppCompatActivity {
                   closeOpenAtDate.add(allCloseOpen.get(i));
 
                   if ((allCloseOpen.get(i).total)<(allCloseOpen.get(i).floor)){
-                    arrayList.add("\n\n *************************************\n التاريخ: "+allCloseOpen.get(i).dateOpen+"\n" +
+                    cheak.add("0");
+                    arrayList.add("\n\n التاريخ: "+allCloseOpen.get(i).dateOpen+"\n" +
                             "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
                             "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
                             "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
                             "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
-                            "المجموع الكلي   = "+allCloseOpen.get(i).total+"\n*************************************\n");
+                            "المجموع الكلي   = "+allCloseOpen.get(i).total+"\n");
                     toPrint+="\n\n*************************************";
                     toPrint+="\n التارخ: "+allCloseOpen.get(i).dateOpen+"\n" +
                             "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
@@ -180,6 +185,7 @@ public class statisticsMainActivity extends AppCompatActivity {
                     toPrint+="\n*************************************\n";
                   }
                   else {
+                    cheak.add("1");
                     arrayList.add("\n\n التاريخ: "+allCloseOpen.get(i).dateOpen+"\n" +
                             "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
                             "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
@@ -196,6 +202,7 @@ public class statisticsMainActivity extends AppCompatActivity {
 
                 }
               }
+              cheak.add("1");
               arrayList.add("\n\n\n" +
                       "مجموع فتح صندوق   = "+floor+"\n" +
                       "مجموع المبيعات    = "+sale+"\n" +
@@ -204,13 +211,14 @@ public class statisticsMainActivity extends AppCompatActivity {
                       "مجموع فتح صندوق   = "+floor+"\n" +
                       "مجموع المبيعات    = "+sale+"\n" +
                       "المجموع الكلي   = "+total;
-              ArrayAdapter<String> adapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
+              ArrayAdapter<String> adapter=new zCloaseOpenAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
               listView.setAdapter(adapter);
             }
             else if (month.isChecked()){
               toPrint="";
               String []s =myDatefrom.split("-");
               String ss=s[1]+"-"+s[2];
+              cheak.add("1");
               arrayList.add("اسم الموظف: "+empName+"" +
                       "\nالبريد الالكتروني: "+allCloseOpen.get(0).empEmail+"\n" +
                       "تاريخ هذه العمليه: "+new Date()+"" +
@@ -227,12 +235,13 @@ public class statisticsMainActivity extends AppCompatActivity {
                   closeOpenAtDate.add(allCloseOpen.get(i));
 
                   if ((allCloseOpen.get(i).total)<(allCloseOpen.get(i).floor)){
-                    arrayList.add("\n\n *************************************\n التاريخ: "+allCloseOpen.get(i).dateOpen+"\n" +
+                    cheak.add("0");
+                    arrayList.add("\n\n التاريخ: "+allCloseOpen.get(i).dateOpen+"\n" +
                             "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
                             "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
                             "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
                             "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
-                            "المجموع الكلي   = "+allCloseOpen.get(i).total+"\n*************************************\n");
+                            "المجموع الكلي   = "+allCloseOpen.get(i).total+"\n");
                     toPrint+="\n\n*************************************";
                     toPrint+="\n التارخ: "+allCloseOpen.get(i).dateOpen+"\n" +
                             "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
@@ -243,6 +252,7 @@ public class statisticsMainActivity extends AppCompatActivity {
                     toPrint+="\n*************************************\n";
                   }
                   else {
+                    cheak.add("1");
                     arrayList.add("\n\n التاريخ: "+allCloseOpen.get(i).dateOpen+"\n" +
                             "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
                             "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
@@ -258,6 +268,7 @@ public class statisticsMainActivity extends AppCompatActivity {
                   }
                 }
               }
+              cheak.add("1");
               arrayList.add("\n\n\n" +
                       "مجموع فتح صندوق   = "+floor+"\n" +
                       "مجموع المبيعات    = "+sale+"\n" +
@@ -266,11 +277,12 @@ public class statisticsMainActivity extends AppCompatActivity {
                       "مجموع فتح صندوق   = "+floor+"\n" +
                       "مجموع المبيعات    = "+sale+"\n" +
                       "المجموع الكلي   = "+total;
-              ArrayAdapter<String> adapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
+              ArrayAdapter<String> adapter=new zCloaseOpenAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
               listView.setAdapter(adapter);
             }
             else if (day.isChecked()){
               toPrint="";
+              cheak.add("1");
               arrayList.add("اسم الموظف: "+empName+"" +
                       "\nالبريد الالكتروني: "+allCloseOpen.get(0).empEmail+"\n" +
                       "تاريخ هذه العمليه: "+new Date()+"" +
@@ -286,12 +298,13 @@ public class statisticsMainActivity extends AppCompatActivity {
                   total+=allCloseOpen.get(i).total;
                   closeOpenAtDate.add(allCloseOpen.get(i));
                   if ((allCloseOpen.get(i).total)<(allCloseOpen.get(i).floor)){
-                    arrayList.add("\n\n *************************************\n التاريخ: "+allCloseOpen.get(i).dateOpen+"\n" +
+                    cheak.add("0");
+                    arrayList.add("\n\n التاريخ: "+allCloseOpen.get(i).dateOpen+"\n" +
                             "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
                             "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
                             "قيمة فتح الصندوق   = "+allCloseOpen.get(i).floor+"\n" +
                             "المبيعات    = "+(allCloseOpen.get(i).total-allCloseOpen.get(i).floor)+"\n" +
-                            "المجموع الكلي   = "+allCloseOpen.get(i).total+"\n*************************************\n");
+                            "المجموع الكلي   = "+allCloseOpen.get(i).total+"\n");
                     toPrint+="\n\n*************************************";
                     toPrint+="\n التارخ: "+allCloseOpen.get(i).dateOpen+"\n" +
                             "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
@@ -302,6 +315,7 @@ public class statisticsMainActivity extends AppCompatActivity {
                     toPrint+="\n*************************************\n";
                   }
                   else {
+                    cheak.add("1");
                     arrayList.add("\n\n التاريخ: "+allCloseOpen.get(i).dateOpen+"\n" +
                             "وقت فتح صندوق: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
                             "وقت اغلاق صندوق: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
@@ -318,6 +332,7 @@ public class statisticsMainActivity extends AppCompatActivity {
 
                 }
               }
+              cheak.add("1");
               arrayList.add("\n\n\n" +
                       "مجموع فتح صندوق   = "+floor+"\n" +
                       "مجموع المبيعات    = "+sale+"\n" +
@@ -326,7 +341,7 @@ public class statisticsMainActivity extends AppCompatActivity {
                       "مجموع فتح صندوق   = "+floor+"\n" +
                       "مجموع المبيعات    = "+sale+"\n" +
                       "المجموع الكلي   = "+total;
-              ArrayAdapter<String> adapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
+              ArrayAdapter<String> adapter=new zCloaseOpenAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
               listView.setAdapter(adapter);
             }
           }catch (IndexOutOfBoundsException e){
@@ -341,6 +356,7 @@ public class statisticsMainActivity extends AppCompatActivity {
         else{
           try{
             closeOpenAtDate=new ArrayList<>();
+            cheak=new ArrayList<>();
             ArrayList<String> arrayList=new ArrayList<>();
             double floor=0;
             double sale =0 ;
@@ -351,6 +367,7 @@ public class statisticsMainActivity extends AppCompatActivity {
             }
             else if (year.isChecked()){
               toPrint="";
+              cheak.add("1");
               String []s =myDatefrom.split("-");
               String ss=s[2];
               arrayList.add("emp name: "+empName+"" +
@@ -370,12 +387,13 @@ public class statisticsMainActivity extends AppCompatActivity {
 
 
                   if ((allCloseOpen.get(i).total)<(allCloseOpen.get(i).floor)){
-                    arrayList.add("\n\n *************************************\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
+                    cheak.add("0");
+                    arrayList.add("\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
                             "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
                             "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
                             "floor   = "+allCloseOpen.get(i).floor+"\n" +
                             "sale    = "+(allCloseOpen.get(i).total)+"\n" +
-                            "total   = "+allCloseOpen.get(i).total+allCloseOpen.get(i).floor+"\n*************************************\n");
+                            "total   = "+allCloseOpen.get(i).total+allCloseOpen.get(i).floor+"\n");
                     toPrint+="\n\n*************************************";
                     toPrint+="\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
                             "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
@@ -386,6 +404,7 @@ public class statisticsMainActivity extends AppCompatActivity {
                     toPrint+="\n*************************************\n";
                   }
                   else {
+                    cheak.add("1");
                     arrayList.add("\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
                             "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
                             "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
@@ -401,6 +420,7 @@ public class statisticsMainActivity extends AppCompatActivity {
                   }
                 }
               }
+              cheak.add("1");
               arrayList.add("\n\n\n" +
                       "floor   = "+floor+"\n" +
                       "sale    = "+sale+"\n" +
@@ -409,13 +429,14 @@ public class statisticsMainActivity extends AppCompatActivity {
                       "floor   = "+floor+"\n" +
                       "sale    = "+sale+"\n" +
                       "total   = "+total;
-              ArrayAdapter<String> adapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
+              ArrayAdapter<String> adapter=new zCloaseOpenAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
               listView.setAdapter(adapter);
             }
             else if (month.isChecked()){
               toPrint="";
               String []s =myDatefrom.split("-");
               String ss=s[1]+"-"+s[2];
+              cheak.add("1");
               arrayList.add("emp name: "+empName+"" +
                       "\nemp email: "+allCloseOpen.get(0).empEmail+"\n" +
                       "date of this opreation: "+new Date()+"" +
@@ -431,12 +452,13 @@ public class statisticsMainActivity extends AppCompatActivity {
                   total+=allCloseOpen.get(i).total;
                   closeOpenAtDate.add(allCloseOpen.get(i));
                   if ((allCloseOpen.get(i).total)<(allCloseOpen.get(i).floor)){
-                    arrayList.add("\n\n *************************************\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
+                    cheak.add("0");
+                    arrayList.add("\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
                             "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
                             "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
                             "floor   = "+allCloseOpen.get(i).floor+"\n" +
                             "sale    = "+(allCloseOpen.get(i).total)+"\n" +
-                            "total   = "+allCloseOpen.get(i).total+allCloseOpen.get(i).floor+"\n*************************************\n");
+                            "total   = "+allCloseOpen.get(i).total+allCloseOpen.get(i).floor+"\n");
                     toPrint+="\n\n*************************************";
                     toPrint+="\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
                             "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
@@ -447,6 +469,7 @@ public class statisticsMainActivity extends AppCompatActivity {
                     toPrint+="\n*************************************\n";
                   }
                   else {
+                    cheak.add("1");
                     arrayList.add("\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
                             "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
                             "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
@@ -462,6 +485,7 @@ public class statisticsMainActivity extends AppCompatActivity {
                   }
                 }
               }
+              cheak.add("1");
               arrayList.add("\n\n\n" +
                       "floor   = "+floor+"\n" +
                       "sale    = "+sale+"\n" +
@@ -470,11 +494,12 @@ public class statisticsMainActivity extends AppCompatActivity {
                       "floor   = "+floor+"\n" +
                       "sale    = "+sale+"\n" +
                       "total   = "+total;
-              ArrayAdapter<String> adapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
+              ArrayAdapter<String> adapter=new zCloaseOpenAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
               listView.setAdapter(adapter);
             }
             else if (day.isChecked()){
               toPrint="";
+              cheak.add("1");
               arrayList.add("emp name: "+empName+"" +
                       "\nemp email: "+allCloseOpen.get(0).empEmail+"\n" +
                       "date of this opreation: "+new Date()+"" +
@@ -491,12 +516,13 @@ public class statisticsMainActivity extends AppCompatActivity {
                   total+=allCloseOpen.get(i).total;
                   closeOpenAtDate.add(allCloseOpen.get(i));
                   if ((allCloseOpen.get(i).total)<(allCloseOpen.get(i).floor)){
-                    arrayList.add("\n\n *************************************\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
+                    cheak.add("0");
+                    arrayList.add("\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
                             "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
                             "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
                             "floor   = "+allCloseOpen.get(i).floor+"\n" +
                             "sale    = "+(allCloseOpen.get(i).total)+"\n" +
-                            "total   = "+allCloseOpen.get(i).total+allCloseOpen.get(i).floor+"\n*************************************\n");
+                            "total   = "+allCloseOpen.get(i).total+allCloseOpen.get(i).floor+"\n");
                     toPrint+="\n\n*************************************";
                     toPrint+="\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
                             "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
@@ -507,6 +533,7 @@ public class statisticsMainActivity extends AppCompatActivity {
                     toPrint+="\n*************************************\n";
                   }
                   else {
+                    cheak.add("1");
                     arrayList.add("\n\n date: "+allCloseOpen.get(i).dateOpen+"\n" +
                             "time open: "+allCloseOpen.get(i).dateAndTimeOpen+"\n" +
                             "time close: "+allCloseOpen.get(i).dateAndTimeClose+"\n" +
@@ -523,6 +550,7 @@ public class statisticsMainActivity extends AppCompatActivity {
 
                 }
               }
+              cheak.add("1");
               arrayList.add("\n\n\n" +
                       "floor   = "+floor+"\n" +
                       "sale    = "+sale+"\n" +
@@ -531,7 +559,7 @@ public class statisticsMainActivity extends AppCompatActivity {
                       "floor   = "+floor+"\n" +
                       "sale    = "+sale+"\n" +
                       "total   = "+total;
-              ArrayAdapter<String> adapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
+              ArrayAdapter<String> adapter=new zCloaseOpenAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
               listView.setAdapter(adapter);
             }
           }catch (IndexOutOfBoundsException e){

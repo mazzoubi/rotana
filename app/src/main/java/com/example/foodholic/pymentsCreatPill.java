@@ -106,6 +106,7 @@ public class pymentsCreatPill extends AppCompatActivity {
                 }
                 else if (pillNumber.getText().toString().isEmpty()){
                     if(shared2.getString("language", "").equals("arabic")) {
+
                         Toast.makeText(pymentsCreatPill.this, "الرجاء ادخال رقم الفاتورة", Toast.LENGTH_SHORT).show();
                     }
                     else {
