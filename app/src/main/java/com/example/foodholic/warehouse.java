@@ -25,7 +25,6 @@ public class warehouse extends AppCompatActivity {
 
     ListView listView;
     Button button;
-
     classWarehouseItem objectItem=new classWarehouseItem();
     public static ArrayList<classWarehouseItem> item=new ArrayList<>();
 
@@ -92,6 +91,7 @@ public class warehouse extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent n =new Intent(getApplicationContext(),aa2.class);
                 n.putExtra("aa",position);
+                objectItem=item.get(position);
                 startActivity(n);
             }
         });

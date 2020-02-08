@@ -115,6 +115,7 @@ public class aa2 extends AppCompatActivity {
                                             if(shared2.getString("language", "").equals("arabic")){
                                                 Toast.makeText(aa2.this, "تمت العمليه بنجاح", Toast.LENGTH_SHORT).show();
                                                 Intent n =new Intent(getApplicationContext(),warehouse.class);
+                                                addNotification2(warehouse.item.get(position).supplier,warehouse.item.get(position).item,quantity,give,warehouse.item.get(position).quantityType);
                                                 onBackPressed();
                                                 startActivity(n);
                                             }
@@ -178,7 +179,7 @@ public class aa2 extends AppCompatActivity {
                                             if(shared2.getString("language", "").equals("arabic")){
                                                 Toast.makeText(aa2.this, "تمت العمليه بنجاح", Toast.LENGTH_SHORT).show();
                                                 Intent n =new Intent(getApplicationContext(),warehouse.class);
-                                                addNotification(warehouse.item.get(position).supplier,warehouse.item.get(position).item,give+"",warehouse.item.get(position).quantityType);
+                                                addNotification(warehouse.item.get(position).supplier,warehouse.item.get(position).item,give+"",quantity+"",warehouse.item.get(position).quantityType);
                                                 onBackPressed();
                                                 startActivity(n);
                                             }
@@ -215,13 +216,14 @@ public class aa2 extends AppCompatActivity {
 
 
     }
-    void addNotification(String sup,String item,String cuant,String cuantt){
+    void addNotification(String sup,String item,String cuant,String currentcuant,String cuantt){
         String id =System.currentTimeMillis()+"";
         Map<String, Object> reservation = new HashMap<>();
         reservation.put("title","اشعارات نظام المستودع");
         reservation.put("date", "");
         reservation.put("time", new Date()+"");
-        reservation.put("desc", "تمت الاضافه على عنصر في المستودع : "+"\nالعنصر: "+item+"\nالكميه: "+cuant+" "+cuantt+"\nالمورد: "+sup);
+        reservation.put("desc", "تمت الاضافه على عنصر في المستودع : "+"\nالعنصر: "+item
+                +"\nالكميه الحاليه: "+currentcuant+" "+cuantt+"\nالكميه المضافة: "+cuant+" "+cuantt+"\nالمورد: "+sup);
         reservation.put("state", "1");
         reservation.put("id", id);
 
@@ -229,7 +231,8 @@ public class aa2 extends AppCompatActivity {
         reservation1.put("title","Stock System notification");
         reservation1.put("date", "");
         reservation1.put("time", new Date()+"");
-        reservation1.put("desc", "you have been added on item in the stock : "+"\nthe item : "+item+"\n quantity: "+cuant+" "+cuantt+"\nsupplier: "+sup);
+        reservation1.put("desc", "you have been added on item in the stock : "+"\nthe item : "+item
+                +"\ncurent quantity: "+currentcuant+" "+cuantt+"\n added quantity: "+cuant+" "+cuantt+"\nsupplier: "+sup);
         reservation1.put("state", "1");
         reservation1.put("id", id);
 
@@ -281,4 +284,43 @@ public class aa2 extends AppCompatActivity {
                     }
                 });
     }
+
+    void addNotification2(String sup,String item,double currentcuant,double cuant,String cuantt){
+        String id =System.currentTimeMillis()+"";
+        Map<String, Object> reservation = new HashMap<>();
+        reservation.put("title","اشعارات نظام المستودع");
+        reservation.put("date", "");
+        reservation.put("time", new Date()+"");
+        reservation.put("desc", "تم السحب من المستودع : "+"\nالعنصر: "+item+"\nالكميه: "+currentcuant+" "+cuantt+
+                "\nالكميه المسحوبه: "+cuant+" "+cuantt
+                +"\nالكميه حالياً في المستودع: "+(currentcuant-cuant)+" "+cuantt+"\nالمورد: "+sup);
+        reservation.put("state", "1");
+        reservation.put("id", id);
+
+        Map<String, Object> reservation1 = new HashMap<>();
+        reservation1.put("title","Stock System notification");
+        reservation1.put("date", "");
+        reservation1.put("time", new Date()+"");
+        reservation1.put("desc", "withdrawn from the stock : "+"\nthe item : "+item+"\n quantity: "+currentcuant+" "+cuantt+
+                "\nquantity withdrawn: "+cuant+" "+cuantt
+                +"\nquantity is currently in the stock: "+(currentcuant-cuant)+" "+cuantt+"\nsupplier: "+sup);
+        reservation1.put("state", "1");
+        reservation1.put("id", id);
+
+        db.collection("Res_1_adminNotificationsAr").document(id).set(reservation)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        //     progressBar.setVisibility(View.GONE);
+                    }
+                });
+        db.collection("Res_1_adminNotificationsEn").document(id).set(reservation1)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        //     progressBar.setVisibility(View.GONE);
+                    }
+                });
+    }
+
 }
