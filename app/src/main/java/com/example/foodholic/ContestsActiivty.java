@@ -1,6 +1,8 @@
 package com.example.foodholic;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -8,13 +10,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,9 +31,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class ContestsActiivty extends AppCompatActivity {
@@ -38,6 +47,8 @@ public class ContestsActiivty extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     ArrayList<String> data;
     ArrayList<String> arr;
+
+    String da="", ta="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,48 +79,49 @@ public class ContestsActiivty extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final EditText edt = new EditText(ContestsActiivty.this);
-                edt.setGravity(Gravity.CENTER);
-                edt.setTextSize(16);
-                edt.setTextColor(Color.parseColor("#000000"));
+                final android.support.v7.app.AlertDialog.Builder builder2 = new android.support.v7.app.AlertDialog.Builder(ContestsActiivty.this);
+                LayoutInflater inflater2 = ContestsActiivty.this.getLayoutInflater();
+                builder2.setView(inflater2.inflate(R.layout.cont, null));
+                final android.support.v7.app.AlertDialog dialog2 = builder2.create();
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+                dialog2.show();
 
-                if(HomeAct.lang == 1){
-                    new AlertDialog.Builder(ContestsActiivty.this)
-                            .setTitle("يرجى كتابة موضوع المسابقة مع القواعد والشرح المراد عرضه للزبائن")
-                            .setView(edt)
-                            .setPositiveButton("نشر", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                final EditText et1, et3;
+                final TextView et2;
+                Button send;
 
-                                    UploadData(edt.getText().toString());
-                                    dialog.dismiss();
-                                }
-                            }).setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
+                et1 = dialog2.findViewById(R.id.pay);
+                et2 = dialog2.findViewById(R.id.pay2);
+                et3 = dialog2.findViewById(R.id.pay3);
+                send = dialog2.findViewById(R.id.visa);
+
+                et2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        getDateTime(dialog2);
+
+                    }
+                });
+
+                send.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if(HomeAct.lang == 1){
+                            UploadData("عنوان الإيفينت : "+et1.getText().toString()+"\n\n"+
+                                    "موعد الإيفينت : "+et2.getText().toString()+"\n\n"+
+                                    "تفاصيل الإيفينت : "+et3.getText().toString()+"\n\n");
                         }
-                    }).show();
-                }
-                else{
-                    new AlertDialog.Builder(ContestsActiivty.this)
-                            .setTitle("Fill Information For The Customers To Read, Include Dates If Possible")
-                            .setView(edt)
-                            .setPositiveButton("Share", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    UploadData(edt.getText().toString());
-                                    dialog.dismiss();
-                                }
-                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
+                        else{
+                            UploadData("Event Title : "+et1.getText().toString()+"\n\n"+
+                                    "Event Date : "+et2.getText().toString()+"\n\n"+
+                                    "Event Details : "+et3.getText().toString()+"\n\n");
                         }
-                    }).show();
-                }
+                        dialog2.dismiss();
 
+                    }
+                });
             }
         });
 
@@ -186,6 +198,50 @@ public class ContestsActiivty extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    public void getDateTime(final android.support.v7.app.AlertDialog dialog2) {
+
+        final Calendar cal = Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener lsnr = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                cal.set(Calendar.YEAR, year);
+                cal.set(Calendar.MONTH, monthOfYear);
+                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                String myFormat = "dd/MM/yy"; //In which you need put here
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+                da = sdf.format(cal.getTime());
+
+                TextView et2 = dialog2.findViewById(R.id.pay2);
+                et2.setText(da+"   "+ta);
+
+            } };
+
+        new DatePickerDialog(ContestsActiivty.this, lsnr, cal
+                .get(Calendar.YEAR), cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)).show();
+
+        final Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+
+        TimePickerDialog lsn = new TimePickerDialog(ContestsActiivty.this,
+                new TimePickerDialog.OnTimeSetListener() {
+
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+                        ta = hourOfDay + ":" + minute;
+
+                    }
+                }, hour, minute, false);
+        lsn.show();
+
 
     }
 

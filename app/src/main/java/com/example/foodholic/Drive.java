@@ -112,7 +112,7 @@ public class Drive extends AppCompatActivity {
                 if (lang==1){
                     new AlertDialog.Builder(Drive.this)
                             .setMessage("هل ترغب بالأتصال أم الذهاب للموقع؟")
-                            .setNegativeButton("عرض الموقع", new DialogInterface.OnClickListener() {
+                            .setNegativeButton("عرض موقع الزبون", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
@@ -126,6 +126,15 @@ public class Drive extends AppCompatActivity {
                             String num = str.substring(str.indexOf("الهاتف : ")+9, str.indexOf("قائمة : "));
                             num = RemoveSpace(num);
                             startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", num, null)));
+                        }
+                    }).setNeutralButton("عرض موقع المطعم", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                    Uri.parse("http://maps.google.com/maps?daddr=32.532917,35.869199"));
+                            startActivity(intent);
+
                         }
                     }).show();
 

@@ -329,25 +329,6 @@ public class Emppage extends AppCompatActivity
             }
         });
 
-        Button plus = findViewById(R.id.counter);
-        plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                int c = shared3.getInt("count", 0);
-                SharedPreferences.Editor editor = shared3.edit();
-                editor.putInt("count" ,++c);
-                editor.apply();
-
-                Button tcount = findViewById(R.id.counter);
-                if(HomeAct.lang == 1)
-                    tcount.setText("رقم الفاتورة : "+shared3.getInt("count", 0)+"");
-                else
-                    tcount.setText("Bill ID : "+shared3.getInt("count", 0)+"");
-
-            }
-        });
-
         Button zeroC = findViewById(R.id.btnnew3);
         zeroC.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -395,7 +376,6 @@ public class Emppage extends AppCompatActivity
                 sup.setVisibility(View.GONE);
                 vip.setVisibility(View.GONE);
                 not.setVisibility(View.GONE);
-                plus.setVisibility(View.GONE);
                 zeroC.setVisibility(View.GONE);
                 serv.setVisibility(View.GONE);
                 btn5.setWidth(2500); }
@@ -1357,7 +1337,8 @@ public class Emppage extends AppCompatActivity
                     b1 = dialog.findViewById(R.id.takeaway);
                     b2 = dialog.findViewById(R.id.deliv);
 
-                    final Double nu = ((closeOpenCash.total+closeOpenCash.floor)-Double.parseDouble(shared3.getString("pay", "0.0")));
+                    closeOpenCash.paid = Double.parseDouble(shared3.getString("pay", "0.0"));
+                    final Double nu = ((closeOpenCash.total+closeOpenCash.floor)-closeOpenCash.paid);
 
                     b1.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -1366,7 +1347,7 @@ public class Emppage extends AppCompatActivity
                             et1.setText(closeOpenCash.empEmail);
                             et2.setText(closeOpenCash.dateAndTimeOpen);
                                 et5.setText("مبيعات : "+(closeOpenCash.total)+"   ارضية : "+closeOpenCash.floor+
-                                        "   مصروفات : "+ shared3.getString("pay", "0.0")+"\n");
+                                        "   مصروفات : "+ closeOpenCash.paid+"\n");
                                 et5.setText(et5.getText().toString()+"   مجموع : "+nu);
 
                             String form = "HH:mm dd-MM-yy";
@@ -1385,7 +1366,9 @@ public class Emppage extends AppCompatActivity
                         @Override
                         public void onClick(View view) {
 
-                            closeAppUpload();
+                            closeAppUpload(et1.getText().toString(), et2.getText().toString(),
+                                    et3.getText().toString(), et4.getText().toString(),
+                                    et5.getText().toString());
 
                             new AlertDialog.Builder(Emppage.this)
                                     .setMessage("هل ترغب بالخروج ؟")
@@ -1433,7 +1416,8 @@ public class Emppage extends AppCompatActivity
                     b1 = dialog.findViewById(R.id.takeaway);
                     b2 = dialog.findViewById(R.id.deliv);
 
-                    final Double nu = ((closeOpenCash.total+closeOpenCash.floor)-Double.parseDouble(shared3.getString("pay", "0.0")));
+                    closeOpenCash.paid = Double.parseDouble(shared3.getString("pay", "0.0"));
+                    final Double nu = ((closeOpenCash.total+closeOpenCash.floor)-closeOpenCash.paid);
 
                     b1.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -1442,7 +1426,7 @@ public class Emppage extends AppCompatActivity
                             et1.setText(closeOpenCash.empEmail);
                             et2.setText(closeOpenCash.dateAndTimeOpen);
                             et5.setText("Sale : "+(closeOpenCash.total)+"   Floor : "+closeOpenCash.floor+
-                                    "   Payment : "+ shared3.getString("pay", "0.0")+"\n");
+                                    "   Payment : "+ closeOpenCash.paid+"\n");
                             et5.setText(et5.getText().toString()+"   Total : "+nu);
 
                             String form = "HH:mm dd-MM-yy";
@@ -1461,7 +1445,9 @@ public class Emppage extends AppCompatActivity
                         @Override
                         public void onClick(View view) {
 
-                            closeAppUpload();
+                            closeAppUpload(et1.getText().toString(), et2.getText().toString(),
+                                    et3.getText().toString(), et4.getText().toString(),
+                                    et5.getText().toString());
 
                             new AlertDialog.Builder(Emppage.this)
                                     .setMessage("Do You Want To Exit ?")
@@ -1800,14 +1786,17 @@ public class Emppage extends AppCompatActivity
         editor.putInt("count" ,++c);
         editor.apply();
 
-
-
         String temp="[";
         for(int i=0; i<saleList.size(); i++)
             temp+=saleList.get(i).kitchen+",";
         temp+="]";
 
         s = s+temp;
+
+        if(HomeAct.lang == 1)
+            s = "\n\n\n"+("رقم الفاتورة : "+shared3.getInt("count", 0)+"")+"\n\n\n"+s;
+        else
+            s = "\n\n\n"+("Bill ID : "+shared3.getInt("count", 0)+"")+"\n\n\n"+s;
 
         try {
 
@@ -1857,16 +1846,19 @@ public class Emppage extends AppCompatActivity
     protected void onDestroy() {
 
         if((!getIntent().getStringExtra("empemail").contains(".cap")))
-            closeAppUpload();
+            closeAppUpload("", "", "", "", "");
         super.onDestroy(); }
 
-    public void closeAppUpload(){
+    public void closeAppUpload(String s1, String s2,String s3,String s4,String s5){
         try{
             String form2 = "HH:mm dd-MM-yy";
             SimpleDateFormat sdf2 = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
             Date parsedDate2 = sdf2.parse(new Date().toString());
             SimpleDateFormat print2 = new SimpleDateFormat(form2);
-            closeOpenCash.dateAndTimeClose = print2.format(parsedDate2); }
+            closeOpenCash.dateAndTimeClose = print2.format(parsedDate2);
+            closeOpenCash.note = s5;
+
+        }
         catch(Exception e){}
 
         db.collection("closeOpenCash").document().set(closeOpenCash)
@@ -1879,9 +1871,11 @@ public class Emppage extends AppCompatActivity
                                 FirebaseAuth auth = FirebaseAuth.getInstance();
                                 auth.signOut();
                                 if(shared2.getString("language", "").equals("arabic")){
+                                    returnBill();
                                     Toast.makeText(Emppage.this, "تسجيل خروج بنجاح", Toast.LENGTH_SHORT).show();
                                 }
                                 else {
+                                    returnBillEn();
                                     Toast.makeText(Emppage.this, "logout is successful", Toast.LENGTH_SHORT).show();
                                 }
 
@@ -1907,6 +1901,46 @@ public class Emppage extends AppCompatActivity
 
                     }
                 });  }
+
+    private void returnBill() {
+
+        String bill="";
+
+        bill+="\n"+"مرحبا بك في مطعم شاورما هايبرد"+",";
+        bill+="\n"+"نوع الفاتورة : فاتورة اغلاق كاش"+",";
+        bill+="\n\n"+",";
+        bill+="__________________________________________\n\n\n"+",";
+
+        bill+="\n\nأسم الموظف : "+closeOpenCash.empEmail+"\n"+",";
+        bill+="\n\nتاريخ\\وقت فتح الكاش : "+closeOpenCash.dateAndTimeOpen+"\n"+",";
+        bill+="\n\nتاريخ\\وقت إغلاق الكاش : "+closeOpenCash.dateAndTimeClose+"\n"+",";
+        bill+="\n\nأرضية الكاش : "+closeOpenCash.floor+"\n"+",";
+        bill+="\n\nبيع الكاش : "+closeOpenCash.sold+"\n"+",";
+        bill+="\n\nمصروفات الكاش : "+closeOpenCash.paid+"\n"+",";
+        bill+="\n\nمجموع الكاش : "+closeOpenCash.total+"\n"+",";
+        bill+="\n\nملاحظات أخرى : "+closeOpenCash.note+"\n"+",";
+
+        PrintUsingServer(bill); }
+
+    private void returnBillEn() {
+
+        String bill="";
+
+        bill+="\n"+"Welcome To hybrid Shawarma Restaurant"+",";
+        bill+="\n"+"Bill Type : Close Cash"+",";
+        bill+="\n\n"+",";
+        bill+="__________________________________________\n\n\n"+",";
+
+        bill+="\n\nEmployee Name : "+closeOpenCash.empEmail+"\n"+",";
+        bill+="\n\nCash Open Date\\Time : "+closeOpenCash.dateAndTimeOpen+"\n"+",";
+        bill+="\n\nCash Close Date\\Time : "+closeOpenCash.dateAndTimeClose+"\n"+",";
+        bill+="\n\nCash Floor : "+closeOpenCash.floor+"\n"+",";
+        bill+="\n\nSold Amound : "+closeOpenCash.sold+"\n"+",";
+        bill+="\n\nCash Payments : "+closeOpenCash.paid+"\n"+",";
+        bill+="\n\nCash Total : "+closeOpenCash.total+"\n"+",";
+        bill+="\n\nExtra Notes : "+closeOpenCash.note+"\n"+",";
+
+        PrintUsingServer(bill); }
 
     private void AddTables(String count) {
 
@@ -2091,7 +2125,8 @@ public class Emppage extends AppCompatActivity
                 b1 = dialog.findViewById(R.id.takeaway);
                 b2 = dialog.findViewById(R.id.deliv);
 
-                final Double nu = ((closeOpenCash.total+closeOpenCash.floor)-Double.parseDouble(shared3.getString("pay", "0.0")));
+                closeOpenCash.paid = Double.parseDouble(shared3.getString("pay", "0.0"));
+                final Double nu = ((closeOpenCash.total+closeOpenCash.floor)-closeOpenCash.paid);
 
                 b1.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -2100,7 +2135,7 @@ public class Emppage extends AppCompatActivity
                         et1.setText(closeOpenCash.empEmail);
                         et2.setText(closeOpenCash.dateAndTimeOpen);
                         et5.setText("مبيعات : "+(closeOpenCash.total)+"   ارضية : "+closeOpenCash.floor+
-                                "   مصروفات : "+ shared3.getString("pay", "0.0")+"\n");
+                                "   مصروفات : "+ closeOpenCash.paid+"\n");
                         et5.setText(et5.getText().toString()+"   مجموع : "+nu);
 
                         String form = "HH:mm dd-MM-yy";
@@ -2119,7 +2154,9 @@ public class Emppage extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
 
-                        closeAppUpload();
+                        closeAppUpload(et1.getText().toString(), et2.getText().toString(),
+                                et3.getText().toString(), et4.getText().toString(),
+                                et5.getText().toString());
 
                         new AlertDialog.Builder(Emppage.this)
                                 .setMessage("هل ترغب بالخروج ؟")
@@ -2167,7 +2204,8 @@ public class Emppage extends AppCompatActivity
                 b1 = dialog.findViewById(R.id.takeaway);
                 b2 = dialog.findViewById(R.id.deliv);
 
-                final Double nu = ((closeOpenCash.total+closeOpenCash.floor)-Double.parseDouble(shared3.getString("pay", "0.0")));
+                closeOpenCash.paid = Double.parseDouble(shared3.getString("pay", "0.0"));
+                final Double nu = ((closeOpenCash.total+closeOpenCash.floor)-closeOpenCash.paid);
 
                 b1.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -2176,7 +2214,7 @@ public class Emppage extends AppCompatActivity
                         et1.setText(closeOpenCash.empEmail);
                         et2.setText(closeOpenCash.dateAndTimeOpen);
                         et5.setText("Sale : "+(closeOpenCash.total)+"   Floor : "+closeOpenCash.floor+
-                                "   Payment : "+ shared3.getString("pay", "0.0")+"\n");
+                                "   Payment : "+ closeOpenCash.paid+"\n");
                         et5.setText(et5.getText().toString()+"   Total : "+nu);
 
                         String form = "HH:mm dd-MM-yy";
@@ -2195,7 +2233,9 @@ public class Emppage extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
 
-                        closeAppUpload();
+                        closeAppUpload(et1.getText().toString(), et2.getText().toString(),
+                                et3.getText().toString(), et4.getText().toString(),
+                                et5.getText().toString());
 
                         new AlertDialog.Builder(Emppage.this)
                                 .setMessage("Do You Want To Exit ?")

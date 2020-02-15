@@ -346,8 +346,6 @@ public class Tabel_Res_Emp extends AppCompatActivity {
 
     public void AddSale(final int pos){
 
-        //findme
-
         String bill="";
         FirebaseAuth auth = FirebaseAuth.getInstance();
 

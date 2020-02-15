@@ -9,7 +9,7 @@
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:background="@color/colorPrimary"
-        app:title="توصيل مؤسسة الدخيل"
+        app:title="توصيل مطعم هايبرد"
         android:id="@+id/tool"
         app:titleTextColor="@color/colorPrimaryDark"
         android:layout_height="40dp"/>
