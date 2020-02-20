@@ -71,7 +71,6 @@ public class TakeAway_Emp extends AppCompatActivity {
 
         Toolbar bar = findViewById(R.id.tool);
         setSupportActionBar(bar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         shared3 = getSharedPreferences("cash", MODE_PRIVATE);
 
@@ -265,7 +264,8 @@ public class TakeAway_Emp extends AppCompatActivity {
                         info.add("الأسم : "+document.get("user_name").toString()+"\n"
                                 +"الهاتف : "+document.get("user_mobile").toString()+"\n"
                                 +"بريد : "+document.get("email").toString()+"\n"
-                                +"الملاحظات : "+document.get("user_loc").toString()+"\n"
+                                +"الملاحظات : "+document.get("user_desc").toString()+"\n"
+                                +"وقت الإستلام : "+document.get("time").toString()+"\n"
                                 +"الطلب : "+document.get("item_list").toString()+"\n"
                                 +"مجموع النقاط : "+document.get("point_sum").toString()+" نقطة"+"\n"
                                 +"مجموع المبلغ : "+document.get("item_sum_price").toString()+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار")+"\n" );
@@ -297,7 +297,8 @@ public class TakeAway_Emp extends AppCompatActivity {
                         info.add("Name : "+document.get("user_name").toString()+"\n"
                                 +"Mobile : "+document.get("user_mobile").toString()+"\n"
                                 +"Email : "+document.get("email").toString()+"\n"
-                                +"Notes : "+document.get("user_loc").toString()+"\n"
+                                +"Notes : "+document.get("user_desc").toString()+"\n"
+                                +"Pickup Time : "+document.get("time").toString()+"\n"
                                 +"Order : "+document.get("item_list").toString()+"\n"
                                 +"Point Sum : "+document.get("point_sum").toString()+" Point"+"\n"
                                 +"Bill Sum : "+document.get("item_sum_price").toString()+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD")+"\n" );
@@ -326,7 +327,8 @@ public class TakeAway_Emp extends AppCompatActivity {
                     info.add("الأسم : "+task.getResult().get("user_name").toString()+"\n"
                             +"الهاتف : "+task.getResult().get("user_mobile").toString()+"\n"
                             +"بريد : "+task.getResult().get("email").toString()+"\n"
-                            +"الملاحظات : "+task.getResult().get("user_loc").toString()+"\n"
+                            +"الملاحظات : "+task.getResult().get("user_desc").toString()+"\n"
+                            +"وقت الإستلام : "+task.getResult().get("time").toString()+"\n"
                             +"الطلب : "+task.getResult().get("item_list").toString()+"\n"
                             +"مجموع النقاط : "+task.getResult().get("point_sum").toString()+" نقطة"+"\n"
                             +"مجموع المبلغ : "+task.getResult().get("item_sum_price").toString()+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار")+"\n" );
@@ -352,7 +354,8 @@ public class TakeAway_Emp extends AppCompatActivity {
                     info.add("Name : "+task.getResult().get("user_name").toString()+"\n"
                             +"Mobile : "+task.getResult().get("user_mobile").toString()+"\n"
                             +"Email : "+task.getResult().get("email").toString()+"\n"
-                            +"Notes : "+task.getResult().get("user_loc").toString()+"\n"
+                            +"Notes : "+task.getResult().get("user_desc").toString()+"\n"
+                            +"Pickup Time : "+task.getResult().get("time").toString()+"\n"
                             +"Order : "+task.getResult().get("item_list").toString()+"\n"
                             +"Point Sum : "+task.getResult().get("point_sum").toString()+" Point"+"\n"
                             +"Bill Sum : "+task.getResult().get("item_sum_price").toString()+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD")+"\n" );
