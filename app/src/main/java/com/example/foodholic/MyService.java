@@ -39,7 +39,7 @@ public class MyService extends Service {
     DatabaseReference delivery;
     NotificationManager manager;
 
-    boolean take=false,tabl=false,del=false;
+    public static boolean take=false,tabl=false,del=false;
     int id =1,id2=1,id3;
 
     @Override

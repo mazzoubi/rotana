@@ -2,6 +2,7 @@ package com.example.foodholic;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
@@ -40,7 +41,7 @@ public class Zreport extends AppCompatActivity {
     Spinner spinnerYear,spinnerMonth;
     Button monthreport,yearReport ,print;
     ListView listView;
-
+    SharedPreferences shared2;
     String year="";
     String month ="";
     FirebaseFirestore db;
@@ -108,7 +109,7 @@ public class Zreport extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (year.isEmpty()){
-                    if(HomeAct.lang==1){
+                    if(shared2.getString("language", "").equals("arabic")) {
                         Toast.makeText(Zreport.this, "الرجاء اختيار السنه", Toast.LENGTH_SHORT).show();
                     }
                     else {
@@ -230,7 +231,7 @@ public class Zreport extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (m==0&&y==0){
-                    if(HomeAct.lang==1){
+                    if(shared2.getString("language", "").equals("arabic")) {
                         Toast.makeText(Zreport.this, "الرجاء اختيار نوع التقرير", Toast.LENGTH_SHORT).show();
                     }
                     else {
@@ -260,6 +261,7 @@ public class Zreport extends AppCompatActivity {
 
     void init(){
         db=FirebaseFirestore.getInstance();
+        shared2 = getSharedPreferences("lang", MODE_PRIVATE);
         spinnerMonth=findViewById(R.id.zspinnerMonth);
         spinnerYear=findViewById(R.id.zspinnerYear);
         yearReport = findViewById(R.id.yearReport);
@@ -279,7 +281,7 @@ public class Zreport extends AppCompatActivity {
             }
         });
 
-        if (HomeAct.lang==1){
+        if(shared2.getString("language", "").equals("arabic")) {
             yearReport.setText("تقرير سنوي");
             monthreport.setText("تقرير شهري");
         }
