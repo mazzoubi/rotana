@@ -16,6 +16,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,6 +34,13 @@ public class MyService extends Service {
 
     public static boolean isServiceRunning = false;
     String str;
+    DatabaseReference takeAway;
+    DatabaseReference table;
+    DatabaseReference delivery;
+    NotificationManager manager;
+
+    boolean take=false,tabl=false,del=false;
+    int id =1,id2=1,id3;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -62,6 +74,67 @@ public class MyService extends Service {
                             }catch (Exception e){}
                         }
                     } });
+
+
+
+        takeAway = FirebaseDatabase.getInstance().getReference().child("notification").child("notificationTakeAway");
+        delivery = FirebaseDatabase.getInstance().getReference().child("notification").child("notificationDelivery");
+        table = FirebaseDatabase.getInstance().getReference().child("notification").child("notificationTable");
+
+
+
+        takeAway.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                take=true;
+
+                //Emppage.button.setText("");
+                // or set color
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
+        delivery.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                del=true;
+                //Emppage.button.setText("");
+                // or set color
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
+        table.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                tabl=true;
+                //Emppage.button.setText("");
+                // or set color
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
 
 
         return START_STICKY;
@@ -100,3 +173,21 @@ public class MyService extends Service {
     }
 
 }
+/* to Delet notification
+
+ try {
+            takeAway = FirebaseDatabase.getInstance().getReference().child("notification").child("notificationTakeAway");
+            takeAway.removeValue();
+        }catch (Exception e ){
+        }
+ */
+
+/*to add notification
+
+                        Map<String, Object> map5 = new HashMap<String, Object>();
+                        takeAway.updateChildren(map5);
+                        DatabaseReference message_root1 = takeAway.child(temp_key);
+                        Map<String, Object> map6 = new HashMap<String, Object>();
+                        map6.put("name", "any thing");
+                        message_root1.updateChildren(map6);
+ */
