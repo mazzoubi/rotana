@@ -87,7 +87,7 @@ public class MyService extends Service {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 take=true;
-
+                Toast.makeText(Emppage.this, "طلب سفري جديد", Toast.LENGTH_SHORT).show();
                 //Emppage.button.setText("");
                 // or set color
             }
@@ -105,6 +105,7 @@ public class MyService extends Service {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 del=true;
+                Toast.makeText(Emppage.this, "طلب ديلفري جديد", Toast.LENGTH_SHORT).show();
                 //Emppage.button.setText("");
                 // or set color
             }
@@ -122,6 +123,7 @@ public class MyService extends Service {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 tabl=true;
+                Toast.makeText(Emppage.this, "حجز طاوله جديد", Toast.LENGTH_SHORT).show();
                 //Emppage.button.setText("");
                 // or set color
             }
@@ -185,8 +187,8 @@ public class MyService extends Service {
 /*to add notification
 
                         Map<String, Object> map5 = new HashMap<String, Object>();
-                        takeAway.updateChildren(map5);
-                        DatabaseReference message_root1 = takeAway.child(temp_key);
+                        delivery.updateChildren(map5);
+                        DatabaseReference message_root1 = delivery.child(temp_key);
                         Map<String, Object> map6 = new HashMap<String, Object>();
                         map6.put("name", "any thing");
                         message_root1.updateChildren(map6);
