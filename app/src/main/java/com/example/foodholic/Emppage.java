@@ -1814,7 +1814,7 @@ public class Emppage extends AppCompatActivity
             Socket socket = new Socket();
 
             socket.connect(socketAddress, 5000);
-
+//
             OutputStreamWriter clientSocketWriter = (new OutputStreamWriter(socket.getOutputStream(), "UTF8")); //optional encoding
             clientSocketWriter.write(s);
             clientSocketWriter.close();
