@@ -74,7 +74,25 @@
 
         <Button
             android:layout_width="match_parent"
-            android:text="تأكيد تسليم طلبية"
+            android:text="طباعة فاتورة (للزبون)"
+            android:gravity="center"
+            android:id="@+id/confirm2"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="15dp"
+            android:textSize="20dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/shape"
+            android:backgroundTint="@color/colorPrimary"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/redirect"
+            android:padding="15dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:text="تأكيد تسليم طلبية (للسائق)"
             android:gravity="center"
             android:id="@+id/confirm"
             android:layout_alignParentRight="true"
@@ -85,7 +103,7 @@
             android:backgroundTint="@color/colorPrimary"
             android:textStyle="bold"
             android:layout_marginTop="5dp"
-            android:layout_below="@+id/redirect"
+            android:layout_below="@+id/confirm2"
             android:padding="15dp"
             android:textColor="@color/colorPrimaryDark"
             android:layout_height="wrap_content" />

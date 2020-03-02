@@ -131,13 +131,23 @@ public class Delivery_Emp extends AppCompatActivity {
                     dialog.show();
                     dialog.getWindow().setAttributes(lp);
 
-                    Button b1, b2, b3, b4, b5;
+                    Button b1, b2, b3, b4, b5, b6;
 
                     b1 = dialog.findViewById(R.id.call);
                     b2 = dialog.findViewById(R.id.go);
                     b3 = dialog.findViewById(R.id.redirect);
                     b4 = dialog.findViewById(R.id.confirm);
+                    b6 = dialog.findViewById(R.id.confirm2);
                     b5 = dialog.findViewById(R.id.remove);
+
+                    b6.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            PrintDriverAr(sp.getSelectedItem().toString(), position);
+
+                        }
+                    });
 
                     b1.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -225,7 +235,8 @@ public class Delivery_Emp extends AppCompatActivity {
                                     HashMap<String, String> map = new HashMap<>();
                                     map.put("user_name", temp.substring(temp.indexOf("الأسم : ")+8, temp.indexOf("الهاتف : ")).replace("\n", ""));
                                     map.put("user_mobile", temp.substring(temp.indexOf("الهاتف : ")+9, temp.indexOf("قائمة : ")).replace("\n", ""));
-                                    map.put("user_desc", temp.substring(temp.indexOf("ملاحظات : ")+10, temp.indexOf("سعر توصيل : ")).replace("\n", ""));
+                                    map.put("user_desc", temp.substring(temp.indexOf("ملاحظات : ")+10, temp.indexOf("وقت الإستلام : ")).replace("\n", ""));
+                                    map.put("time", temp.substring(temp.indexOf("وقت الإستلام : ")+15, temp.indexOf("سعر توصيل : ")).replace("\n", ""));
                                     map.put("item_list",temp.substring(temp.indexOf("قائمة : ")+8, temp.indexOf("النقاط : ")).replace("\n", ""));
                                     map.put("item_sum_price", temp.substring(temp.indexOf("المجموع : ")+10).replace("\n", ""));
                                     map.put("point_sum", temp.substring(temp.indexOf("النقاط : ")+9, temp.indexOf("ملاحظات : ")).replace("\n", ""));
@@ -269,21 +280,33 @@ public class Delivery_Emp extends AppCompatActivity {
                     dialog.show();
                     dialog.getWindow().setAttributes(lp);
 
-                    Button b1, b2, b3, b4, b5;
+                    Button b1, b2, b3, b4, b5, b6;
                     TextView t = dialog.findViewById(R.id.title);
 
                     b1 = dialog.findViewById(R.id.call);
                     b2 = dialog.findViewById(R.id.go);
                     b3 = dialog.findViewById(R.id.redirect);
                     b4 = dialog.findViewById(R.id.confirm);
+                    b6 = dialog.findViewById(R.id.confirm2);
                     b5 = dialog.findViewById(R.id.remove);
 
                     t.setText("You Can Pick To...");
                     b1.setText("contact The customer");
                     b2.setText("show customer address");
                     b3.setText("transfer the order to another driver");
-                    b4.setText("receipt confirmation");
+                    b4.setText("print receipt (For Driver)");
+                    b6.setText("receipt confirmation (For Customer)");
                     b5.setText("remove order");
+
+                    b6.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            PrintDriverAr(sp.getSelectedItem().toString(), position);
+
+                        }
+                    });
+
                     b1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -371,7 +394,8 @@ public class Delivery_Emp extends AppCompatActivity {
                                     HashMap<String, String> map = new HashMap<>();
                                     map.put("user_name", temp.substring(temp.indexOf("Name : ")+7, temp.indexOf("Phone : ")).replace("\n", ""));
                                     map.put("user_mobile", temp.substring(temp.indexOf("Phone : ")+8, temp.indexOf("Menu : ")).replace("\n", ""));
-                                    map.put("user_desc", temp.substring(temp.indexOf("Notes : ")+8, temp.indexOf("Delivery")).replace("\n", ""));
+                                    map.put("user_desc", temp.substring(temp.indexOf("Notes : ")+8, temp.indexOf("Pickup Time")).replace("\n", ""));
+                                    map.put("time", temp.substring(temp.indexOf("Pickup Time : ")+14, temp.indexOf("Delivery Price")).replace("\n", ""));
                                     map.put("item_list",temp.substring(temp.indexOf("Menu : ")+7, temp.indexOf("Points : ")).replace("\n", ""));
                                     map.put("item_sum_price", temp.substring(temp.indexOf("Total : ")+8).replace("\n", ""));
                                     map.put("point_sum", temp.substring(temp.indexOf("Points : ")+9, temp.indexOf("Notes : ")).replace("\n", ""));
@@ -456,6 +480,7 @@ public class Delivery_Emp extends AppCompatActivity {
                                         +"قائمة : "+document.get("item_list").toString()+"\n"
                                         +"النقاط : "+document.get("point_sum").toString()+"\n"
                                         +"ملاحظات : "+document.get("user_desc").toString()+"\n"
+                                        +"وقت الإستلام : "+document.get("time").toString()+"\n"
                                         +"سعر توصيل : "+document.get("d_price").toString()+"\n"
                                         +"العنوان : "+"jordan"+"\n"
                                         +"المجموع : "+document.get("item_sum_price").toString()+"\n" );
@@ -466,6 +491,7 @@ public class Delivery_Emp extends AppCompatActivity {
                                         +"Menu : "+document.get("item_list").toString()+"\n"
                                         +"Points : "+document.get("point_sum").toString()+"\n"
                                         +"Notes : "+document.get("user_desc").toString()+"\n"
+                                        +"Pickup Time : "+document.get("time").toString()+"\n"
                                         +"Delivery Price : "+document.get("d_price").toString()+"\n"
                                         +"Address : "+"Jordan"+"\n"
                                         +"Total : "+document.get("item_sum_price").toString()+"\n" );
@@ -536,8 +562,106 @@ public class Delivery_Emp extends AppCompatActivity {
         return temp;
     }
 
+    public void PrintDriverAr(final String path, final int pos){
+        String bill="";
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
+        Date dateee = new Date();
+        String date = dateFormat.format(dateee);
+
+        String day = date.substring(0, date.indexOf(" "));
+        String time = date.substring(date.indexOf(" ")+1);
+
+        ArrayList<String> ttt = info;
+
+        String [] temp, temp2;
+        temp = info.get(pos).substring(info.get(pos)
+                .indexOf("قائمة : ")+8, info.get(pos).indexOf("المجموع :"))
+                .replaceAll("= ", "X").replaceAll(":", "السعر : ").replaceAll("\n", "")
+                .split(",");
+        temp2 = temp;
+        if(temp[temp.length-1].equals(" ")){
+            temp2 = temp;
+            temp = new String[temp2.length-1];
+            for(int i=0; i<temp.length; i++) {
+                temp[i] = temp2[i];
+                temp2[i] = temp[i]+"\n,";
+            }
+        }
+
+        bill+="\n"+"مرحبا بك في مطعم شاورما هايبرد"+",";
+        bill+="\n"+"نوع الفاتورة : فاتورة توصيل"+",";
+        bill+="\n\n"+",";
+        bill+="تاريخ : "+day+"\n"+",";
+        bill+="وقت : "+time+"\n"+",";
+        bill+="__________________________________________\n\n\n"+",";
+
+        for(int i=0; i<temp.length-1; i++)
+            bill+="\nالمادة : "+temp2[i];
+
+        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"));
+        bill+="\n\nمجموع الفاتورة : "+(Double.parseDouble(info.get(pos).substring(info.get(pos).indexOf("المجموع : ")+10))-taxValue)+",";
+        bill+="\n\nقيمة الضريبة : "+getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0")+" %"+"\n"+",";
+        bill+="\n\nمجموع كلي : "+info.get(pos).substring(info.get(pos).indexOf("المجموع : ")+10)+"\n"+",";
+        bill+="\n\n\nأهلا و سهلا زبائننا الكرام\n\n\n";
+
+        PrintUsingServer(bill);
+
+    }
+
+    public void PrintDriverEn(final String path, final int pos){
+
+        String bill="";
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
+        Date dateee = new Date();
+        String date = dateFormat.format(dateee);
+
+        String day = date.substring(0, date.indexOf(" "));
+        String time = date.substring(date.indexOf(" ")+1);
+
+        ArrayList<String> ttt = info;
+
+        String [] temp, temp2;
+        temp = info.get(pos).substring(info.get(pos)
+                .indexOf("Menu : ")+7, info.get(pos).indexOf("Points :"))
+                .replaceAll("= ", "X").replaceAll(":", "Price : ").replaceAll("\n", "")
+                .split(",");
+        temp2 = temp;
+        if(temp[temp.length-1].equals(" ")){
+            temp2 = temp;
+            temp = new String[temp2.length-1];
+            for(int i=0; i<temp.length; i++) {
+                temp[i] = temp2[i];
+                temp2[i] = temp[i]+"\n,";
+            }
+        }
+
+        bill+="\n"+"Welcome To Hybrid Shawarma Restaurant"+",";
+        bill+="\n"+"Bill Type : Delivery Bill"+",";
+        bill+="\n\n"+",";
+        bill+="Date : "+day+"\n"+",";
+        bill+="Time : "+time+"\n"+",";
+        bill+="__________________________________________\n\n\n"+",";
+
+        for(int i=0; i<temp.length; i++)
+            bill+="\nItem : "+temp2[i];
+
+        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"));
+        bill+="\n\nBill Value : "+(Double.parseDouble(info.get(pos).substring(info.get(pos).indexOf("Total : ")+8))-taxValue)+",";
+        bill+="\n\nTax Value: "+getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0")+" %"+"\n"+",";
+        bill+="\n\nTotal Bill : "+info.get(pos).substring(info.get(pos).indexOf("Total : ")+8)+"\n"+",";
+        bill+="\n\n\nThank You, Please Come Again Soon !\n\n\n";
+
+        PrintUsingServer(bill);
+
+        //test on printers _______________________________________________****************************
+
+    }
+
     public void AddSale(final String path, final int pos){
-//findme
         String bill="";
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
@@ -602,7 +726,7 @@ public class Delivery_Emp extends AppCompatActivity {
     }
 
     public void AddSale2(final String path, final int pos){
-//findme
+
         String bill="";
         FirebaseAuth auth = FirebaseAuth.getInstance();
 

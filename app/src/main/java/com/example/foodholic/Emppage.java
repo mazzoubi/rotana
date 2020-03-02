@@ -879,6 +879,7 @@ public class Emppage extends AppCompatActivity
                                             order.put("d_price", dprice.getText().toString());
                                             order.put("email", "");
                                             order.put("lat", "");
+                                            order.put("time", "");
                                             order.put("lng", "");
 
                                             db.collection("Res_1_Delivery")
@@ -923,6 +924,7 @@ public class Emppage extends AppCompatActivity
                                             order.put("d_price", dprice.getText().toString());
                                             order.put("email", "");
                                             order.put("lat", "");
+                                            order.put("time", "");
                                             order.put("lng", "");
 
                                             db.collection("Res_1_Delivery")
@@ -1012,6 +1014,7 @@ public class Emppage extends AppCompatActivity
                                             order.put("d_price", dprice.getText().toString());
                                             order.put("email", "");
                                             order.put("lat", "");
+                                        order.put("time", "");
                                             order.put("lng", "");
 
                                             db.collection("Res_1_Delivery")
@@ -1134,11 +1137,13 @@ public class Emppage extends AppCompatActivity
                                         Map<String, Object> order = new HashMap<>();
                                         order.put("user_name", name2.getText().toString());
                                         order.put("user_mobile", mobile2.getText().toString());
-                                        order.put("user_loc", desc2.getText().toString());
+                                        order.put("user_loc", "");
+                                        order.put("user_desc", desc2.getText().toString());
                                         order.put("item_list", MenuSum());
                                         order.put("item_sum_price", sum+"");
                                         order.put("point_sum", "0");
                                         order.put("d_price", "");
+                                        order.put("time", "");
                                         order.put("email", "");
 
                                         db.collection("Res_1_TakeAway").document(new Date().toString()).set(order)
@@ -1233,11 +1238,13 @@ public class Emppage extends AppCompatActivity
                                         Map<String, Object> order = new HashMap<>();
                                         order.put("user_name", name2.getText().toString());
                                         order.put("user_mobile", mobile2.getText().toString());
-                                        order.put("user_loc", desc2.getText().toString());
+                                        order.put("user_loc", "");
+                                        order.put("user_desc", desc2.getText().toString());
                                         order.put("item_list", MenuSum());
                                         order.put("item_sum_price", sum+"");
                                         order.put("point_sum", "0");
                                         order.put("d_price", "");
+                                        order.put("time", "");
                                         order.put("email", "");
 
                                         db.collection("Res_1_TakeAway").document(new Date().toString()).set(order)
@@ -1800,10 +1807,10 @@ public class Emppage extends AppCompatActivity
 
         try {
 
-            String ip = getSharedPreferences("IPS", MODE_PRIVATE).getString("ip", "192.168.1.1");
+            String ip = getSharedPreferences("IPS", MODE_PRIVATE).getString("ip", "192.168.1.3");
             int port = getSharedPreferences("IPS", MODE_PRIVATE).getInt("port", 9100);
 
-            SocketAddress socketAddress = new InetSocketAddress(ip, port);
+            SocketAddress socketAddress = new InetSocketAddress("192.168.14.54", port);
             Socket socket = new Socket();
 
             socket.connect(socketAddress, 5000);
@@ -1845,8 +1852,12 @@ public class Emppage extends AppCompatActivity
     @Override
     protected void onDestroy() {
 
-        if((!getIntent().getStringExtra("empemail").contains(".cap")))
-            closeAppUpload("", "", "", "", "");
+        String str = getIntent().getStringExtra("empemail");
+
+        if(str != null)
+            if((!str.contains(".cap")))
+                closeAppUpload("", "", "", "", "");
+
         super.onDestroy(); }
 
     public void closeAppUpload(String s1, String s2,String s3,String s4,String s5){
