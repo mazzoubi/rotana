@@ -132,7 +132,7 @@ public class MyService extends Service {
         stackBuilder.addNextIntent(new Intent(this, Main2Activity.class));
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
                 0,
-                PendingIntent.FLAG_ONE_SHOT
+                PendingIntent.FLAG_UPDATE_CURRENT
         );
         mBuilder.setContentIntent(resultPendingIntent);
 
