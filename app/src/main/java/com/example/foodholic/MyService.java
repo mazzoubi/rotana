@@ -85,6 +85,7 @@ public class MyService extends Service {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+
             }
         });
 
