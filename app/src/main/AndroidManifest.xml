@@ -19,7 +19,9 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
-        <activity android:name=".pillsPurchases"></activity>
+        <activity android:name=".aempInfo"></activity>
+        <activity android:name=".aempLogin" />
+        <activity android:name=".pillsPurchases" />
         <activity android:name=".supplierPillinfo" />
         <activity android:name=".pymentsCreatPill" />
         <activity android:name=".notificationInfo" />

@@ -87,7 +87,7 @@ public class MyService extends Service {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 take=true;
-                Toast.makeText(Emppage.this, "طلب سفري جديد", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "طلب سفري جديد", Toast.LENGTH_SHORT).show();
                 //Emppage.button.setText("");
                 // or set color
             }
@@ -105,7 +105,7 @@ public class MyService extends Service {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 del=true;
-                Toast.makeText(Emppage.this, "طلب ديلفري جديد", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "طلب ديلفري جديد", Toast.LENGTH_SHORT).show();
                 //Emppage.button.setText("");
                 // or set color
             }
@@ -123,7 +123,7 @@ public class MyService extends Service {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 tabl=true;
-                Toast.makeText(Emppage.this, "حجز طاوله جديد", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "حجز طاوله جديد", Toast.LENGTH_SHORT).show();
                 //Emppage.button.setText("");
                 // or set color
             }

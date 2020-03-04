@@ -30,6 +30,7 @@ public class empPermission extends AppCompatActivity {
     TextView textView;
     int position;
     int test=0;
+    int fromware=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +42,7 @@ public class empPermission extends AppCompatActivity {
 
 
         test=getIntent().getIntExtra("test",0);
-
+        fromware=getIntent().getIntExtra("112",0);
 
 
         db=FirebaseFirestore.getInstance();
@@ -56,7 +57,10 @@ public class empPermission extends AppCompatActivity {
         cashWork=findViewById(R.id.cashWORK1);
         empExt=findViewById(R.id.empEXT1);
 
-
+        if (fromware==1){
+            button.setEnabled(false);
+            button.setVisibility(View.INVISIBLE);
+        }
 
         if(shared2.getString("language", "").equals("arabic")) {
             textView.setText("صلاحيات الموظف");
