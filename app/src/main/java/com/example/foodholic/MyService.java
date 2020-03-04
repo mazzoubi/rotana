@@ -21,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -56,85 +57,48 @@ public class MyService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection("Res_1_Announcment")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-
-                            try{
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    str = "";
-                                    str = document.get("msg").toString(); }
-                                if(!str.equals(""))
-                                    showNotification(str);
-                            }catch (Exception e){}
-                        }
-                    } });
-
-
-
         takeAway = FirebaseDatabase.getInstance().getReference().child("notification").child("notificationTakeAway");
         delivery = FirebaseDatabase.getInstance().getReference().child("notification").child("notificationDelivery");
         table = FirebaseDatabase.getInstance().getReference().child("notification").child("notificationTable");
 
-
-
-        takeAway.addChildEventListener(new ChildEventListener() {
+        takeAway.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                take=true;
-                Toast.makeText(MyService.this, "طلب سفري جديد", Toast.LENGTH_SHORT).show();
-                //MyService.button.setText("");
-                // or set color
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                showNotification("طلب سفري جديد");
+
             }
+
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {}
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
         });
 
-        delivery.addChildEventListener(new ChildEventListener() {
+        delivery.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                del=true;
-                Toast.makeText(MyService.this, "طلب ديلفري جديد", Toast.LENGTH_SHORT).show();
-                //MyService.button.setText("");
-                // or set color
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                showNotification("طلب ديلفري جديد");
             }
+
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {}
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
         });
 
-        table.addChildEventListener(new ChildEventListener() {
+        table.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                tabl=true;
-                Toast.makeText(MyService.this, "حجز طاوله جديد", Toast.LENGTH_SHORT).show();
-                //MyService.button.setText("");
-                // or set color
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                showNotification("حجز طاوله جديد");
             }
+
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {}
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
         });
 
 
@@ -167,7 +131,7 @@ public class MyService extends Service {
         stackBuilder.addNextIntent(new Intent(this, Main2Activity.class));
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
                 0,
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_ONE_SHOT
         );
         mBuilder.setContentIntent(resultPendingIntent);
 

@@ -211,6 +211,9 @@ public class Emppage extends AppCompatActivity
 
         restart = false;
 
+        Intent intent = new Intent(this, MyService.class);
+        startService(intent);
+
         if(HomeAct.lang == 1)
             setContentView(R.layout.activity_del_emp);
         else

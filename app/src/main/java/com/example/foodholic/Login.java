@@ -151,7 +151,7 @@ public class Login extends AppCompatActivity {
             et1.setHint("البريد الالكتروني");
             ppass.setHint("كلمة السر");
             llogin.setText("تسجيل دخول");
-            emplogin.setText("ظام الموظفين");
+            emplogin.setText("نظام الموظفين");
         }
 
         GetCurrency();

@@ -28,6 +28,8 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -621,6 +623,12 @@ public class Tabel_Res_Emp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_tabel__res__emp);
+
+        try {
+            DatabaseReference tablelelele = FirebaseDatabase.getInstance().getReference().child("notification").child("notificationTable");
+            tablelelele.removeValue();
+        }catch (Exception e ){
+        }
 
         Toolbar toolbar = findViewById(R.id.tool);
         if(HomeAct.lang == 1)
