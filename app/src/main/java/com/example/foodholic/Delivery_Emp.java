@@ -302,7 +302,7 @@ public class Delivery_Emp extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
 
-                            PrintDriverAr(sp.getSelectedItem().toString(), position);
+                            PrintDriverEn(sp.getSelectedItem().toString(), position);
 
                         }
                     });
@@ -600,11 +600,16 @@ public class Delivery_Emp extends AppCompatActivity {
         for(int i=0; i<temp.length-1; i++)
             bill+="\nالمادة : "+temp2[i];
 
-        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"));
-        bill+="\n\nمجموع الفاتورة : "+(Double.parseDouble(info.get(pos).substring(info.get(pos).indexOf("المجموع : ")+10))-taxValue)+",";
+        bill+=",";
+
+        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"))*0.01;
+        double billval = Double.parseDouble(info.get(pos).substring(info.get(pos).indexOf("المجموع : ")+10).replace(getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"), ""));
+        double su = billval-(billval*taxValue);
+
+        bill+="\n,\nمجموع الفاتورة : "+(su)+",";
         bill+="\n\nقيمة الضريبة : "+getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0")+" %"+"\n"+",";
         bill+="\n\nمجموع كلي : "+info.get(pos).substring(info.get(pos).indexOf("المجموع : ")+10)+"\n"+",";
-        bill+="\n\n\nأهلا و سهلا زبائننا الكرام\n\n\n";
+        bill+="\n\n\nأهلا و سهلا زبائننا الكرام\n\n\n,";
 
         PrintUsingServer(bill);
 
@@ -649,11 +654,16 @@ public class Delivery_Emp extends AppCompatActivity {
         for(int i=0; i<temp.length; i++)
             bill+="\nItem : "+temp2[i];
 
-        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"));
-        bill+="\n\nBill Value : "+(Double.parseDouble(info.get(pos).substring(info.get(pos).indexOf("Total : ")+8))-taxValue)+",";
+        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"))*0.01;
+        double billval = Double.parseDouble(info.get(pos).substring(info.get(pos).indexOf("Total : ")+8).replace(getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"), ""));
+        double su = billval-(billval*taxValue);
+
+        bill+=",";
+
+        bill+="\n,\nBill Value : "+(su)+",";
         bill+="\n\nTax Value: "+getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0")+" %"+"\n"+",";
         bill+="\n\nTotal Bill : "+info.get(pos).substring(info.get(pos).indexOf("Total : ")+8)+"\n"+",";
-        bill+="\n\n\nThank You, Please Come Again Soon !\n\n\n";
+        bill+="\n\n\nCome Again Soon !\n\n\n,";
 
         PrintUsingServer(bill);
 
@@ -714,11 +724,16 @@ public class Delivery_Emp extends AppCompatActivity {
             db.collection("Res_1_sales").document().set(sale);
         }
 
-        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"));
-        bill+="\n\nمجموع الفاتورة : "+(Double.parseDouble(info.get(pos).substring(info.get(pos).indexOf("المجموع : ")+10))-taxValue)+",";
+        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"))*0.01;
+        double billval = Double.parseDouble(info.get(pos).substring(info.get(pos).indexOf("المجموع : ")+10).replace(getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"), ""));
+        double su = billval-(billval*taxValue);
+
+        bill+=",";
+
+        bill+="\n,\nمجموع الفاتورة : "+(su)+",";
         bill+="\n\nقيمة الضريبة : "+getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0")+" %"+"\n"+",";
         bill+="\n\nمجموع كلي : "+info.get(pos).substring(info.get(pos).indexOf("المجموع : ")+10)+"\n"+",";
-        bill+="\n\n\nأهلا و سهلا زبائننا الكرام\n\n\n";
+        bill+="\n\n\nأهلا و سهلا زبائننا الكرام\n\n\n,";
 
         removeData(path, pos);
         PrintUsingServer(bill);
@@ -779,11 +794,16 @@ public class Delivery_Emp extends AppCompatActivity {
             db.collection("Res_1_sales").document().set(sale);
         }
 
-        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"));
-        bill+="\n\nBill Value : "+(Double.parseDouble(info.get(pos).substring(info.get(pos).indexOf("Total : ")+8))-taxValue)+",";
+        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"))*0.01;
+        double billval = Double.parseDouble(info.get(pos).substring(info.get(pos).indexOf("Total : ")+8).replace(getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"), ""));
+        double su = billval-(billval*taxValue);
+
+        bill+=",";
+
+        bill+="\n,\nBill Value : "+(su)+",";
         bill+="\n\nTax Value: "+getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0")+" %"+"\n"+",";
         bill+="\n\nTotal Bill : "+info.get(pos).substring(info.get(pos).indexOf("Total : ")+8)+"\n"+",";
-        bill+="\n\n\nThank You, Please Come Again Soon !\n\n\n";
+        bill+="\n\n\nCome Again Soon !\n\n\n,";
 
         removeData(path, pos);
         PrintUsingServer(bill);
@@ -799,10 +819,15 @@ public class Delivery_Emp extends AppCompatActivity {
 
         try {
 
+            if(HomeAct.lang == 1)
+                s = ("رقم الفاتورة : "+shared3.getInt("count", 0)+"")+","+s;
+            else
+                s = ("Bill ID : "+shared3.getInt("count", 0)+"")+","+s;
+
             String ip = getSharedPreferences("IPS", MODE_PRIVATE).getString("ip", "192.168.1.1");
             int port = getSharedPreferences("IPS", MODE_PRIVATE).getInt("port", 9100);
 
-            SocketAddress socketAddress = new InetSocketAddress(ip, port);
+            SocketAddress socketAddress = new InetSocketAddress("192.168.123.1", 9100);
             Socket socket = new Socket();
 
             socket.connect(socketAddress, 5000);

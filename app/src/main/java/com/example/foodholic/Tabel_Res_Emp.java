@@ -283,7 +283,10 @@ public class Tabel_Res_Emp extends AppCompatActivity {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
 
-                                                AddSale(position+1);
+                                                if(HomeAct.lang == 1)
+                                                    AddSale(position+1);
+                                                else
+                                                    AddSaleEn(position+1);
 
                                             }
                                         }).setNegativeButton(s3, new DialogInterface.OnClickListener() {
@@ -331,7 +334,11 @@ public class Tabel_Res_Emp extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        AddSale(psn);
+//                        if(HomeAct.lang == 1)
+//                            AddSale(psn);
+//                        else
+//                            AddSaleEn(psn);
+
                         recreate();
 
                     }
@@ -341,6 +348,77 @@ public class Tabel_Res_Emp extends AppCompatActivity {
                 dialogInterface.dismiss(); }
 
                 }).show();
+
+    }
+
+    public void AddSaleEn(final int pos){
+
+        String bill="";
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
+        Date dateee = new Date();
+        String date = dateFormat.format(dateee);
+
+        String day = date.substring(0, date.indexOf(" "));
+        String time = date.substring(date.indexOf(" ")+1);
+
+        ArrayList<String> ttt = info;
+
+        String [] temp, temp2;
+        temp = info.get(pos).substring(info.get(pos)
+                .indexOf("Menu : ")+7, info.get(pos).indexOf("Total :"))
+                .replaceAll("= ", "X").replaceAll(":", "Price : ").replaceAll("\n", "")
+                .split(",");
+        temp2 = temp;
+        if(temp[temp.length-1].equals(" ")){
+            temp2 = temp;
+            temp = new String[temp2.length-1];
+            for(int i=0; i<temp.length; i++) {
+                temp[i] = temp2[i];
+                temp2[i] = temp[i]+"\n,";
+            }
+        }
+
+        bill+="\n"+"Welcome To Hybrid Shawarma"+",";
+        bill+="\n"+"Bill Type : Table"+",";
+        bill+="\n"+"Table Num : "+pos+",";
+        bill+="\n\n"+",";
+        bill+="Date : "+day+"\n"+",";
+        bill+="Time : "+time+"\n"+",";
+        bill+="__________________________________________\n\n\n"+",";
+
+        Map<String, Object> sale = new HashMap<>();
+
+        for(int i=0; i<temp.length; i++){
+
+            sale.put("date", day);
+            sale.put("time", time);
+            sale.put("subItem", temp[i].substring(0, temp[i].indexOf(" X")));
+            sale.put("item", "");
+            sale.put("empEmail", auth.getCurrentUser().getEmail());
+
+            double p = Double.parseDouble(temp[i].substring(temp[i].indexOf("Price : ")+8));
+            int c = Integer.parseInt(temp[i].substring(temp[i].indexOf("X")+1, temp[i].indexOf(" Price : ")));
+            sale.put("sale", p*c);
+
+            bill+="\nItem : "+temp2[i];
+            db.collection("Res_1_sales").document().set(sale);
+        }
+
+        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"))*0.01;
+        double billval = Double.parseDouble(info.get(pos).substring(info.get(pos).indexOf("Total : ")+8).replace(getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"), ""));
+        double su = billval-(billval*taxValue);
+
+        bill+=",";
+
+        bill+="\n\nBill Sum : "+(su)+",";
+        bill+="\n\nTax Value : "+getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0")+" %"+"\n"+",";
+        bill+="\n\nBill Total : "+info.get(pos).substring(info.get(pos).indexOf("Total : ")+8)+"\n"+",";
+        bill+="\n\n\nCome Again Soon !\n\n\n";
+
+        removeData(pos);
+        PrintUsingServer(bill);
 
     }
 
@@ -399,8 +477,13 @@ public class Tabel_Res_Emp extends AppCompatActivity {
             db.collection("Res_1_sales").document().set(sale);
         }
 
-        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"));
-        bill+="\n\nمجموع الفاتورة : "+(Double.parseDouble(info.get(pos).substring(info.get(pos).indexOf("مجموع : ")+8))-taxValue)+",";
+        double taxValue = Double.parseDouble(getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0"))*0.01;
+        double billval = Double.parseDouble(info.get(pos).substring(info.get(pos).indexOf("مجموع : ")+8).replace(getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"), ""));
+        double su = billval-(billval*taxValue);
+
+        bill+=",";
+
+        bill+="\n\nمجموع الفاتورة : "+(su)+",";
         bill+="\n\nقيمة الضريبة : "+getSharedPreferences("Finance", MODE_PRIVATE).getString("tax", "0")+" %"+"\n"+",";
         bill+="\n\nمجموع كلي : "+info.get(pos).substring(info.get(pos).indexOf("مجموع : ")+8)+"\n"+",";
         bill+="\n\n\nأهلا و سهلا زبائننا الكرام\n\n\n";
@@ -419,10 +502,15 @@ public class Tabel_Res_Emp extends AppCompatActivity {
 
         try {
 
+            if(HomeAct.lang == 1)
+                s = ("رقم الفاتورة : "+shared3.getInt("count", 0)+"")+","+s;
+            else
+                s = ("Bill ID : "+shared3.getInt("count", 0)+"")+","+s;
+
             String ip = getSharedPreferences("IPS", MODE_PRIVATE).getString("ip", "192.168.1.1");
             int port = getSharedPreferences("IPS", MODE_PRIVATE).getInt("port", 9100);
 
-            SocketAddress socketAddress = new InetSocketAddress(ip, port);
+            SocketAddress socketAddress = new InetSocketAddress("192.168.123.1", 9100);
             Socket socket = new Socket();
 
             socket.connect(socketAddress, 5000);
