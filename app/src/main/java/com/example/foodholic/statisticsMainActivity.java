@@ -25,6 +25,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.FileOutputStream;
@@ -211,8 +213,10 @@ public class statisticsMainActivity extends AppCompatActivity {
                       "مجموع فتح صندوق   = "+floor+"\n" +
                       "مجموع المبيعات    = "+sale+"\n" +
                       "المجموع الكلي   = "+total;
-              ArrayAdapter<String> adapter=new zCloaseOpenAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
-              listView.setAdapter(adapter);
+
+              setListView();
+             /* ArrayAdapter<String> adapter=new zCloaseOpenAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
+              listView.setAdapter(adapter);*/
             }
             else if (month.isChecked()){
               toPrint="";
@@ -277,8 +281,9 @@ public class statisticsMainActivity extends AppCompatActivity {
                       "مجموع فتح صندوق   = "+floor+"\n" +
                       "مجموع المبيعات    = "+sale+"\n" +
                       "المجموع الكلي   = "+total;
-              ArrayAdapter<String> adapter=new zCloaseOpenAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
-              listView.setAdapter(adapter);
+              setListView();
+             /* ArrayAdapter<String> adapter=new zCloaseOpenAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
+              listView.setAdapter(adapter);*/
             }
             else if (day.isChecked()){
               toPrint="";
@@ -341,8 +346,9 @@ public class statisticsMainActivity extends AppCompatActivity {
                       "مجموع فتح صندوق   = "+floor+"\n" +
                       "مجموع المبيعات    = "+sale+"\n" +
                       "المجموع الكلي   = "+total;
-              ArrayAdapter<String> adapter=new zCloaseOpenAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
-              listView.setAdapter(adapter);
+              setListView();
+             /* ArrayAdapter<String> adapter=new zCloaseOpenAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
+              listView.setAdapter(adapter);*/
             }
           }catch (IndexOutOfBoundsException e){
             Toast.makeText(statisticsMainActivity.this, "هذا الموظف لايمتلك مبيعات حالياً", Toast.LENGTH_SHORT).show();
@@ -429,8 +435,9 @@ public class statisticsMainActivity extends AppCompatActivity {
                       "floor   = "+floor+"\n" +
                       "sale    = "+sale+"\n" +
                       "total   = "+total;
-              ArrayAdapter<String> adapter=new zCloaseOpenAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
-              listView.setAdapter(adapter);
+              setListView();
+             /* ArrayAdapter<String> adapter=new zCloaseOpenAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
+              listView.setAdapter(adapter);*/
             }
             else if (month.isChecked()){
               toPrint="";
@@ -494,8 +501,9 @@ public class statisticsMainActivity extends AppCompatActivity {
                       "floor   = "+floor+"\n" +
                       "sale    = "+sale+"\n" +
                       "total   = "+total;
-              ArrayAdapter<String> adapter=new zCloaseOpenAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
-              listView.setAdapter(adapter);
+              setListView();
+             /* ArrayAdapter<String> adapter=new zCloaseOpenAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
+              listView.setAdapter(adapter);*/
             }
             else if (day.isChecked()){
               toPrint="";
@@ -559,8 +567,9 @@ public class statisticsMainActivity extends AppCompatActivity {
                       "floor   = "+floor+"\n" +
                       "sale    = "+sale+"\n" +
                       "total   = "+total;
-              ArrayAdapter<String> adapter=new zCloaseOpenAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
-              listView.setAdapter(adapter);
+              setListView();
+             /* ArrayAdapter<String> adapter=new zCloaseOpenAdapter(getApplicationContext(),R.layout.row_zreport,arrayList);
+              listView.setAdapter(adapter);*/
             }
           }catch (IndexOutOfBoundsException e){
             Toast.makeText(statisticsMainActivity.this, "this employee has no sales", Toast.LENGTH_SHORT).show();
@@ -650,7 +659,44 @@ public class statisticsMainActivity extends AppCompatActivity {
       PdfWriter writer= PdfWriter.getInstance(mDoc, new FileOutputStream(mfilepath));
       mDoc.open();
 
-      mDoc.add(new Paragraph(s));
+      PdfPTable pdfPTable=new PdfPTable(8);
+      PdfPCell pdfPCell=new PdfPCell(new Paragraph("opreation date"));
+      PdfPCell pdfPCell2=new PdfPCell(new Paragraph("floor"));
+      PdfPCell pdfPCell3=new PdfPCell(new Paragraph("paid"));
+      PdfPCell pdfPCell4=new PdfPCell(new Paragraph("sold"));
+      PdfPCell pdfPCell5=new PdfPCell(new Paragraph("total"));
+      PdfPCell pdfPCell6=new PdfPCell(new Paragraph("date open"));
+      PdfPCell pdfPCell7=new PdfPCell(new Paragraph("date close"));
+      PdfPCell pdfPCell8=new PdfPCell(new Paragraph("notes"));
+
+      pdfPTable.addCell(pdfPCell);
+      pdfPTable.addCell(pdfPCell2);
+      pdfPTable.addCell(pdfPCell3);
+      pdfPTable.addCell(pdfPCell4);
+      pdfPTable.addCell(pdfPCell5);
+      pdfPTable.addCell(pdfPCell6);
+      pdfPTable.addCell(pdfPCell7);
+      pdfPTable.addCell(pdfPCell8);
+
+      double floor=0,paid=0,sold=0,total=0;
+      for (int i=0 ;i<closeOpenAtDate.size();i++){
+       floor+=closeOpenAtDate.get(i).floor;
+       paid+=closeOpenAtDate.get(i).paid;
+       sold+=closeOpenAtDate.get(i).sold;
+       total+=closeOpenAtDate.get(i).total;
+        pdfPTable.addCell(closeOpenAtDate.get(i).dateOpen);
+        pdfPTable.addCell(closeOpenAtDate.get(i).floor+"");
+        pdfPTable.addCell(closeOpenAtDate.get(i).paid+"");
+        pdfPTable.addCell(closeOpenAtDate.get(i).sold+"");
+        pdfPTable.addCell(closeOpenAtDate.get(i).total+"");
+        pdfPTable.addCell(closeOpenAtDate.get(i).dateAndTimeOpen);
+        pdfPTable.addCell(closeOpenAtDate.get(i).dateAndTimeClose);
+        pdfPTable.addCell(closeOpenAtDate.get(i).note);
+      }
+
+      mDoc.add(new Paragraph("Cash Report  "+ "\n employee: "+empName+ "        operation date:   "+new Date()+"\n\n\n\n\n"));
+      mDoc.add(pdfPTable);
+      mDoc.add(new Paragraph("sum floor= "+floor+"  \n"+"sum paid="+paid+"  \n"+"sum sold= "+" "+sold+"  \n"+"sum total= "+total));
 
       mDoc.close();
       writer.close();
@@ -660,6 +706,12 @@ public class statisticsMainActivity extends AppCompatActivity {
       Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
     }
     //Toast.makeText(this, s, Toast.LENGTH_LONG).show();
+  }
+
+  void setListView(){
+    ArrayAdapter<classCloseOpenCash> adapter=new zCloaseOpenAdapter(getApplicationContext(),R.layout.row_cloaseopencash,closeOpenAtDate);
+    listView.setAdapter(adapter);
+   // Toast.makeText(this, ""+closeOpenAtDate.size(), Toast.LENGTH_SHORT).show();
   }
 
 }

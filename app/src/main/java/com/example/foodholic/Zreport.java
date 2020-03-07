@@ -22,11 +22,15 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.common.collect.Table;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfDocument;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.FileOutputStream;
@@ -46,7 +50,8 @@ public class Zreport extends AppCompatActivity {
     String month ="";
     FirebaseFirestore db;
 
-   ArrayList<classSales>cSale;
+    ArrayList<classSales>cSale;
+    ArrayList<classSales>cSalepdf;
 
    ArrayList<String> smonth;
    ArrayList<String> syear;
@@ -150,6 +155,7 @@ public class Zreport extends AppCompatActivity {
                                 if (aaa.equals("0"+i+"-"+year)){
                                    z+=list.get(a).sale;
                                    y=1;
+
                                 }
                             }else{
                                 if (aaa.equals(""+i+"-"+year)){
@@ -160,11 +166,12 @@ public class Zreport extends AppCompatActivity {
                         }
                         if (y==1){
                             syear.add("Sales at : "+i+"-"+year+"="+z);
+
                         }
                         y=0;
                         z=0;
                     }
-                    syear.add("\n\t---------------------------------\n");
+                    syear.add("\n\t----------------------------------------------\n");
                     syear.add("total at : "+year+"="+bb+" "+currencyAndTax.currency +"\n" +
                             "tax : "+currencyAndTax.tax+"%\n"+
                             "tax ammount : "+((bb*currencyAndTax.tax/100))+" "+currencyAndTax.currency +"\n"+
@@ -330,9 +337,16 @@ public class Zreport extends AppCompatActivity {
     }
     void savePDF(){
         Document mDoc=new Document();
+       // PdfDocument mDoc=new PdfDocument();
         String mfileName= new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis());
         String mfilepath = Environment.getExternalStorageDirectory()+"/"+mfileName+".pdf";
+        PdfPTable table=new PdfPTable(3);
+        table.addCell("sales at:  ");
+        table.addCell("Value");
         try{
+
+
+
             PdfWriter.getInstance(mDoc, new FileOutputStream(mfilepath));
             mDoc.open();
             mDoc.addAuthor("mohammad");
