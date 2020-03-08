@@ -122,9 +122,15 @@
         <item>11</item>
         <item>12</item>
     </string-array>
+
     <string-array name="crrency">
 
         <item>JOD, دينار </item>
+        <item>OMR, ريال </item>
+        <item>KWD, دينار </item>
+        <item>BHD, دينار </item>
+        <item>QAR, ريال </item>
+        <item>SAR, ريال </item>
         <item>AED, درهم </item>
         <item>USD, دولار </item>
 

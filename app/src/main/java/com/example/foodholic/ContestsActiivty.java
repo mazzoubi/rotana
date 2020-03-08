@@ -145,7 +145,7 @@ public class ContestsActiivty extends AppCompatActivity {
                             String s = data.get(position);
 
                             db.collection("Res_1_Contest")
-                                    .document(s.substring(s.indexOf("@@@")+3))
+                                    .document(data.get(position))
                                     .delete()
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
@@ -178,7 +178,7 @@ public class ContestsActiivty extends AppCompatActivity {
                             String s = data.get(position);
 
                             db.collection("Res_1_Contest")
-                                    .document(s.substring(s.indexOf("@@@")+3))
+                                    .document(data.get(position))
                                     .delete()
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
@@ -247,9 +247,8 @@ public class ContestsActiivty extends AppCompatActivity {
 
     private void UploadData(String str) {
 
-        String da = getIntent().getStringExtra("date");
         Map<String, Object> map = new HashMap<>();
-        map.put("date", da);
+        map.put("count", "0");
         map.put("msg", str);
 
         db.collection("Res_1_Contest")
@@ -280,16 +279,16 @@ public class ContestsActiivty extends AppCompatActivity {
 
                         if(task.isSuccessful())
                             for(QueryDocumentSnapshot document : task.getResult())
-                                AddData(document.get("msg").toString()+"@@@"+document.getId());
+                                AddData(document.get("msg").toString(), document.getId(), document.get("count").toString());
                     }
                 });
 
     }
 
-    private void AddData(String msg) {
+    private void AddData(String msg, String id, String c) {
 
-        data.add(msg);
-        arr.add(msg.substring(0, msg.indexOf("@@@")));
+        data.add(id);
+        arr.add(msg+"\n"+"# : "+c);
         adapter.notifyDataSetChanged(); }
 
 
