@@ -487,8 +487,6 @@ public class Zreport extends AppCompatActivity {
                 else {
 
                 }
-
-
             }
 
         }
