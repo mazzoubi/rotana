@@ -5,28 +5,23 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,16 +34,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.luseen.spacenavigation.SpaceItem;
 import com.luseen.spacenavigation.SpaceNavigationView;
 import com.luseen.spacenavigation.SpaceOnClickListener;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Drive extends AppCompatActivity {
 
@@ -249,10 +240,10 @@ public class Drive extends AppCompatActivity {
             @Override
             public void onCentreButtonClick() {
 
-                final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(Drive.this);
+                final androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(Drive.this);
                 LayoutInflater inflater = Drive.this.getLayoutInflater();
                 builder.setView(inflater.inflate(R.layout.dialog_deliver3, null));
-                final android.support.v7.app.AlertDialog dialog = builder.create();
+                final androidx.appcompat.app.AlertDialog dialog = builder.create();
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                 lp.copyFrom(dialog.getWindow().getAttributes());
                 lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -301,7 +292,7 @@ public class Drive extends AppCompatActivity {
 
                     case 1:
                         if (lang==1){
-                            new android.support.v7.app.AlertDialog.Builder(Drive.this)
+                            new androidx.appcompat.app.AlertDialog.Builder(Drive.this)
                                     .setMessage("هل تود الأتصال على رقم المطعم ؟")
                                     .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
                                         @Override
@@ -318,7 +309,7 @@ public class Drive extends AppCompatActivity {
                             }).show();
                         }
                         else {
-                            new android.support.v7.app.AlertDialog.Builder(Drive.this)
+                            new androidx.appcompat.app.AlertDialog.Builder(Drive.this)
                                     .setMessage("do you want to call the restaurant?")
                                     .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                                         @Override
@@ -357,7 +348,7 @@ public class Drive extends AppCompatActivity {
                     case 1:
 
                         if (lang==1 ){
-                            new android.support.v7.app.AlertDialog.Builder(Drive.this)
+                            new androidx.appcompat.app.AlertDialog.Builder(Drive.this)
                                     .setMessage("هل تود الأتصال على رقم المطعم ؟")
                                     .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
                                         @Override
@@ -374,7 +365,7 @@ public class Drive extends AppCompatActivity {
                             }).show();
                         }
                         else {
-                            new android.support.v7.app.AlertDialog.Builder(Drive.this)
+                            new androidx.appcompat.app.AlertDialog.Builder(Drive.this)
                                     .setMessage("do you want to call the restaurant?")
                                     .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                                         @Override

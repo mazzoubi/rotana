@@ -4,21 +4,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -28,16 +24,15 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.wei.android.lib.fingerprintidentify.FingerprintIdentify;
+import com.wei.android.lib.fingerprintidentify.base.BaseFingerprint;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Adminpage extends AppCompatActivity {
 
@@ -62,13 +57,15 @@ public class Adminpage extends AppCompatActivity {
                 R.drawable.ic_noti,
                 R.drawable.ic_z,
                 R.drawable.ic_support,
-                R.drawable.ic_adb
+                R.drawable.ic_adb,
+                R.drawable.ic_fingerprint_black_24dp,
+                R.drawable.ic_exit
         };
 
         //public String[] mThumbNames = {"Human Resources", "Storage", "Reports", "Payments", "Cash Drawer", "Taxes", "Delivery Drivers", "Ratings" };
-        public String[] mThumbNames = {"Human Resources","Storage" ,"Reports", "Payments","Cash Drawer",  "Taxes" ,"Delivery Drivers" , "Tables Management" , "Ratings", "Points", "VISA", "VIP", "Suppliers","purchases report", "Job Req.","Alerts" , "tax change", "Contact Us", "Config" };
+        public String[] mThumbNames = {"Human Resources","Storage" ,"Reports", "Payments","Cash Drawer",  "Taxes" ,"Delivery Drivers" , "Tables Management" , "Ratings", "Points", "VISA", "VIP", "Suppliers","purchases report", "Job Req.","Alerts" , "tax change", "Contact Us", "Config", "Finger Print", "Exit" };
         //public String[] mThumbNames2 = {"تقارير جودة","سائقين التوصيل", "ضرائب", "صندوق الكاش","مصروفات", "تقارير", "مستودعات", "شؤون موظفين" };
-        public String[] mThumbNames2 = {"شؤون موظفين","مستودعات", "تقارير", "مصروفات","صندوق الكاش", "ضرائب", "سائقين التوصيل", "تنظيم الصالة","تقارير جودة", "نقاط", "فيزا", "أهم العملاء", "موردين","تقارير المشتريات", "طلبات توظيف", "تنبيهات","تعديل الضريبه", "تواصل معنا" , "ضبط"};
+        public String[] mThumbNames2 = {"شؤون موظفين","مستودعات", "تقارير", "مصروفات","صندوق الكاش", "ضرائب", "سائقين التوصيل", "تنظيم الصالة","تقارير جودة", "نقاط", "فيزا", "أهم العملاء", "موردين","تقارير المشتريات", "طلبات توظيف", "تنبيهات","تعديل الضريبه", "تواصل معنا" ,"ضبط", "تفعيل بصمة", "خروج"};
 
         private Context mContext;
 
@@ -92,7 +89,7 @@ public class Adminpage extends AppCompatActivity {
         }
 
         @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, final ViewGroup parent) {
 
             ViewHolderItem viewHolder;
 
@@ -271,6 +268,92 @@ public class Adminpage extends AppCompatActivity {
                                             }
                                         }).show();
                                 break;
+                            case 19 :
+
+                                FingerprintIdentify mFingerprintIdentify = new FingerprintIdentify(Adminpage.this);
+                                mFingerprintIdentify.setSupportAndroidL(true);
+                                mFingerprintIdentify.init();
+
+                                if(!mFingerprintIdentify.isFingerprintEnable() ||
+                                        !mFingerprintIdentify.isHardwareEnable()){
+
+                                    if(HomeAct.lang == 1){
+
+                                        new AlertDialog.Builder(Adminpage.this)
+                                                .setTitle("عذرا")
+                                                .setMessage("جهازك لا يدعم البصمة")
+                                                .setPositiveButton("حسنا", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                    }
+                                                }).show();
+
+                                    }
+                                    else{
+
+                                        new AlertDialog.Builder(Adminpage.this)
+                                                .setTitle("Sorry !")
+                                                .setMessage("Your Device Does not support FingerPrint")
+                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                    }
+                                                }).show();
+
+                                    }
+
+                                }
+
+                                else{
+
+                                    final AlertDialog AD = ReturnAlert(parent);
+
+                                    mFingerprintIdentify.startIdentify(5, new BaseFingerprint.IdentifyListener() {
+                                        @Override
+                                        public void onSucceed() {
+                                            AD.dismiss();
+                                            if(HomeAct.lang == 1)
+                                                Toast.makeText(Adminpage.this, "تم تفعيل البصمة بنجاح", Toast.LENGTH_LONG).show();
+                                            else
+                                                Toast.makeText(Adminpage.this, "Finger Print Activated", Toast.LENGTH_LONG).show();
+
+                                            SharedPreferences sha = getSharedPreferences("lang", MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = sha.edit();
+                                            editor.putString("finem", getIntent().getStringExtra("empemail"));
+                                            editor.putString("finpa", getIntent().getStringExtra("emppass"));
+                                            editor.apply();
+
+                                        }
+
+                                        @Override
+                                        public void onNotMatch(int availableTimes) {
+                                            AD.dismiss();
+                                            if(HomeAct.lang == 1)
+                                                Toast.makeText(Adminpage.this, "هذه البصمة غير معروفة", Toast.LENGTH_LONG).show();
+                                            else
+                                                Toast.makeText(Adminpage.this, "Cannot Recognize This Finger Print", Toast.LENGTH_LONG).show();
+
+
+
+                                        }
+
+                                        @Override
+                                        public void onFailed(boolean isDeviceLocked) {
+
+                                        }
+
+                                        @Override
+                                        public void onStartFailedByDeviceLocked() {
+
+                                        }
+                                    });
+
+                                }
+
+
+                                break;
                         }
 
                     }
@@ -294,6 +377,22 @@ public class Adminpage extends AppCompatActivity {
 
             return convertView; }
 
+    }
+
+    private AlertDialog ReturnAlert(ViewGroup parent) {
+
+        AlertDialog Alert=null;
+
+        if(HomeAct.lang == 1)
+            Alert = new AlertDialog.Builder(Adminpage.this)
+                    .setTitle("ألرجاء لمس ماسح البصمة")
+                    .setView(getLayoutInflater().inflate(R.layout.finger_print, parent, false)).show();
+        else
+            Alert = new AlertDialog.Builder(Adminpage.this)
+                    .setTitle("Touch Finger Print Sensor")
+                    .setView(getLayoutInflater().inflate(R.layout.finger_print, parent, false)).show();
+
+        return Alert;
     }
 
     private void uploadTabelNum(String toString) {

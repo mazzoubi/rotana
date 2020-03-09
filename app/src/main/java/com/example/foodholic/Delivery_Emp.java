@@ -1,14 +1,13 @@
 package com.example.foodholic;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -21,12 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -40,9 +37,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -128,10 +122,10 @@ public class Delivery_Emp extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, final int position, long ido) {
                 if (lang==1){
 
-                    final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(Delivery_Emp.this);
+                    final androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(Delivery_Emp.this);
                     LayoutInflater inflater = Delivery_Emp.this.getLayoutInflater();
                     builder.setView(inflater.inflate(R.layout.dialog_redirect, null));
-                    final android.support.v7.app.AlertDialog dialog = builder.create();
+                    final androidx.appcompat.app.AlertDialog dialog = builder.create();
                     WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                     lp.copyFrom(dialog.getWindow().getAttributes());
                     lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -213,10 +207,10 @@ public class Delivery_Emp extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
 
-                            final android.support.v7.app.AlertDialog.Builder builder2 = new android.support.v7.app.AlertDialog.Builder(Delivery_Emp.this);
+                            final androidx.appcompat.app.AlertDialog.Builder builder2 = new androidx.appcompat.app.AlertDialog.Builder(Delivery_Emp.this);
                             LayoutInflater inflater2 = Delivery_Emp.this.getLayoutInflater();
                             builder2.setView(inflater2.inflate(R.layout.dialog_redirect2, null));
-                            final android.support.v7.app.AlertDialog dialog2 = builder2.create();
+                            final androidx.appcompat.app.AlertDialog dialog2 = builder2.create();
                             WindowManager.LayoutParams lp2 = new WindowManager.LayoutParams();
                             lp2.copyFrom(dialog2.getWindow().getAttributes());
                             lp2.width = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -277,10 +271,10 @@ public class Delivery_Emp extends AppCompatActivity {
 
                 }
                 else {
-                    final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(Delivery_Emp.this);
+                    final androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(Delivery_Emp.this);
                     LayoutInflater inflater = Delivery_Emp.this.getLayoutInflater();
                     builder.setView(inflater.inflate(R.layout.dialog_redirect, null));
-                    final android.support.v7.app.AlertDialog dialog = builder.create();
+                    final androidx.appcompat.app.AlertDialog dialog = builder.create();
                     WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                     lp.copyFrom(dialog.getWindow().getAttributes());
                     lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -370,10 +364,10 @@ public class Delivery_Emp extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
 
-                            final android.support.v7.app.AlertDialog.Builder builder2 = new android.support.v7.app.AlertDialog.Builder(Delivery_Emp.this);
+                            final androidx.appcompat.app.AlertDialog.Builder builder2 = new androidx.appcompat.app.AlertDialog.Builder(Delivery_Emp.this);
                             LayoutInflater inflater2 = Delivery_Emp.this.getLayoutInflater();
                             builder2.setView(inflater2.inflate(R.layout.dialog_redirect2, null));
-                            final android.support.v7.app.AlertDialog dialog2 = builder2.create();
+                            final androidx.appcompat.app.AlertDialog dialog2 = builder2.create();
                             WindowManager.LayoutParams lp2 = new WindowManager.LayoutParams();
                             lp2.copyFrom(dialog2.getWindow().getAttributes());
                             lp2.width = WindowManager.LayoutParams.WRAP_CONTENT;

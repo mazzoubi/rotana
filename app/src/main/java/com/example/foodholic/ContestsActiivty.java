@@ -4,12 +4,12 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -26,7 +26,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -34,7 +33,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -79,10 +77,10 @@ public class ContestsActiivty extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final android.support.v7.app.AlertDialog.Builder builder2 = new android.support.v7.app.AlertDialog.Builder(ContestsActiivty.this);
+                final androidx.appcompat.app.AlertDialog.Builder builder2 = new androidx.appcompat.app.AlertDialog.Builder(ContestsActiivty.this);
                 LayoutInflater inflater2 = ContestsActiivty.this.getLayoutInflater();
                 builder2.setView(inflater2.inflate(R.layout.cont, null));
-                final android.support.v7.app.AlertDialog dialog2 = builder2.create();
+                final androidx.appcompat.app.AlertDialog dialog2 = builder2.create();
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                 dialog2.show();
 
@@ -201,7 +199,7 @@ public class ContestsActiivty extends AppCompatActivity {
 
     }
 
-    public void getDateTime(final android.support.v7.app.AlertDialog dialog2) {
+    public void getDateTime(final androidx.appcompat.app.AlertDialog dialog2) {
 
         final Calendar cal = Calendar.getInstance();
         DatePickerDialog.OnDateSetListener lsnr = new DatePickerDialog.OnDateSetListener() {

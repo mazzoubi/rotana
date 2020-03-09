@@ -2,7 +2,7 @@ package com.example.foodholic;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.constraint.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

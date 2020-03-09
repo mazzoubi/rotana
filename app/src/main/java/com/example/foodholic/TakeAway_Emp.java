@@ -1,14 +1,12 @@
 package com.example.foodholic;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,7 +18,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -39,9 +36,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -146,10 +140,10 @@ public class TakeAway_Emp extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, final int position, long ido) {
 
                 if(HomeAct.lang == 1){
-                    final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(TakeAway_Emp.this);
+                    final androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(TakeAway_Emp.this);
                     LayoutInflater inflater = TakeAway_Emp.this.getLayoutInflater();
                     builder.setView(inflater.inflate(R.layout.dialog_redirect3, null));
-                    final android.support.v7.app.AlertDialog dialog = builder.create();
+                    final androidx.appcompat.app.AlertDialog dialog = builder.create();
                     WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                     lp.copyFrom(dialog.getWindow().getAttributes());
                     lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -198,10 +192,10 @@ public class TakeAway_Emp extends AppCompatActivity {
                     });
                 }
                 else{
-                    final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(TakeAway_Emp.this);
+                    final androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(TakeAway_Emp.this);
                     LayoutInflater inflater = TakeAway_Emp.this.getLayoutInflater();
                     builder.setView(inflater.inflate(R.layout.dialog_redirect3a, null));
-                    final android.support.v7.app.AlertDialog dialog = builder.create();
+                    final androidx.appcompat.app.AlertDialog dialog = builder.create();
                     WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                     lp.copyFrom(dialog.getWindow().getAttributes());
                     lp.width = WindowManager.LayoutParams.WRAP_CONTENT;

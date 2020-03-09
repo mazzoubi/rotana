@@ -2,10 +2,10 @@ package com.example.foodholic;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -61,10 +61,10 @@ public class DriveCustom extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(DriveCustom.this);
+                final androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(DriveCustom.this);
                 LayoutInflater inflater = DriveCustom.this.getLayoutInflater();
                 builder.setView(inflater.inflate(R.layout.dialog_redirect4, null));
-                final android.support.v7.app.AlertDialog dialog = builder.create();
+                final androidx.appcompat.app.AlertDialog dialog = builder.create();
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                 lp.copyFrom(dialog.getWindow().getAttributes());
                 lp.width = WindowManager.LayoutParams.WRAP_CONTENT;

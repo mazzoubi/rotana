@@ -1,20 +1,22 @@
 package com.example.foodholic;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,13 +27,15 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.wei.android.lib.fingerprintidentify.FingerprintIdentify;
+import com.wei.android.lib.fingerprintidentify.base.BaseFingerprint;
 
 import java.util.ArrayList;
 
 public class Login extends AppCompatActivity {
     EditText ppass;
     AutoCompleteTextView et1;
-    Button llogin,emplogin;
+    Button llogin,emplogin, finger;
 
     SharedPreferences shared;
 
@@ -54,6 +58,7 @@ public class Login extends AppCompatActivity {
         et1 = findViewById(R.id.email);
         et1.setAdapter(adapter);
         emplogin=findViewById(R.id.emplogin);
+        finger=findViewById(R.id.finger);
         getAccountList();
 
         et1.addTextChangedListener(new TextWatcher() {
@@ -103,6 +108,7 @@ public class Login extends AppCompatActivity {
 
                                     Intent ax = new Intent(Login.this, Adminpage.class);
                                     ax.putExtra("empemail",Email);
+                                    ax.putExtra("emppass",Password);
                                     startActivity(ax);
                                     finish(); }
 
@@ -152,9 +158,115 @@ public class Login extends AppCompatActivity {
             ppass.setHint("كلمة السر");
             llogin.setText("تسجيل دخول");
             emplogin.setText("نظام الموظفين");
+            finger.setText("دخول باستخدام البصمة");
         }
 
         GetCurrency();
+
+        finger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FingerprintIdentify mFingerprintIdentify = new FingerprintIdentify(Login.this);
+                mFingerprintIdentify.setSupportAndroidL(true);
+                mFingerprintIdentify.init();
+
+                if(!mFingerprintIdentify.isFingerprintEnable() ||
+                        !mFingerprintIdentify.isHardwareEnable()){
+
+                    if(HomeAct.lang == 1){
+
+                        new AlertDialog.Builder(Login.this)
+                                .setTitle("عذرا")
+                                .setMessage("جهازك لا يدعم البصمة")
+                                .setPositiveButton("حسنا", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).show();
+
+                    }
+                    else{
+
+                        new AlertDialog.Builder(Login.this)
+                                .setTitle("Sorry !")
+                                .setMessage("Your Device Does not support FingerPrint")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).show();
+
+                    }
+
+                }
+
+                else{
+
+                    final AlertDialog AD = ReturnAlert((ViewGroup) getWindow().getDecorView().getRootView());
+
+                    mFingerprintIdentify.startIdentify(5, new BaseFingerprint.IdentifyListener() {
+                        @Override
+                        public void onSucceed() {
+                            AD.dismiss();
+                            if(HomeAct.lang == 1)
+                                Toast.makeText(Login.this, "تم الدخول باستخدام البصمة بنجاح", Toast.LENGTH_LONG).show();
+                            else
+                                Toast.makeText(Login.this, "Finger Print Login Successful", Toast.LENGTH_LONG).show();
+
+                            final String Email = shared.getString("finem", "");
+                            final String Password = shared.getString("finpa", "");
+
+                            FirebaseAuth auth = FirebaseAuth.getInstance();
+
+                            auth.signInWithEmailAndPassword(Email,Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        if (Email.contains(".ad")){
+
+                                            Intent ax = new Intent(Login.this, Adminpage.class);
+                                            ax.putExtra("empemail",Email);
+                                            ax.putExtra("emppass",Password);
+                                            startActivity(ax);
+                                            finish(); }
+
+                                    } else
+                                        Toast.makeText(Login.this, "Sign in error, Account not found !", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                        }
+
+                        @Override
+                        public void onNotMatch(int availableTimes) {
+                            AD.dismiss();
+                            if(HomeAct.lang == 1)
+                                Toast.makeText(Login.this, "هذه البصمة غير معروفة", Toast.LENGTH_LONG).show();
+                            else
+                                Toast.makeText(Login.this, "Cannot Recognize This Finger Print", Toast.LENGTH_LONG).show();
+
+
+
+                        }
+
+                        @Override
+                        public void onFailed(boolean isDeviceLocked) {
+
+                        }
+
+                        @Override
+                        public void onStartFailedByDeviceLocked() {
+
+                        }
+                    });
+
+                }
+
+            }
+        });
 
     }
 
@@ -190,6 +302,22 @@ public class Login extends AppCompatActivity {
         editor.putString("tax", tax);
         editor.apply();
 
+    }
+
+    private AlertDialog ReturnAlert(ViewGroup parent) {
+
+        AlertDialog Alert=null;
+
+        if(HomeAct.lang == 1)
+            Alert = new AlertDialog.Builder(Login.this)
+                    .setTitle("ألرجاء لمس ماسح البصمة")
+                    .setView(getLayoutInflater().inflate(R.layout.finger_print, parent, false)).show();
+        else
+            Alert = new AlertDialog.Builder(Login.this)
+                    .setTitle("Touch Finger Print Sensor")
+                    .setView(getLayoutInflater().inflate(R.layout.finger_print, parent, false)).show();
+
+        return Alert;
     }
 
     public void getAccountList(){

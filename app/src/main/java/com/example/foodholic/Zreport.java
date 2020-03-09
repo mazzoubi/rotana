@@ -30,7 +30,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfDocument;
-import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
@@ -52,6 +51,8 @@ public class Zreport extends AppCompatActivity {
     FirebaseFirestore db;
 
     ArrayList<classSales>cSale;
+    ArrayList<classSales>cSalepdf;
+
    ArrayList<String> smonth;
    ArrayList<String> syear;
 
@@ -63,7 +64,6 @@ public class Zreport extends AppCompatActivity {
    int m=0;
    int y=0;
 
-   int flag=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,7 +112,7 @@ public class Zreport extends AppCompatActivity {
         yearReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                flag=1;
+
                 if (year.isEmpty()){
                     if(shared2.getString("language", "").equals("arabic")) {
                         Toast.makeText(Zreport.this, "الرجاء اختيار السنه", Toast.LENGTH_SHORT).show();
@@ -188,9 +188,6 @@ public class Zreport extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                flag=2;
-               // cSalepdf=new ArrayList<>();
-               // csale1=new ArrayList<>();
                 if (year.isEmpty()){
                     if(HomeAct.lang==1){
                         Toast.makeText(Zreport.this, "الرجاء اختيار السنه", Toast.LENGTH_SHORT).show();
@@ -254,7 +251,7 @@ public class Zreport extends AppCompatActivity {
                     for (int i=0; i< syear.size();i++){
                         s+=syear.get(i)+"\n";
                     }
-                    savePDF();
+                    print(s);
                 }
                 else if (y==0&& m==1){
                     String s="";
@@ -262,7 +259,7 @@ public class Zreport extends AppCompatActivity {
                         s+=smonth.get(i)+"\n";
                     }
                     pdfTex=s;
-                    savePDF();
+                    print(s);
                 }
             }
         });
@@ -312,163 +309,48 @@ public class Zreport extends AppCompatActivity {
         });
     }
 
+    void print(String s){
+       // Toast.makeText(Zreport.this, s, Toast.LENGTH_SHORT).show();
+
+
+                Document mDoc=new Document();
+                String mfileName= "tax_report_"+System.currentTimeMillis();
+                String mfilepath = Environment.getExternalStorageDirectory()+"/"+mfileName+".pdf";
+                try{
+                   PdfWriter writer= PdfWriter.getInstance(mDoc, new FileOutputStream(mfilepath));
+                    mDoc.open();
+
+                    mDoc.add(new Paragraph(s));
+
+                    mDoc.close();
+                    writer.close();
+                    Toast.makeText(this, mfileName+".pdf file is saved\n"+mfilepath, Toast.LENGTH_SHORT).show();
+
+                }catch (Exception e){
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                //savePDF();
+
+
+
+    }
     void savePDF(){
         Document mDoc=new Document();
        // PdfDocument mDoc=new PdfDocument();
-        String mfileName= "Zreport"+new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis());
+        String mfileName= new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis());
         String mfilepath = Environment.getExternalStorageDirectory()+"/"+mfileName+".pdf";
-
-        double sum=0;
-        double []arr12=new double[12];
-        double []arr31=new double[31];
-        for (int i=0;i<31;i++){
-            if (i<12){
-                arr12[i]=0;
-            }
-            arr31[i]=0;
-        }
-        PdfPTable pdfPTable=new PdfPTable(3);
-        PdfPCell pdfPCell=new PdfPCell(new Paragraph("date"));
-        PdfPCell pdfPCell2=new PdfPCell(new Paragraph("sales"));
-        PdfPCell pdfPCell3=new PdfPCell(new Paragraph("currency"));
-
-        pdfPTable.addCell(pdfPCell);
-        pdfPTable.addCell(pdfPCell2);
-        pdfPTable.addCell(pdfPCell3);
-
-        if (flag==1){
-        for (classSales d : cSale){
-            if (d.date.contains(year)){
-                if (d.date.contains("01-"+year)){
-                    arr12[0]+=d.sale;
-                }
-                else if (d.date.contains("02-"+year)){
-                    arr12[1]+=d.sale;
-                }else if (d.date.contains("03-"+year)){
-                    arr12[2]+=d.sale;
-                }else if (d.date.contains("04-"+year)){
-                    arr12[3]+=d.sale;
-                }else if (d.date.contains("05-"+year)){
-                    arr12[4]+=d.sale;
-                }else if (d.date.contains("06-"+year)){
-                    arr12[5]+=d.sale;
-                }else if (d.date.contains("07-"+year)){
-                    arr12[6]+=d.sale;
-                }else if (d.date.contains("08-"+year)){
-                    arr12[7]+=d.sale;
-                }else if (d.date.contains("09-"+year)){
-                    arr12[8]+=d.sale;
-                }else if (d.date.contains("10-"+year)){
-                    arr12[9]+=d.sale;
-                }else if (d.date.contains("11-"+year)){
-                    arr12[10]+=d.sale;
-                }else if (d.date.contains("12-"+year)){
-                    arr12[11]+=d.sale;
-                }
-
-            }
-        }
-        for (int i=0;i<12;i++){
-            sum+=arr12[i];
-            pdfPTable.addCell(new Paragraph((i+1)+"-"+year));
-            pdfPTable.addCell(new Paragraph(arr12[i]+""));
-            pdfPTable.addCell(currencyAndTax.currency);
-
-        }
-        }
-        else if (flag==2){
-            for (classSales d : cSale){
-                if (d.date.contains(month+"-"+year)){
-                     if (d.date.contains("01-"+month+"-"+year)){
-                         arr31[0]+=d.sale;
-                    }else if (d.date.contains("02-"+month+"-"+year)){
-                         arr31[1]+=d.sale;
-                    }else if (d.date.contains("03-"+month+"-"+year)){
-                         arr31[2]+=d.sale;
-                    }else if (d.date.contains("04-"+month+"-"+year)){
-                         arr31[3]+=d.sale;
-                    }else if (d.date.contains("05-"+month+"-"+year)){
-                         arr31[4]+=d.sale;
-                    }else if (d.date.contains("06-"+month+"-"+year)){
-                         arr31[5]+=d.sale;
-                    }else if (d.date.contains("07-"+month+"-"+year)){
-                         arr31[6]+=d.sale;
-                    }else if (d.date.contains("08-"+month+"-"+year)){
-                         arr31[7]+=d.sale;
-                    }else if (d.date.contains("09-"+month+"-"+year)){
-                         arr31[8]+=d.sale;
-                    }else if (d.date.contains("10-"+month+"-"+year)){
-                         arr31[9]+=d.sale;
-                    }else if (d.date.contains("11-"+month+"-"+year)){
-                         arr31[10]+=d.sale;
-                    }else if (d.date.contains("12-"+month+"-"+year)){
-                         arr31[11]+=d.sale;
-                    }else if (d.date.contains("13-"+month+"-"+year)){
-                         arr31[12]+=d.sale;
-                    }else if (d.date.contains("14-"+month+"-"+year)){
-                         arr31[13]+=d.sale;
-                    }else if (d.date.contains("15-"+month+"-"+year)){
-                         arr31[14]+=d.sale;
-                    }else if (d.date.contains("16-"+month+"-"+year)){
-                         arr31[15]+=d.sale;
-                    }else if (d.date.contains("17-"+month+"-"+year)){
-                         arr31[16]+=d.sale;
-                    }else if (d.date.contains("18-"+month+"-"+year)){
-                         arr31[17]+=d.sale;
-                    }else if (d.date.contains("19-"+month+"-"+year)){
-                         arr31[18]+=d.sale;
-                    }else if (d.date.contains("20-"+month+"-"+year)){
-                         arr31[19]+=d.sale;
-                    }else if (d.date.contains("21-"+month+"-"+year)){
-                         arr31[20]+=d.sale;
-                    }else if (d.date.contains("22-"+month+"-"+year)){
-                         arr31[21]+=d.sale;
-                    }else if (d.date.contains("23-"+month+"-"+year)){
-                         arr31[22]+=d.sale;
-                    }else if (d.date.contains("24-"+month+"-"+year)){
-                         arr31[23]+=d.sale;
-                    }else if (d.date.contains("25-"+month+"-"+year)){
-                         arr31[24]+=d.sale;
-                    }else if (d.date.contains("26-"+month+"-"+year)){
-                         arr31[25]+=d.sale;
-                    }else if (d.date.contains("27-"+month+"-"+year)){
-                         arr31[26]+=d.sale;
-                    }else if (d.date.contains("28-"+month+"-"+year)){
-                         arr31[27]+=d.sale;
-                    }else if (d.date.contains("29-"+month+"-"+year)){
-                         arr31[28]+=d.sale;
-                    }else if (d.date.contains("30-"+month+"-"+year)){
-                         arr31[29]+=d.sale;
-                    }else if (d.date.contains("31-"+month+"-"+year)){
-                         arr31[30]+=d.sale;
-                    }
-                }
-            }
-            for (int i=0;i<31;i++){
-                sum+=arr31[i];
-                pdfPTable.addCell(new Paragraph((i+1)+"-"+month+"-"+year));
-                pdfPTable.addCell(new Paragraph(arr31[i]+""));
-                pdfPTable.addCell(currencyAndTax.currency);
-
-            }
-        }
-
+        PdfPTable table=new PdfPTable(3);
+        table.addCell("sales at:  ");
+        table.addCell("Value");
         try{
+
+
 
             PdfWriter.getInstance(mDoc, new FileOutputStream(mfilepath));
             mDoc.open();
-            mDoc.add(new Paragraph("Tax Report\n\n"+"Res Name:  "+HomeAct.resName+"       Operation Date:   "+new Date()+"\n\n\n"));
-            mDoc.add(pdfPTable);
-            mDoc.add(new Paragraph("\nTax: "+currencyAndTax.tax+"%"));
-            mDoc.add(new Paragraph("\nTax Amount: "+(sum*currencyAndTax.tax/100)+" "+currencyAndTax.currency));
-
-            if (flag==1){
-                mDoc.add(new Paragraph("\nTotal Sales At  "+year+" : "+sum+" "+currencyAndTax.currency));
-            }else if (flag==2){
-                mDoc.add(new Paragraph("\nTotal Sales At  "+month+"-"+year+" : "+sum+" "+currencyAndTax.currency));
-            }
-
-
+            mDoc.addAuthor("mohammad");
+            mDoc.add(new Paragraph(pdfTex));
             mDoc.close();
             Toast.makeText(this, mfileName+".pdf file is saved\n"+mfilepath, Toast.LENGTH_SHORT).show();
 
@@ -487,6 +369,8 @@ public class Zreport extends AppCompatActivity {
                 else {
 
                 }
+
+
             }
 
         }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".cashAddItemAR">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:background="@color/colorPrimary"
         app:title="Go Back"
@@ -14,7 +14,7 @@
         app:titleTextColor="@color/colorPrimaryDark"
         android:layout_height="40dp"/>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_below="@+id/tool"
         android:layout_margin="25dp"
@@ -139,6 +139,6 @@
             </LinearLayout>
         </ScrollView>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

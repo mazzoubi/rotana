@@ -24,14 +24,14 @@
             android:textColor="@color/colorPrimary"
             android:layout_height="50dp" />
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="fill_parent"
             android:layout_margin="15dp"
             android:layout_below="@+id/title"
             android:id="@+id/l"
             android:layout_height="wrap_content">
 
-            <android.support.v7.widget.AppCompatSpinner
+            <androidx.appcompat.widget.AppCompatSpinner
                 android:layout_width="match_parent"
                 android:entries="@array/custom"
                 android:id="@+id/type2"
@@ -44,7 +44,7 @@
                 android:textColor="@color/colorPrimary"
                 android:layout_height="50dp" />
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
 

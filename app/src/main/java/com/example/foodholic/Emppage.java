@@ -1,28 +1,23 @@
 package com.example.foodholic;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.hardware.usb.UsbDevice;
-import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,14 +29,12 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextClock;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -52,13 +45,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 
 import java.io.BufferedWriter;
-import java.io.Closeable;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
@@ -66,10 +56,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -252,6 +240,11 @@ public class Emppage extends AppCompatActivity
         shared2 = getSharedPreferences("lang", MODE_PRIVATE);
         shared3 = getSharedPreferences("cash", MODE_PRIVATE);
 
+        Gson gson = new Gson();
+        String json = shared.getString("MyObject", "");
+        if(!json.equals(""))
+            closeOpenCash = gson.fromJson(json, classCloseOpenCash.class);
+
         db = FirebaseFirestore.getInstance();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -339,15 +332,54 @@ public class Emppage extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                SharedPreferences.Editor editor = shared3.edit();
-                editor.putInt("count" , 0);
-                editor.apply();
+                if(HomeAct.lang == 1){
 
-                Button tcount = findViewById(R.id.counter);
-                if(HomeAct.lang == 1)
-                    tcount.setText("رقم الفاتورة : 0");
-                else
-                    tcount.setText("Bill ID : 0");
+                    new AlertDialog.Builder(Emppage.this)
+                            .setTitle("تنبيه !!!")
+                            .setMessage("أنت على وشك تصفير الدور الى 0, هل أنت متأكد ؟")
+                            .setCancelable(false)
+                            .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    SharedPreferences.Editor editor = shared3.edit();
+                                    editor.putInt("count" , 0);
+                                    editor.apply();
+
+                                    Button tcount = findViewById(R.id.counter);
+                                    tcount.setText("رقم الفاتورة : 0");
+                                }
+                            }).setNegativeButton("لا", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+                }
+
+                else{
+
+                    new AlertDialog.Builder(Emppage.this)
+                            .setTitle("Alert !!!")
+                            .setMessage("You Are About To Zero The Bill ID Count, Are You sure ?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    SharedPreferences.Editor editor = shared3.edit();
+                                    editor.putInt("count" , 0);
+                                    editor.apply();
+
+                                    Button tcount = findViewById(R.id.counter);
+
+                                    tcount.setText("Bill ID : 0");
+                                }
+                            }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+                }
 
             }
         });
@@ -389,6 +421,8 @@ public class Emppage extends AppCompatActivity
         SharedPreferences.Editor editor = shared.edit();
         editor.putString("cash", "");
         editor.apply();
+
+
 
         if(shared2.getString("cash", "").equals("")){
             if (HomeAct.lang==1 && (!getIntent().getStringExtra("empemail").contains(".cap"))){
@@ -804,7 +838,15 @@ public class Emppage extends AppCompatActivity
                     if(shared2.getString("language", "").equals("arabic"))
                         Toast.makeText(Emppage.this, "انت لا تمتلك صلاحيات الدخول الى هذا الاجراء", Toast.LENGTH_SHORT).show();
                     else Toast.makeText(Emppage.this, "you don't have permission enter", Toast.LENGTH_SHORT).show();
-                }}
+                }
+
+                SharedPreferences.Editor prefsEditor = shared.edit();
+                Gson gson = new Gson();
+                String json = gson.toJson(closeOpenCash);
+                prefsEditor.putString("MyObject", json);
+                prefsEditor.apply();
+
+            }
         });
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1865,6 +1907,18 @@ public class Emppage extends AppCompatActivity
     }
 
     @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        if (level == TRIM_MEMORY_UI_HIDDEN) {
+            SharedPreferences.Editor prefsEditor = shared.edit();
+            Gson gson = new Gson();
+            String json = gson.toJson(closeOpenCash);
+            prefsEditor.putString("MyObject", json);
+            prefsEditor.apply();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
 
 //        String str = getIntent().getStringExtra("empemail");
@@ -1872,6 +1926,12 @@ public class Emppage extends AppCompatActivity
 //        if(str != null)
 //            if((!str.contains(".cap")))
 //                closeAppUpload("", "", "", "", "");
+
+        SharedPreferences.Editor prefsEditor = shared.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(closeOpenCash);
+        prefsEditor.putString("MyObject", json);
+        prefsEditor.apply();
 
         super.onDestroy(); }
 
@@ -1904,8 +1964,31 @@ public class Emppage extends AppCompatActivity
                                 if (HomeAct.lang == 1) {
                                     returnBill(s1, s2, s3, s4, s5);
 
+                                    SharedPreferences.Editor prefsEditor = shared.edit();
+                                    Gson gson = new Gson();
+                                    closeOpenCash.total = 0;
+                                    String json = gson.toJson(closeOpenCash);
+                                    prefsEditor.putString("MyObject", json);
+                                    prefsEditor.apply();
+
+                                    prefsEditor = shared.edit();
+                                    prefsEditor.remove("MyObject");
+                                    prefsEditor.apply();
+
+
                                 } else {
                                     returnBillEn(s1, s2, s3, s4, s5);
+
+                                    SharedPreferences.Editor prefsEditor = shared.edit();
+                                    Gson gson = new Gson();
+                                    closeOpenCash.total = 0;
+                                    String json = gson.toJson(closeOpenCash);
+                                    prefsEditor.putString("MyObject", json);
+                                    prefsEditor.apply();
+
+                                    prefsEditor = shared.edit();
+                                    prefsEditor.remove("MyObject");
+                                    prefsEditor.apply();
 
                                 }
 
@@ -2100,6 +2183,8 @@ public class Emppage extends AppCompatActivity
         }
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if(shared2.getString("language", "").equals("arabic"))
@@ -2125,6 +2210,17 @@ public class Emppage extends AppCompatActivity
             editor = shared3.edit();
             editor.putString("pay", "0.0");
             editor.apply();
+
+            SharedPreferences.Editor prefsEditor = shared.edit();
+            Gson gson = new Gson();
+            closeOpenCash.total = 0;
+            String json = gson.toJson(closeOpenCash);
+            prefsEditor.putString("MyObject", json);
+            prefsEditor.apply();
+
+            prefsEditor = shared.edit();
+            prefsEditor.remove("MyObject");
+            prefsEditor.apply();
 
            startActivity(new Intent(Emppage.this, Login.class));
            finish();
