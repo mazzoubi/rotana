@@ -587,9 +587,9 @@ public class Tabel_Res_Emp extends AppCompatActivity {
         }
         catch(Exception e){
             if(HomeAct.lang == 1)
-                Toast.makeText(this, "لا يوجد طابعة !!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Tabel_Res_Emp.this, "لا يوجد طابعة !!!", Toast.LENGTH_SHORT).show();
             else
-                Toast.makeText(this, "No Printer Attached !!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Tabel_Res_Emp.this, "No Printer Attached !!!", Toast.LENGTH_SHORT).show();
         }
       }
 
@@ -660,7 +660,7 @@ public class Tabel_Res_Emp extends AppCompatActivity {
 
         }
         catch(Exception e){
-            Toast.makeText(this, "لا يوجد طابعة !!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Tabel_Res_Emp.this, "لا يوجد طابعة !!!", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -831,6 +831,7 @@ public class Tabel_Res_Emp extends AppCompatActivity {
                                             else
                                                 Toast.makeText(Tabel_Res_Emp.this, "حاول مجددا", Toast.LENGTH_SHORT).show();
                                             Sendk(p+1);
+                                            onBackPressed();
                                         }
                                         else{
                                             if(task.isSuccessful())
@@ -868,10 +869,11 @@ public class Tabel_Res_Emp extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(HomeAct.lang == 1){
                                                 if(task.isSuccessful())
-                                                    Toast.makeText(Tabel_Res_Emp.this, "تم اضافة الحجز", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(Tabel_Res_Emp.this, "تم الأضافة على الحجز", Toast.LENGTH_SHORT).show();
                                                 else
                                                     Toast.makeText(Tabel_Res_Emp.this, "حاول مجددا", Toast.LENGTH_SHORT).show();
-
+                                                Sendk(p+1);
+                                                onBackPressed();
                                             }
                                             else{
                                                 if(task.isSuccessful())
@@ -1056,6 +1058,7 @@ public class Tabel_Res_Emp extends AppCompatActivity {
             st+="]";
 
             bill += st;
+            bill += "SendToKitchen";
             PrintUsingServer(bill);
 
     }

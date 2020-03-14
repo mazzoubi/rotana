@@ -93,137 +93,57 @@ public class Adminpage extends AppCompatActivity {
 
             ViewHolderItem viewHolder;
 
-            if (convertView == null) {
 
-                LayoutInflater inflater = (Adminpage.this).getLayoutInflater();
-                convertView = inflater.inflate(R.layout.row_grid, parent, false);
 
-                viewHolder = new ViewHolderItem();
-                viewHolder.textViewItem = convertView.findViewById(R.id.textView);
-                viewHolder.imageViewItem = convertView.findViewById(R.id.imageView);
+            LayoutInflater inflater = (Adminpage.this).getLayoutInflater();
+            convertView = inflater.inflate(R.layout.row_grid, parent, false);
 
-                convertView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+            viewHolder = new ViewHolderItem();
+            viewHolder.textViewItem = convertView.findViewById(R.id.textView);
+            viewHolder.imageViewItem = convertView.findViewById(R.id.imageView);
 
-                        switch (position){
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                            case 0:
-                                Intent n=new Intent(getApplicationContext(),employeeCreatInformation.class);
-                                startActivity(n);
-                                break;
-                            case 1:
-                                Intent n1 =new Intent(getApplicationContext(),warehouse.class);
-                                startActivity(n1);
-                                break;
-                            case 2:
-                                Intent n2=new Intent(getApplicationContext(),statistics.class);
-                                startActivity(n2);
-                                break;
-                            case 3:
-                                Intent n3 =new Intent(getApplicationContext(),Payment.class);
-                                n3.putExtra("emp",email);
-                                startActivity(n3);
-                                break;
-                            case 4:
-                                Intent n4=new Intent(getApplicationContext(),statisticsMainActivity.class);
-                                startActivity(n4);
-                                break;
-                            case 5:
-                                Intent n5=new Intent(getApplicationContext(),Zreport.class);
-                                startActivity(n5);
-                                break;
-                            case 6:
-                                Intent n7=new Intent(getApplicationContext(),driverReport.class);
-                                startActivity(n7);
-                                break;
-                            case 7:
-                                final EditText edt = new EditText(Adminpage.this);
-                                if(shared2.getString("language", "").equals("arabic")) {
-                                    edt.setHint("أدخل عدد الطاولات");
-                                    new AlertDialog.Builder(Adminpage.this)
-                                            .setTitle("تنظيم الصالة")
-                                            .setView(edt)
-                                            .setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                    dialogInterface.dismiss();
-                                                }
-                                            })
-                                            .setPositiveButton("إدخال", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                    uploadTabelNum(edt.getText().toString());
-                                                    dialogInterface.dismiss();
-                                                }
-                                            }).show();
-                                }else{
-                                        edt.setHint("Enter number of table");
-                                        new AlertDialog.Builder(Adminpage.this)
-                                                .setTitle("hall organization")
-                                                .setView(edt)
-                                                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                                        dialogInterface.dismiss();
-                                                    }
-                                                })
-                                                .setPositiveButton("Enter", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                                        uploadTabelNum(edt.getText().toString());
-                                                        dialogInterface.dismiss();
-                                                    }
-                                                }).show();
+                    switch (position){
 
-                                }
-                                break;
-                            case 8:
-                                Intent n6=new Intent(getApplicationContext(),ratingSystem.class);
-                                startActivity(n6);
-                                break;
-                            case 9:
-                                Intent n8=new Intent(getApplicationContext(),PointReport.class);
-                                startActivity(n8);
-                                break;
-                            case 10:
-                                Intent n9=new Intent(getApplicationContext(),VisaReport.class);
-                                startActivity(n9);
-                                break;
-                            case 11:
-                                Intent n10=new Intent(getApplicationContext(),vipActivity.class);
-                                startActivity(n10);
-                                break;
-                            case 12:
-                                Intent n11=new Intent(getApplicationContext(),suppliers.class);
-                                startActivity(n11);
-                                break;
-                            case 13:
-                                Intent n13=new Intent(getApplicationContext(),pillsPurchases.class);
-                                startActivity(n13);
-                                break;
-                            case 14:
-                                Intent n143=new Intent(getApplicationContext(),Job_Apps.class);
-                                startActivity(n143);
-                                break;
-                            case 15:
-                                Intent n154 =new Intent(getApplicationContext(),notificationActivity.class);
-                                startActivity(n154);
-                                break;
-                            case 16:
-                                Intent n165=new Intent(getApplicationContext(),taxChange.class);
-                                startActivity(n165);
-                                break;
-                            case 17:
-                                Intent n176=new Intent(getApplicationContext(),Contact.class);
-                                startActivity(n176);
-                                break;
-                            case 18:
-                                final EditText e = new EditText(Adminpage.this);
-                                e.setHint("!!! كلمة السر !!!");
+                        case 0:
+                            Intent n=new Intent(getApplicationContext(),employeeCreatInformation.class);
+                            startActivity(n);
+                            break;
+                        case 1:
+                            Intent n1 =new Intent(getApplicationContext(),warehouse.class);
+                            startActivity(n1);
+                            break;
+                        case 2:
+                            Intent n2=new Intent(getApplicationContext(),statistics.class);
+                            startActivity(n2);
+                            break;
+                        case 3:
+                            Intent n3 =new Intent(getApplicationContext(),Payment.class);
+                            n3.putExtra("emp",email);
+                            startActivity(n3);
+                            break;
+                        case 4:
+                            Intent n4=new Intent(getApplicationContext(),statisticsMainActivity.class);
+                            startActivity(n4);
+                            break;
+                        case 5:
+                            Intent n5=new Intent(getApplicationContext(),Zreport.class);
+                            startActivity(n5);
+                            break;
+                        case 6:
+                            Intent n7=new Intent(getApplicationContext(),driverReport.class);
+                            startActivity(n7);
+                            break;
+                        case 7:
+                            final EditText edt = new EditText(Adminpage.this);
+                            if(shared2.getString("language", "").equals("arabic")) {
+                                edt.setHint("أدخل عدد الطاولات");
                                 new AlertDialog.Builder(Adminpage.this)
-                                        .setTitle("يرجى عدم العبث بهذا الخيار")
-                                        .setView(e)
+                                        .setTitle("تنظيم الصالة")
+                                        .setView(edt)
                                         .setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -233,136 +153,213 @@ public class Adminpage extends AppCompatActivity {
                                         .setPositiveButton("إدخال", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
-
-                                                if(e.getText().toString().equals("Animeotaku691996!!!")){
-                                                    final EditText ed = new EditText(Adminpage.this);
-                                                    ed.setHint("IP");
-                                                    new AlertDialog.Builder(Adminpage.this)
-                                                            .setTitle("Admin @OverRide")
-                                                            .setView(ed)
-                                                            .setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                                    dialogInterface.dismiss();
-                                                                }
-                                                            })
-                                                            .setPositiveButton("إدخال", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-
-                                                                    SharedPreferences shasha = getSharedPreferences("IPS", MODE_PRIVATE);
-                                                                    SharedPreferences.Editor editor = shasha.edit();
-
-                                                                    String [] ipp = ed.getText().toString().split(",");
-
-                                                                    editor.putString("ip", ipp[0]);
-                                                                    editor.putInt("port", Integer.parseInt(ipp[1]));
-
-                                                                    editor.apply();
-
-                                                                    dialogInterface.dismiss();
-                                                                }
-                                                            }).show();
-                                                }
-
+                                                uploadTabelNum(edt.getText().toString());
+                                                dialogInterface.dismiss();
                                             }
                                         }).show();
-                                break;
-                            case 19 :
+                            }else{
+                                edt.setHint("Enter number of table");
+                                new AlertDialog.Builder(Adminpage.this)
+                                        .setTitle("hall organization")
+                                        .setView(edt)
+                                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.dismiss();
+                                            }
+                                        })
+                                        .setPositiveButton("Enter", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                uploadTabelNum(edt.getText().toString());
+                                                dialogInterface.dismiss();
+                                            }
+                                        }).show();
 
-                                FingerprintIdentify mFingerprintIdentify = new FingerprintIdentify(Adminpage.this);
-                                mFingerprintIdentify.setSupportAndroidL(true);
-                                mFingerprintIdentify.init();
+                            }
+                            break;
+                        case 8:
+                            Intent n6=new Intent(getApplicationContext(),ratingSystem.class);
+                            startActivity(n6);
+                            break;
+                        case 9:
+                            Intent n8=new Intent(getApplicationContext(),PointReport.class);
+                            startActivity(n8);
+                            break;
+                        case 10:
+                            Intent n9=new Intent(getApplicationContext(),VisaReport.class);
+                            startActivity(n9);
+                            break;
+                        case 11:
+                            Intent n10=new Intent(getApplicationContext(),vipActivity.class);
+                            startActivity(n10);
+                            break;
+                        case 12:
+                            Intent n11=new Intent(getApplicationContext(),suppliers.class);
+                            startActivity(n11);
+                            break;
+                        case 13:
+                            Intent n13=new Intent(getApplicationContext(),pillsPurchases.class);
+                            startActivity(n13);
+                            break;
+                        case 14:
+                            Intent n143=new Intent(getApplicationContext(),Job_Apps.class);
+                            startActivity(n143);
+                            break;
+                        case 15:
+                            Intent n154 =new Intent(getApplicationContext(),notificationActivity.class);
+                            startActivity(n154);
+                            break;
+                        case 16:
+                            Intent n165=new Intent(getApplicationContext(),taxChange.class);
+                            startActivity(n165);
+                            break;
+                        case 17:
+                            Intent n176=new Intent(getApplicationContext(),Contact.class);
+                            startActivity(n176);
+                            break;
+                        case 18:
+                            final EditText e = new EditText(Adminpage.this);
+                            e.setHint("!!! كلمة السر !!!");
+                            new AlertDialog.Builder(Adminpage.this)
+                                    .setTitle("يرجى عدم العبث بهذا الخيار")
+                                    .setView(e)
+                                    .setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    })
+                                    .setPositiveButton("إدخال", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
 
-                                if(!mFingerprintIdentify.isFingerprintEnable() ||
-                                        !mFingerprintIdentify.isHardwareEnable()){
+                                            if(e.getText().toString().equals("Animeotaku691996!!!")){
+                                                final EditText ed = new EditText(Adminpage.this);
+                                                ed.setHint("IP");
+                                                new AlertDialog.Builder(Adminpage.this)
+                                                        .setTitle("Admin @OverRide")
+                                                        .setView(ed)
+                                                        .setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                                dialogInterface.dismiss();
+                                                            }
+                                                        })
+                                                        .setPositiveButton("إدخال", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialogInterface, int i) {
 
-                                    if(HomeAct.lang == 1){
+                                                                SharedPreferences shasha = getSharedPreferences("IPS", MODE_PRIVATE);
+                                                                SharedPreferences.Editor editor = shasha.edit();
 
-                                        new AlertDialog.Builder(Adminpage.this)
-                                                .setTitle("عذرا")
-                                                .setMessage("جهازك لا يدعم البصمة")
-                                                .setPositiveButton("حسنا", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                    }
-                                                }).show();
+                                                                String [] ipp = ed.getText().toString().split(",");
 
-                                    }
-                                    else{
+                                                                editor.putString("ip", ipp[0]);
+                                                                editor.putInt("port", Integer.parseInt(ipp[1]));
 
-                                        new AlertDialog.Builder(Adminpage.this)
-                                                .setTitle("Sorry !")
-                                                .setMessage("Your Device Does not support FingerPrint")
-                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                    }
-                                                }).show();
+                                                                editor.apply();
 
-                                    }
+                                                                dialogInterface.dismiss();
+                                                            }
+                                                        }).show();
+                                            }
+
+                                        }
+                                    }).show();
+                            break;
+                        case 19 :
+
+                            FingerprintIdentify mFingerprintIdentify = new FingerprintIdentify(Adminpage.this);
+                            mFingerprintIdentify.setSupportAndroidL(true);
+                            mFingerprintIdentify.init();
+
+                            if(!mFingerprintIdentify.isFingerprintEnable() ||
+                                    !mFingerprintIdentify.isHardwareEnable()){
+
+                                if(HomeAct.lang == 1){
+
+                                    new AlertDialog.Builder(Adminpage.this)
+                                            .setTitle("عذرا")
+                                            .setMessage("جهازك لا يدعم البصمة")
+                                            .setPositiveButton("حسنا", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            }).show();
 
                                 }
-
                                 else{
 
-                                    final AlertDialog AD = ReturnAlert(parent);
-
-                                    mFingerprintIdentify.startIdentify(5, new BaseFingerprint.IdentifyListener() {
-                                        @Override
-                                        public void onSucceed() {
-                                            AD.dismiss();
-                                            if(HomeAct.lang == 1)
-                                                Toast.makeText(Adminpage.this, "تم تفعيل البصمة بنجاح", Toast.LENGTH_LONG).show();
-                                            else
-                                                Toast.makeText(Adminpage.this, "Finger Print Activated", Toast.LENGTH_LONG).show();
-
-                                            SharedPreferences sha = getSharedPreferences("lang", MODE_PRIVATE);
-                                            SharedPreferences.Editor editor = sha.edit();
-                                            editor.putString("finem", getIntent().getStringExtra("empemail"));
-                                            editor.putString("finpa", getIntent().getStringExtra("emppass"));
-                                            editor.apply();
-
-                                        }
-
-                                        @Override
-                                        public void onNotMatch(int availableTimes) {
-                                            AD.dismiss();
-                                            if(HomeAct.lang == 1)
-                                                Toast.makeText(Adminpage.this, "هذه البصمة غير معروفة", Toast.LENGTH_LONG).show();
-                                            else
-                                                Toast.makeText(Adminpage.this, "Cannot Recognize This Finger Print", Toast.LENGTH_LONG).show();
-
-
-
-                                        }
-
-                                        @Override
-                                        public void onFailed(boolean isDeviceLocked) {
-
-                                        }
-
-                                        @Override
-                                        public void onStartFailedByDeviceLocked() {
-
-                                        }
-                                    });
+                                    new AlertDialog.Builder(Adminpage.this)
+                                            .setTitle("Sorry !")
+                                            .setMessage("Your Device Does not support FingerPrint")
+                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            }).show();
 
                                 }
 
+                            }
 
-                                break;
-                        }
+                            else{
 
+                                final AlertDialog AD = ReturnAlert(parent);
+
+                                mFingerprintIdentify.startIdentify(5, new BaseFingerprint.IdentifyListener() {
+                                    @Override
+                                    public void onSucceed() {
+                                        AD.dismiss();
+                                        if(HomeAct.lang == 1)
+                                            Toast.makeText(Adminpage.this, "تم تفعيل البصمة بنجاح", Toast.LENGTH_LONG).show();
+                                        else
+                                            Toast.makeText(Adminpage.this, "Finger Print Activated", Toast.LENGTH_LONG).show();
+
+                                        SharedPreferences sha = getSharedPreferences("lang", MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sha.edit();
+                                        editor.putString("finem", getIntent().getStringExtra("empemail"));
+                                        editor.putString("finpa", getIntent().getStringExtra("emppass"));
+                                        editor.apply();
+
+                                    }
+
+                                    @Override
+                                    public void onNotMatch(int availableTimes) {
+                                        AD.dismiss();
+                                        if(HomeAct.lang == 1)
+                                            Toast.makeText(Adminpage.this, "هذه البصمة غير معروفة", Toast.LENGTH_LONG).show();
+                                        else
+                                            Toast.makeText(Adminpage.this, "Cannot Recognize This Finger Print", Toast.LENGTH_LONG).show();
+
+
+
+                                    }
+
+                                    @Override
+                                    public void onFailed(boolean isDeviceLocked) {
+
+                                    }
+
+                                    @Override
+                                    public void onStartFailedByDeviceLocked() {
+
+                                    }
+                                });
+
+                            }
+
+
+                            break;
+
+                        case 20 : finishAffinity(); System.exit(0); break;
                     }
-                });
 
-                convertView.setTag(viewHolder); }
-
-            else
-                viewHolder = (ViewHolderItem) convertView.getTag();
+                }
+            });
 
             if(shared2.getString("language", "").equals("arabic"))
                 viewHolder.textViewItem.setText(mThumbNames2[position]);
