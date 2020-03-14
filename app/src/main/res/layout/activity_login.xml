@@ -9,7 +9,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:src="@drawable/back2"
+        app:srcCompat="@drawable/back2"
         android:tint="#61000000"
         android:scaleType="fitXY"
         android:elevation="-5dp"
@@ -18,11 +18,12 @@
     <ImageView
         android:id="@+id/title"
         android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:tint="@color/colorPrimary"
         android:backgroundTint="@color/colorPrimary"
+        android:layout_height="200dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:background="@drawable/lol" />
+        android:background="@drawable/jevan" />
 
     <AutoCompleteTextView
         android:id="@+id/email"

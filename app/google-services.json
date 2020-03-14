@@ -1,42 +1,34 @@
 {
   "project_info": {
-    "project_number": "803431704587",
-    "firebase_url": "https://foodholic-62768.firebaseio.com",
-    "project_id": "foodholic-62768",
-    "storage_bucket": "foodholic-62768.appspot.com"
+    "project_number": "154160247582",
+    "firebase_url": "https://rotana1-3a87c.firebaseio.com",
+    "project_id": "rotana1-3a87c",
+    "storage_bucket": "rotana1-3a87c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:803431704587:android:24ad9e8cfb9417da",
+        "mobilesdk_app_id": "1:154160247582:android:78682029413b6a6fc4cf0f",
         "android_client_info": {
-          "package_name": "com.example.foodholic"
+          "package_name": "com.example.rotana"
         }
       },
       "oauth_client": [
         {
-          "client_id": "803431704587-tfgpd8u0ipvs9v8a5h6ulu04klb2ev2u.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.foodholic",
-            "certificate_hash": "b32675e3317af7ac94432db39b617dff4023368b"
-          }
-        },
-        {
-          "client_id": "803431704587-d28567r99995hhttdee7t2d8o04vison.apps.googleusercontent.com",
+          "client_id": "154160247582-s7pu850lk3hnos5rhb8a4vr6b65suijr.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDCKOr0Fxotb-hktCGN1h_F4evemS0Ww7o"
+          "current_key": "AIzaSyAJNv_RXEhqtpstFY32QIY2b8pyPQiNv-U"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "803431704587-d28567r99995hhttdee7t2d8o04vison.apps.googleusercontent.com",
+              "client_id": "154160247582-s7pu850lk3hnos5rhb8a4vr6b65suijr.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

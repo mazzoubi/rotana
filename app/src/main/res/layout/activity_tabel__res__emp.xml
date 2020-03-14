@@ -7,28 +7,42 @@
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:background="@color/colorPrimary"
-        app:title="Go Back"
         android:id="@+id/tool"
-        app:titleTextColor="@color/colorPrimaryDark"
-        android:layout_height="40dp"/>
+        android:layout_height="40dp">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/btn"
-        android:layout_below="@+id/tool"
-        android:textSize="18sp"
-        android:padding="5dp"
-        android:layout_margin="5dp"
-        android:textColor="#ffffff"
-        android:background="@drawable/shape"
-        android:backgroundTint="@color/colorPrimary"
-        android:text="إختيار و عرض الحجوزات بالتاريخ والوقت"
-        android:layout_height="50dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:id="@+id/ref"
+                android:background="@drawable/ic_refresh_black_24dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="رجوع"
+                android:textSize="24sp"
+                android:gravity="center"
+                android:layout_alignParentLeft="true"
+                android:layout_weight="1"
+                android:id="@+id/back"
+                android:layout_centerVertical="true"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+                android:layout_height="40dp"/>
+
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
 
     <GridView
         android:id="@+id/customgrid"
-        android:layout_below="@+id/btn"
+        android:layout_below="@+id/tool"
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_above="@+id/la"
         android:layout_marginBottom="15dp"

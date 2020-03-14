@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.foodholic">
+    package="com.example.rotana">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -16,157 +16,157 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/lal"
+        android:icon="@drawable/jevan"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/lal"
+        android:roundIcon="@drawable/jevan"
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
-        <activity android:name=".aempInfo"></activity>
-        <activity android:name=".aempLogin" />
-        <activity android:name=".pillsPurchases" />
-        <activity android:name=".supplierPillinfo" />
-        <activity android:name=".pymentsCreatPill" />
-        <activity android:name=".notificationInfo" />
-        <activity android:name=".notificationActivity" />
-        <activity android:name=".vipInfo" />
-        <activity android:name=".addVipUserItem" />
-        <activity android:name=".vipAdd" />
-        <activity android:name=".vipActivity" />
+        <activity android:name="com.example.rotana.aempInfo"></activity>
+        <activity android:name="com.example.rotana.aempLogin" />
+        <activity android:name="com.example.rotana.pillsPurchases" />
+        <activity android:name="com.example.rotana.supplierPillinfo" />
+        <activity android:name="com.example.rotana.pymentsCreatPill" />
+        <activity android:name="com.example.rotana.notificationInfo" />
+        <activity android:name="com.example.rotana.notificationActivity" />
+        <activity android:name="com.example.rotana.vipInfo" />
+        <activity android:name="com.example.rotana.addVipUserItem" />
+        <activity android:name="com.example.rotana.vipAdd" />
+        <activity android:name="com.example.rotana.vipActivity" />
         <activity
-            android:name=".DriveCustom"
-            android:parentActivityName=".Emppage" />
+            android:name="com.example.rotana.DriveCustom"
+            android:parentActivityName="com.example.rotana.Emppage" />
         <activity
-            android:name=".ContestsActiivty"
-            android:parentActivityName=".Emppage" />
-        <activity android:name=".taxChange" />
-        <activity android:name=".supplierAddOne" />
-        <activity android:name=".suppliersItem" />
-        <activity android:name=".suppliers" />
-        <activity android:name=".cashAddItemAR" />
+            android:name="com.example.rotana.ContestsActiivty"
+            android:parentActivityName="com.example.rotana.Emppage" />
+        <activity android:name="com.example.rotana.taxChange" />
+        <activity android:name="com.example.rotana.supplierAddOne" />
+        <activity android:name="com.example.rotana.suppliersItem" />
+        <activity android:name="com.example.rotana.suppliers" />
+        <activity android:name="com.example.rotana.cashAddItemAR" />
         <activity
-            android:name=".aa3"
-            android:parentActivityName=".Adminpage" />
-        <activity android:name=".zzStringToBitmap" />
-        <activity android:name=".VisaReport" />
+            android:name="com.example.rotana.aa3"
+            android:parentActivityName="com.example.rotana.Adminpage" />
+        <activity android:name="com.example.rotana.zzStringToBitmap" />
+        <activity android:name="com.example.rotana.VisaReport" />
         <activity
-            android:name=".Job_Apps"
-            android:parentActivityName=".Adminpage" />
+            android:name="com.example.rotana.Job_Apps"
+            android:parentActivityName="com.example.rotana.Adminpage" />
         <activity
-            android:name=".PointReport"
-            android:parentActivityName=".Adminpage" />
+            android:name="com.example.rotana.PointReport"
+            android:parentActivityName="com.example.rotana.Adminpage" />
         <activity
-            android:name=".driverReport"
-            android:parentActivityName=".Adminpage" />
+            android:name="com.example.rotana.driverReport"
+            android:parentActivityName="com.example.rotana.Adminpage" />
         <activity
-            android:name=".ratingSystem"
-            android:parentActivityName=".Adminpage" />
+            android:name="com.example.rotana.ratingSystem"
+            android:parentActivityName="com.example.rotana.Adminpage" />
         <activity
-            android:name=".RateActivity"
-            android:parentActivityName=".Main2Activity" />
+            android:name="com.example.rotana.RateActivity"
+            android:parentActivityName="com.example.rotana.Main2Activity" />
         <activity
-            android:name=".offer"
-            android:parentActivityName=".Emppage" />
-        <activity android:name=".Zreport" />
-        <activity android:name=".Main2Activity" />
+            android:name="com.example.rotana.offer"
+            android:parentActivityName="com.example.rotana.Emppage" />
+        <activity android:name="com.example.rotana.Zreport" />
+        <activity android:name="com.example.rotana.Main2Activity" />
         <activity
-            android:name=".cashAddItem"
-            android:parentActivityName=".aa3" />
+            android:name="com.example.rotana.cashAddItem"
+            android:parentActivityName="com.example.rotana.aa3" />
         <activity
-            android:name=".Tabel_Res_Emp"
-            android:parentActivityName=".Emppage" />
-        <activity android:name=".casher" />
+            android:name="com.example.rotana.Tabel_Res_Emp"
+            android:parentActivityName="com.example.rotana.Emppage" />
+        <activity android:name="com.example.rotana.casher" />
         <activity
-            android:name=".employeeSalaryDiscount"
-            android:parentActivityName=".Adminpage" />
-        <activity android:name=".employeeLoans" />
-        <activity android:name=".statisticsByItem" />
-        <activity android:name=".statisticsByEmp" />
-        <activity android:name=".statisticsByDay" />
+            android:name="com.example.rotana.employeeSalaryDiscount"
+            android:parentActivityName="com.example.rotana.Adminpage" />
+        <activity android:name="com.example.rotana.employeeLoans" />
+        <activity android:name="com.example.rotana.statisticsByItem" />
+        <activity android:name="com.example.rotana.statisticsByEmp" />
+        <activity android:name="com.example.rotana.statisticsByDay" />
         <activity
-            android:name=".statisticsMainActivity"
-            android:parentActivityName=".Adminpage" />
-        <activity android:name=".Add_Emp" />
+            android:name="com.example.rotana.statisticsMainActivity"
+            android:parentActivityName="com.example.rotana.Adminpage" />
+        <activity android:name="com.example.rotana.Add_Emp" />
         <activity
-            android:name=".statistics_chart"
-            android:parentActivityName=".statistics" />
-        <activity android:name=".empPermission" />
+            android:name="com.example.rotana.statistics_chart"
+            android:parentActivityName="com.example.rotana.statistics" />
+        <activity android:name="com.example.rotana.empPermission" />
         <activity
-            android:name=".Tabel_res_new"
-            android:parentActivityName=".Main2Activity" />
+            android:name="com.example.rotana.Tabel_res_new"
+            android:parentActivityName="com.example.rotana.Main2Activity" />
         <activity
-            android:name=".aa2"
-            android:parentActivityName=".warehouse" />
-        <activity android:name=".aa1" />
+            android:name="com.example.rotana.aa2"
+            android:parentActivityName="com.example.rotana.warehouse" />
+        <activity android:name="com.example.rotana.aa1" />
         <activity
-            android:name=".warehouse"
-            android:parentActivityName=".Adminpage" />
+            android:name="com.example.rotana.warehouse"
+            android:parentActivityName="com.example.rotana.Adminpage" />
         <activity
-            android:name=".onWork"
-            android:parentActivityName=".employeeCreatInformation" />
-        <activity android:name=".exitInformation" />
-        <activity android:name=".exit" />
+            android:name="com.example.rotana.onWork"
+            android:parentActivityName="com.example.rotana.employeeCreatInformation" />
+        <activity android:name="com.example.rotana.exitInformation" />
+        <activity android:name="com.example.rotana.exit" />
         <activity
-            android:name=".adminEmpAccess"
-            android:parentActivityName=".employeeCreatInformation" />
-        <activity android:name=".foodType" />
-        <activity android:name=".UserRegister" />
-        <activity android:name=".UserLogin" />
+            android:name="com.example.rotana.adminEmpAccess"
+            android:parentActivityName="com.example.rotana.employeeCreatInformation" />
+        <activity android:name="com.example.rotana.foodType" />
+        <activity android:name="com.example.rotana.UserRegister" />
+        <activity android:name="com.example.rotana.UserLogin" />
         <activity
-            android:name=".Profile"
-            android:parentActivityName=".Main2Activity" />
+            android:name="com.example.rotana.Profile"
+            android:parentActivityName="com.example.rotana.Main2Activity" />
         <activity
-            android:name=".Payment"
-            android:parentActivityName=".Emppage" />
+            android:name="com.example.rotana.Payment"
+            android:parentActivityName="com.example.rotana.Emppage" />
         <activity
-            android:name=".employeeAdd"
-            android:parentActivityName=".employeeCreatInformation" />
+            android:name="com.example.rotana.employeeAdd"
+            android:parentActivityName="com.example.rotana.employeeCreatInformation" />
         <activity
-            android:name=".employeeCreatInformation"
-            android:parentActivityName=".Adminpage" />
+            android:name="com.example.rotana.employeeCreatInformation"
+            android:parentActivityName="com.example.rotana.Adminpage" />
         <activity
-            android:name=".statistics"
-            android:parentActivityName=".Adminpage" />
+            android:name="com.example.rotana.statistics"
+            android:parentActivityName="com.example.rotana.Adminpage" />
         <activity
-            android:name=".Online"
-            android:parentActivityName=".Emppage" />
+            android:name="com.example.rotana.Online"
+            android:parentActivityName="com.example.rotana.Emppage" />
         <activity
-            android:name=".Delivery_Emp"
-            android:parentActivityName=".Emppage" />
+            android:name="com.example.rotana.Delivery_Emp"
+            android:parentActivityName="com.example.rotana.Emppage" />
         <activity
-            android:name=".TakeAway_Emp"
-            android:parentActivityName=".Emppage" />
+            android:name="com.example.rotana.TakeAway_Emp"
+            android:parentActivityName="com.example.rotana.Emppage" />
         <activity
-            android:name=".Emppage"
+            android:name="com.example.rotana.Emppage"
             android:label="@string/title_activity_del_emp"
             android:stopWithTask="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".TakeAway"
-            android:parentActivityName=".Guest" />
+            android:name="com.example.rotana.TakeAway"
+            android:parentActivityName="com.example.rotana.Guest" />
         <activity
-            android:name=".About"
-            android:parentActivityName=".Guest" />
+            android:name="com.example.rotana.About"
+            android:parentActivityName="com.example.rotana.Guest" />
         <activity
-            android:name=".Contact"
-            android:parentActivityName=".Guest" />
+            android:name="com.example.rotana.Contact"
+            android:parentActivityName="com.example.rotana.Guest" />
         <activity
-            android:name=".Loc"
-            android:parentActivityName=".Guest" />
+            android:name="com.example.rotana.Loc"
+            android:parentActivityName="com.example.rotana.Guest" />
         <activity
-            android:name=".Delivery"
-            android:parentActivityName=".Guest" />
+            android:name="com.example.rotana.Delivery"
+            android:parentActivityName="com.example.rotana.Guest" />
         <activity
-            android:name=".Tabel_Res"
-            android:parentActivityName=".Guest" />
+            android:name="com.example.rotana.Tabel_Res"
+            android:parentActivityName="com.example.rotana.Guest" />
         <activity
-            android:name=".Guest"
-            android:parentActivityName=".Guest" />
-        <activity android:name=".Drive" />
-        <activity android:name=".Adminpage" />
-        <activity android:name=".Login" />
+            android:name="com.example.rotana.Guest"
+            android:parentActivityName="com.example.rotana.Guest" />
+        <activity android:name="com.example.rotana.Drive" />
+        <activity android:name="com.example.rotana.Adminpage" />
+        <activity android:name="com.example.rotana.Login" />
         <activity
-            android:name=".SplashAct"
+            android:name="com.example.rotana.SplashAct"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -174,11 +174,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".splashscreen" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".HomeAct" />
+        <activity android:name="com.example.rotana.splashscreen" />
+        <activity android:name="com.example.rotana.MainActivity" />
+        <activity android:name="com.example.rotana.HomeAct" />
 
-        <service android:name=".MyService" />
+        <service android:name="com.example.rotana.MyService" />
     </application>
 
 </manifest>

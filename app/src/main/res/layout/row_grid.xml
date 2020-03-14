@@ -20,7 +20,7 @@
             android:foregroundGravity="center"
             android:padding="8dp"
             android:background="@drawable/shape5"
-            android:src="@drawable/ic_suppliers"
+            app:srcCompat="@drawable/ic_suppliers"
             android:tint="@color/colorPrimaryDark"
             android:layout_centerHorizontal="true"
             android:layout_height="50dp" />

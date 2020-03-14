@@ -11,7 +11,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:src="@drawable/back2"
+        app:srcCompat="@drawable/back2"
         android:tint="#61000000"
         android:scaleType="fitXY"
         android:elevation="-5dp"
@@ -23,7 +23,7 @@
         android:layout_height="200dp"
         android:layout_marginTop="50dp"
         android:elevation="5dp"
-        android:src="@drawable/lol"
+        app:srcCompat="@drawable/lol"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"

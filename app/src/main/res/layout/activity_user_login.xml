@@ -11,10 +11,10 @@
         android:layout_width="140dp"
         android:layout_height="140dp"
         android:id="@+id/title"
-        android:backgroundTint="#000000"
+
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:background="@drawable/lol"/>
+        android:background="@drawable/jevan"/>
 
     <TextView
         android:id="@+id/textView2"

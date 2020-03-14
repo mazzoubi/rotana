@@ -20,11 +20,11 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/ivSubtitle2"
         android:layout_marginBottom="25dp"
-        android:backgroundTint="@color/colorPrimary"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/colorPrimary"
         android:layout_marginTop="15dp"
-        android:background="@drawable/lol"
+        android:background="@drawable/jevan"
         android:fontFamily="serif"
         android:textSize="44sp"
         android:textStyle="bold" />
@@ -98,7 +98,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:src="@drawable/back1"
+        app:srcCompat="@drawable/back1"
         android:tint="#61000000"
         android:scaleType="fitXY"
         android:elevation="-5dp"

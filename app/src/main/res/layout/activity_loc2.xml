@@ -16,7 +16,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:src="@drawable/loc"
+        app:srcCompat="@drawable/loc"
         android:layout_below="@+id/tool"
         android:scaleType="fitXY"
         android:id="@+id/img"
