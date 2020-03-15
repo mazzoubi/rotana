@@ -265,7 +265,7 @@ public class Emppage extends AppCompatActivity
         else{
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.activity_del_emp_drawer); }
-
+//
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
