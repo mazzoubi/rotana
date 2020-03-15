@@ -151,7 +151,7 @@ public class Emppage extends AppCompatActivity
             holder.os_text =(TextView) rowView.findViewById(R.id.os_texts);
             holder.os_text.setText(result[position]);
 
-            if(!tabels.get(position).contains("Table Number : ") && checkDateRes(tabels.get(position))){
+            if(!tabels.get(position).contains("Table Number : ")){
 
                 if (shared.getInt("pos", 0) == position)
                     rowView.setBackgroundColor(getResources().getColor(R.color.colorPick));

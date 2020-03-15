@@ -132,9 +132,9 @@ public class Zreport extends AppCompatActivity {
                            list.add(cSale.get(i));
                         }
                     }
-                    syear.add("\n\n\t\t\t\t[-- yearly report --]" +
-                            "\nRes : "+HomeAct.resName+"\n" +
-                            "pill date : "+new Date()+"\n" +
+                    syear.add("\n\n\t\t\t\t[-- تقرير سنوي --]" +
+                            "\nجيفان كافيه\n" +
+                            "تاريخ الإصدار"+new Date()+"\n" +
                             "\t________________________________________________\n" +
                             "\n");
                     double z=0;
@@ -160,18 +160,17 @@ public class Zreport extends AppCompatActivity {
                             }
                         }
                         if (y==1){
-                            syear.add("Sales at : "+i+"-"+year+"="+z);
+                            syear.add("المبيعات في : "+i+"-"+year+"="+z);
 
                         }
                         y=0;
                         z=0;
                     }
-                    syear.add("\n\t----------------------------------------------\n");
-                    syear.add("total at : "+year+"="+bb+" "+currencyAndTax.currency +"\n" +
-                            "tax : "+currencyAndTax.tax+"%\n"+
-                            "tax ammount : "+((bb*currencyAndTax.tax/100))+" "+currencyAndTax.currency +"\n"+
+
+                    syear.add("مجموع المبيعات الكلي : "+year+"="+bb+" "+currencyAndTax.currency +"\n" +
+                            "الضريبة : "+currencyAndTax.tax+"%\n"+
+                            "قيمة الضريبة : "+((bb*currencyAndTax.tax/100))+" "+currencyAndTax.currency +"\n"+
                             "\n\t________________________________________________\n");
-                    syear.add("\t**** Aldahkeel +962798056383 ****\t");
 
                     adapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,syear);
                     listView.setAdapter(adapter);
@@ -205,11 +204,9 @@ public class Zreport extends AppCompatActivity {
                     y=0;
                     double bb=0;
                     smonth=new ArrayList<>();
-                    smonth.add("\n\n\t\t\t\t[-- monthly report --]" +
-                            "\nRes : "+HomeAct.resName+"\n" +
-                            "pill dat : "+new Date()+"\n" +
-                            "\t________________________________________________\n" +
-                            "\n\n");
+                    smonth.add("\n\n\t\t\t\t[-- تقرير شهري --]" +
+                            "\nجيفان كافيه\n" +
+                            "تاريخ الإصدار"+new Date()+"\n");
                     yearReport.setBackgroundColor(Color.GRAY);
                     monthreport.setBackgroundColor(Color.GREEN);
                     for (int i=0 ; i < cSale.size();i++ ){
@@ -217,11 +214,10 @@ public class Zreport extends AppCompatActivity {
                             bb+=cSale.get(i).sale;
                         }
                     }
-                    smonth.add("total at : "+month+"-"+year+"="+bb+" "+currencyAndTax.currency +"\n" +
-                            "tax : "+currencyAndTax.tax+"%\n"+
-                            "tax ammount : "+((bb*currencyAndTax.tax/100))+" "+currencyAndTax.currency +"\n"
-                            +"\n________________________________________________\n");
-                    smonth.add("\t**** Aldahkeel +962798056383 ****\t");
+                    smonth.add("مجموع المبيعات الكلي : "+month+"-"+year+"="+bb+" "+currencyAndTax.currency +"\n" +
+                            "الضريبة : "+currencyAndTax.tax+"%\n"+
+                            "قيمة الضريبة : "+((bb*currencyAndTax.tax/100))+" "+currencyAndTax.currency +"\n");
+
 
                     adapter=new zReportAdapter(getApplicationContext(),R.layout.row_zreport,smonth);
                     listView.setAdapter(adapter);
