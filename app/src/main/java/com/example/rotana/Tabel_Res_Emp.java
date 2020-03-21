@@ -116,62 +116,62 @@ public class Tabel_Res_Emp extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    if(getIntent().getStringExtra("empemail").contains(".cap")){
-
-                        final AlertDialog.Builder builder = new AlertDialog.Builder(Tabel_Res_Emp.this);
-                        LayoutInflater inflater = Tabel_Res_Emp.this.getLayoutInflater();
-                        builder.setView(inflater.inflate(R.layout.activity_tabel_order, null));
-                        final AlertDialog dialog = builder.create();
-                        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-                        lp.copyFrom(dialog.getWindow().getAttributes());
-                        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-                        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-                        dialog.show();
-                        dialog.getWindow().setAttributes(lp);
-
-                        final Button reserve, cancle;
-
-                        reserve = dialog.findViewById(R.id.reserv);
-                        cancle = dialog.findViewById(R.id.cancle);
-
-                        if(HomeAct.lang != 1){
-                            reserve.setText("Reserve");
-                            cancle.setText("View Bill");
-                        }
-
-                        reserve.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                String myFormat = "dd/MM/yy"; //In which you need put here
-                                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-                                da = sdf.format(new Date());
-
-                                myFormat = "HH:mm";
-                                sdf = new SimpleDateFormat(myFormat, Locale.US);
-                                ta = sdf.format(new Date());
-
-                                ReserveClick(position, v, "", "", "", da, ta);
-                                dialog.dismiss();
-                                recreate();
-
-                                dialog.dismiss();
-                                recreate();
-                            }
-                        });
-                        cancle.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                getInsta(position+1);
-
-                            }
-                        });
-
-                    }
-
-                    else{
+//                    if(getIntent().getStringExtra("empemail").contains(".cap")){
+//
+//                        final AlertDialog.Builder builder = new AlertDialog.Builder(Tabel_Res_Emp.this);
+//                        LayoutInflater inflater = Tabel_Res_Emp.this.getLayoutInflater();
+//                        builder.setView(inflater.inflate(R.layout.activity_tabel_order, null));
+//                        final AlertDialog dialog = builder.create();
+//                        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+//                        lp.copyFrom(dialog.getWindow().getAttributes());
+//                        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+//                        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+//
+//                        dialog.show();
+//                        dialog.getWindow().setAttributes(lp);
+//
+//                        final Button reserve, cancle;
+//
+//                        reserve = dialog.findViewById(R.id.reserv);
+//                        cancle = dialog.findViewById(R.id.cancle);
+//
+//                        if(HomeAct.lang != 1){
+//                            reserve.setText("Reserve");
+//                            cancle.setText("View Bill");
+//                        }
+//
+//                        reserve.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//
+//                                String myFormat = "dd/MM/yy"; //In which you need put here
+//                                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+//                                da = sdf.format(new Date());
+//
+//                                myFormat = "HH:mm";
+//                                sdf = new SimpleDateFormat(myFormat, Locale.US);
+//                                ta = sdf.format(new Date());
+//
+//                                ReserveClick(position, v, "", "", "", da, ta);
+//                                dialog.dismiss();
+//                                recreate();
+//
+//                                dialog.dismiss();
+//                                recreate();
+//                            }
+//                        });
+//                        cancle.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//
+//                                getInsta(position+1);
+//
+//                            }
+//                        });
+//
+//                    }
+//
+//                    else{
 
                         final AlertDialog.Builder builder = new AlertDialog.Builder(Tabel_Res_Emp.this);
                         LayoutInflater inflater = Tabel_Res_Emp.this.getLayoutInflater();
@@ -366,7 +366,7 @@ public class Tabel_Res_Emp extends AppCompatActivity {
                     }
 
 
-                }
+                //}
             });
 
             return rowView;
