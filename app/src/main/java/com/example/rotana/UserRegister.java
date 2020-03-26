@@ -43,7 +43,7 @@ public class UserRegister extends AppCompatActivity {
         if(shared.getString("language", "").equals("arabic")){
 
             TextView t = findViewById(R.id.textView2);
-            t.setText("طعم يجب عليك ان تجربه");
+            t.setText("التسوق الالكتروني يجعل حياتنا اسهل");
             eemail.setHint("بريد الكتروني");
             name.setHint("الأسم");
             ppass.setHint("كلمة السر");

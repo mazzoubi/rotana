@@ -8,13 +8,13 @@
     android:background="@color/colorPrimary">
 
     <ImageView
+        android:id="@+id/title"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        android:id="@+id/title"
-        android:backgroundTint="#000000"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:background="@drawable/lol"/>
+        android:background="@drawable/logo_small_no_background"
+        android:backgroundTint="#000000" />
 
     <TextView
         android:id="@+id/textView2"
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
         android:layout_centerHorizontal="true"
-        android:text="Something You Need To Eat"
+        android:text="Something You Need To Shoping"
         android:textColor="#000000"
         android:textSize="18sp" />
 

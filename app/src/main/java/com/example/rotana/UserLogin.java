@@ -46,7 +46,7 @@ public class UserLogin extends AppCompatActivity {
         if(shared.getString("language", "").equals("arabic")){
 
             TextView t = findViewById(R.id.textView2);
-            t.setText("طعم يجب عليك ان تجربه");
+            t.setText("التسوق الالكتروني لجعل حياتنا اسهل");
             eemail.setHint("بريد الكتروني");
             ppass.setHint("كلمة السر");
             llogin.setText("تسجيل دخول");

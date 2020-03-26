@@ -11,11 +11,11 @@
 
     <ImageView
         android:layout_width="match_parent"
-        app:srcCompat="@drawable/back2"
-        android:tint="#61000000"
-        android:scaleType="fitXY"
+        android:layout_height="match_parent"
         android:elevation="-5dp"
-        android:layout_height="match_parent"/>
+        android:scaleType="fitXY"
+        android:tint="#61000000"
+        app:srcCompat="@drawable/logo_small_no_background" />
 
     <ImageView
         android:id="@+id/ivIlls"
@@ -23,7 +23,7 @@
         android:layout_height="200dp"
         android:layout_marginTop="50dp"
         android:elevation="5dp"
-        app:srcCompat="@drawable/lol"
+        app:srcCompat="@drawable/logo_small"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"

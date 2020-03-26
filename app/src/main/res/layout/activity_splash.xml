@@ -22,9 +22,8 @@
         android:layout_marginBottom="25dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:backgroundTint="@color/colorPrimary"
         android:layout_marginTop="15dp"
-        android:background="@drawable/jevan"
+        android:background="@drawable/logo_small"
         android:fontFamily="serif"
         android:textSize="44sp"
         android:textStyle="bold" />
@@ -36,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="36dp"
         android:layout_margin="5dp"
-        android:text="عش تجربة جديدة و فريدة من خدمات المطاعم اليوم"
+        android:text="عش تجربة جديدة و فريدة من خدمات التسوق الالكتروني اليوم"
         android:textColor="@color/colorPrimary"
         android:textSize="22sp"
         android:fontFamily="serif"
@@ -52,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="36dp"
         android:layout_margin="5dp"
-        android:text="Try a new experience of food services today"
+        android:text="Try a new experience of e-shoping services today"
         android:textColor="@color/colorPrimary"
         android:textSize="22sp"
         android:fontFamily="serif"
@@ -98,10 +97,10 @@
 
     <ImageView
         android:layout_width="match_parent"
-        app:srcCompat="@drawable/back1"
-        android:tint="#61000000"
-        android:scaleType="fitXY"
+        android:layout_height="match_parent"
         android:elevation="-5dp"
-        android:layout_height="match_parent"/>
+        android:scaleType="fitXY"
+        android:tint="#61000000"
+        app:srcCompat="@drawable/logo_small_no_background" />
 
 </RelativeLayout>

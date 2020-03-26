@@ -3,98 +3,98 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/back2"
     android:layout_height="match_parent"
+    android:background="@drawable/logo_small_no_background"
     tools:context=".RateActivity">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tool"
         android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:background="@color/colorPrimary"
         app:title="الرجوع"
-        android:id="@+id/tool"
-        app:titleTextColor="@color/colorPrimaryDark"
-        android:layout_height="40dp"/>
+        app:titleTextColor="@color/colorPrimaryDark" />
 
     <TextView
-        android:layout_width="match_parent"
         android:id="@+id/cen"
-        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
 
         android:layout_centerHorizontal="true"
-        android:layout_height="5dp"/>
+        android:layout_centerVertical="true" />
 
     <Button
-        android:layout_width="match_parent"
-        android:text="تقييم خدمة مطعم"
         android:id="@+id/resrate"
-        android:textSize="18dp"
-        android:background="@drawable/shape"
-        android:backgroundTint="@color/colorPrimary"
-        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_above="@+id/foorate"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="5dp"
+        android:background="@drawable/shape"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="تقييم خدمة مطعم"
         android:textColor="@color/colorPrimaryDark"
-        android:layout_centerHorizontal="true"
-        android:layout_height="50dp" />
+        android:textSize="18dp"
+        android:textStyle="bold" />
 
     <Button
-        android:layout_width="match_parent"
-        android:text="تقييم خدمة موظف"
         android:id="@+id/emprate"
-        android:textSize="18dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/shape"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_below="@+id/cen"
-        android:backgroundTint="@color/colorPrimary"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimaryDark"
         android:layout_centerHorizontal="true"
-        android:layout_height="50dp" />
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/shape"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="تقييم خدمة موظف"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18dp"
+        android:textStyle="bold" />
 
     <Button
-        android:layout_width="match_parent"
-        android:text="تقييم خدمة توصيل"
         android:id="@+id/delrate"
-        android:textSize="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_below="@+id/emprate"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
         android:layout_marginTop="5dp"
+        android:layout_marginRight="15dp"
         android:background="@drawable/shape"
         android:backgroundTint="@color/colorPrimary"
-        android:textStyle="bold"
+        android:text="تقييم خدمة توصيل"
         android:textColor="@color/colorPrimaryDark"
-        android:layout_centerHorizontal="true"
-        android:layout_height="50dp" />
+        android:textSize="18dp"
+        android:textStyle="bold" />
 
     <Button
-        android:layout_width="match_parent"
-        android:text="تقييم وجبة"
         android:id="@+id/foorate"
-        android:textSize="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_above="@+id/cen"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_above="@+id/cen"
         android:background="@drawable/shape"
         android:backgroundTint="@color/colorPrimary"
-        android:textStyle="bold"
+        android:text="تقييم وجبة"
         android:textColor="@color/colorPrimaryDark"
-        android:layout_centerHorizontal="true"
-        android:layout_height="50dp" />
+        android:textSize="18dp"
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="match_parent"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:fontFamily="serif"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
+        android:fontFamily="serif"
+        android:gravity="center"
+        android:text="زبائننا الكرام, قيمونا بصدق و أمانة لنرتقي بخدمتكم يوما بعد يوم"
         android:textColor="#ffffff"
         android:textSize="18sp"
-        android:layout_alignParentBottom="true"
-        android:text="زبائننا الكرام, قيمونا بصدق و أمانة لنرتقي بخدمتكم يوما بعد يوم"
-        android:layout_height="wrap_content"/>
+        android:textStyle="bold" />
 
 </RelativeLayout>
