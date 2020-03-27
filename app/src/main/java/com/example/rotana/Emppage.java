@@ -202,7 +202,7 @@ public class Emppage extends AppCompatActivity
         Intent intent = new Intent(this, MyService.class);
         startService(intent);
 
-        if(HomeAct.lang == 1)
+        if(shared2.getString("language", "").equals("arabic"))
             setContentView(R.layout.activity_del_emp);
         else
             setContentView(R.layout.activity_del_emp2);
@@ -225,7 +225,7 @@ public class Emppage extends AppCompatActivity
         empEmail=getIntent().getStringExtra("empemail");
         empLoadInfo(empEmail);
         ee = new EditText(Emppage.this);
-        if (HomeAct.lang==1){
+        if(shared2.getString("language", "").equals("arabic")){
             ee.setHint("أدخل مقدار الكاش");
         }
         else {
@@ -289,7 +289,7 @@ public class Emppage extends AppCompatActivity
         btn7 = findViewById(R.id.btn7);
 
         Button tcount = findViewById(R.id.counter);
-        if(HomeAct.lang == 1)
+        if(shared2.getString("language", "").equals("arabic"))
             tcount.setText("رقم الفاتورة : "+shared3.getInt("count", 0)+"");
         else
             tcount.setText("Bill ID : "+shared3.getInt("count", 0)+"");
@@ -332,7 +332,7 @@ public class Emppage extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                if(HomeAct.lang == 1){
+                if(shared2.getString("language", "").equals("arabic")){
 
                     new AlertDialog.Builder(Emppage.this)
                             .setTitle("تنبيه !!!")
@@ -389,7 +389,7 @@ public class Emppage extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                if(HomeAct.lang == 1)
+                if(shared2.getString("language", "").equals("arabic"))
                     Toast.makeText(Emppage.this, "قريبا !!!", Toast.LENGTH_LONG).show();
                 else
                     Toast.makeText(Emppage.this, "Coming Soon !!!", Toast.LENGTH_LONG).show();
@@ -425,7 +425,7 @@ public class Emppage extends AppCompatActivity
 
 
         if(shared2.getString("cash", "").equals("")){
-            if (HomeAct.lang==1 && (!getIntent().getStringExtra("empemail").contains(".cap"))){
+            if (shared2.getString("language", "").equals("arabic") && (!getIntent().getStringExtra("empemail").contains(".cap"))){
 
                 if(ee.getParent()!=null)
                     ((ViewGroup)ee.getParent()).removeView(ee);
@@ -584,7 +584,7 @@ public class Emppage extends AppCompatActivity
                 Button dee = dialog2.findViewById(R.id.deliv);
                 Button vii = dialog2.findViewById(R.id.visa);
 
-                if(HomeAct.lang != 1){
+                if(!shared2.getString("language", "").equals("arabic")){
                     p.setHint("Paid Amount");
                     c.setText("Change : 0.0 JOD");
                     po.setText("Point Pay");
@@ -674,7 +674,7 @@ public class Emppage extends AppCompatActivity
                         Button aa6 = dialog3.findViewById(R.id.poinaa);
                         Button aa7 = dialog3.findViewById(R.id.delivaa);
 
-                        if(HomeAct.lang != 1){
+                        if(!shared2.getString("language", "").equals("arabic")){
 
                             aa1.setHint("Customer Email");
                             aa2.setHint("Customer Points");
@@ -790,7 +790,7 @@ public class Emppage extends AppCompatActivity
 
                             if ((Double.parseDouble(e.getText().toString()) - sum) >= 0 && !e.getText().toString().equals("")) {
 
-                            if(HomeAct.lang == 1)
+                            if(shared2.getString("language", "").equals("arabic"))
                                 AddSaleAra(Double.parseDouble(e.getText().toString()), (Double.parseDouble(e.getText().toString()) - sum), sum);
                             else
                                 AddSale(Double.parseDouble(e.getText().toString()), (Double.parseDouble(e.getText().toString()) - sum), sum);
@@ -817,7 +817,7 @@ public class Emppage extends AppCompatActivity
 
                             if ((Double.parseDouble(e.getText().toString()) - sum) >= 0 && !e.getText().toString().equals("")) {
 
-                                if(HomeAct.lang == 1)
+                                if(shared2.getString("language", "").equals("arabic"))
                                     AddVisaSaleAra(Double.parseDouble(e.getText().toString()), (Double.parseDouble(e.getText().toString()) - sum), sum);
                                 else
                                     AddVisaSale(Double.parseDouble(e.getText().toString()), (Double.parseDouble(e.getText().toString()) - sum), sum);
@@ -858,7 +858,7 @@ public class Emppage extends AppCompatActivity
                         startActivity(new Intent(Emppage.this, Delivery_Emp.class));
                     else{
 
-                        if(HomeAct.lang == 1){
+                        if(shared2.getString("language", "").equals("arabic")){
 
                             final AlertDialog.Builder builder = new AlertDialog.Builder(Emppage.this);
                             LayoutInflater inflater = Emppage.this.getLayoutInflater();
@@ -896,7 +896,7 @@ public class Emppage extends AppCompatActivity
                                     dprice = dialog.findViewById(R.id.deliva);
 
                                     if(!cname.contains(name.getText().toString())) {
-                                        if (HomeAct.lang==1){
+                                        if(shared2.getString("language", "").equals("arabic")){
                                             new AlertDialog.Builder(Emppage.this)
                                                     .setMessage("هل ترغب بتسجيل العميل ؟")
                                                     .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
@@ -1089,7 +1089,7 @@ public class Emppage extends AppCompatActivity
 
 
             } else {
-                if(HomeAct.lang == 1)
+                if(shared2.getString("language", "").equals("arabic"))
                     Toast.makeText(Emppage.this, "انت لا تمتلك صلاحيات الدخول الى هذا الاجراء", Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(Emppage.this, "you don't have permission enter", Toast.LENGTH_SHORT).show();
@@ -1108,7 +1108,7 @@ public class Emppage extends AppCompatActivity
                     }
 
                     else{
-                        if(HomeAct.lang == 1){
+                        if(shared2.getString("language", "").equals("arabic")){
                             final AlertDialog.Builder builder = new AlertDialog.Builder(Emppage.this);
                             LayoutInflater inflater = Emppage.this.getLayoutInflater();
                             builder.setView(inflater.inflate(R.layout.addcustom, null));
@@ -1313,7 +1313,7 @@ public class Emppage extends AppCompatActivity
                     }
 
             } else {
-                if(HomeAct.lang == 1)
+                if(shared2.getString("language", "").equals("arabic"))
                     Toast.makeText(Emppage.this, "انت لا تمتلك صلاحيات الدخول الى هذا الاجراء", Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(Emppage.this, "you don't have permission enter", Toast.LENGTH_SHORT).show();
@@ -1329,7 +1329,7 @@ public class Emppage extends AppCompatActivity
                     startActivity(new Intent(Emppage.this, Tabel_Res_Emp.class)
                     .putExtra("empemail", getIntent().getStringExtra("empemail")));
                 else{
-                    if (HomeAct.lang==1){
+                    if(shared2.getString("language", "").equals("arabic")){
                         Toast.makeText(Emppage.this, "اختر الطاولة الان", Toast.LENGTH_LONG).show();
                     }
                     else {
@@ -1365,7 +1365,7 @@ public class Emppage extends AppCompatActivity
 
                 ee.setText("");
 
-                if (HomeAct.lang==1){
+                if(shared2.getString("language", "").equals("arabic")){
 
                     final AlertDialog.Builder builder = new AlertDialog.Builder(Emppage.this);
                     LayoutInflater inflater = Emppage.this.getLayoutInflater();
@@ -1563,7 +1563,7 @@ public class Emppage extends AppCompatActivity
 
         loadSubItem();
 
-        if(HomeAct.lang == 1)
+        if(shared2.getString("language", "").equals("arabic"))
             loadItem2();
         else
             loadItem();
@@ -1572,7 +1572,7 @@ public class Emppage extends AppCompatActivity
         itemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(HomeAct.lang == 1)
+                if(shared2.getString("language", "").equals("arabic"))
                     getSubItem2(items.get(position).itemName);
                 else
                     getSubItem(items.get(position).itemName);
@@ -1592,7 +1592,7 @@ public class Emppage extends AppCompatActivity
 
                 if (saleList.isEmpty()){
                     sale.count=1;
-                    if(HomeAct.lang == 1)
+                    if(shared2.getString("language", "").equals("arabic"))
                         sale.subItemName=subItemsAfterFilering.get(position).Ar_subItem;
                     else
                         sale.subItemName=subItemsAfterFilering.get(position).subItem;
@@ -1604,7 +1604,7 @@ public class Emppage extends AppCompatActivity
                 }
                 else{
 
-                    if(HomeAct.lang == 1){
+                    if(shared2.getString("language", "").equals("arabic")){
                         for(int i=0 ; i<saleList.size();i++){
                             if(subItemsAfterFilering.get(position).Ar_subItem.equals(saleList.get(i).subItemName)){
                                 saleList.get(i).sumPrice+=subItemsAfterFilering.get(position).price;
@@ -1811,7 +1811,7 @@ public class Emppage extends AppCompatActivity
                                 s.setText("Bill Sum : "+t.substring(0, t.indexOf(".")+3)+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " JOD "));
                             }
                         } catch (Exception e){
-                            if(HomeAct.lang == 1){
+                            if(shared2.getString("language", "").equals("arabic")){
                                 s.setText("مجموع الفاتورة : "+sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));
                             }
                             else {
@@ -1819,7 +1819,7 @@ public class Emppage extends AppCompatActivity
                             }                        }
                     }
                     else{
-                        if (HomeAct.lang==1){
+                        if(shared2.getString("language", "").equals("arabic")){
                             s.setText("مجموع الفاتورة : "+sum+getSharedPreferences("Finance", MODE_PRIVATE).getString("cur", " دينار"));
                         }
                         else {
@@ -1856,7 +1856,7 @@ public class Emppage extends AppCompatActivity
 
             s = s+temp;
 
-            if(HomeAct.lang == 1)
+            if(shared2.getString("language", "").equals("arabic"))
                 s = ("رقم الفاتورة : "+shared3.getInt("count", 0)+"")+","+s;
             else
                 s = ("Bill ID : "+shared3.getInt("count", 0)+"")+","+s;
@@ -1880,7 +1880,7 @@ public class Emppage extends AppCompatActivity
 
         }
         catch(Exception e){
-            if(HomeAct.lang == 1)
+            if(shared2.getString("language", "").equals("arabic"))
                 Toast.makeText(this, "لا يوجد طابعة !!!", Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(this, "No Printer Attached !!!", Toast.LENGTH_SHORT).show();
@@ -1958,7 +1958,7 @@ public class Emppage extends AppCompatActivity
 
                         if(restart) {
                             if (task.isSuccessful()) {
-                                if (HomeAct.lang == 1) {
+                                if (shared2.getString("language", "").equals("arabic")) {
                                     returnBill(s1, s2, s3, s4, s5);
 
                                     SharedPreferences.Editor prefsEditor = shared.edit();
@@ -2157,7 +2157,7 @@ public class Emppage extends AppCompatActivity
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if(HomeAct.lang == 1)
+                        if(shared2.getString("language", "").equals("arabic"))
                             AddSale2();
                         else
                             AddSale2Eng();
@@ -2176,7 +2176,7 @@ public class Emppage extends AppCompatActivity
                 restart = true;
                 super.onBackPressed(); }
             else
-                if(HomeAct.lang == 1)
+                if(shared2.getString("language", "").equals("arabic"))
                     Toast.makeText(this, "إضغط مرة أخرى للخروج", Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(this, "Press Back Again To Exit", Toast.LENGTH_SHORT).show();
@@ -2245,7 +2245,7 @@ public class Emppage extends AppCompatActivity
 
         else if(id == R.id.noti){
 
-            if(HomeAct.lang == 1){
+            if(shared2.getString("language", "").equals("arabic")){
                 final EditText et = new EditText(Emppage.this);
                 final Map<String, Object> evnt = new HashMap<String, Object>();
 
@@ -2519,7 +2519,7 @@ public class Emppage extends AppCompatActivity
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        if (HomeAct.lang==1){
+                        if(shared2.getString("language", "").equals("arabic")){
                             Toast.makeText(Emppage.this, "تم تسجيل العميل", Toast.LENGTH_SHORT).show();
                         }
                         else {
