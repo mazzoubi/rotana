@@ -23,6 +23,7 @@ public class About extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
+
         shared = getSharedPreferences("lang", MODE_PRIVATE);
 
         Toolbar bar = findViewById(R.id.tool);
