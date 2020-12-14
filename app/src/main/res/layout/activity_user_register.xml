@@ -13,7 +13,7 @@
         android:layout_height="140dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:background="@drawable/logo_small_no_background"
+        android:background="@drawable/lal"
         android:backgroundTint="#000000" />
 
     <TextView

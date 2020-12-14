@@ -19,11 +19,11 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_above="@+id/ivSubtitle2"
-        android:layout_marginBottom="25dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:background="@drawable/logo_small"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/lal"
         android:fontFamily="serif"
         android:textSize="44sp"
         android:textStyle="bold" />
@@ -98,9 +98,9 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/shape3"
         android:elevation="-5dp"
         android:scaleType="fitXY"
-        android:tint="#61000000"
-        app:srcCompat="@drawable/logo_small_no_background" />
+        android:tint="#61000000" />
 
 </RelativeLayout>

@@ -14,7 +14,7 @@
 
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:background="@drawable/logo_small_no_background" />
+        android:background="@drawable/lol" />
 
     <TextView
         android:id="@+id/textView2"

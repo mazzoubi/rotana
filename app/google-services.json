@@ -1,34 +1,127 @@
 {
   "project_info": {
-    "project_number": "154160247582",
-    "firebase_url": "https://rotana1-3a87c.firebaseio.com",
-    "project_id": "rotana1-3a87c",
-    "storage_bucket": "rotana1-3a87c.appspot.com"
+    "project_number": "803431704587",
+    "firebase_url": "https://foodholic-62768.firebaseio.com",
+    "project_id": "foodholic-62768",
+    "storage_bucket": "foodholic-62768.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:154160247582:android:78682029413b6a6fc4cf0f",
+        "mobilesdk_app_id": "1:803431704587:android:24ad9e8cfb9417da",
         "android_client_info": {
-          "package_name": "com.example.rotana"
+          "package_name": "com.example.foodholic"
         }
       },
       "oauth_client": [
         {
-          "client_id": "154160247582-s7pu850lk3hnos5rhb8a4vr6b65suijr.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "803431704587-dopr441pg63kvlkc1g8cscsu48hhqrrj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.foodholic",
+            "certificate_hash": "6077d412a343218e8b58a68840a5c60d98a7f59a"
+          }
+        },
+        {
+          "client_id": "803431704587-tfgpd8u0ipvs9v8a5h6ulu04klb2ev2u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.foodholic",
+            "certificate_hash": "b32675e3317af7ac94432db39b617dff4023368b"
+          }
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAJNv_RXEhqtpstFY32QIY2b8pyPQiNv-U"
+          "current_key": "AIzaSyDCKOr0Fxotb-hktCGN1h_F4evemS0Ww7o"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "154160247582-s7pu850lk3hnos5rhb8a4vr6b65suijr.apps.googleusercontent.com",
+              "client_id": "803431704587-d28567r99995hhttdee7t2d8o04vison.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:803431704587:android:b6d02d84c7064d5704ff0e",
+        "android_client_info": {
+          "package_name": "com.example.foodholic1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "803431704587-47d2tc459ela9792dj7jcqt7bu7nta2t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.foodholic1",
+            "certificate_hash": "6077d412a343218e8b58a68840a5c60d98a7f59a"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCKOr0Fxotb-hktCGN1h_F4evemS0Ww7o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "803431704587-d28567r99995hhttdee7t2d8o04vison.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:803431704587:android:1902a432667f7d1804ff0e",
+        "android_client_info": {
+          "package_name": "com.example.rotanademo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCKOr0Fxotb-hktCGN1h_F4evemS0Ww7o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "803431704587-d28567r99995hhttdee7t2d8o04vison.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:803431704587:android:d8f75b98a3a2205b",
+        "android_client_info": {
+          "package_name": "mazzoubi.ldjobs.com.admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCKOr0Fxotb-hktCGN1h_F4evemS0Ww7o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "803431704587-d28567r99995hhttdee7t2d8o04vison.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
